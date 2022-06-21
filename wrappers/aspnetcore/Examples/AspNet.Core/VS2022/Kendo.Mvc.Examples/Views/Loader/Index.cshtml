@@ -1,0 +1,63 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>
+            Pick the Loader's type:
+        </h4>
+        @(Html.Kendo().DropDownList()
+                .Name("type")
+                .BindTo(new[] { "pulsing", "infinite-spinner", "converging-spinner" })
+                .Events(e => e.Change("onChange"))
+        )
+    </div>
+</div>
+
+<div class="k-d-flex k-align-items-center">
+    <div class="k-flex-1 k-text-center">
+        <div>Small</div>
+        <div class="example-item-wrap k-d-flex k-align-items-center k-justify-content-center">
+            @(Html.Kendo().Loader()
+                .Name("loader-small")
+                .Size(LoaderSize.Small)
+            )
+        </div>
+    </div>
+    <div class="k-flex-1 k-text-center">
+        <div>Medium</div>
+        <div class="example-item-wrap k-d-flex k-align-items-center k-justify-content-center">
+            @(Html.Kendo().Loader()
+                .Name("loader-medium")
+                .Size(LoaderSize.Medium)
+            )
+        </div>
+    </div>
+    <div class="k-flex-1 k-text-center">
+        <div>Large</div>
+        <div class="example-item-wrap k-d-flex k-align-items-center k-justify-content-center">
+            @(Html.Kendo().Loader()
+                .Name("loader-large")
+                .Size(LoaderSize.Large)
+            )
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function onChange(e) {
+            var smallLoader = $('#loader-small').data("kendoLoader");
+            var mediumLoader = $('#loader-medium').data("kendoLoader");
+            var largeLoader = $('#loader-large').data("kendoLoader");
+
+            smallLoader.setOptions({ type: e.sender.text() })
+            mediumLoader.setOptions({ type: e.sender.text() })
+            largeLoader.setOptions({ type: e.sender.text() });
+        }
+    </script>
+}
+
+<style>
+    .example-item-wrap {
+        min-height: 80px;
+    }
+</style>

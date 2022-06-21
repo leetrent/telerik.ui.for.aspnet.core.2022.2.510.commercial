@@ -1,0 +1,12 @@
+<h2 class="kd-title">Description</h2>
+<p>You can use the <b>Format Painter</b> tool to copy formatting from piece of text and apply it to others in the content area of the Kendo UI Editor. The tool is very similar to the FormatPainter of MS Word®, and is quite useful and time saving when needed to apply identical formatting to multiple sections of the edited content.</p>
+<h3>How it Works</h3>
+<p>Format a section with the desired bold, italic, underline, font size and font family and other formatting and press the <b>Copy Format button</b>. This operation will save the formatting of the selected content in the clipboard. If the selection includes sections with different formatting, the tool will copy the styles from the section where the start of the selection is placed.</p>
+<p>To apply the saved formatting, select the text that you want to format and click the <b>Apply Format button.</b></p>
+<h3>Supported formatting</h3>
+<p>The tool will copy and apply all inline styles. Also, any classes and attributes present in the source will be copied to the target.</p>
+<p>The tool will also transfer the dom structure from the source to the target, clearing the previous DOM structure. The exceptions are the following targets:</p>
+<ul>
+    <li><b>li</b> target elements will not be modified. Instead, the copied structure will be applied within them.</li>
+    <li><b>th</b> and <b>td</b> target elements will not be modified. The copied structure will also be applied within them.</li>
+</ul>

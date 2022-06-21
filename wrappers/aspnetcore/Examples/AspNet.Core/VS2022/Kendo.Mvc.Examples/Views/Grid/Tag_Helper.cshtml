@@ -1,0 +1,42 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" height="550">
+    <datasource type="DataSourceTagHelperType.Custom" custom-type="odata" page-size="20">
+        <transport>
+            <read url="https://demos.telerik.com/kendo-ui/service/Northwind.svc/Orders" />
+        </transport>
+        <schema>
+            <model>
+                <fields>
+                    <field name="OrderDate" type="Date"></field>
+                </fields>
+            </model>
+        </schema>
+    </datasource>
+    <toolbar>
+        <toolbar-button name="search"></toolbar-button>
+    </toolbar>
+    <groupable enabled="true" />
+    <sortable enabled="true" />
+    <filterable enabled="true" />
+    <search fields-extended="@(new object[]
+                                        {new {Name = "OrderID", Operator = "eq"},
+                                         new {Name = "ShipName", Operator = "contains"},
+                                         new {Name = "ShipCity", Operator = "contains"}})">
+    </search>
+    <pageable button-count="5" refresh="true" page-sizes="new int[] { 5, 10, 20 }">
+    </pageable>
+    <columns>
+        <column field="OrderID" width="120" />
+        <column field="OrderDate" title="Order Date" format="{0:MM/dd/yyyy}" />
+        <column field="ShipName" title="Ship Name" width="300" />
+        <column field="ShipCity" title="Ship City" width="250" />
+    </columns>
+</kendo-grid>
+
+<style>
+    .k-grid .k-grid-search {
+        margin-left: auto;
+        margin-right: 0;
+    }
+</style>

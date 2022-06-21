@@ -1,0 +1,34 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="Grid" height="540" resizable="true">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="30">
+        <schema>
+            <model id="OrderID">
+                <fields>
+                    <field name="OrderID" editable="false" type="number"></field>
+                    <field name="ShipCountry" type="string"></field>
+                    <field name="ShipCity" type="string"></field>
+                    <field name="ShipName" type="string"></field>
+                    <field name="ShipAddress" type="string"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="/grid/frozencolumns_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="OrderID" width="150" locked="true" lockable="false"/>
+        <column field="ShipCountry" width="300"/>
+        <column field="ShipCity" width="300"/>
+        <column field="ShipName" width="300" locked="true"/>
+        <column field="ShipAddress" width="400" lockable="false"/>
+    </columns>
+    <scrollable enabled="true"/>
+    <reorderable enabled="true" columns="true"/>
+    <pageable enabled="true"/>
+    <filterable enabled="true"/>
+    <sortable enabled="true"/>
+    <groupable enabled="true"/>
+    <column-menu enabled="true"/>
+</kendo-grid>

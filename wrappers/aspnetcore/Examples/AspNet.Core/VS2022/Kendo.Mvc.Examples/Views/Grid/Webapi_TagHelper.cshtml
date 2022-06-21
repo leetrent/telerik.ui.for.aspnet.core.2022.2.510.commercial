@@ -1,0 +1,54 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid">
+    <datasource type="DataSourceTagHelperType.WebApi" on-error="error_handler">
+        <schema>
+             <model id="ProductID">
+                <fields>
+                    <field name="ProductID" type="number" editable="false"></field>
+                    <field name="ProductName" type="string"></field>
+                    <field name="UnitPrice" type="number"></field>
+                    <field name="UnitsInStock" type="number"></field>
+                    <field name="Discontinued" type="boolean"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="/api/product" action="get"/>
+            <update url="/api/product/{0}" action="put" />
+            <create url="/api/product" action="post"/>
+            <destroy url="/api/product/{0}" action="delete"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="ProductName"/>
+        <column field="UnitPrice" width="100"/>
+        <column field="UnitsInStock" width="100"/>
+        <column field="Discontinued" width="100"/>
+        <column width="250">
+            <commands>
+                <column-command text="Edit" name="edit"></column-command>
+                <column-command text="Delete" name="destroy"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <toolbar>
+        <toolbar-button name="create"></toolbar-button>
+    </toolbar>
+    <editable mode="inline"/>
+    <sortable enabled="true"/>
+    <pageable enabled="true"/>
+    <filterable enabled="true"/>
+</kendo-grid>
+
+@section scripts {
+<script>
+function error_handler(e) {
+    var errors = $.parseJSON(e.xhr.responseText);
+
+    if (errors) {
+        alert("Errors:\n" + errors.join("\n"));
+    }
+}
+</script>
+}

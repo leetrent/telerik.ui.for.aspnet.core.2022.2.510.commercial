@@ -1,0 +1,75 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section hidden-on-narrow wide">
+	<div id="background">
+		<div class="column">
+			<h3 class="title"><label for="palette">Select Wall Paint</label></h3>
+		    @(Html.Kendo().ColorPicker()
+			    .Name("palette")
+                .View(ColorPickerView.Palette)
+                .Views(new string[] { "palette"})
+                .Buttons(false)
+			    .Events(events => events.Change("preview"))
+		    )
+	    </div>
+
+		<div class="column">
+			<h3 class="title"><label for="picker">Choose Custom Color</label></h3>
+			@(Html.Kendo().ColorPicker()
+				.Name("picker")
+				.Input(false)
+				.Preview(false)
+				.Value("#ffffff")
+				.Buttons(false)
+				.Views(new string[] { "gradient"})
+				.Events(events => events.Select("preview"))
+			)
+		</div>
+	</div>
+</div>
+
+<div class="responsive-message"></div>
+
+@section scripts {
+<script>
+function preview(e) {
+	$("#background").css("background-color", e.value);
+}
+</script>
+}
+
+<style>
+
+    #background {
+        background: transparent url( @Url.Content("~/shared/web/colorpicker/interior-bg.png") );
+        margin: 0 auto;
+        width: 600px;
+        height: 600px;
+        overflow: hidden;
+    }
+
+    .column {
+        margin-top: 384px;
+        float: left;
+        width: 300px;
+        text-align: center;
+    }
+
+        .column .title {
+            color: #a3a3a3;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: normal;
+            padding: 41px 0 20px;
+        }
+
+    #palette {
+        vertical-align: top;
+        display: inline-block;
+    }
+
+    .k-colorpicker {
+        vertical-align: top;
+        margin: 20px 0;
+    }
+</style>

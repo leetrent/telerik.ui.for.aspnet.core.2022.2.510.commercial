@@ -1,0 +1,100 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section wide">
+    <kendo-chart name="chart">
+        <chart-title text="Job Growth for 2011"></chart-title>
+        <chart-legend visible="false"></chart-legend>
+        <series-defaults type="ChartSeriesType.Bubble"></series-defaults>
+
+        <series>
+            <series-item data='new dynamic[] {
+                new {
+                    x = -2500,
+                    y = 50000,
+                    size = 500000,
+                    category = "Microsoft"
+                }, new {
+                    x = 500,
+                    y = 110000,
+                    size = 7600000,
+                    category = "Starbucks"
+                }, new {
+                    x = 7000,
+                    y = 19000,
+                    size = 700000,
+                    category = "Google"
+                }, new {
+                    x = 1400,
+                    y = 150000,
+                    size = 700000,
+                    category = "Publix Super Markets"
+                }, new {
+                    x = 2400,
+                    y = 30000,
+                    size = 300000,
+                    category = "PricewaterhouseCoopers"
+                }, new {
+                    x = 2450,
+                    y = 34000,
+                    size = 90000,
+                    category = "Cisco"
+                }, new {
+                    x = 2700,
+                    y = 34000,
+                    size = 400000,
+                    category = "Accenture"
+                }, new {
+                    x = 2900,
+                    y = 40000,
+                    size = 450000,
+                    category = "Deloitte"
+                }, new {
+                    x = 3000,
+                    y = 55000,
+                    size = 900000,
+                    category = "Whole Foods Market"
+                }
+            }'></series-item>
+        </series>
+
+        <x-axis>
+            <x-axis-item axis-crossing-value="new object[] { -5000 }" major-unit="2000">
+                <labels format="{0:n0}" skip="1"></labels>
+                <plot-bands>
+                    <chart-x-axis-plot-band opacity="0.05" color="#00f" from="-5000" to="0"></chart-x-axis-plot-band>
+                </plot-bands>
+            </x-axis-item>
+        </x-axis>
+
+        <y-axis>
+            <y-axis-item>
+                <labels format="{0:n0}"></labels>
+                <line width="0" />
+            </y-axis-item>
+        </y-axis>
+
+        <tooltip visible="true" format="{3}: {2:N0} applications" opacity="1"></tooltip>
+    </kendo-chart>
+    <ul>
+        <li>Circle size shows number of job applicants</li>
+        <li>Vertical position shows number of employees</li>
+        <li>Horizontal position shows job growth</li>
+    </ul>
+</div>
+
+<style>
+    .demo-section {
+        position: relative;
+    }
+    .demo-section ul {
+        font-size: 11px;
+        margin: 63px 30px 0 0;
+        padding: 30px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        text-transform: uppercase;
+        width: 146px;
+        height: 94px;
+    }
+</style>

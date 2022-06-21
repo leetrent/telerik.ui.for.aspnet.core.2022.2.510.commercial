@@ -1,0 +1,93 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Configure pager visibility</h4>
+        <label for="btnPagerVisibility">alwaysVisible:</label>
+        <input type="checkbox" id="btnPagerVisibility" />
+        <label for="btnPagerPosition">pager on top:</label>
+        <input type="checkbox" id="btnPagerPosition" />
+    </div>
+</div>
+
+<kendo-grid name="Grid" navigatable="true">
+    <columns>
+        <column field="ProductName">
+        </column>
+        <column field="UnitPrice" width="140">
+        </column>
+        <column field="UnitsInStock" width="140">
+        </column>
+        <column field="Discontinued" width="100">
+        </column>
+        <column>
+            <commands>
+                <column-command text="Edit" name="edit"></column-command>
+                <column-command text="Delete" name="destroy"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <datasource on-error="error_handler" page="0" type="DataSourceTagHelperType.Ajax" page-size="20" server-operation="false" batch="true">
+        <schema data="Data" total="Total" errors="Errors">
+            <model id="ProductID"></model>
+        </schema>
+        <transport>
+            <read url="@Url.Action("Editing_Read","Grid")" />
+            <create url="@Url.Action("Editing_Create", "Grid")" />
+            <update url="@Url.Action("Editing_Update", "Grid")" />
+            <destroy url="@Url.Action("Editing_Destroy", "Grid")" />
+        </transport>
+    </datasource>
+    <pageable always-visible="false" page-sizes="@new int[]{5, 10, 20, 100 }">
+    </pageable>
+    <toolbar>
+        <toolbar-button name="create"></toolbar-button>
+        <toolbar-button name="save"></toolbar-button>
+    </toolbar>
+    <filterable enabled="true"/>
+    <editable mode="incell" />
+    <sortable enabled="true" />
+    <scrollable enabled="true" />
+</kendo-grid>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
+    $(document).ready(function () {
+        var grid = $("#Grid").data("kendoGrid");
+
+        $("#btnPagerVisibility").change(function () {
+            grid.setOptions({
+                pageable: {
+                    alwaysVisible: this.checked
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        var grid = $("#Grid").data("kendoGrid");
+
+        $("#btnPagerPosition").change(function () {
+            var position = this.checked ? "top" : "bottom";
+            grid.setOptions({
+                pageable: {
+                    position: position
+                }
+            });
+        });
+    });
+</script>

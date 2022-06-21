@@ -1,0 +1,25 @@
+@*model is used to determine if the chevron and the CSS class should be added*@
+@model bool
+@{
+    string theme = (string)ViewBag.Theme.Name.Split('-')[0];
+    string themeCapitalized = char.ToUpper(theme[0]) + theme.Substring(1);
+
+    string currentComponent = ((NavigationItem)ViewBag.CurrentWidget).Text.ToLower();
+
+    <a tabindex="-1" class="tb-edit-button" target="_blank"
+       href="https://themebuilder.telerik.com/@ViewBag.Product?component=@ViewBag.CurrentWidget.Text&theme=@themeCapitalized">
+        <span class="icon"></span>
+        <span @{if (Model == true) { <text>class="kd-link"</text> } }>
+            Edit in Theme Builder
+        </span>
+        @{
+            if (Model == false) {
+                <text>
+                    <span class="icon">
+                        @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\hyperlink-open-sm.svg")))
+                    </span>
+                </text>
+            }
+        }
+    </a>
+}

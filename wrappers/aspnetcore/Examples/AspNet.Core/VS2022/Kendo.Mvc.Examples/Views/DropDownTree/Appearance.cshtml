@@ -1,0 +1,164 @@
+<div id="example">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <ul class="options">
+                <li>
+                    <label for="size">Size:</label>
+                    <input id="size" name="size" />
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <ul class="options">
+                <li>
+                    <label for="rounded">Rounded:</label>
+                    <input id="rounded" name="rounded" />
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <ul class="options">
+                <li>
+                    <label for="fillMode">Fill Mode:</label>
+                    <input id="fillMode" name="fillMode" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="demo-section">
+        <div>
+            <h4>Single Selection:</h4>
+            @(Html.Kendo().DropDownTree()
+                .Name("dropdowntree-single")
+                .HtmlAttributes(new { style = "width: 100%" })
+                .Height("auto")
+                .Placeholder("Select Product")
+                .DataValueField("id")
+                .Items(items =>
+                {
+                    items.Add().Text("Furniture").Id("1").Expanded(true)
+                        .Items(children =>
+                        {
+                            children.Add().Text("Tables & Chairs").Id("2");
+                            children.Add().Text("Sofas").Id("3");
+                            children.Add().Text("Occasional Furniture").Id("4");
+                            children.Add().Text("Childrens furniture").Id("5");
+                            children.Add().Text("Beds").Id("6");
+                        });
+                    items.Add().Text("Decor").Id("7")
+                        .Items(children =>
+                        {
+                            children.Add().Text("Bed Linen").Id("8");
+                            children.Add().Text("Curtains & Blinds").Id("9");
+                            children.Add().Text("Carpets").Id("10");
+                            children.Add().Text("Rugs").Id("11");
+                            children.Add().Text("Carpets").Id("12");
+                        });
+                })
+            )
+        </div>
+        <div>
+            <h4>Multiple Selection:</h4>
+            @(Html.Kendo().DropDownTree()
+                .Name("dropdowntree-multiple")
+                .HtmlAttributes(new { style = "width: 100%" })
+                .CheckAll(true)
+                .AutoClose(false)
+                .Checkboxes(checkboxes => checkboxes
+                    .Name("checkedFiles")
+                    .CheckChildren(true)
+                )
+                .Height("auto")
+                .Placeholder("Select Product")
+                .DataValueField("id")
+                .Items(items =>
+                {
+                    items.Add().Text("Furniture").Id("1").Expanded(true)
+                        .Items(children =>
+                        {
+                            children.Add().Text("Tables & Chairs").Id("2");
+                            children.Add().Text("Sofas").Id("3");
+                            children.Add().Text("Occasional Furniture").Id("4");
+                            children.Add().Text("Childrens furniture").Id("5");
+                            children.Add().Text("Beds").Id("6");
+                        });
+                    items.Add().Text("Decor").Id("7")
+                        .Items(children =>
+                        {
+                            children.Add().Text("Bed Linen").Id("8");
+                            children.Add().Text("Curtains & Blinds").Id("9");
+                            children.Add().Text("Carpets").Id("10");
+                            children.Add().Text("Rugs").Id("11");
+                            children.Add().Text("Carpets").Id("12");
+                        });
+                })
+            )
+        </div>
+    </div>
+
+    @section scripts {
+    <script>
+        $(document).on("kendoReady", function () {         
+            var ddtSingle = $("#dropdowntree-single").data("kendoDropDownTree");
+            var ddtMultiple = $("#dropdowntree-multiple").data("kendoDropDownTree");
+
+            var size = $("#size").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                value: "medium",
+                change: onChange,
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" }
+                ]
+            }).data("kendoDropDownList");
+
+            var rounded = $("#rounded").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                change: onChange,
+                value: "medium",
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" },
+                    { text: "Full", value: "full" }
+                ]
+            }).data("kendoDropDownList");
+
+            var fill = $("#fillMode").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                change: onChange,
+                value: "solid",
+                dataSource: [
+                    { text: "Solid", value: "solid" },
+                    { text: "Flat", value: "flat" },
+                    { text: "Outline", value: "outline" }
+                ]
+            }).data("kendoDropDownList");
+
+            function onChange(e) {
+                var sizeValue = size.value();
+                var roundedValue = rounded.value();
+                var fillValue = fill.value();
+                var selectedValues = ddtMultiple.value();
+                ddtSingle.setOptions({
+                    size: sizeValue,
+                    rounded: roundedValue,
+                    fillMode: fillValue
+                })
+                ddtMultiple.value([]);
+                ddtMultiple.setOptions({
+                    size: sizeValue,
+                    rounded: roundedValue,
+                    fillMode: fillValue
+                })
+                ddtMultiple.value(selectedValues);
+            }
+        });
+    </script>
+    }
+</div>

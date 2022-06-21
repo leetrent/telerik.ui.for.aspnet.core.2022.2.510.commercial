@@ -1,0 +1,78 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="k-d-flex k-flex-wrap">
+    <div class="k-flex-grow">
+        <h4 class="mb-sm">Available Products</h4>
+        <kendo-grid name="activeProductsGrid" on-row-reorder="onRowReorder" navigatable="true" style="height:430px;" width="550">
+            <columns>
+                <column template="" draggable="true">
+                </column>
+                <column field="ProductName" title="Product">
+                </column>
+                <column field="UnitPrice" title="Price">
+                </column>
+                <column field="Discontinued" title="In Stock" template="<span class='k-badge k-badge-solid k-badge-success k-badge-md k-badge-rounded k-badge-inline'>Available</span>">
+                </column>
+            </columns>
+            <pageable enabled="true" />
+            <scrollable enabled="true" />
+            <sortable enabled="true" />
+            <reorderable enabled="true" rows="true" columns="true" />
+            <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="20">
+                <schema data="Data" total="Total" errors="Errors">
+                    <model id="ProductID">
+                    </model>
+                </schema>
+                <transport>
+                    <read url="@Url.Action("Drag_Drop_Active_Read","Grid")" />
+                </transport>
+            </datasource>
+        </kendo-grid>
+    </div>
+    <div class="k-flex-grow">
+        <h4 class="mb-sm">Not Available Products</h4>
+
+        <kendo-grid name="inactiveProductsGrid" on-row-reorder="onRowReorder" navigatable="true" style="height:430px;" width="550">
+            <columns>
+                <column template="" draggable="true">
+                </column>
+                <column field="ProductName" title="Product">
+                </column>
+                <column field="UnitPrice" title="Price">
+                </column>
+                <column field="Discontinued" title="In Stock" template="<span class='k-badge k-badge-solid k-badge-success k-badge-md k-badge-rounded k-badge-inline'>Available</span>">
+                </column>
+            </columns>
+            <pageable enabled="true" />
+            <scrollable enabled="true" />
+            <sortable enabled="true" />
+            <reorderable enabled="true" rows="true" columns="true" />
+            <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="20">
+                <schema data="Data" total="Total" errors="Errors">
+                    <model id="ProductID">
+                    </model>
+                </schema>
+                <transport>
+                    <read url="@Url.Action("Drag_Drop_Inactive_Read","Grid")" />
+                </transport>
+            </datasource>
+        </kendo-grid>
+    </div>
+
+</div>
+
+<script>
+    function onRowReorder(e) {
+        var grid = e.sender,
+            dataSource = grid.dataSource,
+            externalGrid, externalDataItem;
+
+        if (e.oldIndex === -1) { // If the dropped row is from external Grid.
+            e.preventDefault();
+            externalGrid = e.row.parents(".k-grid").data("kendoGrid"); //Get an instance of the external Grid.
+            externalDataItem = externalGrid.dataItem(e.row); //Get the data item.
+            externalGrid.dataSource.remove(externalDataItem); //Remove the data item from the external Grid.
+            dataSource.insert(e.newIndex, externalDataItem.toJSON()); //Add the data item in the current Grid.
+        }
+    }
+</script>

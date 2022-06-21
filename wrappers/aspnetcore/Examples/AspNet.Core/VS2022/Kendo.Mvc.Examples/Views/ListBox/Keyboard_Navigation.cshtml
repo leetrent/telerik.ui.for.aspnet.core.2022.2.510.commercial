@@ -1,0 +1,51 @@
+<div id="example" role="application">
+    <div class="demo-section wide">
+        @(Html.Kendo().ListBox()
+            .Name("listbox")
+            .ConnectWith("listbox2")
+            .Selectable(ListBoxSelectable.Multiple)
+            .DataValueField("ProductID")
+            .DataTextField("ProductName")
+            .DataSource(source => source
+                .Read(read => read.Action("GetProducts", "ListBox"))
+            )
+            .Navigatable(true)
+        )
+        @(Html.Kendo().ListBox()
+            .Name("listbox2")
+            .BindTo(new List<ProductViewModel>())
+            .DataValueField("ProductID")
+            .DataTextField("ProductName")
+            .Selectable(ListBoxSelectable.Single)
+            .Navigatable(true)
+        )
+    </div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            $(document).on("keydown.examples", function (e) {
+                if (e.altKey && e.keyCode === 87) {
+                    $("#listbox").data("kendoListBox").focus();
+                }
+            });
+        });
+    </script>
+}
+</div>
+
+<style>
+    #example .demo-section {
+        max-width: none;
+        width: 605px;
+    }
+
+    #example .k-listbox {
+        width: 255px;
+        height: 350px;
+    }
+
+    #example .k-listbox:first-of-type {
+        margin-right: 1px;
+    }
+</style>

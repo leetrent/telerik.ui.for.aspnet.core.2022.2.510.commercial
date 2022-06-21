@@ -1,0 +1,49 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.Examples.Models
+@using Kendo.Mvc.UI.Fluent
+
+<div id="example">
+    <div class="demo-section">
+        <h4>Inline data (default settings)</h4>
+        <kendo-panelbar name="panelbar-left"
+            bind-to="ViewBag.inlineDefault">
+        </kendo-panelbar>
+    </div>
+    <div class="demo-section">
+        <h4>Inline data</h4>
+        <kendo-panelbar name="panelbar-right">
+            <items>
+                @{
+                    foreach (var category in (IEnumerable<CategoryItem>)ViewBag.inline)
+                    {
+                        <panelbar-item text="@category.CategoryName">
+                            <items>
+                                @{
+                                    foreach (var subCategory in category.SubCategories)
+                                    {
+                                        <panelbar-item text="@subCategory.SubCategoryName"/>
+                                    }
+                                }
+                            </items>
+                        </panelbar-item>
+                    }
+                 }
+            </items>
+        </kendo-panelbar>
+    </div>
+</div>
+
+
+<style>
+    #example {
+        text-align: center;
+    }
+
+    .demo-section {
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        margin: 0 2em;
+        min-width: 350px;
+    }
+</style>

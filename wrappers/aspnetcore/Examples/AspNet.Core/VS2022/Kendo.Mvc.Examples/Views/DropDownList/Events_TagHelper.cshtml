@@ -1,0 +1,70 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var ddl_data = new List<SelectListItem>()
+    {
+        new SelectListItem() {
+            Text = "Item1",
+            Value = "1"
+        },
+        new SelectListItem() {
+            Text = "Item2",
+            Value = "2"
+        },
+        new SelectListItem() {
+            Text = "Item3",
+            Value = "3"
+        }
+    };
+}
+
+<div class="demo-section">
+    <h4 class="title">DropDownList</h4>
+    <kendo-dropdownlist name="dropdownlist" style="width: 100%"
+        datatextfield="Text"
+        datavaluefield="Value"
+        filter="FilterType.Contains"
+        bind-to="ddl_data"
+        on-change="onChange"
+        on-select="onSelect"
+        on-open="onOpen"
+        on-close="onClose"
+        on-data-bound="onDataBound"
+        on-filtering="onFiltering">
+    </kendo-dropdownlist>
+</div>
+
+@section scripts {
+<script>
+    function onOpen() {
+        kendoConsole.log("event: open");
+    }
+
+    function onClose() {
+        kendoConsole.log("event: close");
+    }
+
+    function onChange() {
+        kendoConsole.log("event: change");
+    }
+
+    function onDataBound() {
+        kendoConsole.log("event: dataBound");
+    }
+
+    function onFiltering() {
+        kendoConsole.log("event: filtering");
+    }
+
+    function onSelect(e) {
+    	if ("kendoConsole" in window) {
+    		if (e.item) {
+    			var dataItem = this.dataItem(e.item);
+    			kendoConsole.log("event :: select (" + dataItem.Text + " : " + dataItem.Value + ")");
+    		} else {
+    			kendoConsole.log("event :: select");
+    		}
+        }
+    }
+</script>
+}

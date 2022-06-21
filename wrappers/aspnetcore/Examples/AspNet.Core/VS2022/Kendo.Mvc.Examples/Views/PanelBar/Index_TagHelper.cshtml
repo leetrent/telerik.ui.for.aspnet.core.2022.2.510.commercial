@@ -1,0 +1,102 @@
+@addTagHelper *, Kendo.Mvc
+
+@section HeadContent
+{
+    <style>
+        #panelbar {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .teamMate:after {
+            content: ".";
+            display: block;
+            height: 0;
+            line-height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .teamMate h2 {
+            font-size: 1.4em;
+            font-weight: normal;
+            margin-bottom: 0px;
+        }
+
+        .teamMate p {
+            margin: 0;
+        }
+
+        .teamMate img {
+            display: inline-block;
+            margin: 5px 15px 5px 5px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+        }
+
+        .details {
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
+}
+
+<kendo-panelbar name="panelbar" expand-mode="@PanelBarExpandMode.Single">
+    <items>
+        <panelbar-item text="My Teammates" expanded="true">
+            <items>
+                <panelbar-item>
+                    <content>
+                        <div style="padding: 10px;">
+                            <div class="teamMate">
+                                <img src="@Url.Content("~/shared/web/panelbar/andrew.jpg")" alt="Andrew Fuller">
+                                <div class="details">
+                                    <h2>Andrew Fuller</h2>
+                                    <p>Team Lead</p>
+                                </div>
+                            </div>
+                            <div class="teamMate">
+                                <img src="@Url.Content("~/shared/web/panelbar/nancy.jpg")" alt="Nancy Leverling">
+                                <div class="details">
+                                    <h2>Nancy Leverling</h2>
+                                    <p>Sales Associate</p>
+                                </div>
+                            </div>
+                            <div class="teamMate">
+                                <img src="@Url.Content("~/shared/web/panelbar/robert.jpg")" alt="Robert King">
+                                <div class="details">
+                                    <h2>Robert King</h2>
+                                    <p>Business System Analyst</p>
+                                </div>
+                            </div>
+                        </div>
+                    </content>
+                </panelbar-item>
+            </items>
+        </panelbar-item>
+            <panelbar-item text="Projects">
+                <items>
+                    <panelbar-item text="New Business Plan"></panelbar-item>
+                    <panelbar-item text="Sales Forecasts">
+                        <items>
+                            <panelbar-item text="Q1 Forecast"></panelbar-item>
+                            <panelbar-item text="Q2 Forecast"></panelbar-item>
+                            <panelbar-item text="Q3 Forecast"></panelbar-item>
+                            <panelbar-item text="Q4 Forecast"></panelbar-item>
+                        </items>
+                    </panelbar-item>
+                    <panelbar-item text="Sales Reports"></panelbar-item>
+                    <panelbar-item text="Programs">
+                        <items>
+                            <panelbar-item text="Monday"></panelbar-item>
+                            <panelbar-item text="Tuesday"></panelbar-item>
+                            <panelbar-item text="Wednesday"></panelbar-item>
+                            <panelbar-item text="Thursday"></panelbar-item>
+                            <panelbar-item text="Friday"></panelbar-item>
+                        </items>
+                    </panelbar-item>
+                    <panelbar-item text="Communication" enabled="false"></panelbar-item>
+            </items>
+        </panelbar-item>
+    </items>
+</kendo-panelbar>

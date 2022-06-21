@@ -1,0 +1,25 @@
+<div class="k-rtl">
+    @(Html.Kendo().Chart()
+        .Name("chart")
+        .HtmlAttributes(new { style = "height: 400px;" })
+        .Title("Site Visitors Stats /thousands/")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Bottom)
+        )
+        .SeriesDefaults(seriesDefaults => seriesDefaults
+            .Column()
+        )
+        .Series(series =>
+        {
+            series.Column(new double[] { 56000, 63000, 74000, 91000, 117000, 138000 }).Name("Total Visits");
+            series.Column(new double[] { 52000, 34000, 23000, 48000, 67000, 83000 }).Name("Unique visitors");
+        })
+        .CategoryAxis(axis => axis
+            .Categories("Jan", "Feb", "Mar", "Apr", "May", "Jun")
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Shared(true)
+        )
+    )
+</div>

@@ -1,0 +1,59 @@
+<div class="demo-section auto">
+    <form id="form">
+        @(Html.Kendo().Captcha()
+        .Name("captcha")
+        .CaptchaImage((string)ViewData["Captcha"])
+        .CaptchaId((string)ViewData["CaptchaID"])
+        .DataCaptchaField("Captcha")
+        .DataCaptchaIdField("CaptchaID")
+        .Handler(handler => handler.Action("Reset_Events", "Captcha"))
+        .AudioHandlerFunction("audioHandler")
+        .ValidationHandler(handler => handler.Action("Validate_Events", "Captcha"))
+        .Events(e => e.Change("onChange").RequestStart("onRequestStart").RequestEnd("onRequestEnd"))
+)
+    </form>
+</div>
+
+<div class="kd-example-console">
+    <div class="header">
+        <span class="title">CONSOLE LOG</span>
+        <span class="clear kd-text-secondary">Clear log</span>
+    </div>
+    <div class="console"></div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            $("#form").kendoValidator();
+        });
+
+        function audioHandler(args) {
+            args.success("../shared/UserFiles/captcha/" + args.data.CaptchaID + ".wav");
+        }
+
+        function onChange() {
+            if ("kendoConsole" in window) {
+                kendoConsole.log("event :: change");
+            }
+        }
+
+        function onRequestStart() {
+            if ("kendoConsole" in window) {
+                kendoConsole.log("event :: request start");
+            }
+        }
+
+        function onRequestEnd() {
+            if ("kendoConsole" in window) {
+                kendoConsole.log("event :: request end");
+            }
+        }
+    </script>
+}
+
+<style>
+    #demo-runner {
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,22 @@
+<div class="demo-section">
+    <h4>Rating Events</h4>
+    @(Html.Kendo().Rating()
+        .Name("rating")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+        .Events(e => e.Select("onSelect").Change("onChange"))
+    )
+</div>
+
+@section scripts {
+<script>
+    function onChange(e) {
+        kendoConsole.log("Change :: old value: " + e.oldValue + ", new value: " + e.newValue);
+    }
+
+    function onSelect(e) {
+        kendoConsole.log("Select :: target: " + e.target[0].title);
+    }
+</script>
+}

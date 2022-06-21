@@ -1,0 +1,22 @@
+<script>
+    $(document).on("keydown.examples", function (e) {
+        if (e.altKey && e.keyCode === 87 /* w */) {
+            $("#colorFlatPicker").data("kendoFlatColorPicker").focus();
+        }
+    });
+</script>
+    <h4 style="text-align: center;">ColorGradient</h4>
+
+    <div style="text-align: center;">
+        @(Html.Kendo().FlatColorPicker()
+              .Name("flatColorPicker")
+              .Opacity(true)
+              .HtmlAttributes(new { style="margin:auto;" })
+        )
+    </div>
+
+<style>
+    .k-colorgradient-input-label {
+        text-align: initial;
+    }
+</style>

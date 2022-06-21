@@ -1,0 +1,104 @@
+<div class="configurator">
+    <div class="header">
+        Configurator
+    </div>
+    <div class="box-col">
+        <h4>Set component  type</h4>
+        @(Html.Kendo().DropDownList()
+            .Name("dropDownList")
+            .BindTo(new string[] { "modern", "classic" })
+            .Value("modern")
+            .Events(ev => ev.Change("onChange"))
+        )
+    </div>
+    <div class="box-col">
+        <h4>Sort the columns in the column menu by</h4>
+        <ul class="fieldlist">
+            <li>
+                <input type="radio" name="sort" id="default" data-value="null" >
+                <label class="k-radio-label" for="default">Default</label>
+            </li>
+            <li>
+                <input type="radio" name="sort" id="asc" data-value="asc" checked="checked">
+                <label class="k-radio-label" for="asc">Ascending</label>
+            </li>
+            <li>
+                <input type="radio" name="sort" id="desc" data-value="desc">
+                <label class="k-radio-label" for="desc">Descending</label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.Order>()
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.OrderID).Width(150);
+        columns.Bound(o => o.ShipCountry).Width(300);
+        columns.Bound(o => o.ShipName).Width(350);
+        columns.Bound(o => o.ShipAddress).Filterable(false);
+    })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("ColumnMenu_Read", "Grid"))
+     )
+    .Pageable()
+    .Filterable()
+    .Sortable()
+    .ColumnMenu(menu =>
+    {
+        menu.ComponentType("modern");
+        menu.Columns(columns =>
+        {
+            columns
+            .Sort("asc")
+            .Groups(groups =>
+            {
+                groups.Add().Title("Order ID").Columns(new List<string> { "OrderID" }); ;
+                groups.Add().Title("Address").Columns(new List<string> { "ShipCountry", "ShipName", "ShipAddress" });
+            });
+        });
+    })
+)
+
+@section scripts{
+    <script>
+        function onChange() {
+            var type = this.value();
+            var grid = $("#Grid").getKendoGrid();
+
+            grid.setOptions({
+                columnMenu: {
+                    componentType: type
+                }
+            });
+        }
+
+        $(document).on("kendoReady", function () {
+            $("input[type='radio']").change(function (e) {
+                var grid = $("#Grid").getKendoGrid();
+                var value = $(this).data("value");
+
+                grid.setOptions({
+                    columnMenu: {
+                        columns: {
+                            sort: value
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+<style>
+    .fieldlist {
+        margin: 0 0 -1em;
+        padding: 0;
+    }
+
+    .fieldlist li {
+        list-style: none;
+        padding-bottom: 1em;
+    }
+</style>

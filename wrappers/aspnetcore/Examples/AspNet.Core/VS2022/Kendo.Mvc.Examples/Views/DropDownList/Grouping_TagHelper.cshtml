@@ -1,0 +1,18 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Customers</h4>
+    <kendo-dropdownlist name="customers" style="width:100%"
+        datatextfield="ContactName"
+        datavaluefield="CustomerID"
+        height="400">
+        <datasource type="DataSourceTagHelperType.Custom">
+            <groups>
+                <group typeof="string" field="Country"></group>
+            </groups>
+            <transport>
+                <read url="@Url.Action("Grouping_GetCustomers", "DropDownList")"/>
+            </transport>
+        </datasource>
+    </kendo-dropdownlist>
+</div>

@@ -1,0 +1,24 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-filemanager name="filemanager" upload-url="@Url.Action("Upload", "FileManagerData")">
+    <filemanager-datasource>
+        <transport>
+            <read url="@Url.Action("Read", "FileManagerData")" />
+            <create url="@Url.Action("Create", "FileManagerData")" />
+            <destroy url="@Url.Action("Destroy", "FileManagerData")" />
+            <update url="@Url.Action("Update", "FileManagerData")" />
+        </transport>
+    </filemanager-datasource>
+    <toolbar>
+        <items>
+            <item name="createFolder" />
+            <item name="upload" />
+            <item name="sortDirection" />
+            <item name="sortField" />
+            <item name="changeView" />
+            <item name="spacer" />
+            <item name="details" />
+            <item name="search" />
+        </items>
+    </toolbar>
+</kendo-filemanager>

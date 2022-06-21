@@ -1,0 +1,19 @@
+@section scripts{ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.js"></script>
+<script>
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.worker.js';
+</script>
+}
+
+<div id="example">
+    @(Html.Kendo().PDFViewer().Name("pdfviewer")
+        .PdfjsProcessing(pdf => pdf.File(Url.Content("~/shared/web/pdfViewer/sample.pdf")))
+        .Height(1200)
+    )
+</div>
+
+<style>
+    html body #pdfviewer {
+        width: 100% !important;
+    }
+</style>

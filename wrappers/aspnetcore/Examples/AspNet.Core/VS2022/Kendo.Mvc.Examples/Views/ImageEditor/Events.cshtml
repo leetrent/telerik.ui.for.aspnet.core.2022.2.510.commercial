@@ -1,0 +1,34 @@
+<div class="demo-section wide">
+    @(Html.Kendo().ImageEditor()
+        .Name("imageEditor")
+        .Height(900)
+        .SaveAs(s => s.FileName("image_edited.png"))
+        .ImageUrl(@Url.Content("~/shared/images/photos/10.jpg"))
+        .Events(ev => {
+            ev.Error("onError");
+            ev.Execute("onExecute");
+            ev.ImageLoaded("onImageLoaded");
+            ev.ImageRendered("onImageRendered");
+        })
+    )
+</div>
+
+@section scripts{
+    <script>
+        function onError(e) {
+            kendoConsole.log('Error')
+        };
+
+        function onImageLoaded(e) {
+            kendoConsole.log('Image loaded')
+        };
+
+        function onImageRendered(e) {
+            kendoConsole.log('Image rendered')
+        };
+
+        function onExecute(e) {
+            kendoConsole.log(e.command + ' command executed')
+        };
+    </script>
+}

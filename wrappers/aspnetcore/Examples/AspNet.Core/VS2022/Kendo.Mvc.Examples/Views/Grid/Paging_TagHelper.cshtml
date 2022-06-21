@@ -1,0 +1,58 @@
+@model Kendo.Mvc.Examples.Models.PagerViewModel
+
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        @using (Html.BeginForm())
+        {
+            <h4>The pager should ...</h4>
+            <ul class="options">
+                <li>@Html.CheckBoxFor(pager => pager.Input) @Html.LabelFor(m => m.Input, "have an input box for the page number")</li>
+                <li>@Html.CheckBoxFor(pager => pager.Numeric) @Html.LabelFor(m => m.Numeric, "have numeric pager")</li>
+                <li>@Html.CheckBoxFor(pager => pager.Info) @Html.LabelFor(m => m.Info, "display the current range of items")</li>
+                <li>@Html.CheckBoxFor(pager => pager.PreviousNext) @Html.LabelFor(m => m.Info, "display the 'first', 'previous', 'next' and 'last' buttons")</li>
+                <li>@Html.CheckBoxFor(pager => pager.Refresh) @Html.LabelFor(m => m.Refresh, "display the 'refresh' button")</li>
+                <li>@Html.CheckBoxFor(pager => pager.PageSizes) @Html.LabelFor(m => m.PageSizes, "allow the user to change the page size")</li>
+            </ul>
+            <br />
+            <button class="k-button k-button-flat-base k-button-flat k-button-md k-rounded-md k-icon-button" type="submit">Apply</button>
+        }
+    </div>
+</div>
+
+<kendo-grid name="Grid">
+    <columns>
+        <column field="OrderID">
+        </column>
+        <column field="ContactName">
+        </column>
+        <column field="ShipAddress">
+        </column>
+        <column field="OrderDate" format="{0:d}">
+        </column>
+        <column field="ShipCounty">
+        </column>
+    </columns>
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="10" server-operation="true">
+        <schema data="Data" total="Total" errors="Errors">
+            <model id="OrderID">
+                <fields>
+                    <field name="OrderDate" type="Date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="@Url.Action("Paging_Orders","Grid")" />
+        </transport>
+    </datasource>
+    <pageable button-count="5"
+              input="@Model.Input"
+              numeric="@Model.Numeric"
+              info="@Model.Info"
+              previous-next="@Model.PreviousNext"
+              refresh="@Model.Refresh"
+              page-sizes="@Model.PageSizes">
+    </pageable>
+
+</kendo-grid>

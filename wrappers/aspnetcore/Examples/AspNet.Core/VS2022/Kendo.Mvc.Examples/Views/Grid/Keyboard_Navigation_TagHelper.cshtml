@@ -1,0 +1,41 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" navigatable="true" >
+    <columns>
+        <column field="FirstName" width="120">
+        </column>
+        <column field="LastName" width="120">
+        </column>
+        <column field="City" width="120">
+        </column>
+        <column field="Address">
+        </column>
+        <column field="HomePhone" width="180">
+        </column>
+    </columns>
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="10">
+        <schema data="Data" total="Total" errors="Errors">
+        </schema>
+        <transport>
+            <read url="@Url.Action("Keyboard_Read","Grid")" />
+        </transport>
+        <groups>
+            <group field="FirstName"></group>
+        </groups>
+    </datasource>
+    <pageable enabled="true" />
+    <sortable enabled="true" />
+    <filterable enabled="true" />
+    <groupable enabled="true" />
+    <reorderable enabled="true" columns="true" />
+    <selectable mode="multiple,row"  />
+    <scrollable enabled="true" />
+</kendo-grid>
+
+<script>
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#grid").data("kendoGrid").table.focus();
+        }
+    });
+</script>

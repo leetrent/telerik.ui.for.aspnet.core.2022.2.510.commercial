@@ -1,0 +1,15 @@
+<div class="demo-section">
+    <h4>T-shirt Size</h4>
+    @(Html.Kendo().DropDownList()
+          .Name("size")
+          .BindTo(new List<string>() {
+              "X-Small",
+              "Small",
+              "Medium",
+              "Large",
+              "X-Large",
+              "2X-Large"
+          })
+         .HtmlAttributes(new { style = "width: 100%", accesskey = "w" })
+    )
+</div>

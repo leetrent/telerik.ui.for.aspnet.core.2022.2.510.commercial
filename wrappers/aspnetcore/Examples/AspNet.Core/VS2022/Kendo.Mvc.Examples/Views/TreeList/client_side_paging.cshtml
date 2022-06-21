@@ -1,0 +1,26 @@
+@(Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModel>()
+        .Name("treelist")
+        .Columns(columns =>
+        {
+            columns.Add().Field(e => e.FirstName).Title("Name").Template("#: FirstName # #: LastName #");
+            columns.Add().Field(e => e.Position);
+            columns.Add().Field(e => e.HireDate).Format("{0:MMMM d, yyyy}");
+        })
+        .Filterable()
+        .Sortable()
+        .DataSource(dataSource => dataSource
+            .ServerOperation(false)
+            .Read(read => read.Action("All", "EmployeeDirectory"))
+            .Model(m =>
+            {
+                m.Id(f => f.EmployeeId);
+                m.ParentId(f => f.ReportsTo);
+                m.Field(f => f.ReportsTo);
+                m.Expanded(true);
+            })
+        )
+        .Height(540)
+        .Pageable(p => p.PageSize(15)
+                        .PageSizes(true)
+        )
+)

@@ -1,0 +1,14 @@
+<div id="example" style="text-align: center;">
+    <div class="demo-section wide" style="display: inline-block;">
+        <h4>Multiple Date Selection</h4>
+        @(Html.Kendo().MultiViewCalendar()
+                                .Name("multipleMultiViewCalendar")
+                                .Selectable("multiple")
+        )
+        <h4>Range Date Selection</h4>
+        @(Html.Kendo().MultiViewCalendar()
+                                .Name("rangeMultiViewCalendar")
+                                .Selectable("range")
+        )
+    </div>
+</div>

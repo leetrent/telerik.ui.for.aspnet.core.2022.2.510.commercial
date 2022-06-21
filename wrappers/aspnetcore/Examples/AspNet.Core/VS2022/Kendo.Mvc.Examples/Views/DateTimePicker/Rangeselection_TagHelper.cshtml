@@ -1,0 +1,52 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var formats = new string[] { "MM/dd/yyyy" };
+}
+<div class="demo-section">
+    <h4>Start date</h4>
+    <kendo-datetimepicker max="DateTime.Now" value="DateTime.Now" name="start" parse-formats="formats" on-change="startChange" style="width:100%;">
+    </kendo-datetimepicker>
+
+    <kendo-datetimepicker min="DateTime.Now" value="DateTime.Now" name="end" parse-formats="formats" on-change="endChange" style="width:100%;">
+    </kendo-datetimepicker>
+</div>
+<script>
+    function startChange() {
+        var start = $("#start").data("kendoDateTimePicker");
+        var end = $("#end").data("kendoDateTimePicker");
+        var startDate = start.value();
+        var endDate = end.value();
+
+        if (startDate) {
+            startDate = new Date(startDate);
+            startDate.setDate(startDate.getDate());
+            end.min(startDate);
+        } else if (endDate) {
+            start.max(new Date(endDate));
+        } else {
+            endDate = new Date();
+            start.max(endDate);
+            end.min(endDate);
+        }
+    }
+
+    function endChange() {
+        var start = $("#start").data("kendoDateTimePicker");
+        var end = $("#end").data("kendoDateTimePicker");
+        var endDate = end.value();
+        var startDate = start.value();
+
+        if (endDate) {
+            endDate = new Date(endDate);
+            endDate.setDate(endDate.getDate());
+            start.max(endDate);
+        } else if (startDate) {
+            end.min(new Date(startDate));
+        } else {
+            endDate = new Date();
+            start.max(endDate);
+            end.min(endDate);
+        }
+    }
+</script>

@@ -1,0 +1,127 @@
+@addTagHelper *,Kendo.Mvc
+@{
+    var curstomers = new List<CustomerViewModel>();
+    var tools1 = new string[] { "moveUp", "moveDown", "transferTo", "transferFrom", "transferAllTo", "transferAllFrom", "remove" };
+    var tools2 = new string[] { "moveUp", "moveDown", "remove" };
+    var dropSources1 = new string[] { "selected" };
+    var dropSources2 = new string[] { "optional" };
+
+}
+<div id="example" role="application">
+    <div class="demo-section wide">
+        <kendo-listbox name="optional"
+                       connect-with="selected"
+                       selectable="ListBoxSelectable.Multiple"
+                       drop-sources="dropSources1"
+                       datatextfield="ContactName"
+                       datavaluefield="CustomerID"
+                       on-add="onAdd"
+                       on-change="onChange"
+                       on-data-bound="onDataBound"
+                       on-dragstart="onDragStart"
+                       on-drag="onDrag"
+                       on-drop="onDrop"
+                       on-dragend="onDragEnd"
+                       on-remove="onRemove"
+                       on-reorder="onReorder"
+                       >
+            <draggable enabled="true" />
+            <toolbar position="ListBoxToolbarPosition.Right"
+                     tools="tools1"/>
+            <datasource type="DataSourceTagHelperType.Custom">
+                <transport>
+                    <read url=@Url.Action("GetCustomers", "ListBox")/>
+                </transport>
+            </datasource>
+        </kendo-listbox>
+
+        <kendo-listbox name="selected"
+                       connect-with="optional"
+                       selectable="ListBoxSelectable.Multiple"
+                       drop-sources="dropSources2"
+                       datatextfield="ContactName"
+                       datavaluefield="CustomerID"
+                       on-add="onAdd"
+                       on-change="onChange"
+                       on-data-bound="onDataBound"
+                       on-dragstart="onDragStart"
+                       on-drag="onDrag"
+                       on-drop="onDrop"
+                       on-dragend="onDragEnd"
+                       on-remove="onRemove"
+                       on-reorder="onReorder"
+                       bind-to="curstomers">
+            <draggable enabled="true" />
+            <toolbar position="ListBoxToolbarPosition.Right"
+                     tools="tools2"/>
+            <datasource type="DataSourceTagHelperType.Custom">
+                <transport>
+                    <read url=@Url.Action("GetCustomers", "ListBox")/>
+                </transport>
+            </datasource>
+        </kendo-listbox>
+    </div>
+ @section scripts {
+     <script>
+         function onAdd(e) {
+             kendoConsole.log("add : " + getWidgetName(e) + " : " + e.dataItems.length + " item(s)");
+         }
+
+         function onChange(e) {
+             kendoConsole.log("change : " + getWidgetName(e));
+         }
+
+         function onDataBound(e) {
+             if ("kendoConsole" in window) {
+                 kendoConsole.log("dataBound : " + getWidgetName(e));
+             }
+         }
+
+         function onRemove(e) {
+             kendoConsole.log("remove : " + getWidgetName(e) + " : " + e.dataItems.length + " item(s)");
+         };
+
+         function onReorder(e) {
+             kendoConsole.log("reorder : " + getWidgetName(e));
+         }
+
+         function onDragStart(e) {
+             kendoConsole.log("dragstart : " + getWidgetName(e));
+         }
+
+         function onDrag(e) {
+             kendoConsole.log("drag : " + getWidgetName(e));
+         }
+
+         function onDrop(e) {
+             kendoConsole.log("drop : " + getWidgetName(e));
+         }
+
+         function onDragEnd(e) {
+             kendoConsole.log("dragend : " + getWidgetName(e));
+         }
+
+         function getWidgetName(e) {
+             var listBoxId = e.sender.element.attr("id");
+             var widgetName = listBoxId === "optional" ? "left widget" : "right widget";
+             return widgetName;
+         }
+     </script>
+ }
+</div>
+
+<style>
+    #example .demo-section {
+        max-width: none;
+        width: 665px;
+    }
+
+    #example .k-listbox {
+        width: 285px;
+        height: 350px;
+    }
+
+    #example .k-listbox:first-of-type {
+        margin-right: 1px;
+    }
+</style>

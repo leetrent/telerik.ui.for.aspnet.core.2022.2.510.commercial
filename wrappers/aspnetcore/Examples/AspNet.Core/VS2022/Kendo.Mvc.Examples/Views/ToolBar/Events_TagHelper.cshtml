@@ -1,0 +1,79 @@
+@addTagHelper *, Kendo.Mvc
+<kendo-toolbar name="ToolBar" on-click="onClick" on-toggle="onToggle" on-open="onOpen" on-close="onClose" on-overflow-open="onOverflowOpen" on-overflow-close="onOverflowClose">
+	<toolbar-items>
+	 	<item click="buttonClickHandler" text="Button 1" type="CommandType.Button">
+	 	</item>
+	 	<item click="buttonClickHandler" text="Button 2" type="CommandType.Button">
+	 	</item>
+	 	<item type="CommandType.Separator">
+	 	</item>
+	 	<item text="Toggle 1" togglable="true" toggle="buttonToggleHandler" type="CommandType.Button">
+	 	</item>
+	 	<item text="Toggle 2" togglable="true" toggle="buttonToggleHandler" type="CommandType.Button">
+	 	</item>
+	 	<item type="CommandType.Separator">
+	 	</item>
+	 	<item click="splitButtonClickHandler" text="Split Button" type="CommandType.SplitButton">
+	 	 	<menu-buttons>
+	 	 	 	<toolbar-button text="Action 1"/>
+	 	 	 	<toolbar-button text="Action 2"/>
+	 	 	 	<toolbar-button text="Action 3"/>
+	 	 	</menu-buttons>
+	 	</item>
+	 	<item type="CommandType.Separator">
+	 	</item>
+	 	<item type="CommandType.ButtonGroup">
+	 	 	<buttons>
+                <toolbar-button group="radio" toggle="buttonToggleHandler" togglable="true" text="Radio 1">
+                </toolbar-button>
+                <toolbar-button group="radio" toggle="buttonToggleHandler" togglable="true" text="Radio 2">
+                </toolbar-button>
+                <toolbar-button group="radio" toggle="buttonToggleHandler" togglable="true" text="Radio 3">
+                </toolbar-button>
+</buttons>
+	 	</item>
+	 	<item text="Overflow button" type="CommandType.Button" overflow="ShowInOverflowPopup.Always">
+	 	</item>
+	</toolbar-items>
+</kendo-toolbar>
+<script>
+    function buttonClickHandler(e) {
+        kendoConsole.log(e.target.text() + " 'click' event is fired.");
+    }
+
+    function buttonToggleHandler(e) {
+        kendoConsole.log(e.target.text() + " 'toggle' event is fired.");
+    }
+
+    function splitButtonClickHandler(e) {
+        kendoConsole.log("SplitButton event: " + e.id + " is clicked.");
+    }
+
+    function onClick(e) {
+        kendoConsole.log("ToolBar 'click' event is fired for element with id: " + e.id);
+    }
+
+    function onToggle(e) {
+        if (e.group == "radio") {
+            kendoConsole.log("Toolbar 'toggle' event: " + e.id + " button is selected from group: " + e.group);
+        } else {
+            kendoConsole.log("ToolBar 'toggle' event: " + e.id + " button is changed");
+        }
+    }
+
+    function onOverflowOpen(e) {
+        kendoConsole.log("Overflow container open");
+    }
+
+    function onOverflowClose(e) {
+        kendoConsole.log("Overflow container close");
+    }
+
+    function onOpen(e) {
+        kendoConsole.log("SplitButton popup open");
+    }
+
+    function onClose(e) {
+        kendoConsole.log("SplitButton popup close");
+    }
+</script>

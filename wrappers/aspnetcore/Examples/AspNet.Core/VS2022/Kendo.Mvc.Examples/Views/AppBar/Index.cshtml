@@ -1,0 +1,171 @@
+@section HeadContent
+{
+    <style>
+        #grid, #chart {
+            width: 50%;
+            height: 650px;
+        }
+
+        .controls-container {
+            display: flex;
+        }
+
+        .k-display-flex {
+            display: flex;
+            width: 250px;
+        }
+
+        .k-appbar .k-button {
+            border-style: none;
+            background-color: inherit;
+        }
+
+        #demo-runner {
+            padding: 0px;
+        }
+
+        .title {
+            font-size: 18px;
+            margin: 0;
+        }
+    </style>
+}
+
+<script id="search-template" type="text/x-kendo-tmpl">
+    <span class="k-textbox k-input k-input-md k-rounded-md k-input-solid">
+        <input autocomplete="off" placeholder="Search products" title="Search products" class="k-input-inner">
+        <span class="k-input-suffix">
+            <span class="k-input-icon k-icon k-i-search"></span>
+        </span>
+    </span>
+</script>
+
+<div id="example">
+    @(Html.Kendo().AppBar()
+        .Name("appbar")
+        .ThemeColor(AppBarThemeColor.Inherit)
+        .Items(items=> {
+            items.Add().Template("<a class='k-button k-button-flat-base k-button-flat k-button-md k-rounded-md k-icon-button' href='\\#'><span class='k-button-icon k-button-icon k-icon k-i-menu'></span></a>").Type(AppBarItemType.ContentItem);
+            items.Add().Type(AppBarItemType.Spacer).Width("16px");
+            items.Add().Template("<h3 class='title'>All Products</h3>").Type(AppBarItemType.ContentItem);
+            items.Add().Type(AppBarItemType.Spacer).Width("16px");
+            items.Add().Template("<a class='k-button k-clear-search k-button-flat-base k-button-flat k-button-md k-rounded-md k-icon-button' href='\\#'>Clear search</a>").Type(AppBarItemType.ContentItem);
+            items.Add().Type(AppBarItemType.Spacer);
+            items.Add().TemplateId("search-template").Type(AppBarItemType.ContentItem);
+            items.Add().Type(AppBarItemType.Spacer).Width("16px");
+            items.Add().Template("<a class='k-button k-toggle-button k-button-flat-base k-button-flat k-button-md k-rounded-md k-icon-button' href='\\#'><span class='k-button-icon k-button-icon k-icon k-i-saturation'></span></a>").Type(AppBarItemType.ContentItem);
+        })
+    )
+
+    <div class="controls-container">
+        @(Html.Kendo().DataSource<Kendo.Mvc.Examples.Models.ProductViewModel>()
+            .Name("dataSource")
+            .Ajax(dataSource => dataSource
+                .Read(read => read.Action("Products_Read", "DataSource"))
+                .ServerOperation(false)
+                .Events(ev => ev.Change("onChange"))
+                .Group(g => g.Add("Category.CategoryName", typeof(string)))
+                .Aggregates(ag => ag.Add(f=>f.UnitPrice).Average())
+                .Model(m => {
+                    m.Id(id => id.ProductID);
+                    m.Field(f => f.Category).DefaultValue(ViewData["defaultCategory"] as Kendo.Mvc.Examples.Models.CategoryViewModel);
+                })
+            )
+        )
+        @(Html.Kendo().Chart()
+            .Name("chart")
+            .Title(title => title
+                .Text("Average unit price by product`s category")
+                .Position(ChartTitlePosition.Bottom))
+            .Legend(legend => legend
+                .Visible(false)
+            )
+            .ChartArea(chart => chart
+                .Background("transparent")
+            )
+            .Series(s=>s.Pie(new List<string>()).AutoFit(true))
+            .SeriesDefaults(s=>
+            {
+                s.Pie().Labels(labels => labels
+                    .Template("#= category #: \n $#= value#")
+                    .Background("transparent")
+                    .Visible(true)
+                ).StartAngle(150);
+            })
+            .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Format("{0}%")
+            )
+        )
+        @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.ProductName).Title("Product Name").Width(200);
+                columns.Bound(p => p.Category).ClientTemplate("#=Category.CategoryName#").Width(180);
+                columns.Bound(p => p.UnitPrice).Title("Unit Price").Format("{0:c}").ClientGroupFooterTemplate("Average #=kendo.toString(average, 'n2')#").Width(130);
+            })
+            .Scrollable(sc=>sc.Height(650))
+            .DataSource("dataSource")
+        )
+    </div>
+
+    @section scripts {
+        <script>
+            function onChange(e) {
+                updateChart(e.sender);
+            }
+
+            $(document).on("kendoReady", function () {
+                $("#appbar").on("input", "input.k-input", function (e) {
+                    var input = e.currentTarget;
+                    var grid = $("#grid").getKendoGrid();
+                    clearTimeout(grid.searchTimeOut);
+                    grid.searchTimeOut = setTimeout(function () {
+                        grid.searchTimeOut = null;
+                        var expression = { filters: [], logic: "or" };
+                        var value = input.value;
+
+                        if (value) {
+                            expression.filters.push({ field: "ProductName", operator: "contains", value: value });
+                        } else {
+                            expression = {};
+                        }
+
+                        grid.dataSource.filter(expression);
+
+                    }, 300);
+                }).on("click", ".k-button", function (e) {
+                    e.preventDefault();
+                }).on("click", ".k-clear-search", function (e) {
+                    $("#appbar input.k-input").val("").trigger("input");
+                }).on("click", ".k-toggle-button", function (e) {
+                    var chartElement = $("#chart");
+                    var gridElement = $("#grid");
+
+                    if (chartElement.is(":visible")) {
+                        chartElement.hide();
+                        gridElement.css("width", "100%");
+                    } else {
+                        chartElement.show();
+                        gridElement.css("width", "");
+                    }
+                });
+            });
+
+            function updateChart(dataSource) {
+                var dataItems = dataSource.view();
+                var data = [];
+                dataItems.forEach(function (group) {
+                    var aggregateValue = group.aggregates["UnitPrice"].average.toFixed(2);
+                    data.push({ category: group.value, value: aggregateValue });
+                })
+
+                var chart = $("#chart").data("kendoChart");
+                var options = chart.options;
+                options.series[0].data = data;
+                chart.setOptions(options);
+            }
+        </script>
+    }
+</div>

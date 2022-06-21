@@ -1,0 +1,35 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <div class="box-col">
+        <h4>Simple (palette-based) picker:</h4>
+
+@(Html.Kendo().ColorPicker()
+    .Name("basic")
+    .Palette(ColorPickerPalette.WebSafe)
+    .Value("#cc2222")
+    .HtmlAttributes(new { accessKey = "s" })
+    .Input(false)
+    .Preview(false)
+    .Views(new string[]{"gradient"})
+)
+
+    </div>
+</div>
+
+<div class="demo-section">
+    <div class="box-col" style="width: 400px;">
+        <h4>HSV picker:</h4>
+
+@(Html.Kendo().ColorPicker()
+    .Name("hsv")
+    .Value("#22cc22")
+    .Opacity(true)
+    .HtmlAttributes(new { accessKey = "h" })
+    .Input(false)
+    .Preview(false)
+    .Views(new string[]{"gradient"})
+)
+
+    </div>
+</div>

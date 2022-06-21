@@ -1,0 +1,43 @@
+<div id="example">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <button  onClick="window.location.reload()">
+                <span class="k-icon k-i-refresh"></span>Refresh Breadcrumb
+            </button>
+        </div>
+    </div>
+
+    <div class="demo-section k-rtl wide">
+        <h4>Breadcrumb Rigth-To-Left Support</h4>
+        @(Html.Kendo().Breadcrumb()
+                .Name("breadcrumb")
+                .Items(items =>
+                {
+                    items.Add()
+                         .Type(BreadcrumbItemType.RootItem)
+                         .Href("https://demos.telerik.com/aspnet-core/")
+                         .Text("All Components")
+                         .ShowText(true)
+                         .Icon("home")
+                         .ShowIcon(true);
+                    items.Add()
+                         .Type(BreadcrumbItemType.Item)
+                         .Href("/breadcrumb")
+                         .Text("Breadcrumb")
+                         .ShowText(true);
+                    items.Add()
+                        .Type(BreadcrumbItemType.Item)
+                        .Href("/right-to-left-support")
+                        .Text("Right-To-Left")
+                        .ShowText(true);
+                })
+        )
+    </div>
+</div>
+
+<style>
+    .k-i-home {
+        margin-left: 14px;
+    }
+</style>

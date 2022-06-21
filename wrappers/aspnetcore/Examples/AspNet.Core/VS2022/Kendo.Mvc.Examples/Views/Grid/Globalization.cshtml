@@ -1,0 +1,87 @@
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture.ToString();
+}
+
+@section scripts {
+    <script data-src="@Url.Script("cultures/kendo.culture." + culture + ".min.js")"></script>
+    <script type="text/javascript">
+    var href = window.location.href;
+    if (href.indexOf('culture') > -1) {
+        $('#culture').val(href.replace(/(.*)culture=([^&]*)/, '$2'));
+    }
+
+    function cultureChange(e) {
+        var value = this.value();
+        if (href.indexOf('culture') > -1) {
+            href = href.replace(/culture=([^&]*)/, 'culture=' + value);
+        } else {
+            href += href.indexOf('?') > -1 ? '&culture=' + value : '?culture=' + value;
+        }
+        window.location.href = href;
+    }
+
+    function error(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
+}
+
+@using Kendo.Mvc.UI
+
+<script type="text/javascript">
+    //set the Kendo UI culture
+    kendo.culture("@culture");
+</script>
+
+<div class="configurator">
+    <div class="box-col">
+        <h4>Choose culture</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().DropDownList()
+                      .Name("culture")
+                      .BindTo(new[] { "en-US", "de-DE", "bg-BG", "fr-FR", "pl-PL", "ru-RU", "uk-UA", "pt-BR", "it-IT" })
+                      .Events(ev => ev.Change("cultureChange"))
+            )
+            </li>
+        </ul>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+        .Name("Grid")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ProductName);
+            columns.Bound(p => p.UnitPrice).Width(140);
+            columns.Bound(p => p.UnitsInStock).Width(120);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(260);
+        })
+        .ToolBar(toolbar => toolbar.Create())
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Pageable()
+        .Sortable()
+        .Filterable()
+        .Groupable()
+        .Scrollable()
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Events(events => events.Error("error"))
+            .ServerOperation(false)
+            .Model(model => model.Id(p => p.ProductID))
+            .Create(update => update.Action("Globalization_Create", "Grid"))
+            .Read(read => read.Action("Globalization_Read", "Grid"))
+            .Update(update => update.Action("Globalization_Update", "Grid"))
+            .Destroy(update => update.Action("Globalization_Destroy", "Grid"))
+        )
+)

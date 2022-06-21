@@ -1,0 +1,16 @@
+<div class="demo-section">
+    <h4>Select Products</h4>
+    @(Html.Kendo().MultiSelect()
+          .Name("products")
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("ClientFiltering_GetProducts", "MultiSelect");
+              })
+              .ServerFiltering(false);
+          })
+    )
+</div>

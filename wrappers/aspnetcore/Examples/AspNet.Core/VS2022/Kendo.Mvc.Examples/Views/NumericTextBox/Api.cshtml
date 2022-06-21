@@ -1,0 +1,76 @@
+@using Kendo.Mvc.UI
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Set / Get Value</h4>
+        <ul class="options">
+            <li>
+                <input id="value" value="10" style="float:none; width: 150px" />
+                <button id="set">Set value</button>
+            </li>
+            <li style="text-align: right;">
+                <button id="get">Get value</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Enable / Disable</h4>
+        <ul class="options">
+            <li>
+                <button id="enable">Enable</button>
+                <button id="disable">Disable</button>
+                <button id="readonly">Readonly</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    @(Html.Kendo().NumericTextBox()
+        .Name("numerictextbox")
+        .Format("n0")
+        .Label(l => l.Content("Age").Floating(true))
+    )
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var numerictextbox = $("#numerictextbox").data("kendoNumericTextBox");
+
+        var setValue = function () {
+            numerictextbox.value($("#value").val());
+            numerictextbox.floatingLabel.refresh();
+        };
+
+        $("#enable").click(function () {
+            numerictextbox.enable();
+        });
+
+        $("#disable").click(function () {
+            numerictextbox.enable(false);
+        });
+
+        $("#readonly").click(function () {
+            numerictextbox.readonly();
+        });
+
+        $("#value").kendoNumericTextBox({
+            change: setValue
+        });
+
+        $("#set").click(setValue);
+
+        $("#get").click(function () {
+            alert(numerictextbox.value());
+        });
+    });
+</script>
+}
+
+<style>
+    .k-floating-label-container {
+        width: 100%;
+    }
+</style>

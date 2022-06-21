@@ -1,0 +1,54 @@
+@addTagHelper *, Kendo.Mvc
+
+<script id="photo-template" type="text/x-kendo-template">
+    <div class='employee-photo'
+         style='background-image: url(@Url.Content("~/shared/web/treelist/people/#: EmployeeId #.jpg"));'></div>
+    <div class='employee-name'>#: FirstName #</div>
+</script>
+
+<kendo-treelist name="treelist" height="540">
+    <treelist-datasource>
+        <transport>
+            <read url="https://demos.telerik.com/kendo-ui/service/EmployeeDirectory/All" datatype="jsonp" />
+        </transport>
+        <schema type="json">
+            <treelist-model id="EmployeeId" parent-id="ReportsTo" expanded="true">
+                <fields>
+                    <field name="ReportsTo" nullable="true"></field>
+                    <field name="EmployeeId" type="number"></field>
+                    <field name="Extension" type="number"></field>
+                </fields>
+            </treelist-model>
+        </schema>
+    </treelist-datasource>
+
+    <columns>
+        <treelist-column field="FirstName" title="First Name" width="280px" template-id="photo-template"></treelist-column>
+        <treelist-column field="LastName" title="Last Name" width="160px"></treelist-column>
+        <treelist-column field="Position"></treelist-column>
+        <treelist-column field="Phone" width="200px"></treelist-column>
+        <treelist-column field="Extension" width="140px"></treelist-column>
+        <treelist-column field="Address"></treelist-column>
+    </columns>
+</kendo-treelist>
+
+<style>
+    .employee-photo {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-size: 40px 44px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 41px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+    }
+
+    .employee-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 41px;
+        padding-left: 10px;
+    }
+</style>

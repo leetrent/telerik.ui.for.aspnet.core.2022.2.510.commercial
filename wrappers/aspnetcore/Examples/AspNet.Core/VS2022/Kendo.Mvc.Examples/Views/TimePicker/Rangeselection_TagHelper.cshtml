@@ -1,0 +1,62 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+
+    <h4>Start time:</h4>
+    <kendo-timepicker name="start" style="width: 100%"
+        value="new DateTime(1900, 1, 1, 8, 0, 0)"
+        min="new DateTime(1900, 1, 1, 8, 0, 0)"
+        max="new DateTime(1900, 1, 1, 18, 0, 0)"
+        on-change="startChange">
+    </kendo-timepicker>
+
+
+    <h4  style="margin-top: 2em;">End time:</h4>
+    <kendo-timepicker name="end" style="width: 100%"
+        value="new DateTime(1900, 1, 1, 8, 30, 0)"
+        min="new DateTime(1900, 1, 1, 8, 0, 0)"
+        max="new DateTime(1900, 1, 1, 7, 30, 0)">
+    </kendo-timepicker>
+</div>
+@section scripts {
+<script>
+    function startChange() {
+        var startTime = this.value(),
+            endPicker = $("#end").data("kendoTimePicker");
+
+        if (startTime) {
+            startTime = new Date(startTime);
+
+            endPicker.max(startTime);
+
+            startTime.setMinutes(startTime.getMinutes() + this.options.interval);
+
+            endPicker.min(startTime);
+            endPicker.value(startTime);
+        }
+    }
+</script>
+}
+
+<style>
+    #example .k-timepicker {
+        vertical-align: middle;
+    }
+
+    #example h3 {
+        clear: both;
+    }
+
+    #example .code-sample {
+        width: 60%;
+        float:left;
+        margin-bottom: 20px;
+    }
+
+    #example .output {
+        width: 24%;
+        margin-left: 4%;
+        float:left;
+    }
+                
+</style>

@@ -1,0 +1,129 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Kendo.Mvc.Examples.Models.Category>
+
+@using Kendo.Mvc.TagHelpers
+
+@{
+    var imageAttributes = new
+    {
+        aria_label = "image",
+        alt = "star"
+    };
+}
+
+<div class="demo-section wide">
+    <h4>Using <code>menu-item</code> tag helpers</h4>
+    <kendo-menu name="menu" direction="MenuDirection.Bottom"
+                orientation="MenuOrientation.Horizontal"
+                close-on-click="false">
+        <items>
+            <menu-item text="Home" asp-action="tag_helper" asp-controller="Menu" link-html-attributes='new { data_attr = "custom value" }'></menu-item>
+            <menu-item text="Products" image-url="@Url.Content("~/shared/icons/16/star.png")" image-html-attributes="@imageAttributes">
+                <sub-items>
+                    <menu-item text="Furniture">
+                        <sub-items>
+                            <menu-item text="Tables & Chairs"></menu-item>
+                            <menu-item text="Sofas"></menu-item>
+                            <menu-item separator="true"></menu-item>
+                            <menu-item text="Occasional Furniture"></menu-item>
+                            <menu-item text="Childerns Furniture"></menu-item>
+                            <menu-item text="Beds"></menu-item>
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Decor">
+                        <sub-items>
+                            <menu-item text="Bed Linen"></menu-item>
+                            <menu-item text="Throws"></menu-item>
+                            <menu-item text="Curtains & Blinds"></menu-item>
+                            <menu-item separator="true"></menu-item>
+                            <menu-item text="Rugs"></menu-item>
+                            <menu-item text="Carpets"></menu-item>
+                        </sub-items>
+                    </menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Stores" icon="info">
+                <content>
+                    <div id="template" style="padding: 10px;">
+                        <h2>Around the Globe</h2>
+                        <ol>
+                            <li>United States</li>
+                            <li>Europe</li>
+                            <li>Canada</li>
+                            <li>Australia</li>
+                        </ol>
+                        <img src='@Url.Content("~/shared/web/menu/map.png")' alt="Stores Around the Globe" />
+                        <button >See full list</button>
+                    </div>
+                </content>
+            </menu-item>
+            <menu-item text="News" enabled="false"></menu-item>
+            <menu-item text="Blog" visible="false"></menu-item>
+            <menu-item text="Events" url="#"></menu-item>
+        </items>
+        <open-on-click enabled="true" root-menu-items="true" sub-menu-items="false" />
+        <popup-animation>
+            <open duration="500" />
+            <close duration="300" />
+        </popup-animation>
+    </kendo-menu>
+</div>
+
+@{
+    var menuItems = Model.Select(category =>
+    {
+        return new MenuItemBase
+        {
+            Text = category.CategoryName,
+            Children = category.Products.Select(product =>
+            {
+                return new MenuItemBase { Text = product.ProductName };
+            })
+        };
+    });
+}
+
+<div class="demo-section wide">
+    <h4>Using model binding</h4>
+    <kendo-menu name="boundMenu" bind-to="@menuItems" hover-delay="200">
+        <scrollable enabled="true" />
+    </kendo-menu>
+</div>
+
+<style>
+    #menu h2 {
+        font-size: 1em;
+        text-transform: uppercase;
+        padding: 5px 10px;
+    }
+
+    #template img {
+        margin: 5px 20px 0 0;
+        float: left;
+    }
+
+    #template {
+        width: 380px;
+    }
+
+        #template ol {
+            float: left;
+            margin: 0 0 0 30px;
+            padding: 10px 10px 0 10px;
+        }
+
+        #template:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        #template .k-button {
+            float: left;
+            clear: left;
+            margin: 5px 0 5px 12px;
+        }
+</style>

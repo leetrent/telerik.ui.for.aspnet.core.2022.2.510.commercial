@@ -1,0 +1,75 @@
+@addTagHelper *, Kendo.Mvc
+
+@model Kendo.Mvc.Examples.Models.Form.FormOrderViewModel
+
+@{
+    var groups_data = new List<SelectListItem>() {
+                                    new SelectListItem() {
+                                        Text = "France", Value = "1"
+                                    },
+                                    new SelectListItem() {
+                                        Text = "Germany", Value = "2"
+                                    },
+                                    new SelectListItem() {
+                                        Text = "Italy", Value = "3"
+                                    },
+                                    new SelectListItem() {
+                                        Text = "Spain", Value = "4"
+                                    }
+                                };
+}
+<div class="demo-section">
+    <div id="validation-success"></div>
+    <kendo-form layout="grid" form-data="@Model" name="exampleForm" on-validate-field="onFormValidateField" on-submit="onFormSubmit" on-clear="onFormClear" action="Groups" method="POST">
+        <form-items>
+            <form-item type="group">
+                <item-label text="Personal Information" />
+                <form-items>
+                    <form-item field="FirstName">
+                        <item-label text="First Name:">
+                    </form-item>
+                    <form-item field="LastName">
+                        <item-label text="Last Name:">
+                    </form-item>
+                    <form-item field="Email">
+                        <item-label text="Email:">
+                    </form-item>
+                </form-items>
+            </form-item>
+            <form-item type="group">
+                <item-label text="Shipping Address" />
+                <form-items>
+                    <form-item field="ShipCountry">
+                        <item-label text="Country:">
+                            <combobox-editor datatextfield="Text" datavaluefield="Value" bind-to="groups_data"></combobox-editor>
+                    </form-item>
+                    <form-item field="City">
+                        <item-label text="City:">
+                    </form-item>
+                    <form-item field="Address">
+                        <item-label text="Address Line:">
+                    </form-item>
+                </form-items>
+            </form-item>
+            <form-item field="Agree">
+                <item-label text="Agree to Terms:" />
+            </form-item>
+        </form-items>
+        <validatable validate-on-blur="true" />
+    </kendo-form>
+</div>
+
+<script>
+    function onFormValidateField(e) {
+        $("#validation-success").html("");
+    }
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        $("#validation-success").html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+    }
+
+    function onFormClear(e) {
+        $("#validation-success").html("");
+    }
+</script>

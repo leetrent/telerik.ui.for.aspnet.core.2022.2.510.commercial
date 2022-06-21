@@ -1,0 +1,84 @@
+@addTagHelper "*, Kendo.Mvc"
+
+@{
+    var ddl_data = new List<SelectListItem>()
+    {
+        new SelectListItem() {
+            Text = "en-US",
+            Value = "en-US"
+        },
+        new SelectListItem() {
+            Text = "en-GB",
+            Value = "en-GB"
+        },
+        new SelectListItem() {
+            Text = "de-DE",
+            Value = "de-DE"
+        },
+        new SelectListItem() {
+            Text = "fr-FR",
+            Value="fr-FR"
+        },
+        new SelectListItem() {
+            Text="bg-BG",
+            Value="bg-BG"
+        }
+    };
+}
+
+<div id="product-view" class="demo-section">
+    <ul id="fieldlist">
+        <li>
+            <label for="culture">Choose culture:</label>
+             <kendo-dropdownlist name="dropdownlist" style="width: 100%"
+                 datatextfield="Text"
+                 datavaluefield="Value"
+                 on-change="changeCulture"
+                 bind-to="ddl_data">
+             </kendo-dropdownlist>
+        </li>
+        <li>
+            <label for="initial">Initial price:</label>
+            <kendo-maskedtextbox mask="0,000.00 $" name="initial" value="1234.56" style="width:100%"></kendo-maskedtextbox>
+        </li>
+    </ul>
+</div>
+@section scripts {
+    <script data-src=@Url.Script("cultures/kendo.culture.en-US.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.en-GB.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.de-DE.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.fr-FR.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.bg-BG.min.js")></script>
+
+    <script>
+        var initial;
+        $(document).on("kendoReady", function () {
+            initial = $("#initial").data("kendoMaskedTextBox");
+        });
+
+        function changeCulture() {
+            kendo.culture(this.value());
+            initial.setOptions(initial.options);
+        }
+    </script>
+}
+<style>
+
+    #fieldlist {
+        margin: 0 0 -2em;
+        padding: 0;
+    }
+
+        #fieldlist li {
+            list-style: none;
+            padding-bottom: 2em;
+        }
+
+        #fieldlist label {
+            display: block;
+            padding-bottom: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+</style>

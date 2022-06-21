@@ -1,0 +1,35 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    string[] actions = new string[] { "Minimize", "Maximize", "Pin" };
+}
+
+<div id="container">
+</div>
+
+<kendo-window name="window"
+    title="About Alvar Aalto"
+    visible="true"
+    actions="actions"
+    resizable="true"
+    height="250"
+    width="300"
+    draggable="true">
+    <draggable containment="#container"/>
+    <content>
+        <p>
+            Alvar Aalto is one of the greatest names in modern architecture and design.
+            Glassblowers at the iittala factory still meticulously handcraft the legendary vases
+            that are variations on one theme, fluid organic shapes that let the end user decide the use.
+        </p>
+    </content>
+</kendo-window>
+
+<style>
+    #container {
+        height: 400px;
+        width: 600px;
+        position: relative;
+        border: 1px solid rgba(20,53,80,0.14);
+    }
+</style>

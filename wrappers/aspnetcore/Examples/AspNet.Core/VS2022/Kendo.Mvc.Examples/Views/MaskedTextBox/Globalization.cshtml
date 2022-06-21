@@ -1,0 +1,68 @@
+<div id="product-view" class="demo-section">
+    <ul id="fieldlist">
+        <li>
+            <label for="culture">Choose culture:</label>
+            @(Html.Kendo().DropDownList()
+              .Name("culture")
+              .Items(items =>
+              {
+                  items.Add().Text("en-US").Value("en-US");
+                  items.Add().Text("en-GB").Value("en-GB");
+                  items.Add().Text("de-DE").Value("de-DE");
+                  items.Add().Text("fr-FR").Value("fr-FR");
+                  items.Add().Text("bg-BG").Value("bg-BG");
+              })
+              .Events(events => events.Change("changeCulture"))
+              .HtmlAttributes(new { style = "width: 100%" })
+            )
+        </li>
+        <li>
+            <label for="initial">Initial price:</label>
+            @(Html.Kendo().MaskedTextBox()
+                  .Name("initial")
+                  .Mask("0,000.00 $")
+                  .Value("1234.56")
+                  .HtmlAttributes(new { style = "width: 100%" })
+            )
+        </li>
+    </ul>
+</div>
+@section scripts {
+    <script data-src=@Url.Script("cultures/kendo.culture.en-US.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.en-GB.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.de-DE.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.fr-FR.min.js")></script>
+    <script data-src=@Url.Script("cultures/kendo.culture.bg-BG.min.js")></script>
+
+    <script>
+        var initial;
+        $(document).on("kendoReady", function () {
+            initial = $("#initial").data("kendoMaskedTextBox");
+        });
+
+        function changeCulture() {
+            kendo.culture(this.value());
+            initial.setOptions(initial.options);
+        }
+    </script>
+}
+<style>
+
+    #fieldlist {
+        margin: 0 0 -2em;
+        padding: 0;
+    }
+
+        #fieldlist li {
+            list-style: none;
+            padding-bottom: 2em;
+        }
+
+        #fieldlist label {
+            display: block;
+            padding-bottom: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+</style>

@@ -1,0 +1,136 @@
+@addTagHelper *, Kendo.Mvc
+
+    <kendo-grid name="Grid" height="550">
+        <datasource type="DataSourceTagHelperType.Custom" page-size="20">
+            <schema datahandler="schemaData" total-handler="schemaTotal">
+                <model id="ProductID">
+                    <fields>
+                        <field name="ProductID" type="number" editable="false" from="productID"></field>
+                        <field name="ProductName" type="string" from="productName"></field>
+                        <field name="UnitPrice" type="number" from="unitPrice"></field>
+                        <field name="UnitsInStock" type="number" from="unitsInStock"></field>
+                    </fields>
+                </model>
+            </schema>
+            <transport parameter-map="parameterMap">
+                <read url="https://demos.telerik.com/aspnet-core/service/api/graphql/" data="additionalDataOnRead" content-type="application/json" type="POST"/>
+                <update url="https://demos.telerik.com/aspnet-core/service/api/graphql/" data="additionalDataOnUpdate" content-type="application/json" type="POST"/>
+                <create url="https://demos.telerik.com/aspnet-core/service/api/graphql/" data="additionalDataOnCreate" content-type="application/json" type="POST"/>
+                <destroy url="https://demos.telerik.com/aspnet-core/service/api/graphql/" data="additionalDataOnDestroy" content-type="application/json" type="POST"/>
+            </transport>
+        </datasource>
+        <columns>
+            <column field="ProductName" title="Product Name"/>
+            <column field="UnitPrice" title="Unit Price"/>
+            <column field="UnitsInStock" title="Units in Stock"/>
+            <column width="200">
+                <commands>
+                    <column-command text="Edit" name="edit"></column-command>
+                    <column-command text="Delete" name="destroy"></column-command>
+                </commands>
+            </column>
+        </columns>
+        <toolbar>
+            <toolbar-button name="create"></toolbar-button> 
+        </toolbar>
+        <editable mode="inline"/>
+        <pageable enabled="true"/>
+        <sortable enabled="true"/>
+        <scrollable enabled="true"/>
+        <groupable enabled="true"/>
+    </kendo-grid>
+
+@section scripts {
+<script>
+    function additionalDataOnCreate(model) {
+        var createQuery = "mutation CreateProductMutation($product: ProductInput!){" +
+            "createProduct(product: $product){" +
+                "productID," +
+                "productName," +
+                "unitPrice," +
+                "unitsInStock" +
+            "}" +
+        "}";
+        var queryFields = getQueryFields(model);
+
+        return {
+            query: createQuery,
+            variables: { "product": queryFields }
+        };
+    }
+
+    function additionalDataOnRead() {
+        var readQuery = "query {" +
+            "products { productID, productName, unitPrice, unitsInStock }" +
+        "}";
+
+        return { query: readQuery };
+    }
+
+    function additionalDataOnUpdate(model) {
+        var updateQuery = "mutation UpdateProductMutation($product: ProductInput!){" +
+            "updateProduct(product: $product){" +
+                "productID," +
+                "productName," +
+                "unitPrice," +
+                "unitsInStock" +
+            "}" +
+        "}";
+        var queryFields = getQueryFields(model);
+
+        return {
+            query: updateQuery,
+            variables: { "product": queryFields }
+        };
+    }
+
+    function additionalDataOnDestroy(model) {
+        var destroyQuery = "mutation DeleteProductMutation($product: ProductInput!){" +
+            "deleteProduct(product: $product){" +
+                "productID," +
+                "productName," +
+                "unitPrice," +
+                "unitsInStock" +
+            "}" +
+        "}";
+        var queryFields = getQueryFields(model);
+
+        return {
+            query: destroyQuery,
+            variables: { "product": queryFields }
+        };
+    }
+
+    function parameterMap(options, operation) {
+        return kendo.stringify({
+            query: options.query,
+            variables: options.variables
+        });
+    }
+
+    function schemaData(response) {
+        console.log(response);
+        var data = response.data;
+
+        if (data.products) { return data.products; }
+        else if (data.createProduct) { return data.createProduct; }
+        else if (data.updateProduct) { return data.updateProduct; }
+        else if (data.deleteProduct) { return data.deleteProduct; }
+    }
+
+    function schemaTotal(response) {
+        return response.data.products.length;
+    }
+
+    function getQueryFields(model) {
+        var fields = {
+            "productID": model.productID,
+            "productName": model.productName,
+            "unitPrice": model.unitPrice,
+            "unitsInStock": model.unitsInStock
+        };
+
+        return fields;
+    }
+</script>
+}

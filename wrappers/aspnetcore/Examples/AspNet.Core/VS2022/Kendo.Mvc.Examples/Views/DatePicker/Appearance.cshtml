@@ -1,0 +1,69 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>SIZE</h4>
+        <ul class="options">
+            <li>
+                <input id="size" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>BORDER RADIUS</h4>
+        <ul class="options">
+            <li>
+                <input id="rounded" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>FILL MODE</h4>
+        <ul class="options">
+            <li>
+                <input id="fillMode" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+
+    @(Html.Kendo().DatePicker()
+          .Name("datepicker")
+          .Value("10/10/2011")
+          .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+        )
+</div>
+
+<script>
+        $(document).ready(function () {
+            var datepicker = $("#datepicker").data("kendoDatePicker");
+
+            $("#size").kendoDropDownList({
+                dataSource: ["small", "medium", "large"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    datepicker.setOptions({ size: value });
+                }
+            });
+
+            $("#rounded").kendoDropDownList({
+                dataSource: ["small", "medium", "large", "full"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    datepicker.setOptions({ rounded: value });
+                }
+            });
+
+            $("#fillMode").kendoDropDownList({
+                dataSource: ["solid", "flat", "outline"],
+                value: "solid",
+                change: function () {
+                    let value = this.value();
+                    datepicker.setOptions({ fillMode: value });
+                }
+            });
+        });
+</script>

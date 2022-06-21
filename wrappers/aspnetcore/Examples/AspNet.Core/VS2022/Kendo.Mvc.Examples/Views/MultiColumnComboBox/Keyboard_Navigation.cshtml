@@ -1,0 +1,39 @@
+<div class="demo-section">
+    <h4>T-shirt Size</h4>
+    @(Html.Kendo().MultiColumnComboBox()
+          .Name("size")
+          .HtmlAttributes(new { accesskey = "w" })
+          .DataTextField("Text")
+          .DataValueField("Value")
+          .Columns(columns =>
+          {
+              columns.Add().Field("Text").Title("Text");
+              columns.Add().Field("Value").Title("Size");
+          })
+          .Placeholder("Select size...")
+          .HtmlAttributes(new { style = "width:100%;", accesskey = "w" })
+          .BindTo(new List<SelectListItem>() {
+               new SelectListItem() {
+                Text = "X-Small", Value = "XS"
+              },
+              new SelectListItem() {
+                Text = "Small", Value = "S"
+              },
+              new SelectListItem() {
+                Text = "Medium", Value = "M"
+              },
+              new SelectListItem() {
+                Text = "Large", Value = "L"
+              },
+              new SelectListItem() {
+                Text = "X-Large", Value = "XL"
+              },
+              new SelectListItem() {
+                Text = "2X-Large", Value = "XXL"
+              }
+          })
+          .SelectedIndex(3)
+          .Suggest(true)
+    )
+</div>
+

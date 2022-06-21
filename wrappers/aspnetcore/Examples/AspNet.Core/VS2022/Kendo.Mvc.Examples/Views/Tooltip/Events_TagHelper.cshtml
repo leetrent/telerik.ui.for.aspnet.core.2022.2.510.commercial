@@ -1,0 +1,48 @@
+@addTagHelper "*, Kendo.Mvc"
+
+<div class="demo-section">
+    <span id="autohide-true" class="key-button wider">Hover me!</span> <span id="autohide-false"
+        class="key-button wider">Hover me too!</span>
+</div>
+
+<kendo-tooltip name="autohide-true" content="Hello!"
+    width="120"
+    position="top"
+    on-hide="onHide"
+    on-show="onShow">
+</kendo-tooltip>
+
+<kendo-tooltip name="autohide-false" content="Hello!"
+    auto-hide=false
+    width="120"
+    position="top"
+    on-hide="onHide"
+    on-show="onShow">
+</kendo-tooltip>
+@section scripts {
+    <script type="text/javascript">
+        function onShow(e) {
+            kendoConsole.log("event :: show");
+        }
+
+        function onHide(e) {
+            kendoConsole.log("event :: hide");
+        }
+    </script>
+}
+<style>
+    .demo-section
+    {
+        padding-top: 2em;
+        padding-bottom: 2em;
+        text-align: center;
+        width: 600px;
+    }
+    .wider
+    {
+        margin: 0 20px;
+        padding: 15px 8px;
+        line-height: 23px;
+        width: 120px;
+    }
+</style>

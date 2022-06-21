@@ -1,0 +1,38 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.SuppressFooter = true;
+    ViewBag.SuppressSearch = true;
+}
+
+@section styles {
+}
+
+@section scripts {
+    @foreach (string scriptName in Kendo.Mvc.Examples.Models.ScriptGroups.All)
+    {
+        if (scriptName.Contains("jszip") || scriptName.Contains("jquery"))
+        {
+            continue;
+        }
+
+        <script src="@Url.Script(scriptName)"></script>
+    }
+    <script src="@Url.Content("~/shared/searchresults.js" + Html.Version())"></script>
+}
+
+<main role="main" class="kd-jquery kd-search-page hub-search">
+    <section>
+        <div class="container">
+            <h1 class="kd-title">Search Results</h1>
+
+            <div class="kd-search">
+                <div class="kd-search-container">
+                    @Html.Partial("SearchForm")
+                </div>
+            </div>
+
+            @Html.Partial("SearchResults")
+        </div>
+    </section>
+</main>
+

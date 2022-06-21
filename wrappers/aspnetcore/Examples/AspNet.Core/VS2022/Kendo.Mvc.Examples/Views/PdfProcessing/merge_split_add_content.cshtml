@@ -1,0 +1,114 @@
+@using (Html.BeginForm("Merge_Split_Add_Append_Prepend", "PdfProcessing"))
+{
+    <div class="demo-section">
+        <div class="options-field">
+            <div class="upload-container">
+                <h4>Upload files:</h4>
+                @(Html.Kendo().Upload()
+                        .Name("firstDocument")
+                        .Multiple(false)
+                        .ShowFileList(true)
+                        .Validation(validation => validation.AllowedExtensions(new string[] { ".pdf" }))
+
+                )
+
+                @(Html.Kendo().Upload()
+                        .Name("secondDocument")
+                        .Multiple(false)
+                        .ShowFileList(true)
+                        .Validation(validation => validation.AllowedExtensions(new string[] { ".pdf" }))
+                )
+            </div>
+            <h4>Choose Action:</h4>
+            <div id="radioButton">
+                <div>
+                    @(Html.Kendo().RadioButton().Name("marge").Value("1").Checked(true).HtmlAttributes(new { @name = "rb" }).Label("Merge Pages"))  <span class="action-image"><img src='@Url.Content("~/shared/web/pdfprocessing/merge.png")' /></span>
+                </div>
+
+                <div>
+                    @(Html.Kendo().RadioButton().Name("split").Value("2").HtmlAttributes(new { @name = "rb" }).Label("Split pages"))<span class="action-image"><img src='@Url.Content("~/shared/web/pdfprocessing/split.png")'/></span>
+                </div>
+                <div>
+                    @(Html.Kendo().RadioButton().Name("append").Value("3").HtmlAttributes(new { @name = "rb" }).Label("Append Content To Pages"))<span class="action-image"><img src='@Url.Content("~/shared/web/pdfprocessing/append.png")' /></span>
+                </div>
+                <div>
+                    @(Html.Kendo().RadioButton().Name("append").Value("4").HtmlAttributes(new { @name = "rb" }).Label("Prepend Content To Pages"))<span class="action-image"><img src='@Url.Content("~/shared/web/pdfprocessing/prepend.png")' /></span>
+                </div>
+
+                </div>
+        </div>
+        <hr class="k-hr" />
+        <input type="submit" value="Generate and Download" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md downloadBtn" />
+    </div>
+}
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+
+        $('input[type=radio][name=rb]').change(function () {
+            if (this.value == '1') {
+                $('body').find('#secondDocument').parent().parent().show();
+            }
+            else {
+                $('body').find('#secondDocument').parent().parent().hide();
+            }
+        });
+
+        $('form').submit(function (event) {
+            var firstUploadSelectedFiles = $('#firstDocument').data('kendoUpload').getFiles().length;
+            var secondUploadSelectedFiles = $('#secondDocument').data('kendoUpload').getFiles().length;
+
+            if (($('#marge_1')[0].checked) && (firstUploadSelectedFiles < 1 || secondUploadSelectedFiles < 1))
+            {
+                event.preventDefault();
+                alert("Please select two files for merge.")
+            }
+
+            else if (!$('#marge_1')[0].checked && firstUploadSelectedFiles < 1)
+            {
+                event.preventDefault();
+                alert("Please select a file.")
+            }
+
+        });
+    });
+</script>
+}
+
+<style>
+    .upload-container {
+        display: inline;
+    }
+
+        .upload-container > .k-widget {
+            margin: 10px 0;
+        }
+
+    #radioButton>div {
+    margin:10px;
+    height:90px;
+    width:100%;
+    vertical-align:middle;
+    }
+
+    .downloadBtn {
+        float: right;
+        width: 240px;
+        margin-top: 15px;
+    }
+
+    span>img{
+        width:80px;
+        height:80px;
+    }
+
+    .action-image{
+        float:right;
+    }
+
+    .k-radio-label{
+        margin-top:30px;
+        margin-bottom:45px;
+    }
+</style>

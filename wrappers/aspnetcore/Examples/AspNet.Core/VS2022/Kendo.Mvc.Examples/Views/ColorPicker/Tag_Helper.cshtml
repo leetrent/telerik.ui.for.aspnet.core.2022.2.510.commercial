@@ -1,0 +1,77 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    string[] colorPickerPalette = new string[] {
+                                        "#f0d0c9", "#e2a293", "#d4735e", "#65281a",
+                                        "#eddfda", "#dcc0b6", "#cba092", "#7b4b3a",
+                                        "#fcecd5", "#f9d9ab", "#f6c781", "#c87d0e",
+                                        "#e1dca5", "#d0c974", "#a29a36", "#514d1b",
+                                        "#c6d9f0", "#8db3e2", "#548dd4", "#17365d"
+                                    };
+
+    string[] views = new string[] { "gradient" };
+}
+
+<div class="demo-section hidden-on-narrow wide">
+    <div id="background">
+        <div class="column">
+            <h3 class="title"><label for="palette">Select Wall Paint</label></h3>
+            <kendo-colorpalette name="palette" columns="4" on-change="preview" palette-colors="colorPickerPalette">
+                <tile-size height="19" width="34" />
+            </kendo-colorpalette>
+        </div>
+
+        <div class="column">
+            <h3 class="title"><label for="picker">Choose Custom Color</label></h3>
+            <kendo-colorpicker name="picker" value="#fff" on-select="preview" input="false" preview="false" buttons="false" views="views">
+                <messages apply="Change" cancel="Close" />
+            </kendo-colorpicker>
+        </div>
+    </div>
+</div>
+
+<div class="responsive-message"></div>
+
+@section scripts {
+<script>
+function preview(e) {
+	$("#background").css("background-color", e.value);
+}
+</script>
+}
+
+<style>
+    #background {
+        background: transparent url( @Url.Content("~/shared/web/colorpicker/interior-bg.png") );
+        margin: 0 auto;
+        width: 600px;
+        height: 600px;
+        overflow: hidden;
+    }
+
+    .column {
+        margin-top: 384px;
+        float: left;
+        width: 300px;
+        text-align: center;
+    }
+
+        .column .title {
+            color: #a3a3a3;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: normal;
+            padding: 41px 0 20px;
+        }
+
+    #palette {
+        vertical-align: top;
+        display: inline-block;
+    }
+
+    .k-colorpicker {
+        vertical-align: top;
+        margin: 20px 0;
+    }
+</style>

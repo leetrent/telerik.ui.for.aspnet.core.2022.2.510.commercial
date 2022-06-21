@@ -1,0 +1,89 @@
+<div id="example" style="margin:auto; width:60%">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Scroll to page</h4>
+            <ul class="options">
+                <li>
+                    <span class="k-textbox k-input k-input-md k-rounded-md k-input-solid">
+                        <input type="text" class="k-input-inner" id="pageValue" value="4" style="float:none" />
+                    </span>
+                    <button id="set" >Scroll</button>
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Next / Previous</h4>
+            <ul class="options">
+                <li>
+                    <button id="next" >Next</button>
+                    <button id="previous" >Previous</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    @(Html.Kendo().ScrollView()
+    .Name("scrollView")
+    .ContentHeight("100%")
+    .TemplateId("scrollview-template")
+    .DataSource(d =>
+    d.Custom()
+    .Type("odata")
+    .Transport(t => t.Read(r => r.Url("https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products")))
+    .ServerPaging(true)
+    .PageSize(1))
+    .HtmlAttributes(new { style = "height:280px; width:930px;" })
+    )
+</div>
+
+
+<script id="scrollview-template" type="text/x-kendo-template">
+    <div>
+        <div style="width: 100%; height: 100%; background-image: #=setBackground(data.ProductID)#;"></div>
+        <p>#= data.ProductName #</p>
+    </div>
+</script>
+
+@section scripts {
+<script>
+    function setBackground(id) {
+        return "url(../shared/images/photos/" + (Math.floor(Math.random() * 28) + 1) + ".jpg)";
+    }
+
+    $(document).on("kendoReady", function () {
+
+        var scrollview = $("#scrollView").data("kendoScrollView");
+
+        var setValue = function () {
+            scrollview.scrollTo(parseInt($("#pageValue").val()));
+        };
+
+        $("#next").click(function () {
+            scrollview.next();
+        });
+
+        $("#previous").click(function () {
+            scrollview.prev();
+        });
+
+        $("#set").click(setValue);
+    });
+</script>
+}
+
+<style>
+    #scrollView {
+        max-width: 100%;
+    }
+
+    .k-scrollview-page > div {
+        width: 100%;
+        height: 100%;
+    }
+
+        .k-scrollview-page > div > div {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+</style>

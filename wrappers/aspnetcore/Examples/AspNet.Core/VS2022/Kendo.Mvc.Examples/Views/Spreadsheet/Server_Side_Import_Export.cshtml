@@ -1,0 +1,69 @@
+<<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Export</h4>
+        <form action="@Url.Action("Download", "Spreadsheet")" method="POST">
+            <input type="hidden" id="download-data" name="data" />
+            <input type="hidden" id="download-extension" name="extension" />
+            <ul>
+                <li><button type="submit" class="download" data-extension=".xlsx">Save as XLSX</button></li>
+                <li><button type="submit" class="download" data-extension=".csv" >Save as CSV</button></li>
+                <li><button type="submit" class="download" data-extension=".txt" >Save as Tab-delimited text</button></li>
+                <li><button type="submit" class="download" data-extension=".json">Save as JSON</button></li>
+            </ul>
+        </form>
+    </div>
+    <div class="box-col">
+        <h4>Import</h4>
+        <input type="file" name="file" id="upload" />
+    </div>
+</div>
+
+@(Html.Kendo().Spreadsheet()
+    .Name("spreadsheet")
+    .HtmlAttributes(new { style = "width:100%;" })
+    .BindTo((IEnumerable<SpreadsheetSheet>)ViewBag.Sheets)
+)
+
+@section scripts{
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
+    <script>
+    $(document).on("kendoReady", function () {
+        var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
+
+        var ALLOWED_EXTENSIONS = [".xlsx", ".csv", ".txt", ".json"];
+
+        $("#upload").kendoUpload({
+            async: {
+                saveUrl: "@Url.Action("Upload", "Spreadsheet")"
+            },
+            multiple: false,
+            localization: {
+                "select": "Select file to import..."
+            },
+            select: function (e) {
+                var extension = e.files[0].extension.toLowerCase();
+                if (ALLOWED_EXTENSIONS.indexOf(extension) == -1) {
+                    alert("Please, select a supported file format");
+                    e.preventDefault();
+                }
+            },
+            success: function (e) {
+                // Load the converted document into the spreadsheet
+                spreadsheet.fromJSON(e.response);
+            }
+        });
+
+        $(".download").click(function () {
+            $("#download-data").val(JSON.stringify(spreadsheet.toJSON()));
+            $("#download-extension").val($(this).data("extension"));
+        });
+    });
+    </script>
+}
+
+<style>
+    .download {
+        width: 260px;
+    }
+</style>

@@ -1,0 +1,20 @@
+@addTagHelper *, Kendo.Mvc
+
+<script src="@Url.Script("cultures/kendo.culture.de-DE.min.js")"></script>
+
+@using Kendo.Mvc.UI
+@using System.Globalization
+
+<script type="text/javascript">
+        //set culture of the Kendo UI
+        kendo.culture("de-DE");
+</script>
+
+@{
+    CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("de-DE");
+}
+
+<div class="demo-section">
+    <kendo-datepicker value="DateTime.Today" name="datepicker" style="width: 100%">
+    </kendo-datepicker>
+</div>

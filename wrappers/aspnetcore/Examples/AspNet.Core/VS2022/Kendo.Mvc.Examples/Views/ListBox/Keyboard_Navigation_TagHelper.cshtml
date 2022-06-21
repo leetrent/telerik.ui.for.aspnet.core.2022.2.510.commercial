@@ -1,0 +1,55 @@
+@addTagHelper *, Kendo.Mvc
+@{
+    var products = new List<ProductViewModel>();
+}
+<div id="example" role="application">
+    <div class="demo-section wide">
+        <kendo-listbox name="listbox"
+                       connect-with="listbox2"
+                       datavaluefield="ProductID"
+                       datatextfield="ProductName"
+                       navigatable="true">
+                <datasource>
+                    <transport>
+                        <read url="@Url.Action("GetProducts", "ListBox")"/>
+                    </transport>
+                </datasource>
+        </kendo-listbox>
+
+        <kendo-listbox name="listbox2"
+                       bind-to="products"
+                       datavaluefield="ProductID"
+                       datatextfield="ProductName"
+                       selectable="ListBoxSelectable.Single"
+                       navigatable="true">
+        </kendo-listbox>
+    </div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            $(document).on("keydown.examples", function (e) {
+                if (e.altKey && e.keyCode === 87) {
+                    $("#listbox").data("kendoListBox").focus();
+                }
+            });
+        });
+    </script>
+}
+</div>
+
+<style>
+    #example .demo-section {
+        max-width: none;
+        width: 605px;
+    }
+
+    #example .k-listbox {
+        width: 255px;
+        height: 350px;
+    }
+
+    #example .k-listbox:first-of-type {
+        margin-right: 1px;
+    }
+</style>

@@ -1,0 +1,26 @@
+<div class="demo-section wide">
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Steps(s =>
+        {
+            s.Add().Label("First step");
+            s.Add().Label("Second step");
+            s.Add().Label("Third step");
+            s.Add().Label("Fourth step");
+            s.Add().Label("Fifth step");
+        })
+        .Events(events => events.Activate("onActivate").Select("onSelect"))
+    )
+</div>
+
+@section scripts {
+<script>
+    function onActivate(e) {
+        kendoConsole.log("Activated: " + e.step.options.label);
+    }
+
+    function onSelect(e) {
+        kendoConsole.log("Selected: " + e.step.options.label);
+    }
+</script>
+}

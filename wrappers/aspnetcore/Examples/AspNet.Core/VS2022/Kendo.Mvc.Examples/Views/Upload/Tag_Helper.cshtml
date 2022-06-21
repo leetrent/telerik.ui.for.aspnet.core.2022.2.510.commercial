@@ -1,0 +1,38 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="box">
+    Allowed extensions: .jpeg, .png and .txt
+</div>
+
+<form asp-controller="upload" asp-action="SubmitFromTagHelper" method="post" role="form">
+    <div class="demo-section">
+        <kendo-upload drop-zone="drop-zone1" name="files" on-upload="onUpload">
+            <async save-url="/Upload/ChunkSave" remove-url="/Upload/Remove" />
+        </kendo-upload>
+
+        <p style="padding-top: 1em; text-align: right">
+            <kendo-button type="submit" name="submit">Submit</kendo-button>
+        </p>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        function onUpload(e) {
+            console.log("Upload :: " + getFileInfo(e));
+        }
+
+        function getFileInfo(e) {
+            return $.map(e.files, function (file) {
+                var info = file.name;
+
+                // File size is not available in all browsers
+                if (file.size > 0) {
+                    info += " (" + Math.ceil(file.size / 1024) + " KB)";
+                }
+                return info;
+            }).join(", ");
+        }
+    </script>
+}

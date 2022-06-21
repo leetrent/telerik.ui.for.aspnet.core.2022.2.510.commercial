@@ -1,0 +1,88 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    string template = "#if(target.data().value == '2021/7/12') {# <div class='k-popover-header'>AUG #=target.text()#</div><div class='k-popover-body'><p>Starbucks Breakfast<span>08:00</span></p><p>Software Updates<span>09:00</span></p><p>Performance Review<span>14:00</span></p><p>HR Lecture<span>19:00</span></p></div> #}# #if(target.data().value == '2021/7/18') {# <div class='k-popover-header'>AUG 18</div><div class='k-popover-body'><p>Send Newsletter<span>09:00</span></p><p>Interview<span>11:00</span></p><p>Online Training<span>15:00</span></p></div> #}# #if(target.data().value == '2021/7/24') {# <div class='k-popover-header'>AUG 24</div><div class='k-popover-body'><p>Review SEO Results<span>08:00</span></p><p>Designers Meeting<span>09:00</span></p><p>Publish New Blogpost<span>13:00</span></p><p>Planning<span>16:00</span></p></div> #}#";
+}
+<div class="demo-section" style="text-align: center;">
+    <div>
+        <kendo-calendar name="calendar" component-type="modern" min="new DateTime(2021, 8, 1)" max="new DateTime(2021, 8, 30)" selectable="multiple" select-dates="@(new DateTime[] {
+            new DateTime(2021, 8, 12),
+            new DateTime(2021, 8, 18),
+            new DateTime(2021, 8, 24)
+         })">
+        </kendo-calendar>
+    </div>
+
+    <kendo-popover for="#calendar" filter="td a" position="right" show-on="mouseenter" on-show="onShow" width="300" body=@template>
+        <animation>
+            <open duration="0" />
+            <close duration="0" />
+        </animation>
+    </kendo-popover>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function onShow(e) {
+            var day = e.sender.target().text();
+
+            if (day != "12" && day != "18" && day != "24") {
+                e.sender.hide();
+            }
+            else {
+                e.sender.target().attr("title", "");
+            }
+        }
+    </script>
+}
+
+<style>
+    .demo-section,
+    html.k-material .demo-section {
+        overflow: hidden;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .k-popover-header {
+        text-align: center;
+    }
+
+    .k-popover-body p {
+        line-height: 20px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        padding-left: 4px;
+        padding-right: 4px;
+        box-sizing: border-box;
+        border-radius: 2px;
+    }
+
+    .k-popover-body p:nth-child(1) {
+        background-color: #FF6358;
+        color: #FFFFFF;
+        border: 1px solid #FF6358;
+    }
+
+    .k-popover-body p:nth-child(2),
+    .k-popover-body p:nth-child(4) {
+        background-color: #FFD246;
+        border: 1px solid #FFD246;
+    }
+
+    .k-popover-body p:nth-child(3) {
+        background-color: #2D73F5;
+        color: #FFFFFF;
+        border: 1px solid #2D73F5;
+    }
+
+    .k-popover-body span {
+        float: right;
+    }
+
+    .k-popover > .k-popover-body {
+        padding: 0px;
+    }
+</style>
+

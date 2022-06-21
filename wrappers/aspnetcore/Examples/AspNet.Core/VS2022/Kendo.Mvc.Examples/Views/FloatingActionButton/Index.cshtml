@@ -1,0 +1,110 @@
+<script id="photo-template" type="text/x-kendo-template">
+      # var src = "@Url.Content("~/shared/web/treelist/people/")" + data.EmployeeId + ".jpg"#
+      # if(data.isNew() || data.EmployeeId > 100) {#
+      # src = "@Url.Content("~/shared/web/Kendoka-32.png")" #
+      # } #
+    <div class="k-avatar k-avatar-md k-avatar-image k-avatar-circle employee-photo">
+        <img src="#=src#" />
+    </div>
+    <div class="employee-name">#: FirstName #</div>
+</script>
+
+@(Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModelPopUp>()
+    .Name("treelist")
+    .Columns(columns =>
+    {
+        columns.Add().Field(e => e.FirstName).Width(280).TemplateId("photo-template");
+        columns.Add().Field(e => e.LastName).Width(160);
+        columns.Add().Field(e => e.Position);
+        columns.Add().Field(e => e.HireDate).Format("{0:dd/MM/yyyy}");
+        columns.Add().Field(e => e.Phone).Width(200);
+    })
+    .Filterable()
+    .Sortable()
+    .Editable(e=>e.Mode(TreeListEditMode.PopUp))
+    .Height(500)
+    .DataSource(dataSource => dataSource
+        .Create(create => create.Action("Create", "EmployeeDirectory"))
+        .Read(read => read.Action("All", "EmployeeDirectory"))
+        .Update(update => update.Action("Update", "EmployeeDirectory"))
+        .Destroy(delete => delete.Action("Destroy", "EmployeeDirectory"))
+        .ServerOperation(false)
+        .Model(m => {
+            m.Id(f => f.EmployeeId);
+            m.ParentId(f => f.ReportsTo);
+            m.Expanded(true);
+            m.Field(f => f.FirstName);
+            m.Field(f => f.LastName);
+            m.Field(f => f.Position);
+            m.Field(f => f.HireDate);
+            m.Field(f => f.Phone);
+            m.Field(f => f.ReportsTo);
+        })
+    )
+    .Height(540)
+    .Pageable(p => p.PageSize(20)
+                    .PageSizes(true)
+    )
+)
+
+@(Html.Kendo().FloatingActionButton()
+    .Name("fab")
+    .ThemeColor(FloatingActionButtonThemeColor.Primary)
+    .Size(FloatingActionButtonSize.Medium)
+    .PositionMode(FloatingActionButtonPositionMode.Absolute)
+    .Icon("plus")
+    .AlignOffset(alignOffset=>alignOffset.Horizontal(50).Vertical(80))
+    .Events(events=>events.Click("addItem"))
+)
+
+@section scripts{
+    <script>
+        $(document).on("kendoReady", function () {
+            var fab = $("#fab").getKendoFloatingActionButton();
+
+            $("#fab").hover(function () {
+                fab.text("Add New Record");
+                fab.element.find(".k-fab-text")
+                    .stop().toggle(200);
+            }, function () {
+                fab.element.find(".k-fab-text")
+                    .stop()
+                    .toggle(200)
+                    .promise().done(function () {
+                        fab.text("");
+                    });
+            });
+        });
+
+        function addItem() {
+            var treeList = $("#treelist").getKendoTreeList();
+            treeList.addRow();
+        };
+    </script>
+}
+
+<style>
+    .k-fab-text {
+        display: none;
+    }
+
+    .employee-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .employee-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>

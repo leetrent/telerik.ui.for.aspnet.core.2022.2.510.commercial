@@ -1,0 +1,40 @@
+@addTagHelper "*, Kendo.Mvc"
+
+<div class="demo-section">
+    <h4>Select Car Engine</h4>
+    <ul class="fieldlist">
+        <li>
+            <kendo-radiobutton id="engine1" name="engine" checked="true" label="1.4 Petrol, 92kW"></kendo-radiobutton>
+        </li>
+        <li>
+            <kendo-radiobutton id="engine2" name="engine" label="1.8 Petrol, 118kW"></kendo-radiobutton>
+        </li>
+        <li>
+            <kendo-radiobutton id="engine3" name="engine" label="2.0 Petrol, 147kW"></kendo-radiobutton>
+        </li>
+        <li>
+            <kendo-radiobutton id="engine4" name="engine" enabled=false label="3.6 Petrol, 191kW"></kendo-radiobutton>
+        </li>
+        <li>
+            <kendo-radiobutton id="engine5" name="engine" label="1.6 Diesel, 77kW"></kendo-radiobutton>
+        </li>
+        <li>
+            <kendo-radiobutton id="engine6" name="engine" label="2.0 Diesel, 103kW"></kendo-radiobutton>
+        </li>
+        <li>
+            <kendo-radiobutton id="engine7" name="engine" enabled=false label="2.0 Diesel, 125kW"></kendo-radiobutton>
+        </li>
+    </ul>
+</div>
+
+<style>
+    .fieldlist {
+        margin: 0 0 -1em;
+        padding: 0;
+    }
+
+        .fieldlist li {
+            list-style: none;
+            padding-bottom: 1em;
+        }
+</style>

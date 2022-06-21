@@ -1,0 +1,43 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Select Time:</h4>
+    <div>
+        <kendo-timepicker name="timepicker" style="width: 100%" title="timepicker"
+            value="new DateTime(1900, 1, 1, 10, 00, 0)"
+            component-type="modern"
+            date-input="true">
+        </kendo-timepicker>
+    </div>
+</div>
+<div class="box">
+    <div class="box-col">
+        <h4>Set component  type</h4>
+        <kendo-dropdownlist name="ddl"
+            value="modern"
+            on-change="onChange"
+            bind-to='new string[] { "modern", "classic" }'>
+        </kendo-dropdownlist>
+    </div>
+
+    @section scripts {
+<script>
+        function onChange(e) {
+            var picker = $("#timepicker").data("kendoTimePicker");
+            var type = this.value();
+            var format = picker.options.format;
+            var value = picker.value();
+            var parent = $("#timepicker").parent();
+
+            picker.destroy();
+            parent.empty();
+            parent.append('<input id="timepicker" title="timepicker" style="width: 100%;" />');
+            $("#timepicker").kendoTimePicker({
+                format: format,
+                value: value,
+                componentType: type
+            });
+        }
+    </script>
+}
+</div>

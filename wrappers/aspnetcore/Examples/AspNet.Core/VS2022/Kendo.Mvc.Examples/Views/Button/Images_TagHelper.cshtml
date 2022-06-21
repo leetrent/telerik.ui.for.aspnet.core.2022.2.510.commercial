@@ -1,0 +1,35 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <kendo-button name="iconButton" sprite-css-class="k-icon netherlandsFlag">
+        Sprite icon
+    </kendo-button>
+
+    <kendo-button name="kendoIconButton" icon="filter">
+        Kendo UI Font Icon
+    </kendo-button>
+
+    <kendo-button name="imageButton" icon="filter" image-url="/shared/icons/sports/snowboarding.png">
+        Image icon
+    </kendo-button>
+</div>
+
+<style>
+    .demo-section {
+        line-height: 4em;
+    }
+
+    .demo-section .k-button {
+        margin-right: 10px;
+    }
+
+    .k-button .k-image {
+        height: 16px;
+    }
+
+    .netherlandsFlag {
+        background-image: url('@Url.Content("~/shared/styles/flags.png")');
+        background-position: 0 -64px;
+    }
+</style>

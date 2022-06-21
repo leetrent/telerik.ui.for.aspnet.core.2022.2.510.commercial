@@ -1,0 +1,70 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <kendo-panelbar name="panelbar" expand-mode="@PanelBarExpandMode.Single"
+        on-select="select"
+        on-expand="expand"
+        on-collapse="collapse"
+        on-activate="activate"
+        on-content-load="contentLoad"
+        on-error="error">
+        <items>
+            <panelbar-item text="Metallica - Master of Puppets 1986" expanded="true">
+                <items>
+                    <panelbar-item text="Battery"></panelbar-item>
+                    <panelbar-item text="Master of Puppets"></panelbar-item>
+                    <panelbar-item text="The Thing That Should Not Be"></panelbar-item>
+                    <panelbar-item text="Welcome Home (Sanitarium)"></panelbar-item>
+                    <panelbar-item text="Disposable Heroes"></panelbar-item>
+                    <panelbar-item text="Leper Messiah"></panelbar-item>
+                    <panelbar-item text="Orion (Instrumental)"></panelbar-item>
+                    <panelbar-item text="Damage, Inc."></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Iron Maiden - Brave New World 2000">
+                <items>
+                    <panelbar-item text="The Wicker Man"></panelbar-item>
+                    <panelbar-item text="Ghost Of The Navigator"></panelbar-item>
+                    <panelbar-item text="Brave New World"></panelbar-item>
+                    <panelbar-item text="Blood Brothers"></panelbar-item>
+                    <panelbar-item text="The Mercenary"></panelbar-item>
+                    <panelbar-item text="Dream Of Mirrors"></panelbar-item>
+                    <panelbar-item text="The Fallen Angel"></panelbar-item>
+                    <panelbar-item text="The Nomad"></panelbar-item>
+                    <panelbar-item text="Out Of The Silent Planet"></panelbar-item>
+                    <panelbar-item text="The Thin Line Between Love And Hate"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Empty Item"></panelbar-item>
+            <panelbar-item text="Ajax Item" content-url='/shared/web/panelbar/ajax/ajaxContent1.html'></panelbar-item>
+            <panelbar-item text="Error Item" content-url="error.html"></panelbar-item>
+        </items>
+    </kendo-panelbar>
+</div>
+@section scripts {
+<script>
+    function select(e) {
+        kendoConsole.log("Select: " + $(e.item).find("> .k-link").text());
+    }
+
+    function expand(e) {
+        kendoConsole.log("Expand: " + $(e.item).find("> .k-link").text());
+    }
+
+    function collapse(e) {
+        kendoConsole.log("Collapse: " + $(e.item).find("> .k-link").text());
+    }
+
+    function activate(e) {
+        kendoConsole.log("Activate: " + $(e.item).find("> .k-link").text());
+    }
+
+    function contentLoad(e) {
+        kendoConsole.log("Content loaded in <b>"+ $(e.item).find("> .k-link").text() +
+                            "</b> and starts with <b>" + $(e.contentElement).text().substr(0, 20) + "...</b>");
+    }
+
+    function error(e) {
+        kendoConsole.error("Loading failed with " + e.xhr.statusText + " " + e.xhr.status);
+    }
+</script>
+}

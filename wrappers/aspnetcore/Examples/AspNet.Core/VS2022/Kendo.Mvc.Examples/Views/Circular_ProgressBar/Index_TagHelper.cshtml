@@ -1,0 +1,60 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="k-d-flex-col k-flex-wrap k-align-items-center k-justify-content-center">
+    <h4>For best results select a file that has a size between 2 and 10 megabytes.</h4>
+
+    <kendo-upload name="files" on-error="onError" on-progress="onProgress" on-remove="onRemove">
+        <async auto-upload="true" save-url="@Url.Action("Chunk_Upload_Save", "Upload")" remove-url="@Url.Action("Chunk_Upload_Remove", "Upload")" chunk-size="11000" />
+        <validation max-file-size="20000000" />
+    </kendo-upload>
+
+    <script id="progress-template" type="text/kendo-ui-template">
+        # if (value == 100) { #
+        <span class='k-icon k-i-check'></span>
+        # }else{#
+           #: value # %
+        #}#
+    </script>
+
+    <kendo-circularprogressbar name="progressbar" value=0 center-template-id="progress-template">
+        <colors>
+            <color to=25 color="#C0392B"/>
+            <color from=25 to=50 color="#D35400"/>
+            <color from=50 to=75 color="#D4AC0D"/>
+            <color from=75 to=99 color="#58D68D"/>
+            <color from=99 color="#229954"/>
+        </colors>
+    </kendo-circularprogressbar>
+</div>
+
+@section scripts {
+    <script>
+        function onProgress(e) {
+            let percent = e.percentComplete;
+
+            $("#progressbar").data("kendoCircularProgressBar").value(percent);
+        }
+
+        function onRemove(e) {
+            $("#progressbar").data("kendoCircularProgressBar").value(0);
+        }
+
+        function onError(e) {
+            $("#progressbar").data("kendoCircularProgressBar").value(0);
+        }
+    </script>
+}
+
+<style>
+    .k-upload .k-progressbar, .k-upload-pct {
+        display: none;
+    }
+
+    .k-upload {
+        width: 520px;
+    }
+
+    .k-d-flex-col > #progressbar {
+        margin: 3em;
+    }
+</style>

@@ -1,0 +1,101 @@
+@using Kendo.Mvc.UI
+
+@section HeadContent
+{
+    <style>
+        .box .k-textbox {
+            width: 80px;
+        }
+
+        .box .k-button {
+            min-width: 80px;
+        }
+
+        #gauge-container {
+            width: 300px;
+            text-align: center;
+            margin: 0 auto 30px auto;
+        }
+
+        .configurator label {
+            color: #656565;
+        }
+
+        .configurator input[type=checkbox] {
+            margin-left: 15px !important;
+        }
+    </style>
+}
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Set / Get Value</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().NumericTextBox()
+                    .Name("value")
+                    .Value(40)
+                 )
+                <button id="set" >Set value</button>
+                <button id="get" >Get value</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Resizing and Settings</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().NumericTextBox()
+                    .Name("size")
+                    .Value(300)
+                 )
+                <button id="resize" >Resize</button>
+                <input id="transitions" type="checkbox" style="float:none" />
+                <label for="transitions">Transitions</label>
+                <input id="opacity" type="checkbox" style="float:none" />
+                <label for="opacity">Lower Opacity</label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="example">
+    <div class="demo-section">
+        <div id="gauge-container">
+            @(Html.Kendo().CircularGauge()
+            .Name("gauge")
+            .Value(40)
+            .Transitions(false)
+         )
+        </div>
+    </div>
+
+    <script>
+        var gauge = $("#gauge").data("kendoCircularGauge");
+
+        var setValue = function () {
+            gauge.value($("#value").data("kendoNumericTextBox").value());
+        };
+
+        $("#resize").click(function () {
+            var newSize = $("#size").data().kendoNumericTextBox.value();
+            $("#gauge").css({ width: newSize + "px", height: newSize + "px" });
+            gauge.resize();
+        });
+
+        $("#set").click(setValue);
+
+        $("#get").click(function () {
+            alert(gauge.value());
+        });
+
+        $("#transitions").click(function () {
+            gauge.setOptions({ transitions: this.checked });
+        });
+
+        $("#opacity").click(function () {
+            gauge.setOptions({ opacity: this.checked ? 0.5 : 1 });
+        });
+    </script>
+</div>

@@ -1,0 +1,231 @@
+
+@addTagHelper *, Kendo.Mvc
+
+@model List<VisitorConversionViewModel>
+@{
+    var viewsChartSeries = new dynamic[] {
+                    new { Date = new DateTime(2020, 3, 30), Views = 2000 },
+                    new { Date = new DateTime(2020, 4, 5), Views = 80000 },
+                    new { Date = new DateTime(2020, 4, 10), Views = 130000 },
+                    new { Date = new DateTime(2020, 4, 15), Views = 170000 },
+                    new { Date = new DateTime(2020, 4, 20), Views = 190000 },
+                    new { Date = new DateTime(2020, 4, 25), Views = 150000 },
+                    new { Date = new DateTime(2020, 4, 30), Views = 160000 }
+                };
+    var visitorsSeries = new dynamic[] {
+                    new {value = 70, type = "New"},
+                    new {value = 30, type = "Returning"},
+                };
+    var visitorData = new List<VisitorConversionViewModel>(){
+                new VisitorConversionViewModel(){ Value = 2000, Date = new DateTime(2020, 4, 1), Channel = "Organic Search", Conversion = 8232, Users = 70500 },
+                new VisitorConversionViewModel(){ Value = 80000, Date = new DateTime(2020, 4, 5), Channel = "Direct", Conversion = 6574, Users = 24900 },
+                new VisitorConversionViewModel(){ Value = 130000, Date = new DateTime(2020, 4, 10),Channel = "Referral", Conversion = 4932, Users = 20000 },
+                new VisitorConversionViewModel(){ Value = 170000, Date = new DateTime(2020, 4, 15),Channel = "Social Media", Conversion = 2928, Users = 19500 },
+                new VisitorConversionViewModel(){ Value = 190000, Date = new DateTime(2020, 4, 20),Channel = "Email", Conversion = 2456, Users = 18100 },
+                new VisitorConversionViewModel(){ Value = 190000, Date = new DateTime(2020, 4, 30),Channel = "Other", Conversion = 1172, Users = 16540 }
+            };
+
+}
+
+
+<script>
+    function onTileResize(e) {
+        if (e.container) {
+            // for widgets that do not auto resize
+            // https://docs.telerik.com/kendo-ui/styles-and-layout/using-kendo-in-responsive-web-pages
+            kendo.resize(e.container, true);
+        }
+    }
+
+    $(window).on("resize", function () {
+        kendo.resize($(".k-chart, .k-grid"));
+    });
+
+    $(document).ready(function () {
+        kendo.resize($("#tilelayout"));
+        $(document).bind("kendo:skinChange", updateTheme);
+    });
+
+    function updateTheme() {
+        var charts = $(".k-chart");
+        $.each(charts, function (i, elem) {
+            var theme = kendoTheme;
+
+            if (/(default-|bootstrap-|material-|classic-)/.test(kendoTheme)) {
+                theme = "sass";
+            }
+            $(elem).getKendoChart().setOptions({ theme: theme });
+        });
+    }
+</script>
+
+<!-- container text templates -->
+<script id="conversion-rate" type="text/x-kendo-template">
+    <h3>9%</h3>
+    <div>Visitor to Customer</div>
+</script>
+<script id="current" type="text/x-kendo-template">
+    <h3>2, 399</h3>
+    <div>Active users right now</div>
+</script>
+<script id="bounce-rate" type="text/x-kendo-template">
+    <h1>55 %</h1>
+    <div>The percentage of all sessions on your site in which users viewed only a single page.</div>
+</script>
+
+<!-- container chart templates -->
+<script id="pages-chart-template" type="text/html">
+    <kendo-chart name="pages-chart" style="height:100%;width:100%;" is-in-client-template="true">
+        <category-axis>
+            <category-axis-item categories='new string[] { "Home", "Price", "Sign-up", "Product", "Blog" }'>
+                <major-grid-lines visible="false"/>
+                <major-ticks visible="false"/>
+            </category-axis-item>
+        </category-axis>
+        <series>
+            <series-item type="ChartSeriesType.Column" data="new double[] { 90000, 60000, 40000, 30000, 10000 }">
+            </series-item>
+        </series>
+        <value-axis>
+            <value-axis-item color="transparent" major-unit="10000" max="100000" min="0" type="numeric">
+                <labels color="grey" step="5">
+                </labels>
+            </value-axis-item>
+        </value-axis>
+        <chart-legend visible="false">
+        </chart-legend>
+    </kendo-chart>
+</script>
+<script id="views-chart-template" type="text/html">
+    <kendo-chart name="views-chart" style="height:100%;width:100%;" is-in-client-template="true">
+        <category-axis>
+            <category-axis-item base-unit="ChartAxisBaseUnit.Fit" type="ChartCategoryAxisType.Date">
+                <labels format="{0:d MMMM}">
+                </labels>
+                <major-grid-lines visible="false"/>
+                <major-ticks visible="false"/>
+            </category-axis-item>
+        </category-axis>
+        <series>
+            <series-item type="ChartSeriesType.Line" category-field="Date" field="Views" style="ChartSeriesStyle.Smooth" data="viewsChartSeries">
+                <markers visible="false">
+                </markers>
+            </series-item>
+        </series>
+        <value-axis>
+            <value-axis-item max="200000" min="0" name="" type="numeric">
+                <labels step="2">
+                </labels>
+                <line width="0"/>
+            </value-axis-item>
+        </value-axis>
+        <chart-legend visible="false">
+        </chart-legend>
+    </kendo-chart>
+</script>
+<script id="visitors-chart-template" type="text/html">
+    <kendo-chart name="visitors-chart" style="height:100%;width:100%;" is-in-client-template="true">
+        <series>
+            <series-item type="ChartSeriesType.Donut" category-field="type" start-angle="70" data="visitorsSeries">
+            </series-item>
+        </series>
+        <chart-legend visible="true" position="ChartLegendPosition.Bottom">
+        </chart-legend>
+    </kendo-chart>
+</script>
+<script id="conversion-chart-template" type="text/html">
+    <kendo-chart name="conversion-chart" style="height:100%;width:100%;" is-in-client-template="true">
+        <category-axis>
+            <category-axis-item base-unit="ChartAxisBaseUnit.Fit" type="ChartCategoryAxisType.Date">
+                <labels format="{0:d MMMM}">
+                </labels>
+                <major-grid-lines visible="false" />
+                <major-ticks visible="false" />
+            </category-axis-item>
+        </category-axis>
+        <series>
+            <series-item type="ChartSeriesType.Line" category-field="Date" field="Value" style="ChartSeriesStyle.Smooth" data="visitorData">
+                <markers visible="false">
+                </markers>
+            </series-item>
+        </series>
+        <value-axis>
+            <value-axis-item max="200000" min="0" name="" type="numeric">
+                <labels step="2">
+                </labels>
+                <line width="0" />
+            </value-axis-item>
+        </value-axis>
+        <chart-legend visible="false">
+        </chart-legend>
+    </kendo-chart>
+</script>
+
+<!-- container grid templates -->
+<script id="conversions-grid-template" type="text/x-kendo-template">
+    @(Html.Kendo().Grid(Model)
+            .Name("conversions-grid")
+            .Columns(col => {
+                col.Bound(f => f.Channel).Width(100);
+                col.Bound(f => f.Conversion).Width(80).Format("{0:n0}");
+            })
+            .Scrollable(s=>s.Height("auto"))
+            .HtmlAttributes(new { style = "height:100%;" })
+            .ToClientTemplate()
+        )
+</script>
+<script id="users-grid-template" type="text/x-kendo-template">
+    @(Html.Kendo().Grid(Model)
+            .Name("users-grid")
+            .Columns(col => {
+                col.Bound(f => f.Channel).Width(100);
+                col.Bound(f => f.Users).Width(80).Format("{0:n0}");
+            })
+            .Scrollable(s => s.Height("auto"))
+            .HtmlAttributes(new { style = "height:100%;" })
+            .ToClientTemplate()
+        )
+</script>
+
+<kendo-tilelayout columns="5" columns-width="300px" reorderable="true" resizable="true" rows-height="235px" name="tilelayout" on-resize="onTileResize">
+    <containers>
+        <container body-template-id="views-chart-template" col-span="3" row-span="1">
+            <container-header text="Page Views" />
+        </container>
+        <container body-template-id="conversion-rate" col-span="1" row-span="1">
+            <container-header text="Conversion Rate" />
+        </container>
+        <container body-template-id="current" col-span="1" row-span="1">
+            <container-header text="Currently" />
+        </container>
+        <container body-template-id="pages-chart-template" col-span="2" row-span="1">
+            <container-header text="Most Visited Pages" />
+        </container>
+        <container body-template-id="conversions-grid-template" col-span="2" row-span="2">
+            <container-header text="Conversions by Channel" />
+        </container>
+        <container body-template-id="bounce-rate" col-span="1" row-span="1">
+            <container-header text="Bounce Rate" />
+        </container>
+        <container body-template-id="users-grid-template" col-span="2" row-span="2">
+            <container-header text="Users by Channel" />
+        </container>
+        <container body-template-id="visitors-chart-template" col-span="1" row-span="2">
+            <container-header text="Visitors" />
+        </container>
+        <container body-template-id="conversion-chart-template" col-span="2" row-span="1">
+            <container-header text="Conversion This Month" />
+        </container>
+    </containers>
+</kendo-tilelayout>
+
+<style>
+
+    .k-card-header {
+        flex: 0 0 auto;
+    }
+
+    .k-card-body {
+        overflow: hidden;
+    }
+</style>

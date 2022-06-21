@@ -1,0 +1,154 @@
+@addTagHelper *, Kendo.Mvc
+<span id="undo" style="display:none">Click here to open the window.</span>
+
+<div id="window">
+    <kendo-toolbar name="ToolBar">
+        <toolbar-items>
+            <item template="<img src='/shared/web/toolbar/user.png' class='user-image' />" overflow="ShowInOverflowPopup.Never">
+            </item>
+            <item primary="true" text="Send" type="CommandType.Button" overflow="ShowInOverflowPopup.Never">
+            </item>
+            <item text="Discard" type="CommandType.Button" overflow="ShowInOverflowPopup.Never">
+            </item>
+            <item type="CommandType.Separator">
+            </item>
+            <item image-url="/shared/web/toolbar/save.png" text="Save" type="CommandType.SplitButton">
+                <menu-buttons>
+                    <toolbar-button image-url="/shared/web/toolbar/save.png" text="Save as" />
+                    <toolbar-button image-url="/shared/web/toolbar/upload.png" text="Upload to drive" />
+                </menu-buttons>
+            </item>
+            <item image-url="/shared/web/toolbar/reply.png" text="Reply" type="CommandType.SplitButton">
+                <menu-buttons>
+                    <toolbar-button image-url="/shared/web/toolbar/save.png" text="Reply all" />
+                    <toolbar-button image-url="/shared/web/toolbar/forward.png" text="Forward" />
+                    <toolbar-button image-url="/shared/web/toolbar/reply.png" text="Reply & Delete" />
+                </menu-buttons>
+            </item>
+            <item type="CommandType.Separator">
+            </item>
+            <item template="<span><label>Contacts:</label><input id='contacts' style='width: 150px;' /></span>" overflow="ShowInOverflowPopup.Never">
+            </item>
+            <item overflow-template="<span></span>" template="<div><label>Labels:</label><input id='labels' style='width: 150px;' /></div>">
+            </item>
+            <item type="CommandType.Separator">
+            </item>
+            <item type="CommandType.ButtonGroup">
+                <buttons>
+                    <toolbar-button group="category" image-url="/shared/web/toolbar/done.png" togglable="true" text="Done" />
+                    <toolbar-button group="category" image-url="/shared/web/toolbar/todo.png" togglable="true" text="To Do" />
+                    <toolbar-button group="category" image-url="/shared/web/toolbar/important.png" togglable="true" text="Important" />
+                </buttons>
+            </item>
+        </toolbar-items>
+    </kendo-toolbar>
+    <div id="content">
+        <div class="demo-section k-header">
+            <ul>
+                <li>
+                    <label>To:</label>
+                    <span class="k-textbox k-input k-input-md k-rounded-md k-input-solid" style="width: 570px;">
+                        <input id="to" type="text" class="k-input-inner" />
+                    </span>
+                </li>
+                <li>
+                    <label>Title:</label>
+                    <span class="k-textbox k-input k-input-md k-rounded-md k-input-solid" style="width: 570px;">
+                        <input id="title" type="text" class="k-input-inner" />
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready( function () {
+
+        $("#window").kendoWindow({
+            resizable: true,
+            width: 820,
+            height: 200,
+            minWidth: 410,
+            maxWidth: 1200,
+            title: "Message",
+            close: function () {
+                $("#undo").show();
+            }
+        });
+
+        $("#undo").bind("click", function () {
+            $("#window").data("kendoWindow").open();
+            $("#undo").hide();
+        });
+
+        $("#contacts").kendoDropDownList({
+            optionLabel: "Ann Devon",
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Ana Trujillo", value: 1 },
+                { text: "Antonio Moreno", value: 2 },
+                { text: "Christina Berglund", value: 3 },
+                { text: "Felipe Izquierdo", value: 4 }
+            ]
+        });
+
+        $("#labels").kendoDropDownList({
+            optionLabel: "Forums",
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Follow up", value: 1 },
+                { text: "Misc", value: 2 },
+                { text: "Priority", value: 3 },
+                { text: "Deleted Messages", value: 4 }
+            ]
+        });
+
+        $("#masked").kendoNumericTextBox();
+
+        $("#ToolBar").data("kendoToolBar").resize();
+
+    });
+</script>
+
+<style>
+    div.k-window-content {
+        padding: 0;
+    }
+
+    #toolbar {
+        border-width: 0 0 1px;
+    }
+
+    .user-image {
+        margin: 0 .5em;
+    }
+
+    #example {
+        height: 500px;
+    }
+
+        #example .box p {
+            padding-bottom: 5px;
+        }
+
+    #content .demo-section {
+        margin: 0;
+        padding: 10px;
+        border-width: 0 0 1px 0;
+    }
+
+        #content .demo-section label {
+            display: inline-block;
+            width: 40px;
+            text-align: right;
+            line-height: 2.5em;
+            vertical-align: middle;
+        }
+
+        #content .demo-section input {
+            width: 80%;
+        }
+</style>

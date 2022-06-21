@@ -1,0 +1,27 @@
+@addTagHelper *, Kendo.Mvc
+@model Kendo.Mvc.Examples.Models.RadioGroupViewModel
+
+<div class="demo-section">
+    <label class="label">How to get in touch?</label>
+    <kendo-radiogroup name="radiogroup"
+                      radio-name="radiogroup"
+                      label-position="RadioGroupLabelPosition.Before"
+                      layout="RadioGroupLayout.Horizontal"
+                      value="one"
+                      bind-to="Model.Items">
+    </kendo-radiogroup>
+</div>
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    #radiogroup {
+        margin-top: 10px;
+    }
+</style>

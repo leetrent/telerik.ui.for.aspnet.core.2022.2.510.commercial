@@ -1,0 +1,20 @@
+<div class="demo-section wide">
+    @(Html.Kendo().Chart()
+        .Name("heatmap")
+        .Series(s => s.HeatMap("Value", "Column", "Row").ColorHandler("colorHandler"))
+        .DataSource(dataSource=> dataSource.Read("RemoteData","HeatMap"))
+        .Legend(legend=>legend.Visible(false))
+    )
+</div>
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.1/d3.min.js"></script>
+
+    <script>
+        function colorHandler(e) {
+            var rgbColor = d3.interpolatePlasma(e.value.value / 100, e.max);
+            return rgbColor;
+        }
+    </script>
+}

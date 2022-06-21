@@ -1,0 +1,70 @@
+@using Kendo.Mvc.UI
+
+<div id="example">
+    <div class="demo-section">
+        <table id="products" class="metrotable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Units In Stock</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script id="template" type="text/x-kendo-template">
+    <tr>
+        <td>#= ProductName #</td>
+        <td>#= UnitPrice #</td>
+        <td>#= UnitsInStock #</td>
+    </tr>
+</script>
+
+@(Html.Kendo().DataSource<Kendo.Mvc.Examples.Models.ProductViewModel>()
+    .Name("dataSource1")
+    .Ajax(dataSource => dataSource
+       .PageSize(10)
+       .Events(ev => ev.Change("change"))
+       .Read(read => read.Action("BasicUsage_Products_Read", "DataSource"))
+    )
+)
+
+@section scripts {
+<script>
+    var template;
+
+    function change() {
+        $("#products tbody").html(kendo.render(template, this.view())); // populate the table
+    }
+
+    $(document).on("kendoReady", function(){
+        template = kendo.template($("#template").html());
+        dataSource1.fetch();
+    });
+</script>
+}
+
+<style>
+    .demo-section {
+        overflow: auto;
+    }
+
+    .metrotable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .metrotable > thead > tr > th {
+        font-size: 1.3em;
+        padding-top: 0;
+        padding-bottom: 5px;
+    }
+</style>

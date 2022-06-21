@@ -1,0 +1,33 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="example" role="application">
+    <kendo-datasource type="DataSourceTagHelperType.Ajax" name="dataSource1" server-operation="false">
+        <transport>
+            <read url="@Url.Action("Customers_Read", "PivotGrid")" />
+        </transport>
+    </kendo-datasource>
+
+    <kendo-filter name="filter" apply-button="true" expression-preview="true" datasource-id="dataSource1">
+        <fields>
+            <filter-field name="ContactName"></filter-field>
+            <filter-field name="ContactTitle"></filter-field>
+            <filter-field name="CompanyName"></filter-field>
+            <filter-field name="Country"></filter-field>
+        </fields>
+    </kendo-filter>
+
+    <br />
+    <br />
+    <br />
+
+    <kendo-grid name="grid" height="550" datasource-id="dataSource1">
+        <pageable button-count="5" refresh="true" page-sizes="new int[] { 5, 10, 20 }">
+        </pageable>
+        <columns>
+            <column field="ContactName" title="Contact Name"/>
+            <column field="ContactTitle" title="Contact Title" />
+            <column field="CompanyName" title="Company Name" />
+            <column field="Country" title="Country" />
+        </columns>
+    </kendo-grid>
+</div>

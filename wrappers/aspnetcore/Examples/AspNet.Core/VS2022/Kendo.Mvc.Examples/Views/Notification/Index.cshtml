@@ -1,0 +1,59 @@
+@(Html.Kendo().Notification()
+        .Name("popupNotification")
+)
+
+@(Html.Kendo().Notification()
+        .Name("staticNotification")
+        .AppendTo("#appendto")
+)
+
+<div class="demo-section">
+    <h4>Show notification</h4>
+    <p>
+        <button id="showPopupNotification" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">As a popup at bottom-right</button><br />
+        <button id="showStaticNotification" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">Static in the panel below</button>
+    </p>
+    <div style="padding-top: 1em;">
+        <h4>Hide notification</h4>
+        <button id="hideAllNotifications" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">Hide All Notifications</button>
+    </div>
+</div>
+
+<div id="appendto" class="demo-section"></div>
+
+<style>
+    .demo-section {
+        text-align: center;
+        line-height: 4em;
+    }
+
+        .demo-section .k-button {
+            width: 250px;
+        }
+</style>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var popupNotification = $("#popupNotification").data("kendoNotification");
+        var staticNotification = $("#staticNotification").data("kendoNotification");
+
+        $("#showPopupNotification").click(function () {
+            var d = new Date();
+            popupNotification.show(kendo.toString(d, 'HH:MM:ss.') + kendo.toString(d.getMilliseconds(), "000"), "error");
+        });
+
+        $("#showStaticNotification").click(function () {
+            var d = new Date();
+            staticNotification.show(kendo.toString(d, 'HH:MM:ss.') + kendo.toString(d.getMilliseconds(), "000"), "info");
+            var container = $(staticNotification.options.appendTo);
+            container.scrollTop(container[0].scrollHeight);
+        });
+
+        $("#hideAllNotifications").click(function () {
+            popupNotification.hide();
+            staticNotification.hide();
+        });
+    });
+</script>
+}

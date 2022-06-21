@@ -1,0 +1,54 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>Buttons</h4>
+    @(Html.Kendo().Button()
+            .Name("textButton")
+            .Content("Text button")
+            .HtmlAttributes(new { type = "button" })
+            .Events(ev => ev.Click("onClick")))
+
+    @(Html.Kendo().Button()
+            .Name("iconTextButton")
+            .Tag("span")
+            .Icon("ungroup")
+            .Content("Icon and text")
+            .HtmlAttributes(new { type = "button" })
+            .Events(ev => ev.Click("onClick")))
+
+    @(Html.Kendo().Button()
+            .Name("iconButton")
+            .Tag("em")
+            .Icon("refresh")
+            .Content("<span class='k-icon' title='Refresh'></span>")
+            .HtmlAttributes(new { type = "button" })
+            .Events(ev => ev.Click("onClick")))
+
+    @(Html.Kendo().Button()
+            .Name("disabledButton")
+            .Tag("a")
+            .Enable(false)
+            .Content("Disabled button")
+            .HtmlAttributes(new { type = "button" })
+            .Events(ev => ev.Click("onClick")))
+</div>
+
+@section scripts {
+<script>
+    function onClick(e) {
+        kendoConsole.log("event :: click (" + $(e.event.target).closest(".k-button").attr("id") + ")");
+    }
+
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#textButton")[0].focus();
+        }
+    });
+</script>
+}
+
+<style>
+    .demo-section {
+        line-height: 4em;
+    }
+</style>

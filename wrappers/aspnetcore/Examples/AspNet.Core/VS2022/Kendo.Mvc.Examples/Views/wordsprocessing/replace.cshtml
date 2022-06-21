@@ -1,0 +1,316 @@
+<div id="example">
+    <div class="demo-section custom-width">
+        @using (Html.BeginForm("Download_Document_Replace", "WordsProcessing", FormMethod.Post, new { id = "replaceForm" }))
+        {
+<div class="document-options-wrapper">
+    @(Html.Kendo().RadioButton()
+                    .Name("loadDocument")
+                    .Value("template")
+                    .Label("Load Template Document")
+                    .Checked(true)
+                )
+    @(Html.Kendo().RadioButton()
+                    .Name("loadDocument")
+                    .Value("custom")
+                    .Label("Load Custom Document")
+                )
+    <hr class="clear" />
+</div>
+
+                <div class="document-content-wrapper">
+                    <div id="preview-template">
+                        <p>Select and replace text from the preview below</p>
+                        <div class="imageContainer">
+                            <img src="@Url.Content("~/shared/web/wordsprocessing/SampleDocumentFade.png")" />
+                        </div>
+                    </div>
+
+                    <div id="preview-custom">
+                        @(Html.Kendo().Button()
+                        .Name("uploadFileBtn")
+                        .Content("Load Custom Document")
+                        .HtmlAttributes(new { type = "button" })
+                        .Events(events => events.Click("uploadFile"))
+                    )
+                        @(Html.Kendo().Upload()
+                        .Name("customDocument")
+                        .Multiple(false)
+                        .ShowFileList(false)
+                        .Events(events => events.Select("onSelectUpload"))
+                    )
+
+                        <div class="preview">
+                            <span>Preview:</span>
+                            <div class="imageContainer custom-doc">
+                                <img src="@Url.Content("~/shared/web/wordsprocessing/CustomDocument_file.png")" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                <div class="file-options-wrapper">
+                                    <div class="file-container">
+                                        @Html.Label("fileName", "File Name: ")
+                                        <label id="fileName"></label>
+                                    </div>
+
+                                    <div class="form-container">
+                                        <div class="form-row">
+                                            @Html.Label("methodType", "Method: ")
+                                            @(Html.Kendo().DropDownList()
+                        .Name("methodType")
+                        .SelectedIndex(0)
+                        .Items(items =>
+                        {
+                            items.Add().Text("Replace Text").Value("text");
+                            items.Add().Text("Replace Styling").Value("styling");
+                            items.Add().Text("Replace with Paragraph Element").Value("paragraph");
+                            items.Add().Text("Replace with an Inline Element").Value("inline");
+                        })
+                        .Events(events => events.Change("onMethodChange"))
+                        )
+                                        </div>
+                                        <div class="form-row">
+                                            @*@Html.Label("findWord", "Find Word: ")*@
+                                            @Html.Kendo().TextBox().Name("findWord").Label(label => label.Content("Find Word:"))
+
+                                            @*@Html.Label("replaceWith", "Replace With: ", new { id = "replaceWithLabel" })*@
+                                            @Html.Kendo().TextBox().Name("replaceWith").Label(label => label.Content("Replace With:"))
+                                        </div>
+                                    </div>
+
+                                    <div class="checkbox-container">
+                                        @(Html.Kendo().CheckBox().Name("matchCase").Checked(false).Label("Match Case"))
+                                        @(Html.Kendo().CheckBox().Name("matchWholeWord").Checked(false).Label("Match Whole Word"))
+                                        @(Html.Kendo().CheckBox().Name("regEx").Checked(false).Label("Use Regular Expressions"))
+                                    </div>
+
+                                    <hr class="clear" />
+                                </div> @(Html.Kendo().Button()
+                .Name("submitFormBtn")
+                .HtmlAttributes(new { @class = "float-right wide-btn" })
+                .ThemeColor(ThemeColor.Primary)
+                .Content("Replace and Download")
+                .HtmlAttributes(new{ type="submit" })
+            )}
+    </div>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+    function onSelectUpload(ev) {
+        clearHighlights();
+
+        var file = ev.files[0],
+            fileLabel =  $("#fileName"),
+            submitFormBtn = $("#submitFormBtn").getKendoButton(),
+            imageContainerWrapper = $(".imageContainer.custom-doc"),
+            imageContainer = $(".imageContainer.custom-doc img");
+
+        if (!/.docx|.rtf|.html|.txt/.test(file.extension)) {
+            ev.preventDefault();
+            submitFormBtn.enable(false);
+            setTimeout(function() {
+                alert("Only documents with *.docx, *.rtf, *.html or *.txt extensions are accepted!");
+            }, 0);
+        } else {
+            var baseUrl = "@(Url.Content("~/shared"))",
+                fileExt = file.extension.substr(1),
+                placeholderImagePath = baseUrl + "/web/wordsprocessing/" + fileExt + "_file.png";
+
+            submitFormBtn.enable(true);
+            fileLabel.text(file.name);
+            imageContainer.attr("src", placeholderImagePath);
+            imageContainerWrapper.css("visibility", "visible");
+        }
+    };
+
+    function uploadFile(ev) {
+        $("#customDocument").click();
+    };
+
+    function loadTemplate(ev) {
+        $("#fileName").text("SampleDocument.docx");
+    };
+
+    function clearHighlights() {
+        // reset form
+        var replaceForm = $("#replaceForm"),
+            methodTypeDDL = $("#methodType").getKendoDropDownList(),
+            findWordTextBox = $("#findWord"),
+            replaceWithTextBox = $("#replaceWith"),
+            replaceWithLabel = $("#replaceWithLabel"),
+            fileLabel = $("#fileName"),
+            imageContainerWrapper = $(".imageContainer.custom-doc");
+
+        fileLabel.text("");
+        findWordTextBox.val("");
+        replaceWithTextBox.val("");
+        replaceForm.find("input[type='checkbox']").attr("checked", false);
+        methodTypeDDL.select(0);
+        imageContainerWrapper.css("visibility", "hidden");
+        replaceWithTextBox.css("visibility", "visible");
+        replaceWithLabel.css("visibility", "visible");
+
+        // clear upload
+        var upload = $("#customDocument").data("kendoUpload"),
+            fileInput = upload.wrapper.find("input").first();
+
+        if (!fileInput.is("#customDocument")) {
+            fileInput.remove();
+        }
+    }
+
+    function onMethodChange(e) {
+        var currentValue = e.sender.value(),
+            replaceWithLabel = $("#replaceWithLabel"),
+            replaceWithTextbox = $("#replaceWith");
+
+        if (currentValue == "styling") {
+            replaceWithTextbox.css("visibility", "hidden");
+            replaceWithLabel.css("visibility", "hidden");
+        }
+        else {
+            replaceWithTextbox.css("visibility", "visible");
+            replaceWithLabel.css("visibility", "visible");
+        }
+    }
+
+    $(document).on("kendoReady", function() {
+        loadTemplate();
+
+        $('input[name="loadDocument"]').change(function () {
+            var documentType = $(this).val(),
+                submitBtn = $("#submitFormBtn").getKendoButton(),
+                previewTemplate = $("#preview-template"),
+                previewCustom = $("#preview-custom");
+
+            if (documentType == 'template') {
+                clearHighlights();
+                loadTemplate();
+
+                submitBtn.enable(true);
+                previewTemplate.show();
+                previewCustom.hide();
+
+            } else {
+                clearHighlights();
+
+                submitBtn.enable(false);
+                previewCustom.show();
+                previewTemplate.hide();
+            }
+        });
+    })
+    </script>
+}
+
+<style>
+    #example .demo-section.custom-width {
+        max-width: 700px;
+    }
+
+    .document-content-wrapper .form-container {
+        overflow: hidden;
+    }
+
+    .document-content-wrapper .imageContainer {
+        height: auto;
+        width: 100%;
+        position: relative;
+        margin: 0 auto;
+    }
+
+        .document-content-wrapper .imageContainer.custom-doc {
+            height: 259px;
+            width: 200px;
+            position: relative;
+            margin: 0px 58px;
+            top: -13px;
+        }
+
+        .document-content-wrapper .imageContainer > img {
+            width: 100%;
+        }
+
+    .file-options-wrapper .file-container {
+        margin: 25px 0;
+    }
+
+    .file-options-wrapper .checkbox-container {
+        text-align: center;
+        padding-left: 40px;
+    }
+
+        .file-options-wrapper .checkbox-container > label {
+            padding-left: 2em;
+            margin-right: 10px;
+        }
+
+    .file-options-wrapper .file-container label,
+    .file-options-wrapper .form-container label {
+        display: inline-block;
+        width: 90px;
+    }
+
+    .file-options-wrapper .form-container .form-row {
+        margin-bottom: 20px;
+    }
+
+    .document-options-wrapper label:nth-child(2) {
+        margin-right: 20px;
+    }
+
+    #replaceWithLabel {
+        margin-left: 20px;
+    }
+
+    #preview-custom {
+        display: none;
+    }
+
+    #preview-template > p {
+        margin: 15px 0 10px 0;
+    }
+
+    #fileName {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        white-space: nowrap;
+        width: 400px;
+    }
+
+    #uploadFileBtn {
+        margin-bottom: 15px;
+    }
+
+    .float-right {
+        float: right;
+    }
+
+    .wide-btn {
+        width: 240px;
+    }
+
+    .k-upload {
+        display: none;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .form-row {
+        width: 100%;
+    }
+
+    hr {
+        margin: 15px 0;
+        border-width: 0 0 1px 0;
+        border-color: #c9c9c9;
+        border-style: solid;
+    }
+</style>

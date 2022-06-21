@@ -1,0 +1,15 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Set value</h4>
+    <kendo-textarea name="description" rows="5" style="width: 100%" on-change="onChange">
+    </kendo-textarea>
+</div>
+
+@section scripts {
+    <script>
+        function onChange() {
+            kendoConsole.log("Change :: " + this.value());
+        };
+    </script>
+}

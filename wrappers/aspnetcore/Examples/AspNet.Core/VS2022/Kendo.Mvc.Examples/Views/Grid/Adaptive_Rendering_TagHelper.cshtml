@@ -1,0 +1,85 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="qr-wrap" style="text-align: center;">
+    <p>To test the Adaptive Rendering, scan the QR code or open this demo on a mobile device.</p>
+    <kendo-qrcode name="qr" style="display: inline-block;"
+        value="https://demos.telerik.com/aspnet-core/grid/adaptive-rendering"
+        size="170">
+        <border color="#000000" width="5" />
+    </kendo-qrcode>
+</div>
+<div id="grid-wrap" style="display: none;">
+    <kendo-grid name="grid" height="450" resizable="true" mobile="true">
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="20"
+            on-error="error_handler">
+            <schema data="Data" total="Total">
+                <model id="ProductID">
+                    <fields>
+                        <field name="ProductID" type="number" editable="false"></field>
+                        <field name="ProductName" type="string"></field>
+                        <field name="UnitPrice" type="number"></field>
+                        <field name="UnitsInStock" type="number"></field>
+                        <field name="Discontinued" type="boolean"></field>
+                    </fields>
+                </model>
+            </schema>
+            <transport>
+                <read url="/grid/adaptiverendering_read"/>
+                <update url="/grid/adaptiverendering_update"/>
+                <create url="/grid/adaptiverendering_create"/>
+                <destroy url="/grid/adaptiverendering_destroy"/>
+            </transport>
+        </datasource>
+        <columns>
+            <column field="ProductName" width="120">
+                <filterable enabled="true" multi="true" search="true"/>
+            </column>
+            <column field="UnitPrice" width="120"/>
+            <column field="UnitsInStock" width="120"/>
+            <column field="Discontinued" width="120"/>
+            <column width="250">
+                <commands>
+                    <column-command text="Edit" name="edit"></column-command>
+                    <column-command text="Delete" name="destroy"></column-command>
+                </commands>
+            </column>
+        </columns>
+        <toolbar>
+            <toolbar-button name="create"></toolbar-button> 
+        </toolbar>
+        <editable mode="popup"/>
+        <sortable enabled="true"/>
+        <pageable enabled="true"/>
+        <filterable enabled="true"/>
+        <column-menu enabled="true"/>
+        <scrollable enabled="true"/>
+    </kendo-grid>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+
+        $(document).on("kendoReady", function () {
+            var isMobile = Boolean(kendo.support.mobileOS);
+
+            if (isMobile) {
+                $("#qr-wrap").hide();
+                $("#grid-wrap").show();
+                $("#grid").data("kendoGrid").resize();
+            }
+        });
+    </script>
+}

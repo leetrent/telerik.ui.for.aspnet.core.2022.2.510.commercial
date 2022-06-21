@@ -1,0 +1,86 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var color_data = new List<SelectListItem>()
+    {
+        new SelectListItem() {
+            Text = "Black",
+            Value = "1"
+        },
+        new SelectListItem() {
+            Text = "Orange",
+            Value = "2"
+        },
+        new SelectListItem() {
+            Text = "Grey",
+            Value = "3"
+        }
+    };
+
+    var size_data = new List<string>() {
+        "S - 6 3/4\"",
+        "M - 7 1/4\"",
+        "L - 7 1/8\"",
+        "XL - 7 5/8\""
+    };
+}
+
+<div id="cap-view" class="demo-section">
+    <h4>Customize your Kendo Cap</h4>
+    <div id="cap" class="black-cap"></div>
+    <h4>Cap Color</h4>
+    <kendo-dropdownlist name="color" style="width: 100%"
+        datatextfield="Text"
+        datavaluefield="Value"
+        value="1"
+        on-change="change"
+        bind-to="color_data">
+    </kendo-dropdownlist>
+
+    <h4 style="margin-top: 2em;">Cap Size</h4>
+    <kendo-dropdownlist name="size" style="width: 100%"
+        bind-to="size_data">
+    </kendo-dropdownlist>
+
+    <button class="k-button k-button-flat-primary k-button-flat k-button-md k-rounded-md" id="get" style="margin-top: 2em; float: right;">Customize</button>
+</div>
+<style>
+    #cap {
+        width: 242px;
+        height: 225px;
+        margin: 20px auto;
+        background-image: url('@Url.Content("~/shared/web/dropdownlist/cap.png")');
+        background-repeat: no-repeat;
+        background-color: transparent;
+    }
+    .black-cap {
+        background-position: 0 0;
+    }
+    .grey-cap {
+        background-position: 0 -225px;
+    }
+    .orange-cap {
+        background-position: 0 -450px;
+    }
+</style>
+
+@section scripts {
+<script>
+    function change() {
+        var value = $("#color").val();
+        $("#cap")
+                .toggleClass("black-cap", value == 1)
+                .toggleClass("orange-cap", value == 2)
+                .toggleClass("grey-cap", value == 3);
+    };
+
+    $(document).on("kendoReady", function () {
+        $("#get").click(function () {
+            var color = $("#color").data("kendoDropDownList"),
+                size = $("#size").data("kendoDropDownList");
+
+            alert('Thank you! Your Choice is:\n\nColor ID: ' + color.value() + ' and Size: ' + size.value());
+        });
+    });
+</script>
+}

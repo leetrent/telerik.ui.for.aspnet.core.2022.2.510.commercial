@@ -1,0 +1,33 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <h4>Start date:</h4>
+    <kendo-datepicker max="DateTime.Today.AddDays(+1)" value="DateTime.Today.AddYears(-1)" name="start" on-change="startChange" style="width: 100%">
+    </kendo-datepicker>
+    <h4 style="margin-top: 2em">End date:</h4>
+    <kendo-datepicker min="DateTime.Today.AddYears(-1)" value="DateTime.Today.AddDays(+1)" name="end" on-change="endChange" style="width: 100%">
+    </kendo-datepicker>
+</div>
+    <script>
+        function startChange() {
+            var endPicker = $("#end").data("kendoDatePicker"),
+                startDate = this.value();
+
+            if (startDate) {
+                startDate = new Date(startDate);
+                startDate.setDate(startDate.getDate() + 1);
+                endPicker.min(startDate);
+            }
+        }
+
+        function endChange() {
+            var startPicker = $("#start").data("kendoDatePicker"),
+                endDate = this.value();
+
+            if (endDate) {
+                endDate = new Date(endDate);
+                endDate.setDate(endDate.getDate() - 1);
+                startPicker.max(endDate);
+            }
+        }
+
+    </script>

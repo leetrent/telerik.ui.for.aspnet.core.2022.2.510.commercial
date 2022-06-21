@@ -1,0 +1,119 @@
+
+<div>
+    <div id="avatar-container">
+        <div class="contact-list">Contacts</div>
+        <div class="user-data-container">
+            <div class="k-hbox">
+                @(Html.Kendo().Avatar()
+                    .Name("avatar-text")
+                    .Type(AvatarType.Text)
+                    .Text("JS")
+                    .Rounded(Rounded.Full)
+                    .ThemeColor(ThemeColor.Primary)
+                )
+                <div style="margin-left: 10px">
+                    <h2 class="contact-name">Jason Smith</h2>
+
+                    <p class="contact-position">UX Designer</p>
+                </div>
+            </div>
+            <div class="k-hbox">
+                @(Html.Kendo().Avatar()
+                    .Name("avatar-text-second")
+                    .Type(AvatarType.Text)
+                    .Text("GP")
+                    .Rounded(Rounded.Full)
+                    .ThemeColor(ThemeColor.Primary)
+                )
+                <div class="avatar-margin-left-10">
+                    <h2 class="contact-name">George Porter</h2>
+                    <p class="contact-position">Software Engineer</p>
+                </div>
+            </div>
+        </div>
+        <div class="user-data-container k-hbox">
+            @(Html.Kendo().Avatar()
+                .Name("avatar-image-first")
+                .Type(AvatarType.Image)
+                .Rounded(Rounded.Full)
+                .Image("https://demos.telerik.com/aspnet-core/shared/web/Customers/RICSU.jpg")
+            )
+            <div class="avatar-margin-left-10">
+                <h2 class="contact-name">Michael Holz</h2>
+                <p class="contact-position">Manager</p>
+            </div>
+            @(Html.Kendo().Avatar()
+                .Name("avatar-image-second")
+                .Type(AvatarType.Image)
+                .Rounded(Rounded.Full)
+                .Image("https://demos.telerik.com/aspnet-core/shared/web/Customers/GOURL.jpg")
+            )
+            <div class="avatar-margin-left-10">
+                <h2 class="contact-name">Andre Steward</h2>
+                <p class="contact-position">Product Manager</p>
+            </div>
+        </div>
+        <div class="user-data-container k-hbox">
+            @(Html.Kendo().Avatar()
+                .Name("avatar-icon")
+                .Type(AvatarType.Icon)
+                .Rounded(Rounded.Null)
+                .Icon("user")
+                .FillMode(AvatarFillMode.Solid)
+                .ThemeColor(ThemeColor.Primary)
+            )
+            <div class="avatar-margin-left-10">
+                <h2 class="contact-name">Unknown</h2>
+                <p class="contact-position">Not Specified</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #avatar-container {
+        width: 340px;
+        margin: auto;
+        padding: 4px 10px;
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.26), 0px 2px 2px 0px rgba(0, 0, 0, 0.12), 0px 3px 1px -2px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-position {
+        margin: 0px;
+        font-size: 0.8em;
+    }
+
+    .contact-name {
+        font-size: 1.3em;
+        font-weight: normal;
+        margin: 0px;
+    }
+
+    .contact-list {
+        text-align: center;
+        padding: 4px;
+        font-size: 20px;
+    }
+
+    .user-data-container {
+        padding: 8px 14px;
+        margin-bottom: 4px;
+        box-shadow: 0 1px 2px #ccc;
+    }
+
+    .k-hbox {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .avatar-margin-right-5 {
+        margin-right: 5px;
+    }
+
+    .avatar-margin-left-10 {
+        margin-left: 10px;
+    }
+</style>
+
+

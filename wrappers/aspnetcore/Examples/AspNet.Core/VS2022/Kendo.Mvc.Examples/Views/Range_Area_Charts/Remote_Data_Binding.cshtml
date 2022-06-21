@@ -1,0 +1,18 @@
+<div class="demo-section wide">
+    @(Html.Kendo().Chart<Kendo.Mvc.Examples.Models.DownloadSpeed>()
+        .Name("chart")
+        .Title("Transfer speed Mbit/s")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .DataSource(ds => ds.Read(read => read.Action("_DownloadSpeeds", "Range_Area_Charts")))
+        .Series(series => {
+            series.RangeArea(model => model.WiFiFrom, model => model.WiFiTo).CategoryField("Day")
+                .Line(line => line.Style(ChartSeriesLineStyle.Smooth))
+                .Name("WiFi");
+        })
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+        )
+    ) 
+</div>

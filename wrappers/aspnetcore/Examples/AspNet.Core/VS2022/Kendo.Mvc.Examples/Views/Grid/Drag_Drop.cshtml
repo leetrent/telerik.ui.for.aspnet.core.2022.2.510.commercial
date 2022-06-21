@@ -1,0 +1,81 @@
+<div class="k-d-flex k-flex-wrap">
+    <div class="k-flex-grow">
+        <h4 class="mb-sm">Available Products</h4>
+        @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+            .Name("activeProductsGrid")
+            .Columns(columns =>
+            {
+                columns.Template("").Draggable(true);
+                columns.Bound(p => p.ProductName).Title("Product");
+                columns.Bound(p => p.UnitPrice).Title("Price");
+                columns.Bound(p => p.Discontinued).Title("In Stock").ClientTemplate("<span class='k-badge k-badge-solid k-badge-success k-badge-md k-badge-rounded k-badge-inline'>Available</span>");
+            })
+            .Pageable()
+            .Scrollable()
+            .Sortable()
+            .Navigatable()
+            .Reorderable(reorder => reorder.Rows(true).Columns(true))
+            .Width(550)
+            .HtmlAttributes(new { style = "height:430px;" })
+            .Events(ev =>
+            {
+                ev.RowReorder("onRowReorder");
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Model(m => m.Id("ProductID"))
+                .Read(read => read.Action("Drag_Drop_Active_Read", "Grid"))
+             )
+        )
+    </div>
+    <div class="k-flex-grow">
+        <h4 class="mb-sm">Not Available Products</h4>
+        @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+            .Name("inactiveProductsGrid")
+            .Columns(columns =>
+            {
+                columns.Template("").Draggable(true);
+                columns.Bound(p => p.ProductName).Title("Product");
+                columns.Bound(p => p.UnitPrice).Title("Price");
+                columns.Bound(p => p.Discontinued).Title("In Stock").ClientTemplate("<span class='k-badge k-badge-solid k-badge-error k-badge-md k-badge-rounded k-badge-inline'>Not Available</span>");
+            })
+            .Pageable()
+            .Scrollable()
+            .Sortable()
+            .Navigatable()
+            .Reorderable(reorder => reorder.Rows(true).Columns(true))
+            .Width(550)
+            .HtmlAttributes(new { style = "height:430px;" })
+            .Events(ev =>
+            {
+                ev.RowReorder("onRowReorder");
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Model(m => m.Id("ProductID"))
+                .PageSize(20)
+                .Read(read => read.Action("Drag_Drop_Inactive_Read", "Grid"))
+             )
+        )
+    </div>
+
+</div>
+
+@section scripts {
+    <script>
+        function onRowReorder(e) {
+            var grid = e.sender,
+                dataSource = grid.dataSource,
+                externalGrid, externalDataItem;
+
+            if (e.oldIndex === -1) { // If the dropped row is from external Grid.
+                e.preventDefault();
+                externalGrid = e.row.parents(".k-grid").data("kendoGrid"); //Get an instance of the external Grid.
+                externalDataItem = externalGrid.dataItem(e.row); //Get the data item.
+                externalGrid.dataSource.remove(externalDataItem); //Remove the data item from the external Grid.
+                dataSource.insert(e.newIndex, externalDataItem.toJSON()); //Add the data item in the current Grid.
+            }
+        }
+    </script>
+}

@@ -1,0 +1,16 @@
+@(Html.Kendo().OrgChart<Kendo.Mvc.Examples.Models.OrgChartEmployeeViewModel>()
+    .Name("orgchart")
+    .DataSource(dataSource => dataSource
+        .Read(read => read.Action("RemoteDataBindingData", "OrgChart"))
+        .Model(m => {
+            m.Id(f => f.ID);
+            m.ParentId(f => f.ParentID);
+            m.Name(f => f.Name);
+            m.Title(f => f.Title);
+            m.Avatar(f => f.Avatar);
+            m.Expanded(f=>f.Expanded);
+        })
+    )
+)
+
+

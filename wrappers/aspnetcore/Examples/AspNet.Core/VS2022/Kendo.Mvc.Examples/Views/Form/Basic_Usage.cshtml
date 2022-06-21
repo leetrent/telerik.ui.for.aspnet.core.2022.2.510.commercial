@@ -1,0 +1,47 @@
+<div class="demo-section">
+    <div id="validation-success"></div>
+    @(Html.Kendo().Form<Kendo.Mvc.Examples.Models.Form.UserViewModel>()
+        .Name("formExample")
+        .HtmlAttributes(new { action = "Index", method = "POST" })
+        .Validatable(v =>
+        {
+            v.ValidateOnBlur(true);
+            v.ValidationSummary(vs => vs.Enable(false));
+        })
+                .Items(items =>
+                {
+                    items.AddGroup()
+                        .Label("Feedback Form")
+                        .Items(i =>
+                        {
+                            i.Add()
+                                .Field(f => f.Email)
+                                .Label(l => l.Text("Email:").Optional(true));
+                            i.Add()
+                               .Field(f => f.Feedback)
+                               .Label(l => l.Text("Feedback:"))
+                               .Editor(e => e.TextArea().Rows(5));
+                        });
+                })
+        .Events(ev => ev.ValidateField("onFormValidateField").Submit("onFormSubmit").Clear("onFormClear"))
+    )
+</div>
+
+@section scripts {
+<script>
+
+    function onFormValidateField(e) {
+        $("#validation-success").html("");
+    }
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        $("#validation-success").html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+    }
+
+    function onFormClear(e) {
+        $("#validation-success").html("");
+    }
+</script>
+}
+

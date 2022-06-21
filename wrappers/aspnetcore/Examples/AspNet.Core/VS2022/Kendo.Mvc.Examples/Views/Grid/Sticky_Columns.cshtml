@@ -1,0 +1,34 @@
+@{ var browser = Context.Request.Headers["User-Agent"].ToString(); }
+
+@*Check if browser is not Internet Explorer*@
+@if (!browser.Contains("Trident"))
+{@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.Order>()
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.OrderID).Stickable(true).Width(150);
+        columns.Bound(o => o.CustomerID).Stickable(true).Width(250);
+        columns.Bound(o => o.ShipName).Stickable(true).Width(350);
+        columns.Bound(o => o.ShipCountry).Stickable(true).Width(300);
+        columns.Bound(o => o.ShipAddress).Sticky(true).Width(300);
+        columns.Bound(o => o.ShipCity).Stickable(true).Width(300);
+        columns.Bound(o => o.Freight).Stickable(true).Width(300);
+        columns.Bound(o => o.OrderID).Stickable(true).Width(300);
+        columns.Bound(o => o.OrderDate).ClientTemplate("#= kendo.toString(OrderDate, 'dd/MM/yyyy') #").Stickable(true).Width(250);
+    })
+    .Scrollable(scrollable => scrollable.Height(540))
+    .Reorderable(reorderable => reorderable.Columns(true))
+    .Resizable(resizable => resizable.Columns(true))
+    .Pageable()
+    .Filterable()
+    .Sortable()
+    .Groupable()
+    .ColumnMenu()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(30)
+        .Read(read => read.Action("StickyColumns_Read", "Grid"))
+     )
+)} @*Do not render in Internet Explorer*@
+@if (browser.Contains("Trident"))
+{<p>Sticky columns are not supported in IE!</p>}

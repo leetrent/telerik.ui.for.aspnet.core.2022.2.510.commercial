@@ -1,0 +1,63 @@
+@addTagHelper *, Kendo.Mvc
+<div class="k-d-flex-col k-flex-wrap k-align-items-center k-justify-content-center">
+    <div class="example-config">
+        Try to apply different colors to the text on right side. Notice how the
+        text becomes gradually harder for reading when the contrast ratio
+        becomes smaller.
+    </div>
+    <div class="k-d-flex k-align-items-center k-justify-content-around">
+        <div class="column">
+            <kendo-colorgradient name="colorgradient" on-change="onChange"
+                opacity="true"
+                value="#d13838ff">
+                <contrast-tool enabled="true" background-color="#ffffff"/>
+            </kendo-colorgradient>
+        </div>
+        <div class="column">
+            <p class="text-wrapper">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy text
+                ever since the 1500s, when an unknown printer took a galley of type
+                and scrambled it to make a type specimen book. It has survived not
+                only five centuries, but also the leap into electronic typesetting,
+                remaining essentially unchanged. It was popularised in the 1960s
+                with the release of Letraset sheets containing Lorem Ipsum passages,
+                and more recently with desktop publishing software like Aldus
+                PageMaker including versions of Lorem Ipsum.
+            </p>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script type="text/javascript">
+    function onChange(e) {
+        $(".text-wrapper").css("color", e.value);
+    }
+</script>
+}
+
+<style>
+    .example-config {
+        margin: 0 0 20px;
+        padding: 20px;
+        background-color: rgba(0,0,0,.03);
+        border: 1px solid rgba(0,0,0,.08);
+    }
+
+    .column {
+        padding-right: 20px;
+        padding-bottom: 20px;
+    }
+
+    .k-colorpicker {
+        vertical-align: top;
+        margin: 20px 0;
+    }
+
+    .text-wrapper {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 10px;
+        font-size: 16px;
+    }
+</style>

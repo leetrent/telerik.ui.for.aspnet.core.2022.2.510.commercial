@@ -1,0 +1,11 @@
+<div class="demo-section">
+    @(Html.Kendo().TreeView()
+        .Name("treeview")
+        .DataTextField("Name")
+        .DataSource(dataSource => dataSource
+            .Read(read => read
+                .Action("Employees", "treeview")
+            )
+        )
+    )
+</div>

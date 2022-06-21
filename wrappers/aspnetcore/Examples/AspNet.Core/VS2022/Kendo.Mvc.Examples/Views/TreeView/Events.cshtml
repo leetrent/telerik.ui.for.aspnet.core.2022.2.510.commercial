@@ -1,0 +1,80 @@
+<div class="demo-section">
+    @(Html.Kendo().TreeView()
+            .Name("treeview")
+            .Checkboxes(true)
+            .DragAndDrop(true)
+            .LoadOnDemand(false)
+            .Events(events => events
+                .Change("onChange")
+                .Select("onSelect")
+                .Check("onCheck")
+                .Collapse("onCollapse")
+                .Expand("onExpand")
+                .DragStart("onDragStart")
+                .Drag("onDrag")
+                .Drop("onDrop")
+                .DragEnd("onDragEnd")
+                .Navigate("onNavigate")
+                .LoadCompleted("onLoadCompleted")
+            )
+            .DataTextField("Name")
+            .DataSource(dataSource => dataSource
+                .Read(read => read
+                    .Action("Employees", "treeview")
+                )
+            )
+        )
+</div>
+
+@section scripts {
+<script>
+    function onSelect(e) {
+        kendoConsole.log("Selecting: " + this.text(e.node));
+    }
+
+    function onCheck(e) {
+        kendoConsole.log("Checkbox changed :: " + this.text(e.node));
+    }
+
+    function onChange(e) {
+        kendoConsole.log("Selection changed");
+    }
+
+    function onCollapse(e) {
+        kendoConsole.log("Collapsing " + e.sender.text(e.node));
+    }
+
+    function onExpand(e) {
+        kendoConsole.log("Expanding " + e.sender.text(e.node));
+    }
+
+    function onDragStart(e) {
+        kendoConsole.log("Started dragging " + e.sender.text(e.sourceNode));
+    }
+
+    function onDrag(e) {
+        kendoConsole.log("Dragging " + this.text(e.sourceNode));
+    }
+
+    function onDrop(e) {
+        kendoConsole.log(
+        "Dropped " + e.sender.text(e.sourceNode) +
+        " (" + (e.valid ? "valid" : "invalid") + ")"
+        );
+    }
+
+    function onDragEnd(e) {
+        kendoConsole.log("Finished dragging " + e.sender.text(e.sourceNode));
+    }
+
+    function onLoadCompleted(e) {
+        kendoConsole.log("Load Completed: " + Array.prototype.map.call(e.nodes, function (item) { return item.Name; }).join(", "));
+    }
+
+    function onNavigate(e) {
+        if (e.node) {
+            kendoConsole.log("Navigate " + this.text(e.node));
+        }
+    }
+</script>
+}

@@ -1,0 +1,27 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Stepper Tag Helper</h4>
+
+    <kendo-stepper name="stepper" linear="false" orientation="@StepperOrientationType.Vertical" on-select="onSelect" on-activate="onActivate">
+        <steps>
+            <step label="First" error="true"></step>
+            <step label="Second" icon="cancel"></step>
+            <step label="Third" selected="true"></step>
+            <step label="Fourth" enabled="true"></step>
+            <step label="Fifth"></step>
+        </steps>
+    </kendo-stepper>
+</div>
+
+@section scripts {
+<script>
+    function onActivate(e) {
+        kendoConsole.log("Activated: " + e.step.options.label);
+    }
+
+    function onSelect(e) {
+        kendoConsole.log("Selected: " + e.step.options.label);
+    }
+</script>
+}

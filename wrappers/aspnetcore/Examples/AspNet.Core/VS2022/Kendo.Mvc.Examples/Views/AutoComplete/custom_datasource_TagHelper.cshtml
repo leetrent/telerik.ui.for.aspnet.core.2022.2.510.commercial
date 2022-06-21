@@ -1,0 +1,20 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Products</h4>
+    <kendo-autocomplete name="products" style="width:100%"
+            dataTextField="ProductName"
+            filter="FilterType.Contains"
+            min-length="3">
+            <datasource type="DataSourceTagHelperType.Custom" custom-type="odata" page-size="20" server-filtering="true" server-paging="true">
+                <schema>
+                    <model id="ProductID"></model>
+                </schema>
+                <transport>
+                    <read url="https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"/>
+                </transport>
+            </datasource>
+    </kendo-autocomplete>
+
+    <div class="demo-hint">Hint: type "che"</div>
+</div>

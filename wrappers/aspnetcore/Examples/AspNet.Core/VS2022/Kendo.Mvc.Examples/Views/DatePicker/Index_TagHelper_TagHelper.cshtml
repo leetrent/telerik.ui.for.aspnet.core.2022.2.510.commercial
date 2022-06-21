@@ -1,0 +1,10 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <h4>Show e-mails from:</h4>
+    <kendo-datepicker name="datepicker" value="DateTime.Today" style="width: 100%" title="datepicker">
+    </kendo-datepicker>
+
+    <h4 style="margin-top: 2em;">Add to archive mail from:</h4>
+    <kendo-datepicker name="monthpicker" date-input="true" format="MMMM yyyy" value="DateTime.Now" start="CalendarView.Year" depth="CalendarView.Year" name="monthpicker" style="width: 100%" title="monthpicker">
+    </kendo-datepicker>
+</div>

@@ -1,0 +1,166 @@
+<div class="configurator">
+    <div class="header">Configuration</div>
+    <div class="box-col">
+        <h4>Selection</h4>
+        <ul class="options">
+            <li>
+                <input type="text" value="0" id="selectRow"  />
+                <button class="selectRow">Select row</button>
+            </li>
+            <li>
+                <button class="clearSelection">Clear selected rows</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Expand / Collapse</h4>
+        <ul class="options">
+            <li>
+                <input type="text" value="0" id="groupRow"  />
+                <button class="toggleGroup">Collapse/Expand group</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Resize Column</h4>
+        <ul class="options">
+            <li>
+                <input type="text" placeholder="Column Index" id="colIndex"  />
+                <input type="text" placeholder="Width value" id="colWidth"  />
+            </li>
+            <li>
+                <button class="changeColWidth">Resize</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.ProductName).Title("Product Name");
+                columns.Bound(p => p.UnitPrice).Title("Unit Price");
+                columns.Bound(p => p.UnitsInStock).Title("Units In Stock");
+            })
+            .Pageable()
+            .Groupable()
+            .Sortable()
+            .Events(events => events.ExcelExport("excelExport"))
+            .Selectable(selectable => selectable
+                .Mode(GridSelectionMode.Multiple)
+                .Type(GridSelectionType.Row))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(5)
+                .Group(group => group.Add(p => p.UnitsInStock))
+                .Read(read => read.Action("Api_Products_Read", "Grid"))
+             )
+)
+
+@section scripts{
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jszip.min.js"></script>
+    <script type="text/javascript">
+        function excelExport(e) {
+            e.workbook.fileName = $("#fileName").val();
+        }
+
+        var toggleGroup = function (e) {
+            if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                var grid = $("#grid").data("kendoGrid"),
+                    rowIndex = $("#groupRow").val(),
+                    row = grid.tbody.find(">tr.k-grouping-row").eq(rowIndex);
+
+                if (row.has(".k-i-collapse").length) {
+                    grid.collapseGroup(row);
+                } else {
+                    grid.expandGroup(row);
+                }
+            }
+        },
+            selectRow = function (e) {
+            if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                var grid = $("#grid").data("kendoGrid"),
+                    rowIndex = $("#selectRow").val(),
+                    row = grid.tbody.find(">tr:not(.k-grouping-row)").eq(rowIndex);
+
+                grid.select(row);
+            }
+        },
+            clearSelection = function () {
+                $("#grid").data("kendoGrid").clearSelection();
+            },
+
+            changeColWidth = function (e) {
+                if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                    var grid = $("#grid").data("kendoGrid"),
+                        colIndex = $("#colIndex").val(),
+                        width = $("#colWidth").val(),
+                        column = grid.columns[colIndex];
+                    if (parseInt(colIndex) >= 0 && parseInt(width) >= 0) {
+                        grid.resizeColumn(column, width);
+                    }
+                }
+            },
+            exportFile = function (e) {
+                if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                    var grid = $("#grid").data("kendoGrid");
+                    grid.saveAsExcel();
+                }
+            },
+            checkBoxChange = function (e) {
+                var grid = $("#grid").data("kendoGrid");
+                var columnIndex = parseInt(this.id);
+
+                if (this.checked) {
+                    grid.showColumn(columnIndex);
+                } else {
+                    grid.hideColumn(columnIndex);
+                }
+            };
+
+
+        $(document).on("kendoReady", function () {
+            $(".selectRow").click(selectRow);
+            $("#selectRow").keypress(selectRow);
+
+            $(".clearSelection").click(clearSelection);
+
+            $(".toggleGroup").click(toggleGroup);
+            $("#groupRow").keypress(toggleGroup);
+
+            $(".changeColWidth").click(changeColWidth);
+            $("#colWidth").keypress(changeColWidth);
+            $("#colIndex").keypress(changeColWidth);
+
+            $(".exportBtn").click(exportFile);
+            $("#fileName").keypress(exportFile);
+
+            $(".k-checkbox").click(checkBoxChange);
+        });
+
+    </script>
+}
+    <style>
+
+        .configuration .k-textbox {
+            width: 23px;
+        }
+
+        #selectRow {
+            width: 75px;
+        }
+
+        #groupRow {
+            width: 145px;
+        }
+
+        #colIndex,
+        #colWidth {
+            width: 110px;
+        }
+
+        #fileName {
+            width: 160px;
+        }
+    </style>

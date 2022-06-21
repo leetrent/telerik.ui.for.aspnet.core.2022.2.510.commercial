@@ -1,0 +1,78 @@
+<div class="demo-section hidden-on-narrow wide">
+    <div class="column">
+        <h3 class="title"><label for="picker">Foreground Color</label></h3>
+        @(Html.Kendo().ColorPicker()
+            .Name("foreground-picker")
+            .Value("#d13838ff")
+            .ContrastTool(tool=>tool
+                .BackgroundColor("#ffffff")
+            )
+            .Events(ev=>ev.Select("foregroundPickerSelect"))
+        )
+    </div>
+    <div class="column">
+        <div id="background">Text for Contrast Tool Demo</div>
+    </div>
+    <div class="column">
+        <h3 class="title"><label for="picker">Background Color</label></h3>
+        @(Html.Kendo().ColorPicker()
+            .Name("background-picker")
+            .Opacity(true)
+            .Input(false)
+            .Views(new string[] { "gradient"})
+            .Value("#ffffff")
+            .Events(ev=>ev.Select("backgroundPickerSelect").Change("backgroundPickerChange"))
+        )
+    </div>
+</div>
+@section scripts {
+    <script>
+        function foregroundPickerSelect(e) {
+            $("#background").css("color", e.value);
+        }
+
+        function backgroundPickerSelect(e) {
+            $("#background").css("background-color", e.value);
+        }
+
+        function backgroundPickerChange(e) {
+            var foregroundPicker = $("#foreground-picker").data("kendoColorPicker")
+            foregroundPicker.setBackgroundColor(e.value)
+        }
+    </script>
+}
+    <style>
+        #background {
+            border-radius: 20px;
+            width: 300px;
+            height: 300px;
+            border: 1px solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .demo-section {
+            display: inline-flex;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .column {
+            margin: auto;
+            text-align: center;
+        }
+
+            .column .title {
+                color: #a3a3a3;
+                text-transform: uppercase;
+                font-size: 11px;
+                font-weight: normal;
+                padding: 41px 0 20px;
+            }
+
+        .k-colorpicker {
+            vertical-align: top;
+            margin: 20px 0;
+        }
+    </style>

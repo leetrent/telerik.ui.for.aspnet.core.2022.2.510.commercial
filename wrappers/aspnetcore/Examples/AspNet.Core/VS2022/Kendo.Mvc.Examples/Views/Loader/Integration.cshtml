@@ -1,0 +1,29 @@
+<div class="demo-section k-text-center">
+    @(Html.Kendo().Button()
+        .Name("toggle")
+        .Content(@<text>
+                    @(Html.Kendo().Loader()
+                           .Name("loader")
+                           .Visible(false)
+                    )
+                    Show Loader
+        </text>)
+    )
+</div>
+
+<script>
+    var loader = $("#loader").data("kendoLoader");
+
+    $("#toggle").click(function () {        
+        loader.show();
+        setTimeout(function () {
+            loader.hide();
+        }, 3000)
+    })
+</script>
+
+<style>
+    .k-button > .k-loader {
+        margin-right: 8px;
+    }
+</style>

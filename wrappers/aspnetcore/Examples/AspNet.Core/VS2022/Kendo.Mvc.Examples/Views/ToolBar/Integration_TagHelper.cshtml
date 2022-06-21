@@ -1,0 +1,139 @@
+@addTagHelper *, Kendo.Mvc
+<h4>Customize the element</h4>
+<kendo-toolbar resizable="false" name="ToolBar" on-toggle="onToggle">
+    <toolbar-items>
+        <item template="<label>SHAPE:</label><input id='shape' />">
+        </item>
+        <item type="CommandType.Separator">
+        </item>
+        <item template="<label>H:</label><input id='height' style='width: 70px;' type='text' />">
+        </item>
+        <item template="<label>W:</label><input id='width' style='width: 70px;' type='text' />">
+        </item>
+        <item type="CommandType.Separator">
+        </item>
+        <item template="<label>POSITION:</label>">
+        </item>
+        <item type="CommandType.ButtonGroup">
+            <buttons>
+                <toolbar-button group="position" togglable="true" text="Left">
+                </toolbar-button>
+                <toolbar-button group="position" selected="true" togglable="true" text="Center">
+                </toolbar-button>
+                <toolbar-button group="position" togglable="true" text="Right">
+                </toolbar-button>
+            </buttons>
+        </item>
+        <item type="CommandType.Separator">
+        </item>
+        <item template="<label>BACKGROUND:</label><div type='color' id='background-picker'></div>">
+        </item>
+        <item type="CommandType.Separator">
+        </item>
+        <item template="<label>BORDER:</label><div type='color' id='border-picker'></div>">
+        </item>
+        <item template="<input id='border-style' style='width: 100px;' />">
+        </item>
+    </toolbar-items>
+</kendo-toolbar>
+<div class="box">
+    <div id="target"></div>
+</div>
+
+<script>
+    var target;
+
+    function onToggle(e) {
+        var position = e.target.text().toLowerCase();
+
+        if (position == "center") {
+            position = "none";
+        }
+
+        target.css("float", position);
+    }
+
+    $(document).ready(function () {
+        target = $("#target");
+
+        $("#shape").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Rectangle", value: 0 },
+                { text: "Rounded rectangle", value: 30 },
+                { text: "Circle/Ellipse", value: 300 }
+            ],
+            change: function () {
+                target.css("border-radius", parseInt(this.value()));
+            }
+        });
+
+        $("#border-style").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Solid", value: "solid" },
+                { text: "Dashed", value: "dashed" },
+                { text: "Dotted", value: "dotted" }
+            ],
+            change: function () {
+                target.css("border-style", this.value());
+            }
+        });
+
+        $("#background-picker").kendoColorPicker({
+            value: "#ffffff",
+            buttons: false,
+            change: function () {
+                target.css("background-color", this.value());
+            }
+        });
+
+        $("#border-picker").kendoColorPicker({
+            value: "#333333",
+            buttons: false,
+            change: function () {
+                target.css("border-color", this.value());
+            }
+        });
+
+        $("#height, #width").kendoNumericTextBox({
+            value: 150,
+            decimals: 0,
+            format: "n0",
+            max: 300,
+            min: 50,
+            change: function () {
+                var dimension = this.element.attr("id");
+
+                target.css(dimension, this.value());
+            }
+        });
+    });
+</script>
+
+<style>
+    #toolbar {
+        margin: 1em 0;
+        padding: 0 .9em;
+    }
+
+        #toolbar label {
+            font-size: .85em;
+            font-weight: bold;
+        }
+
+        #toolbar .k-separator {
+            margin: 0 .9em;
+        }
+
+    #target {
+        border: 3px solid #333333;
+        border-radius: 0;
+        background-color: #ffffff;
+        height: 150px;
+        width: 150px;
+        margin: 0 auto;
+    }
+</style>

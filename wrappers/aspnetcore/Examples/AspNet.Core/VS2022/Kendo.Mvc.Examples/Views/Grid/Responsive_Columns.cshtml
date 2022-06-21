@@ -1,0 +1,54 @@
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.Customer>()
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.ContactName).Media("(min-width: 450px)");
+            columns.Bound(c => c.ContactTitle).Width(250).Media("(min-width: 850px)");
+            columns.Bound(c => c.CompanyName).Width(250).Media("(min-width: 850px)");
+            columns.Bound(c => c.Country).Media("(min-width: 450px)");
+            columns.Template("#=resColTemplate(data)#").Title("Items").Media("(max-width: 450px)");
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Scrollable()
+        .Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Responsive_Columns_Customers_Read", "Grid"))
+            .PageSize(20)
+        )
+)
+
+<script id="responsive-column-template" type="text/x-kendo-template">
+    <strong>Contact Name</strong>
+    <p class="col-template-val">#=data.ContactName#</p>
+
+    <strong>Contact Title</strong>
+    <p class="col-template-val">#=data.ContactTitle#</p>
+
+    <strong>Company Name</strong>
+    <p class="col-template-val">#=data.CompanyName#</p>
+
+    <strong>Country</strong>
+    <p class="col-template-val">#=data.Country#</p>
+</script>
+
+@section scripts {
+<script>
+    var resColTemplate;
+
+    $(document).on("kendoReady", function () {
+        resColTemplate = kendo.template($("#responsive-column-template").html());
+    });
+</script>
+}
+
+<style>
+    .col-template-val {
+        margin: 0 0 1em .5em;
+    }
+</style>

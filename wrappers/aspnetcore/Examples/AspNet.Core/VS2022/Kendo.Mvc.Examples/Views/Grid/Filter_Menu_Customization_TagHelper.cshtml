@@ -1,0 +1,49 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+
+<kendo-grid name="Grid">
+    <datasource type="DataSourceTagHelperType.Ajax">
+        <transport>
+            <read url="/grid/filtermenucustomization_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column template="#=FirstName# #=LastName#" title="Name"/>
+        <column field="City" width="200">
+            <filterable enabled="true" filter-ui-handler="cityFilter"/>
+        </column>
+        <column field="Title" width="350">
+            <filterable enabled="true" filter-ui-handler="titleFilter"/>
+        </column>
+    </columns>
+    <filterable enabled="true" extra="false">
+        <operators>
+            <string startswith="Starts with" eq="Is equal to" neq="Is not equal to"/>
+        </operators>
+    </filterable>
+</kendo-grid>
+
+@section scripts {
+    <script type="text/javascript">
+        function cityFilter(element) {
+            element.kendoDropDownList({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("FilterMenuCustomization_Cities")"
+                    }
+                },
+                optionLabel: "--Select Value--"
+            });
+        }
+
+        function titleFilter(element) {
+            element.kendoAutoComplete({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("FilterMenuCustomization_Titles")"
+                    }
+                }
+            });
+        }
+    </script>
+}

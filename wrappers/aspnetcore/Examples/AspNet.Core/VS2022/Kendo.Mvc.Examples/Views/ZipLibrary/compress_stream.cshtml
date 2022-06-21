@@ -1,0 +1,130 @@
+<div class="demo-section">
+    @using (Html.BeginForm("Process_Document", "ZipLibrary", FormMethod.Post, new { id = "compression-form" }))
+    {
+        <h4>Select compression method</h4>
+
+        <div class="options-wrapper">
+            @(Html.Kendo().DropDownList()
+                .Name("compression")
+                .SelectedIndex(0)
+                .Items(items =>
+                    {
+                        items.Add().Text("Deflate").Value("deflate");
+                        items.Add().Text("Lzma").Value("lzma");
+                        items.Add().Text("Stored").Value("stored");
+                    }
+                )
+            )
+        </div>
+
+        <div class="content-wrapper">
+            <div class="uncompressed-stream">
+                @Html.TextArea("content", (string)ViewBag.document, new { autocomplete = "off" })
+
+                @(Html.Label("editor", "Uncompressed size: ", new { id = "uncompressed-size-label", @class = "float-right" }))
+            </div>
+
+            <div class="compress-btn-wrapper">
+                @(Html.Kendo().Button()
+                    .Name("compress")
+                    .Content("Compress")
+                    .ThemeColor(ThemeColor.Primary)
+                    .HtmlAttributes(new {type="submit"})
+                )
+            </div>
+
+            <div class="compressed-stream">
+                @Html.TextArea("content-compressed", null)
+                @(Html.Label("editor", "Compressed size: 0", new { id = "compressed-size-label", @class = "float-right" }))
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function setUncompressedSizeLabel() {
+            var uncompressedSizeLabel = $("#uncompressed-size-label"),
+                uncompressedContent = $("#content"),
+                uncompressedContentLenght = uncompressedContent.val().length;
+
+            uncompressedSizeLabel.text("Uncompressed size: " + uncompressedContentLenght);
+        }
+
+        $(document).on("kendoReady", function () {
+            setTimeout(function () {
+                setUncompressedSizeLabel();
+            }, 0);
+
+            $('#content').on('change keydown paste input', function () {
+                // Limited for the demo purpose only
+                var maxLength = 32000;
+
+                if (this.value.length > maxLength) {
+                    this.value = this.value.substring(0, maxLength);
+                    alert("Max characters allowed: 32 000");
+                } else {
+                    setUncompressedSizeLabel();
+                }
+            });
+
+
+            $('#compression-form').submit(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("Process_Document", "ZipLibrary")',
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        content: encodeURIComponent($('#content').val()),
+                        compression: $('#compression').data("kendoDropDownList").value()
+                    },
+                    error: function (msg) {
+                        alert("An error occured while compressing your input");
+                    },
+                    success: function (data) {
+                        var compressedSizeLabel = $("#compressed-size-label"),
+                            compressedContentPlaceholder = $("#content-compressed"),
+                            compressedSize = data.label,
+                            compressedContent = data.content;
+
+                        compressedSizeLabel.text("Compressed size: " + compressedSize);
+                        compressedContentPlaceholder.val(compressedContent);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<style>
+    .options-wrapper {
+        margin-bottom: 15px;
+    }
+
+    .content-wrapper .k-textbox {
+        resize: none;
+        width: 100%;
+        height: 185px;
+    }
+
+    .content-wrapper .float-right {
+        float: right;
+    }
+
+    .content-wrapper label {
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .content-wrapper .compress-btn-wrapper {
+        width: 100%;
+        display: inline-block;
+        margin: 20px 0;
+    }
+
+    .content-wrapper #compress {
+        width: 174px;
+    }
+</style>

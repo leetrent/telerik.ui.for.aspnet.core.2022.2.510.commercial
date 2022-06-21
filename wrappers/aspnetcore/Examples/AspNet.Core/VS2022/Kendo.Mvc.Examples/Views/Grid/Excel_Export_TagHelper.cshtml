@@ -1,0 +1,56 @@
+@addTagHelper *, Kendo.Mvc
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
+
+<kendo-grid name="grid" resizable="true">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="10">
+        <schema>
+            <model id="ProductID">
+                <fields>
+                    <field name="ProductID" type="number" editable="false"></field>
+                    <field name="ProductName" type="string"></field>
+                    <field name="UnitPrice" type="number"></field>
+                    <field name="UnitsOnOrder" type="number"></field>
+                    <field name="UnitsInStock" type="number"></field>
+                </fields>
+            </model>
+        </schema>
+        <groups>
+            <group field="UnitsInStock">
+                <aggregates>
+                    <aggregate field="UnitsInStock" aggregate="count" />
+                    <aggregate field="UnitsOnOrder" aggregate="average" />
+                    <aggregate field="ProductName" aggregate="count" />
+                </aggregates>
+            </group>
+        </groups>
+        <aggregates>
+            <aggregate field="UnitsInStock" aggregate="min" />
+            <aggregate field="UnitsInStock" aggregate="max" />
+            <aggregate field="UnitsInStock" aggregate="count" />
+            <aggregate field="UnitsOnOrder" aggregate="average" />
+            <aggregate field="ProductName" aggregate="count" />
+            <aggregate field="UnitPrice" aggregate="sum" />
+        </aggregates>
+        <transport>
+	        <read url="/grid/excel_export_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="ProductName" width="300" footer-template="Total Count: #=count#" group-footer-template="Count: #=count#"/>
+        <column field="UnitPrice" width="300"/>
+        <column field="UnitsOnOrder" width="300" footer-template="Average: #=average#" group-footer-template="Average: #=average#">
+            <exportable enabled="false"/>
+        </column>
+        <column field="UnitsInStock" width="300" footer-template="Min: #=min# Max: #=max#" group-header-template="Units In Stock: #=value# (Count: #=count#)"/>
+    </columns>
+    <toolbar>
+        <toolbar-button name="excel"></toolbar-button> 
+    </toolbar>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <scrollable enabled="true"/>
+    <groupable enabled="true"/>
+    <excel proxy-url="/Grid/Excel_Export_Save" filterable="true" file-name="Kendo UI Grid Export.xlsx"/>
+    <reorderable enabled="true"/>
+    <column-menu enabled="true"> </column-menu>
+</kendo-grid>

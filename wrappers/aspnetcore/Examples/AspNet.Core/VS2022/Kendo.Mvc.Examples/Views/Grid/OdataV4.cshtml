@@ -1,0 +1,71 @@
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewODataModel>()
+    .Name("Grid")
+     .Columns(columns =>
+     {
+         columns.Bound(p => p.ProductName);
+         columns.Bound(p => p.UnitPrice).Width(140);
+         columns.Bound(p => p.UnitsInStock).Width(140);
+         columns.Bound(p => p.Discontinued).Width(100);
+         columns.Command(command => command.Destroy()).Width(150);
+     })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Create();
+        toolbar.Save();
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Navigatable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Custom()
+        .Batch(true)
+        .Type("odata-v4")
+        .Schema(schema => schema
+            .Model(m =>
+            {
+                m.Id(t => t.ProductID);
+                m.Field(t => t.ProductID).Editable(false);
+                m.Field(t => t.ProductName);
+                m.Field(t => t.QuantityPerUnit);
+                m.Field(t => t.UnitPrice);
+                m.Field(t => t.UnitsInStock);
+                m.Field(t => t.UnitsOnOrder);
+                m.Field(t => t.Discontinued);
+            }))
+        .Transport(t =>
+        {
+            t.Read(new { url = new Kendo.Mvc.ClientHandlerDescriptor() { HandlerName = "read" } });
+            t.Update(new { url = new Kendo.Mvc.ClientHandlerDescriptor() { HandlerName = "update" } });
+            t.Create(new { url = new Kendo.Mvc.ClientHandlerDescriptor() { HandlerName = "create" } });
+            t.Destroy(new { url = new Kendo.Mvc.ClientHandlerDescriptor() { HandlerName = "destroy" } });
+            t.Batch(new { url = new Kendo.Mvc.ClientHandlerDescriptor() { HandlerName = "batch" } });
+        })
+        .PageSize(20)
+        .ServerPaging(true)
+    )
+)
+@section scripts {
+<script>
+    function batch() {
+        return "https://demos.telerik.com/kendo-ui/service-v4/odata/$batch";
+    }
+
+    function read() {
+        return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products";
+    }
+
+    function update(dataItem) {
+        return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products(" + dataItem.ProductID + ")";
+    }
+
+    function create(dataItem) {
+        delete dataItem.ProductID;
+        return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products";
+    }
+
+    function destroy(dataItem) {
+        return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products(" + dataItem.ProductID + ")";
+    }
+</script>
+}

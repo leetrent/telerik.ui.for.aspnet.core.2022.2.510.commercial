@@ -1,0 +1,46 @@
+<div class="demo-section">
+    <h4>Search for shipping names</h4>
+    @(Html.Kendo().MultiSelect()
+          .Name("orders")
+          .DataTextField("ShipName")
+          .DataValueField("OrderID")
+          .Placeholder("Select addresses...")
+          .ItemTemplate("<span class=\"order-id\">#= OrderID #</span> #= ShipName #, #= ShipCountry #")
+          .Height(450)
+          .Filter("contains")
+          .DataSource(source =>
+          {
+              source
+                  .Ajax()
+                  .PageSize(80)
+                  .Read("Virtualization_Read", "MultiSelect");
+          })
+          .Virtual(v => v.ItemHeight(26).ValueMapper("valueMapper"))
+          .Value(new int[] { 10265, 10289 })
+    )
+</div>
+@section scripts {
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("Orders_ValueMapper", "MultiSelect")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+
+        return data;
+    }
+</script>
+}

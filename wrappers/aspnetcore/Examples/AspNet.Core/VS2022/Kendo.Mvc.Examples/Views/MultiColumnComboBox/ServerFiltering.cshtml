@@ -1,0 +1,27 @@
+<div class="demo-section">
+    <h4>Find a product</h4>
+    @(Html.Kendo().MultiColumnComboBox()
+          .Name("products")
+          .Placeholder("Select product")
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .Columns(columns =>
+          {
+              columns.Add().Field("ProductName").Title("Name");
+              columns.Add().Field("ProductID").Title("ID");
+          })
+          .HtmlAttributes(new { style = "width:100%;" })
+          .Filter(FilterType.Contains)
+          .AutoBind(false)
+          .MinLength(3)
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("ServerFiltering_GetProducts", "MultiColumnComboBox");
+              })
+              .ServerFiltering(true);
+          })
+    )
+    <div class="demo-hint">Hint: type at least three characters. For example "che".</div>
+</div>

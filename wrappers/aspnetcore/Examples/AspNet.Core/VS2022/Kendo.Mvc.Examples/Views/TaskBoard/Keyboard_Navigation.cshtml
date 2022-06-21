@@ -1,0 +1,45 @@
+<div class="demo-section wide">
+    @(Html.Kendo().TaskBoard()
+        .Name("taskBoard")
+        .Columns(c =>
+        {
+            c.Add().Text("To-do").Status("todo");
+            c.Add().Text("In Progress").Status("inProgress");
+            c.Add().Text("Done").Status("done");
+        })
+        .DataCategoryField("Color")
+        .DataDescriptionField("Description")
+        .DataStatusField("Status")
+        .DataTitleField("Title")
+        .DataOrderField("Order")
+        .BindTo((IEnumerable<Kendo.Mvc.Examples.Models.TaskBoard.CardViewModel>)ViewBag.Cards)
+        .Height("980")
+    )
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).on("kendoReady", function () {
+            var taskBoard = $("#taskBoard").data("kendoTaskBoard");
+
+            taskBoard.registerShortcut("*", {
+                keyCode: "q",
+                ctrlKey: true
+            }, {
+                handler: function () {
+                    taskBoard.items().last().focus();
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>

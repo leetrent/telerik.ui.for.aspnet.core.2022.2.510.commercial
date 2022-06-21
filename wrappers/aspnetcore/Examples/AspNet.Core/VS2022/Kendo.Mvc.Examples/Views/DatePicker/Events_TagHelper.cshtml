@@ -1,0 +1,21 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <h4>Select date</h4>
+    <kendo-datepicker name="datepicker" on-change="change" on-open="open" on-close="close" style="width: 100%">
+    </kendo-datepicker>
+</div>
+
+
+<script>
+    function open() {
+        kendoConsole.log("Open");
+    }
+
+    function close() {
+        kendoConsole.log("Close");
+    }
+
+    function change() {
+        kendoConsole.log("Change :: " + kendo.toString(this.value(), 'd'));
+    }
+</script>

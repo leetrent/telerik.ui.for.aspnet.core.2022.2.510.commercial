@@ -1,0 +1,22 @@
+@(Html.Kendo().Grid<dynamic>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        for (int i = 1; i <= 500; i++)
+        {
+            columns.Bound("Field"+i.ToString()).Width(200);
+        }
+    })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .Navigatable()
+    .ColumnMenu()
+    .Scrollable(s=>s.Virtual(GridVirtualizationMode.Columns).Height("auto"))
+    .HtmlAttributes(new { style = "width:1000px" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Read(read => read.Action("Column_Read", "Grid"))
+     )
+)

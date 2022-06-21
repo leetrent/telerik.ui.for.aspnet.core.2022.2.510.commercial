@@ -1,0 +1,37 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <ul class="k-listgroup">
+        <li class="k-listgroup-item">
+            <a href="#" class="k-link">
+                Inbox
+                <kendo-badge name="badge-inbox" text="100" max="99" theme-color="@BadgeColor.Info">
+                </kendo-badge>
+            </a>
+        </li>
+        <li class="k-listgroup-item">
+            <a href="#" class="k-link">
+                Sent Items
+                <kendo-badge name="badge-sent" text="15" theme-color="@BadgeColor.Success">
+                </kendo-badge>
+            </a>
+        </li>
+        <li class="k-listgroup-item">
+            <a href="#" class="k-link">
+                Missed conversations
+                <kendo-badge name="badge-missed" text="120" theme-color="@BadgeColor.Warning">
+                </kendo-badge>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<style>
+    #example .k-listgroup .k-link {
+        justify-content: space-between;
+    }
+    #example .k-listgroup .k-link:hover {
+        background-color: #555;
+        color: white;
+    }
+</style>

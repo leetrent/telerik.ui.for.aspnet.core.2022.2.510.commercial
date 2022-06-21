@@ -1,0 +1,27 @@
+@model IEnumerable<Kendo.Mvc.Examples.Models.GrandSlam>
+
+<div class="demo-section wide">
+    @(Html.Kendo().Chart(Model)
+        .Name("chart")
+        .Title("Roger Federer Grand Slam tournament performance")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Bottom)
+        )
+        .Series(series =>
+        {
+            series.Line(model => model.Win, categoryExpression: model => model.Year)
+                .NoteTextField("Extremum")
+                .Notes(notes => notes.Label(label => label.Position(ChartNoteLabelPosition.Outside)).Position(ChartNotePosition.Bottom))
+                .Name("Wins");
+            series.Line(model => model.Loss, categoryExpression: model => model.Year)
+                .Name("Losses");
+        })
+        .CategoryAxis(axis => axis
+            .MajorGridLines(gridLines => gridLines.Visible(false))
+        )
+        .ValueAxis(axis => axis.Numeric()
+            .Line(line => line.Visible(false))
+        )
+        .Tooltip(tooltip => tooltip.Visible(true).Template("#= series.name #: #= value #"))
+    )
+</div>

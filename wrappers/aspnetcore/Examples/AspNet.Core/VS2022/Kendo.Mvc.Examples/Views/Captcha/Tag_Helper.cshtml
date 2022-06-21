@@ -1,0 +1,31 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="demo-section auto">
+    <form id="form">
+        <kendo-captcha name="captcha" captcha-image="@ViewData["Captcha"]" captcha-id="@ViewData["CaptchaID"]" datacaptchafield="Captcha" datacaptchaidfield="CaptchaID">
+            <handler url="@Url.Action("Reset_TagHelper", "Captcha")" />
+            <audio-handler function-handler="audioHandler"/>
+            <validation-handler url="@Url.Action("Validate_Api", "Captcha")" />
+
+        </kendo-captcha>
+    </form>
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            $("#form").kendoValidator();
+        });
+
+        function audioHandler(args) {
+            args.success("../shared/UserFiles/captcha/" + args.data.CaptchaID + ".wav");
+        }
+    </script>
+}
+
+<style>
+    #demo-runner {
+        text-align: center;
+    }
+</style>

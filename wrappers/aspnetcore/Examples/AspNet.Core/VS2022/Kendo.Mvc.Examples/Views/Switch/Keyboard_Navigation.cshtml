@@ -1,0 +1,25 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    @(Html.Kendo().Switch().Name("switch"))
+</div>
+
+
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        $(document.body).keydown(function (e) {
+            if (e.altKey && e.keyCode == 87) {
+                $("#switch").data("kendoSwitch").wrapper.focus();
+            }
+        });
+    });
+</script>
+}
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

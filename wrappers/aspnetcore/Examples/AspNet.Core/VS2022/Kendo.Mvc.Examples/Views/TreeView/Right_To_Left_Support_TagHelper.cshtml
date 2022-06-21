@@ -1,0 +1,71 @@
+@addTagHelper *, Kendo.Mvc
+<div class="k-rtl demo-section">
+	<kendo-treeview auto-bind="true" load-on-demand="true" name="treeview">
+		<items>
+			<treeview-item expanded="true" checked="false" text="My Web Site" selected="false" enabled="true" sprite-css-class="folder">
+				<items>
+					<treeview-item expanded="true" checked="false" text="images" selected="false" enabled="true" sprite-css-class="folder">
+						<items>
+							<treeview-item expanded="false" checked="false" text="logo.png" selected="false" enabled="true" sprite-css-class="image">
+							</treeview-item>
+							<treeview-item expanded="false" checked="false" text="body-back.png" selected="false" enabled="true" sprite-css-class="image">
+							</treeview-item>
+							<treeview-item expanded="false" checked="false" text="my-photo.jpg" selected="false" enabled="true" sprite-css-class="image">
+							</treeview-item>
+						</items>
+					</treeview-item>
+					<treeview-item expanded="true" checked="false" text="resources" selected="false" enabled="true" sprite-css-class="folder">
+						<items>
+							<treeview-item expanded="true" checked="false" text="pdf" selected="false" enabled="true" sprite-css-class="folder">
+								<items>
+									<treeview-item expanded="false" checked="false" text="brochure.pdf" selected="false" enabled="true" sprite-css-class="pdf">
+									</treeview-item>
+									<treeview-item expanded="false" checked="false" text="prices.pdf" selected="false" enabled="true" sprite-css-class="pdf">
+									</treeview-item>
+								</items>
+							</treeview-item>
+							<treeview-item expanded="false" checked="false" text="zip" selected="false" enabled="true" sprite-css-class="folder">
+							</treeview-item>
+							<treeview-item expanded="false" checked="false" text="about.html" selected="false" enabled="true" sprite-css-class="html">
+							</treeview-item>
+							<treeview-item expanded="false" checked="false" text="contacts.html" selected="false" enabled="true" sprite-css-class="html">
+							</treeview-item>
+							<treeview-item expanded="false" checked="false" text="index.html" selected="false" enabled="true" sprite-css-class="html">
+							</treeview-item>
+							<treeview-item expanded="false" checked="false" text="portfolio.html" selected="false" enabled="true" sprite-css-class="html">
+							</treeview-item>
+						</items>
+					</treeview-item>
+				</items>
+			</treeview-item>
+		</items>
+	</kendo-treeview>
+
+</div>
+
+<style>
+
+	#treeview .k-sprite {
+		background-image: url("@Url.Content("~/shared/web/treeview/coloricons-sprite.png")");
+	}
+
+	.rootfolder {
+		background-position: 0 0;
+	}
+
+	.folder {
+		background-position: 0 -16px;
+	}
+
+	.pdf {
+		background-position: 0 -32px;
+	}
+
+	.html {
+		background-position: 0 -48px;
+	}
+
+	.image {
+		background-position: 0 -64px;
+	}
+</style>

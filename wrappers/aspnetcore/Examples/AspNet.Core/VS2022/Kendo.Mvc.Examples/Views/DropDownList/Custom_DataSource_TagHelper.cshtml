@@ -1,0 +1,14 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h2>Products</h2>
+    <kendo-dropdownlist name="products" style="width:400px"
+        datatextfield="ProductName"
+        datavaluefield="ProductID">
+        <datasource type="DataSourceTagHelperType.Custom">
+            <transport>
+                <read url="https://demos.telerik.com/kendo-ui/service/Products" dataType="jsonp"/>
+            </transport>
+        </datasource>
+    </kendo-dropdownlist>
+</div>

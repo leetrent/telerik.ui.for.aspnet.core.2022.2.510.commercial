@@ -1,0 +1,73 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var continents = new List<SelectListItem> {
+        new SelectListItem() {
+            Text = "Africa", Value = "1"
+        },
+        new SelectListItem() {
+            Text = "Europe", Value = "2"
+        },
+        new SelectListItem() {
+            Text = "Asia", Value = "3"
+        },
+        new SelectListItem() {
+            Text = "North America", Value = "4"
+        },
+        new SelectListItem() {
+            Text = "South America", Value = "5"
+        },
+        new SelectListItem() {
+            Text = "Antarctica", Value = "6"
+        },
+        new SelectListItem() {
+            Text = "Australia", Value = "7"
+        }
+    };
+}
+
+<div class="demo-section">
+    <h4>Select Continents</h4>
+    <kendo-multiselect name="select"
+        datatextfield="Text"
+        datavaluefield="Value"
+        bind-to="continents"
+        on-change="onChange"
+        on-select="onSelect"
+        on-open="onOpen"
+        on-close="onClose"
+        on-data-bound="onDataBound"
+        on-filtering="onFiltering">
+    </kendo-multiselect>
+</div>
+
+@section scripts {
+<script>
+    function onOpen() {
+        kendoConsole.log("event: open");
+    }
+
+    function onClose() {
+        kendoConsole.log("event: close");
+    }
+
+    function onChange() {
+        kendoConsole.log("event: change");
+    }
+
+    function onDataBound() {
+        kendoConsole.log("event: dataBound");
+    }
+
+    function onFiltering() {
+        kendoConsole.log("event: filtering");
+    }
+
+    function onSelect(e) {
+        if ("kendoConsole" in window) {
+            var dataItem = this.dataSource.view()[e.item.index()];
+            kendoConsole.log("event :: select (" + dataItem.Text + " : " + dataItem.Value + ")");
+        }
+    }
+</script>
+}

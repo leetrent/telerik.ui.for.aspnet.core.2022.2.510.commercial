@@ -1,0 +1,133 @@
+<div id="example" role="application">
+    <div class="demo-section wide">
+	<img src=@Url.Content("~/shared/web/listbox/arrow-left2right.png") alt="left to right" class="arrow"/><br />
+        @(Html.Kendo().ListBox()
+            .Name("listbox1")
+            .DataValueField("ProductID")
+            .DataTextField("ProductName")
+            .Draggable(true)
+            .DropSources("listbox2")
+            .Events(ev=>ev
+                .Add("function(e){setDiscontinued(e, true)}")
+                .Remove("function(e){setDiscontinued(e, false)}"))
+            .ConnectWith("listbox2")
+            .BindTo(new List<string>())
+            .Selectable(ListBoxSelectable.Single)
+        )
+
+        @(Html.Kendo().ListBox()
+            .Name("listbox2")
+            .Draggable(true)
+            .DropSources("listbox1")
+            .DataValueField("ProductID")
+            .DataTextField("ProductName")
+            .ConnectWith("listbox1")
+            .BindTo(new List<string>())
+            .Selectable(ListBoxSelectable.Single)
+        )
+		<img src=@Url.Content("~/shared/web/listbox/arrow-right2left.png") alt="right to left" class="arrow" />
+        <button id="button" type="button">Save changes</button>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    var dataSource;
+
+    $(document).on("kendoReady", function () {
+        var crudServiceBaseUrl = "https://demos.telerik.com/kendo-ui/service";
+
+        $("#button").kendoButton({
+            click: function (e) {
+                dataSource.sync();
+            }
+        });
+
+        dataSource = new kendo.data.DataSource({
+            serverFiltering: false,
+            transport: {
+                read: {
+                    url: crudServiceBaseUrl + "/Products",
+                    dataType: "jsonp"
+                },
+                update: {
+                    url: crudServiceBaseUrl + "/Products/Update",
+                    dataType: "jsonp"
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            requestStart: function () {
+                kendo.ui.progress($(".demo-section"), true);
+            },
+            requestEnd: function () {
+                kendo.ui.progress($(".demo-section"), false);
+            },
+            batch: false,
+            schema: {
+                model: {
+                    id: "ProductID",
+                    fields: {
+                        ProductID: { editable: false, nullable: true },
+                        ProductName: { validation: { required: true } },
+                        UnitPrice: { type: "number", validation: { required: true, min: 1 } },
+                        Discontinued: { type: "boolean" },
+                        UnitsInStock: { type: "number", validation: { min: 0, required: true } }
+                    }
+                }
+            }
+        });
+
+        dataSource.fetch(function () {
+            var data = this.data();
+            var listbox1 = $("#listbox1").data("kendoListBox");
+            var listbox2 = $("#listbox2").data("kendoListBox");
+            for (var i = 0; i < data.length; i++) {
+                if (data[i]["Discontinued"]) {
+                    listbox1.add(data[i]);
+                }
+                else {
+                    listbox2.add(data[i]);
+                }
+            }
+        });
+    });
+
+    function setDiscontinued(ev, flag) {
+        var removedItems = ev.dataItems;
+        for (var i = 0; i < removedItems.length; i++) {
+            var item = dataSource.getByUid(removedItems[i].uid);
+            item["Discontinued"] = flag;
+            item.dirty = !item.dirty;
+        }
+    }
+</script>
+}
+
+<style>
+    #example .k-listbox .k-item{
+        cursor: move;
+    }
+
+    #example .arrow {
+        padding: 8px 0 5px 238px;
+    }
+
+    #button {
+        float: right;
+        margin-top: 20px;
+    }
+
+    #example .demo-section {
+        max-width: none;
+        width: 645px;
+    }
+
+    #example .k-listbox {
+        width: 275px;
+        height: 350px;
+    }
+</style>

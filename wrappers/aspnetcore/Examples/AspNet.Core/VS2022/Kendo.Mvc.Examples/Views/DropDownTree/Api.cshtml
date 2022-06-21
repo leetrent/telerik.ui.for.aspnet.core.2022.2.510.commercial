@@ -1,0 +1,130 @@
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Open/Close</h4>
+            <ul class="options">
+                <li>
+                    <button id="open" >Open</button> <button id="close" >Close</button>
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Enable/Disable</h4>
+            <ul class="options">
+                <li>
+                    <button id="enable" >Enable</button> <button id="disable" >Disable</button>
+                </li>
+                <li>
+                    <button id="readonly" >Readonly</button>
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Select</h4>
+            <ul class="options">
+                <li>
+                    <button id="getValue" >Get values</button>
+                </li>
+                <li>
+                    <input id="value" value="1"  style="width: 40px; margin: 0;" /> <button id="setValue" >Select by value</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="demo-section">
+        @(Html.Kendo().DropDownTree()
+                .HtmlAttributes(new { style = "width: 100%" })
+                .Height("auto")
+                .Placeholder("Select Product")
+                .DataValueField("id")
+                .Name("dropdowntree") //The name of the dropdowntree is mandatory. It specifies the "id" attribute of the widget.
+                .Items(items =>
+                {
+                    items.Add().Text("Furniture").Id("1").Expanded(true)
+                        .Items(childred =>
+                        {
+                            childred.Add().Text("Tables & Chairs").Id("2");
+                            childred.Add().Text("Sofas").Id("3");
+                            childred.Add().Text("Occasional Furniture").Id("4");
+                            childred.Add().Text("Childrens furniture").Id("5");
+                            childred.Add().Text("Beds").Id("6");
+                        });
+                    items.Add().Text("Decor").Id("7")
+                        .Items(childred =>
+                        {
+                            childred.Add().Text("Bed Linen").Id("8");
+                            childred.Add().Text("Curtains & Blinds").Id("9");
+                            childred.Add().Text("Carpets").Id("10");
+                            childred.Add().Text("Rugs").Id("11");
+                            childred.Add().Text("Carpets").Id("12");
+                        });
+                    items.Add().Text("Storage").Id("13")
+                        .Items(childred =>
+                        {
+                            childred.Add().Text("Wall shelving").Id("14");
+                            childred.Add().Text("Kids storage").Id("15");
+                            childred.Add().Text("Multimedia storage").Id("16");
+                            childred.Add().Text("Floor shelving").Id("17");
+                            childred.Add().Text("Toilet roll holders").Id("18");
+                            childred.Add().Text("Storage jars").Id("19");
+                            childred.Add().Text("Drawers").Id("20");
+                            childred.Add().Text("Boxes").Id("21");
+                        });
+                })
+        )
+    </div>
+
+   
+@section scripts {
+        <script>
+            $(document).on("kendoReady", function () {
+
+                var dropdowntree = $("#dropdowntree").data("kendoDropDownTree"),
+
+                setValue = function (e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        dropdowntree.dataSource.filter({}); //clear applied filter before setting value
+
+                        dropdowntree.value($("#value").val().split(","));
+                    }
+                };
+
+                $("#enable").click(function () {
+                    dropdowntree.enable();
+                });
+
+                $("#disable").click(function () {
+                    dropdowntree.enable(false);
+                });
+
+                $("#readonly").click(function () {
+                    dropdowntree.readonly();
+                });
+
+                $("#open").click(function () {
+                    dropdowntree.open();
+                });
+
+                $("#close").click(function () {
+                    dropdowntree.close();
+                });
+
+                $("#getValue").click(function () {
+                    alert(dropdowntree.value());
+                });
+
+                $("#setValue").click(setValue);
+                $("#value").keypress(setValue);
+            });
+        </script>
+}
+
+<style>
+    .box-col .k-textbox {
+        width: 40px;
+    }
+
+    .k-button {
+        min-width: 80px;
+    }
+</style>

@@ -1,0 +1,16 @@
+<div class="demo-section">
+    <h4>Products</h4>
+    @(Html.Kendo().DropDownList()
+          .Name("products")
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("RemoteDataSource_GetProducts", "DropDownList");
+              });
+          })
+          .HtmlAttributes(new { style = "width: 100%" })
+    )
+</div>

@@ -1,0 +1,64 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <div>
+        <h4>Treeview One</h4>
+        <kendo-treeview auto-bind="true" drag-and-drop="true" load-on-demand="true" name="treeview-left">
+            <items>
+                <treeview-item expanded="true" checked="false" text="Furniture" selected="false" enabled="true">
+                    <items>
+                        <treeview-item expanded="false" checked="false" text="Tables & Chairs" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Sofas" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Occasional Furniture" selected="false" enabled="true">
+                        </treeview-item>
+                    </items>
+                </treeview-item>
+                <treeview-item expanded="false" checked="false" text="Decor" selected="false" enabled="true">
+                    <items>
+                        <treeview-item expanded="false" checked="false" text="Bed Linen" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Curtains & Blinds" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Carpets" selected="false" enabled="true">
+                        </treeview-item>
+                    </items>
+                </treeview-item>
+            </items>
+        </kendo-treeview>
+    </div>
+    <div>
+        <h4>Treeview Two</h4>
+        <kendo-treeview auto-bind="true" drag-and-drop="true" load-on-demand="true" name="treeview-right">
+            <items>
+                <treeview-item expanded="true" checked="false" text="Furniture" selected="false" enabled="true">
+                    <items>
+                        <treeview-item expanded="false" checked="false" text="Tables & Chairs" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Sofas" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Occasional Furniture" selected="false" enabled="true">
+                        </treeview-item>
+                    </items>
+                </treeview-item>
+                <treeview-item expanded="false" checked="false" text="Decor" selected="false" enabled="true">
+                    <items>
+                        <treeview-item expanded="false" checked="false" text="Bed Linen" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Curtains & Blinds" selected="false" enabled="true">
+                        </treeview-item>
+                        <treeview-item expanded="false" checked="false" text="Carpets" selected="false" enabled="true">
+                        </treeview-item>
+                    </items>
+                </treeview-item>
+            </items>
+        </kendo-treeview>
+    </div>
+</div>
+
+<style>
+    .demo-section {
+        display: flex;
+        justify-content: space-evenly;
+    }
+</style>

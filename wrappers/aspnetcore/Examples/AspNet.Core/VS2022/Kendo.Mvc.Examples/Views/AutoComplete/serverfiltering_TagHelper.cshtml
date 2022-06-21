@@ -1,0 +1,26 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Find a product</h4>
+    <kendo-autocomplete name="products" style="width:100%"
+            dataTextField="ProductName"
+            filter="FilterType.Contains"
+            min-length="3">
+            <datasource type="DataSourceTagHelperType.Custom" server-filtering="true">
+                <transport>
+                    <read url="@Url.Action("ServerFiltering_GetProducts", "AutoComplete")" data="onAdditionalData" />
+                </transport>
+            </datasource>
+    </kendo-autocomplete>
+
+    <div class="demo-hint">Hint: type "che"</div>
+    @section scripts {
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#products").val()
+        };
+    }
+    </script>
+}
+</div>

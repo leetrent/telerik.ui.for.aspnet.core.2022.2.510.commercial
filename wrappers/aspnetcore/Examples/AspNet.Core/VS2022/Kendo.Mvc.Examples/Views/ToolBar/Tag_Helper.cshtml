@@ -1,0 +1,48 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-toolbar name="ToolBar">
+    <toolbar-items>
+        <item type="CommandType.Button" text="Button" />
+        <item type="CommandType.Button" text="Toggle Button" togglable="true" />
+        <item type="CommandType.SplitButton" text="Insert">
+            <menu-buttons>
+                <toolbar-button text="Insert above" icon="insert-up" />
+                <toolbar-button text="Insert between" icon="insert-middle" />
+                <toolbar-button text="Insert below" icon="insert-down" />
+            </menu-buttons>
+        </item>
+        <item type="CommandType.Separator" />
+        <item template="<label for='dropdown'>Format:</label>" />
+        <item template="<input id='dropdown' style='width: 150px;' />" overflow="ShowInOverflowPopup.Never" />
+        <item type="CommandType.Separator" />
+        <item type="CommandType.ButtonGroup">
+            <buttons>
+                <toolbar-button text="Left" togglable="true" group="text-align" icon="align-left" />
+                <toolbar-button text="Center" togglable="true" group="text-align" icon="align-center" />
+                <toolbar-button text="Right" togglable="true" group="text-align" icon="align-right" />
+            </buttons>
+        </item>
+        <item type="CommandType.Button" text="Action" overflow="ShowInOverflowPopup.Always" />
+        <item type="CommandType.Button" text="Another Action" overflow="ShowInOverflowPopup.Always" />
+        <item type="CommandType.Button" text="Something else here" overflow="ShowInOverflowPopup.Always" />
+    </toolbar-items>
+</kendo-toolbar>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        $("#dropdown").kendoDropDownList({
+            optionLabel: "Paragraph",
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Heading 1", value: 1 },
+                { text: "Heading 2", value: 2 },
+                { text: "Heading 3", value: 3 },
+                { text: "Title", value: 4 },
+                { text: "Subtitle", value: 5 },
+            ]
+        });
+    });
+</script>
+}

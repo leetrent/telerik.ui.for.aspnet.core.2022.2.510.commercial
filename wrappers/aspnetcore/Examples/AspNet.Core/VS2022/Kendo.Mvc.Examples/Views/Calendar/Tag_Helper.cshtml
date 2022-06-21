@@ -1,0 +1,11 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section" style="text-align: center;">
+    <kendo-calendar name="calendar" selectable="multiple" select-dates="@(new DateTime[] {
+        DateTime.Today,
+        DateTime.Today.AddDays(5),
+        DateTime.Today.AddDays(-5),
+        DateTime.Today.AddMonths(1),
+        DateTime.Today.AddMonths(-1)
+     })" >
+    </kendo-calendar>
+</div>

@@ -1,0 +1,31 @@
+@addTagHelper *, Kendo.Mvc
+
+@{ 
+    string[] pdf = { ".pdf" };
+    string[] jpg = { ".gif" ,".jpg",".png"};
+
+}
+<div class="demo-section">
+    <h4>Upload PDF</h4>
+    <kendo-upload name="files">
+        <async save-field="files" save-url="@Url.Action("Validation_Save", "Upload")" remove-url="@Url.Action("Validation_Remove", "Upload")" />
+        <validation allowed-extensions="@pdf" />
+    </kendo-upload>
+    <div class="demo-hint">You can only upload <strong>PDF</strong> files.</div>
+
+    <h4 style="margin-top: 2em;">Upload Image</h4>
+    <kendo-upload name="files-jpg">
+        <async save-field="files" save-url="@Url.Action("Validation_Save", "Upload")" remove-url="@Url.Action("Validation_Remove", "Upload")" />
+        <validation allowed-extensions="@jpg" />
+    </kendo-upload>
+    <div class="demo-hint">You can only upload <strong>GIF</strong>, <strong>JPG</strong>, <strong>PNG</strong> files.</div>
+</div>
+
+<div class="demo-section">
+    <h4>Upload Documents</h4>
+    <kendo-upload name="docs">
+        <async save-field="files" save-url="@Url.Action("Validation_Save", "Upload")" remove-url="@Url.Action("Validation_Remove", "Upload")" />
+        <validation max-file-size="3145728" />
+    </kendo-upload>
+    <div class="demo-hint">Maximum allowed file size is <strong>3MB</strong>.</div>
+</div>

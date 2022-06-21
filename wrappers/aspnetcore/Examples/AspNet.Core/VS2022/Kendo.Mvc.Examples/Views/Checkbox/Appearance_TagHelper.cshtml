@@ -1,0 +1,77 @@
+@addTagHelper "*, Kendo.Mvc"
+
+<div id="example">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <ul class="options">
+                <li>
+                    <h4>Size:</h4>
+                    <input id="size" name="size" />
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <ul class="options">
+                <li>
+                    <h4>Border Radius:</h4>
+                    <input id="rounded" name="rounded" />
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div>
+        <kendo-checkbox name="checkBoxBtn"
+                        size=ComponentSize.Medium
+                        rounded=Rounded.Medium
+                        checked="true"
+                        label="CheckBox option">
+        </kendo-checkbox>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+
+            var size = $("#size").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                value: "medium",
+                change: onChange,
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" }
+                ]
+            }).data("kendoDropDownList");
+
+            var rounded = $("#rounded").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                change: onChange,
+                value: "medium",
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" },
+                    { text: "Full", value: "full" }
+                ]
+            }).data("kendoDropDownList");
+
+            function onChange(e) {
+                
+                var sizeValue = size.value();
+                var roundedValue = rounded.value();
+
+                var checkBox = $("#checkBoxBtn").data("kendoCheckBox")
+                checkBox.setOptions({
+                    size: sizeValue,
+                    rounded: roundedValue
+                })
+            }
+        });
+    </script>
+</div>

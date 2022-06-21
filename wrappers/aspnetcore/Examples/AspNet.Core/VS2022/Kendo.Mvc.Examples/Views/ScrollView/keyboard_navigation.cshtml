@@ -1,0 +1,87 @@
+@{ var random = new Random(); }
+
+<div id="example" style="margin:auto; width:70%">
+    @(Html.Kendo().ScrollView()
+        .Name("scrollView")
+        .EnablePager(true)
+        .Navigatable(true)
+        .ContentHeight("100%")
+        .Items(x =>
+        {
+            x.Add().Content("<div class='photo photo1'></div>");
+            x.Add().Content("<div class='photo photo2'></div>");
+            x.Add().Content("<div class='photo photo3'></div>");
+            x.Add().Content("<div class='photo photo4'></div>");
+            x.Add().Content("<div class='photo photo5'></div>");
+            x.Add().Content("<div class='photo photo6'></div>");
+            x.Add().Content("<div class='photo photo7'></div>");
+            x.Add().Content("<div class='photo photo8'></div>");
+            x.Add().Content("<div class='photo photo9'></div>");
+            x.Add().Content("<div class='photo photo10'></div>");
+        }
+        )
+        .HtmlAttributes(new { style = "height:515px; width:1022px; max-width: 100%" })
+    )
+</div>
+
+
+<style>
+    .photo {
+        display: inline-block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        width: inherit;
+        height: inherit;
+    }
+
+    .photo1 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo2 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo3 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo4 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo5 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo6 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo7 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo8 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo9 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+
+    .photo10 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+        background-size: 882px 513px;
+    }
+</style>

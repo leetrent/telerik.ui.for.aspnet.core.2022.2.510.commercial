@@ -1,0 +1,58 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="center">
+    <div class="demo-section auto">
+        <script id="crayons" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/images/photos/220/9.jpg")" />
+        </script>
+        <script id="fern" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/images/photos/220/2.jpg")" />
+        </script>
+        <script id="baloons" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/images/photos/220/11.jpg")" />
+        </script>
+        <script id="mill" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/images/photos/220/12.jpg")" />
+        </script>
+        <script id="hay-rolls" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/images/photos/220/10.jpg")" />
+        </script>
+        <script id="condensation" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/images/photos/220/7.jpg")" />
+        </script>
+
+        <kendo-tilelayout name="tilelayout" columns="3" resizable="true" reorderable="true" columns-width="300px" rows-height="300px">
+            <containers>
+                <container body-template-id="crayons" col-span="1" row-span="1">
+                    <container-header text="Crayons" />
+                </container>
+                <container body-template-id="fern" col-span="1" row-span="1">
+                    <container-header text="Fern" />
+                </container>
+                <container body-template-id="baloons" col-span="1" row-span="1">
+                    <container-header text="Hot Air Baloons" />
+                </container>
+                <container body-template-id="mill" col-span="1" row-span="1">
+                    <container-header text="Mill" />
+                </container>
+                <container body-template-id="hay-rolls" col-span="1" row-span="1">
+                    <container-header text="Hay Rolls" />
+                </container>
+                <container body-template-id="condensation" col-span="1" row-span="1">
+                    <container-header text="Condensation" />
+                </container>
+            </containers>
+        </kendo-tilelayout>
+    </div>
+</div>
+
+<style>
+    .k-card-image {
+        width: 220px;
+        height: 220px;
+    }
+
+    .k-card-header {
+        flex: 0 0 auto;
+    }
+</style>

@@ -1,0 +1,31 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid">
+    <datasource type="DataSourceTagHelperType.Custom" custom-type="odata" page-size="20"
+        server-paging="true"
+        server-sorting="true"
+        server-filtering="true">
+        <schema>
+             <model id="OrderID">
+                <fields>
+                    <field name="OrderDate" type="date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="https://demos.telerik.com/kendo-ui/service/Northwind.svc/Orders"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="OrderID">
+            <filterable enabled="false"/>
+        </column>
+        <column field="Freight"/>
+        <column field="OrderDate" width="120" format="{0:MM/dd/yyyy}"/>
+        <column field="ShipName" width="260"/>
+        <column field="ShipCity" width="150"/>
+    </columns>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <filterable enabled="true"/>
+</kendo-grid>

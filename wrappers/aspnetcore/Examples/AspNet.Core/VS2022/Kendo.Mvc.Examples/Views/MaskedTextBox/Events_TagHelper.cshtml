@@ -1,0 +1,24 @@
+@addTagHelper "*, Kendo.Mvc"
+
+<div class="demo-section">
+    <kendo-maskedtextbox on-change="change" mask="(999) 000-0000" name="maskedtextbox"></kendo-maskedtextbox>
+</div>
+
+@section scripts {
+    <script>
+        function change() {
+            kendoConsole.log("Change :: " + this.value());
+        }
+    </script>
+}
+
+<style>
+    .demo-section {
+        width: 500px;
+        text-align: center;
+    }
+
+    .console {
+        margin: 0;
+    }
+</style>

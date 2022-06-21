@@ -1,0 +1,15 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="k-d-flex k-justify-content-center" style="margin-top:150px">
+    <kendo-colorpalette name="colorpalette"
+                        on-change="onChange">
+    </kendo-colorpalette>
+</div>
+@section scripts{
+<script>
+    function onChange(e) {
+        kendoConsole.log("Change in picker #" + this.element.attr("id") + " :: " + e.value);
+    }
+</script>
+}
+

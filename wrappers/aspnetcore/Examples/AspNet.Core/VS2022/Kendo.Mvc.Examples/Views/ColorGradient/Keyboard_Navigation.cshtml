@@ -1,0 +1,20 @@
+<h4 style="text-align: center;">ColorGradient</h4>
+   
+<div>
+    @(Html.Kendo().ColorGradient()
+        .Name("colorGradient")
+        .Opacity(true)
+        .HtmlAttributes(new {style = "margin:auto;"})
+    )
+</div>
+
+@section scripts {
+<script type="text/javascript">
+    $(document).on("keydown.examples", function (e) {
+        if (e.altKey && e.keyCode === 87 /* w */) {
+            $("#colorGradient").data("kendoColorGradient").focus();
+        }
+    });
+</script>
+}
+

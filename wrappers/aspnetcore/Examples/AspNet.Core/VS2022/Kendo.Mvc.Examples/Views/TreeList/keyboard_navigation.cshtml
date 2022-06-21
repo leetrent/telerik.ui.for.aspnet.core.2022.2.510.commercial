@@ -1,0 +1,46 @@
+@(Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModel>()
+    .Name("treelist")
+    .Columns(columns =>
+    {
+        columns.Add().Field(e => e.FirstName).Title("First Name").Width(220);
+        columns.Add().Field(e => e.LastName).Title("Last Name").Width(100);
+        columns.Add().Field(e => e.Position);
+        columns.Add().Field(e => e.HireDate).Format("{0:MMMM d, yyyy}");
+        columns.Add().Field(e => e.Phone);
+        columns.Add().Field(e => e.Extension).Title("Ext").Format("{0:#}");
+    })
+    .Navigatable(true)
+    .Pageable(p => p.PageSize(20))
+    .Sortable()
+    .Selectable(s => s.Mode(TreeListSelectionMode.Multiple))
+    .DataSource(dataSource => dataSource
+        .ServerOperation(false)
+        .Create(create => create.Action("Create", "EmployeeDirectory"))
+        .Read(read => read.Action("All", "EmployeeDirectory"))
+        .Update(update => update.Action("Update", "EmployeeDirectory"))
+        .Destroy(delete => delete.Action("Destroy", "EmployeeDirectory"))
+        .Model(m => {
+            m.Id(f => f.EmployeeId);
+            m.ParentId(f => f.ReportsTo);
+            m.Expanded(true);
+            m.Field(f => f.FirstName);
+            m.Field(f => f.LastName);
+            m.Field(f => f.ReportsTo);
+            m.Field(f => f.HireDate);
+            m.Field(f => f.BirthDate);
+            m.Field(f => f.Extension);
+            m.Field(f => f.Position);
+        })
+    )
+    .Height(540)
+)
+
+@section scripts {
+    <script>
+        $(document.body).keydown(function (e) {
+            if (e.altKey && e.keyCode == 87) {
+                $("#treelist").data("kendoTreeList").table.focus();
+            }
+        });
+    </script>
+}

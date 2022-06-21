@@ -1,0 +1,13 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <kendo-treeview auto-bind="true" datatextfield="Name" load-on-demand="true" name="treeview">
+        <hierarchical-datasource>
+            <schema>
+                <hierarchical-model id="id"></hierarchical-model>
+            </schema>
+            <transport>
+                <read url="@Url.Action("Employees", "treeview")" cache="true" />
+            </transport>
+        </hierarchical-datasource>
+    </kendo-treeview>
+</div>

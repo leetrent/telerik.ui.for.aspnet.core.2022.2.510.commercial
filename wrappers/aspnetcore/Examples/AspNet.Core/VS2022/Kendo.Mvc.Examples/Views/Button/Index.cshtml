@@ -1,0 +1,88 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <div>
+        <h4>Basic Button</h4>
+        <p>
+            @(Html.Kendo().Button()
+                    .Name("primaryTextButton")
+                    .ThemeColor(ThemeColor.Primary)
+                    .Content("Primary Button"))
+
+            @(Html.Kendo().Button()
+                    .Name("textButton")
+                    .HtmlAttributes(new { type = "button" })
+                    .Content("Button"))
+        </p>
+    </div>
+
+    <div>
+        <h4>Disabled buttons via configuration</h4>
+        <p>
+            @(Html.Kendo().Button()
+                    .Name("primaryDisabledButton1")
+                    .ThemeColor(ThemeColor.Primary)
+                    .Tag("span")
+                    .Enable(false)
+                    .Content("Primary disabled via configuration"))
+
+            @(Html.Kendo().Button()
+                    .Name("disabledButton1")
+                    .Tag("span")
+                    .Enable(false)
+                    .Content("Disabled via configuration"))
+        </p>
+    </div>
+    <div>
+        <h4>Disabled buttons via HTML attribute</h4>
+        <p>
+            @(Html.Kendo().Button()
+                    .Name("primaryDisabledButton2")
+                    .ThemeColor(ThemeColor.Primary)
+                    .HtmlAttributes(new { disabled = "disabled"})
+                    .Tag("span")
+                    .Content("Primary disabled via HTML attribute"))
+
+            @(Html.Kendo().Button()
+                    .Name("disabledButton2")
+                    .Tag("span")
+                    .HtmlAttributes(new { disabled = "disabled" })
+                    .Content("Disabled via HTML attribute"))
+        </p>
+    </div>
+
+    <div>
+        <h4>Buttons with icons</h4>
+        <p>
+            @(Html.Kendo().Button()
+                    .Name("iconTextButton")
+                    .Tag("a")
+                    .Icon("filter")
+                    .Content("Filter"))
+
+            @(Html.Kendo().Button()
+                    .Name("kendoIconTextButton")
+                    .Tag("a")
+                    .Icon("filter-clear")
+                    .Content("Clear Filter"))
+
+            @(Html.Kendo().Button()
+                    .Name("iconButton")
+                    .Tag("em")
+                    .Icon("refresh")
+                    .Content("<span class='k-icon' title='Refresh'></span>"))
+        </p>
+    </div>
+</div>
+<style>
+    .demo-section p {
+        margin: 0 0 30px;
+        line-height: 50px;
+    }
+    .demo-section p .k-button {
+        margin: 0 10px 0 0;
+    }
+    .k-button-solid-primary {
+        min-width: 150px;
+    }
+</style>

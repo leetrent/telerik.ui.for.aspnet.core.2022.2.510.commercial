@@ -1,0 +1,49 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model ProductViewModel
+
+<form asp-controller="numerictextbox" asp-action="tag-helper" method="post" role="form">
+    <div class="demo-section">
+        <p>
+            <kendo-numerictextbox name="UnitPrice"
+                                  for="UnitPrice">
+                <numerictextbox-label content="Unit Price" floating="true" />
+            </kendo-numerictextbox>
+            <span asp-validation-for="UnitPrice" style="color:red"></span>
+        </p>
+        <br />
+        <p>
+            <kendo-numerictextbox name="percentage"
+                                  format="p0"
+                                  min="0"
+                                  max="0.9"
+                                  step="0.01"
+                                  value="0.05">
+                <numerictextbox-label content="Percentage" floating="true" />
+            </kendo-numerictextbox>
+        </p>
+        <br />
+        <p>
+            <kendo-numerictextbox name="custom"
+                                  format="#.00 kg"
+                                  value="2">
+                <numerictextbox-label content="Custom" floating="true" />
+            </kendo-numerictextbox>
+        </p>
+        <br />
+        <p>
+            <kendo-numerictextbox name="numeric"
+                                  placeholder="Enter numeric value">
+                <numerictextbox-label content="Numeric" floating="true" />
+            </kendo-numerictextbox>
+        </p>
+        <br />
+        <button id="btnSubmit" type="submit" >Submit</button>
+    </div>
+</form>
+
+<style>
+    .k-floating-label-container {
+        width: 100%;
+    }
+</style>

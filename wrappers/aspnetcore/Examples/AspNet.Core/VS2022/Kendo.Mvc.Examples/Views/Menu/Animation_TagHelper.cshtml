@@ -1,0 +1,130 @@
+@addTagHelper *, Kendo.Mvc
+@{
+    var delay = (int)ViewBag.delay;
+}
+
+@using (Html.BeginForm("Animation", "Menu", FormMethod.Post))
+{
+
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Animation Settings</h4>
+            <ul class="options">
+                <li>
+                    @Html.RadioButton("animation", "toggle")
+                    @Html.Label("toggle", "toggle animation")
+                </li>
+                <li>
+                    @Html.RadioButton("animation", "slide")
+                    @Html.Label("slide", "slide animation")
+                </li>
+                <li>
+                    @Html.RadioButton("animation", "expand")
+                    @Html.Label("expand", "expand animation")
+                </li>
+                <li>
+                    @Html.CheckBox("opacity")
+                    @Html.Label("opacity", "animate opacity")
+                </li>
+                <li>
+                    @Html.TextBox("delay", delay, new { @class = "k-textbox" })
+                    @Html.Label("delay", "open/close delay")
+                </li>
+            </ul>
+    
+            <button style="margin-top: 20px">Apply</button>
+        </div>
+    </div> 
+}
+
+<div class="demo-section">
+    <kendo-menu name="menu" hover-delay="delay">
+        <popup-animation>
+            @{
+                if (ViewBag.animation == "expand")
+                {
+                    if (ViewBag.opacity)
+                    {
+                        <open effects="expand:vertical fade:in" />
+                    }
+                    else
+                    {
+                        <open effects="expand:vertical" />
+                    }
+
+                }
+                else if (ViewBag.animation == "slide")
+                {
+                    if (ViewBag.opacity)
+                    {
+                        <open effects="slideIn:down fade:in" />
+                    }
+                    else
+                    {
+                        <open effects="slideIn:down" />
+                    }
+                }
+                else
+                {
+                    if (ViewBag.opacity)
+                    {
+                        <open effects="fade:in" />
+                    }
+                }
+            }
+        </popup-animation>
+        <items>
+            <menu-item text="Furniture">
+                <sub-items>
+                    <menu-item text="Tables & Chairs"></menu-item>
+                    <menu-item text="Sofas"></menu-item>
+                    <menu-item text="Occasional Furniture"></menu-item>
+                    <menu-item text="Childerns Furniture"></menu-item>
+                    <menu-item text="Beds"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Decor">
+                <sub-items>
+                    <menu-item text="Bed Linen"></menu-item>
+                    <menu-item text="Throws"></menu-item>
+                    <menu-item text="Curtains & Blinds"></menu-item>
+                    <menu-item text="Rugs"></menu-item>
+                    <menu-item text="Carpets"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Storage">
+                <sub-items>
+                    <menu-item text="Wall Shelving"></menu-item>
+                    <menu-item text="Kids Storage"></menu-item>
+                    <menu-item text="Baskets"></menu-item>
+                    <menu-item text="Multimedia Storage"></menu-item>
+                    <menu-item text="Floor Shelving"></menu-item>
+                    <menu-item text="Toilet Roll Holders"></menu-item>
+                    <menu-item text="Storage Jars"></menu-item>
+                    <menu-item text="Drawers"></menu-item>
+                    <menu-item text="Boxes"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Lights">
+                <sub-items>
+                    <menu-item text="Ceiling"></menu-item>
+                    <menu-item text="Table"></menu-item>
+                    <menu-item text="Floor"></menu-item>
+                    <menu-item text="Shades"></menu-item>
+                    <menu-item text="Wall Lights"></menu-item>
+                    <menu-item text="Spotlights"></menu-item>
+                    <menu-item text="Push Light"></menu-item>
+                    <menu-item text="String Lights"></menu-item>
+                </sub-items>
+            </menu-item>
+        </items>
+    </kendo-menu>
+</div>
+
+<style>
+    button {
+        margin-top: 20px;
+    }
+</style>
+

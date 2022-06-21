@@ -1,0 +1,48 @@
+@using Kendo.Mvc.Examples.Models.Gantt;
+
+@(Html.Kendo().Gantt<TaskViewModel, DependencyViewModel>()
+    .Name("gantt")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.Title).Title("Task").Editable(true).Sortable(true).Width(200);
+        columns.Bound(c => c.Start).Title("Actual Start Date").Format("{0:M/d/yyyy}").Width(85);
+        columns.Bound(c => c.End).Title("Actual End Date").Format("{0:M/d/yyyy}").Width(85);
+        columns.Bound(c => c.PlannedStart).Title("Planned Start Date").Format("{0:M/d/yyyy}").Width(85);
+        columns.Bound(c => c.PlannedEnd).Title("Planned End Date").Format("{0:M/d/yyyy}").Width(85);
+    })
+    .Views(views =>
+    {
+        views.DayView();
+        views.WeekView(weekView => weekView.Selected(true));
+        views.MonthView();
+    })
+    .ShowPlannedTasks(true)
+    .Toolbar(t => t.Add().Name("plannedTasks"))
+    .Editable(false)
+    .Resizable(true)
+    .Height(590)
+    .ListWidth("45%")
+    .ShowWorkHours(false)
+    .ShowWorkDays(false)
+    .Snap(false)
+    .DataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.TaskID);
+            m.ParentId(f => f.ParentID);
+            m.Field(f => f.Expanded).DefaultValue(true);
+        })
+        .Read("Planned_Vs_Actual_ReadTasks", "Gantt")
+    )
+        .DependenciesDataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.DependencyID);
+            m.PredecessorId(f => f.PredecessorID);
+            m.SuccessorId(f => f.SuccessorID);
+        })
+        .Read("Planned_Vs_Actual_ReadDependencies", "Gantt")
+        .Create("Planned_Vs_Actual_CreateDependency", "Gantt")
+        .Destroy("Planned_Vs_Actual_DestroyDependency", "Gantt")
+    )
+)

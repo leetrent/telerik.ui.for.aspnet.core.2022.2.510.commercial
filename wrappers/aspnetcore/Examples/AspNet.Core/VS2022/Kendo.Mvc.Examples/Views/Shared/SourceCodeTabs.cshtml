@@ -1,0 +1,36 @@
+@using System.Text.RegularExpressions;
+@{
+    IEnumerable<ExampleFile> ExampleFiles = (IEnumerable<ExampleFile>)ViewBag.ExampleFiles;
+    var ReplaceRegex = @"[^a-zA-Z0-9]";
+    var ReplaceChar = "-";
+
+}
+
+<div class="source-code tabstrip-container">
+    <div class="tabstrip">
+        @if (ExampleFiles.Where(x => x.Name == "TagHelper.cshtml").Count() > 0)
+        {
+            <div class="switch-container">
+                <div role="group" class="tabstrip-switch">
+                    <div role="button" tabindex="0" aria-pressed="true" class="switch-option-selected">HtmlHelper</div>
+                    <div role="button" tabindex="0" aria-pressed="false">TagHelper</div>
+                </div>
+            </div>
+            <span display="none,,block" class="tabstrip-separator"></span>
+            <span>Files:</span>
+        }
+        <div class="tabstrip-items">
+            @foreach (var item in ExampleFiles)
+            {
+                <div role="button" tabindex="0" class="tabstrip-item tabstrip-tab" data-container="@Regex.Replace(item.Name, ReplaceRegex, ReplaceChar).ToLower()" data-url="@Url.Action("Index", "Source", new { path = item.Url })">
+                    <span class="tabstrip-link">@item.Url.Split("/").Last()</span>
+                </div>
+            }
+        </div>
+    </div>
+    @foreach (var item in ExampleFiles)
+    {
+        <div id="@Regex.Replace(item.Name, ReplaceRegex, ReplaceChar).ToLower()" class="tabstrip-pane">
+        </div>
+    }
+</div>

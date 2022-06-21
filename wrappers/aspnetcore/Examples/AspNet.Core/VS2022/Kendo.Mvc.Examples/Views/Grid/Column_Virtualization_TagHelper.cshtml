@@ -1,0 +1,23 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" navigatable="true" width="1000">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="10">
+        <transport>
+            <read url="/grid/column_read"/>
+        </transport>
+    </datasource>
+    <columns>
+    @{
+        for (int i = 1; i <= 500; i++)
+        {
+            var columnFieldName = "Field" + @i.ToString();
+            <column field="@columnFieldName" width="200"/>
+        }
+    }
+    </columns>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <filterable enabled="true"/>
+    <column-menu enabled="true"/>
+    <scrollable virtual=@("columns")/>
+</kendo-grid>

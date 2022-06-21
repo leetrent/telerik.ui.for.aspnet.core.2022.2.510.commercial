@@ -1,0 +1,12 @@
+@addTagHelper *, Kendo.Mvc
+    <script src=@Url.Script("cultures/kendo.culture.de-DE.min.js")></script>
+
+    <script type="text/javascript">
+    //set culture of the Kendo UI
+    kendo.culture("de-DE");
+    </script>
+
+<div class="demo-section">
+    <kendo-numerictextbox format="c" value="25" name="CurrencyTextBox" style="width: 100%">
+    </kendo-numerictextbox>
+</div>

@@ -1,0 +1,53 @@
+@model Kendo.Mvc.Examples.Models.RadioGroupViewModel
+
+<div class="demo-section">
+    <div class="box-col">
+        <label class="label">How to get in touch?</label>
+        @(Html.Kendo().RadioGroup()
+            .Name("radiogroup")
+            .Items(i =>
+            {
+                i.Add().Label("Phone (SMS)").Value("1");
+                i.Add().Label("E-mail").Value("2");
+                i.Add().Label("None").Value("3");
+            })
+            .Value("1")
+        )
+        <div class="k-form-hint">You will not be receiving advertising materials.</div>
+    </div>
+    <br /><br/>
+    <div class="box-col">
+        <label class="label">Select color:</label>
+        @(Html.Kendo().RadioGroup()
+            .Name("radiogroup-second")
+            .Layout("horizontal")
+            .Value(Model.RadioGroupValue)
+            .BindTo(Model.Items)
+        )       
+    </div>
+</div>
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .k-form-hint {
+        margin-top: 10px;
+    }
+
+    .green{
+        color: green;
+    }
+    .blue {
+        color: blue;
+    }
+    .red {
+        color: red;
+    }
+
+</style>

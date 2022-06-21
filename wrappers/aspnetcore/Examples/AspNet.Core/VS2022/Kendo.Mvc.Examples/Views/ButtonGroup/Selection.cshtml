@@ -1,0 +1,36 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <div class="box-col">
+        <h4>SINGLE SELECTION</h4>
+        @(Html.Kendo().ButtonGroup()
+           .Name("align")
+           .Selection("single")
+           .Items(t =>
+           {
+               t.Add().Icon("align-left");
+               t.Add().Icon("align-center");
+               t.Add().Icon("align-right");
+           })
+        )
+    </div>
+    <div class="box-col">
+        <h4>MULTIPLE SELECTION</h4>
+        @(Html.Kendo().ButtonGroup()
+           .Name("inlineFormatting")
+           .Selection("multiple")
+           .Items(t =>
+           {
+               t.Add().Icon("bold");
+               t.Add().Icon("italic");
+               t.Add().Icon("underline");
+           })
+        )
+    </div>
+</div>
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

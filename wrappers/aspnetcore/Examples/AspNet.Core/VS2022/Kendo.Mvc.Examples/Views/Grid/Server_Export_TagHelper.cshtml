@@ -1,0 +1,105 @@
+@addTagHelper *, Kendo.Mvc
+
+<form action="@Url.Action("ExportServer", "Grid")" method="POST" id="form">
+    <input type="submit" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" data-format="xlsx" data-title="ExcelExport" value="Export to XLSX" />
+    <input type="submit" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" data-format="csv" data-title="CSVExport" value="Export to CSV" />
+</form>
+
+<br />
+
+    <kendo-grid name="grid" height="430" persist-selection="true">
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="20">
+            <transport>
+                <read url="/grid/orders_read"/>
+            </transport>
+            <schema>
+                <model id="OrderID"></model>
+            </schema>
+        </datasource>
+        <columns>
+            <column width="80" selectable="true"/>
+            <column field="OrderID">
+                <filterable enabled="false"/>
+            </column>
+            <column field="Freight"/>
+            <column field="ShipName"/>
+            <column field="ShipCity"/>
+        </columns>
+        <pageable enabled="true"/>
+        <sortable enabled="true"/>
+        <scrollable enabled="true"/>
+        <filterable enabled="true"/>
+    </kendo-grid>
+
+@section scripts {
+    <script>
+        function addOptionsToForm(options, form, parents) {
+            for (var option in options) {
+                if (!options[option]) {
+                    continue;
+                }
+
+                if (typeof options[option] === 'object') {
+                    parents.push(option)
+                    addOptionsToForm(options[option], form, parents);
+                    parents.pop();
+                } else {
+                    form.append('<input type="hidden" name="' + inputName(option, parents) + '" value="' + options[option] + '" />');
+                }
+            }
+        }
+
+        function inputName(option, parents) {
+            var result = "";
+
+            if (!parents.length) {
+                return option;
+            }
+
+            for (var i = 0; i < parents.length; i++) {
+                if (i === 0) {
+                    result += parents[i];
+                    continue;
+                }
+                result += "[" + parents[i] + "]";
+            }
+
+            result += "[" + option + "]";
+
+            return result;
+        }
+
+        function columnsFilterHandler(col) {
+            return col.field;
+        }
+
+        function columnsMapHandler(col) {
+            return {
+                title: col.title,
+                width: col.width,
+                field: col.field,
+                format: col.format,
+                hidden: col.hidden
+            }
+        }
+        $(document).on("kendoReady", function () {
+            $(".download").click(function () {
+                var grid = $("#grid").data("kendoGrid");
+                var options = {
+                    format: $(this).data("format"),
+                    title: $(this).data("title"),
+                    columnSettings: grid.columns.filter(columnsFilterHandler).map(columnsMapHandler),
+                    selectedIds: grid.selectedKeyNames()
+                }
+                $('#form input[type="hidden"]').remove();
+                addOptionsToForm(options, $('#form'), []);
+            });
+        });
+    </script>
+}
+
+<style>
+    form {
+        display: flex;
+    }
+</style>

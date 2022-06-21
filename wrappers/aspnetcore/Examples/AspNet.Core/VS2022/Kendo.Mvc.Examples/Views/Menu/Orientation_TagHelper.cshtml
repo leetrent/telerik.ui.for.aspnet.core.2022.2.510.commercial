@@ -1,0 +1,164 @@
+@addTagHelper *, Kendo.Mvc
+@model MenuOrientation
+
+@using (Html.BeginForm())
+{
+    <text>
+        <div class="configurator">
+            <div class="header">Configurator</div>
+            <div class="box-col">
+                <h4>Orientation Settings</h4>
+                <ul class="options">
+                    <li>
+                        <label for="orientation">Orientation:</label>
+                        @(Html.Kendo().DropDownList()
+                            .Name("orientation")
+                            .Items(items =>
+                                  {
+                                      items.Add().Text("Horizontal").Value("horizontal");
+                                      items.Add().Text("Vertical").Value("vertical");
+                                  })
+                            .SelectedIndex(Model == MenuOrientation.Horizontal ? 0 : 1)
+                )
+                    </li>
+                </ul>
+                <button style="width: 80px; margin-top: 20px;">Apply</button>
+            </div>
+        </div>        
+    </text>
+}
+
+<div class="demo-section">
+    <kendo-menu name="menu" orientation="Model">
+        <items>
+            <menu-item text="Men's">
+                <sub-items>
+                    <menu-item text="Footwear">
+                        <sub-items>
+                            <menu-item text="Leisure Trainers" />
+                            <menu-item text="Running Shoes" />
+                            <menu-item text="Outdoor Footwear" />
+                            <menu-item text="Sandals/Flip Flops" />
+                            <menu-item text="Footwear Accessories" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Leisure Clothing">
+                        <sub-items>
+                            <menu-item text="T-Shirts" />
+                            <menu-item text="Hoodies & Sweatshirts" />
+                            <menu-item text="Jackets" />
+                            <menu-item text="Pants" />
+                            <menu-item text="Shorts" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Sports Clothing">
+                        <sub-items>
+                            <menu-item text="Football" />
+                            <menu-item text="Basketball" />
+                            <menu-item text="Golf" />
+                            <menu-item text="Tennis" />
+                            <menu-item text="Swimwear" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Accessories"/>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Women's">
+                <sub-items>
+                    <menu-item text="Footwear">
+                        <sub-items>
+                            <menu-item text="Leisure Trainers" />
+                            <menu-item text="Running Shoes" />
+                            <menu-item text="Outdoor Footwear" />
+                            <menu-item text="Sandals/Flip Flops" />
+                            <menu-item text="Footwear Accessories" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Leisure Clothing">
+                        <sub-items>
+                            <menu-item text="T-Shirts" />
+                            <menu-item text="Jackets" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Sports Clothing">
+                        <sub-items>
+                            <menu-item text="Basketball" />
+                            <menu-item text="Golf" />
+                            <menu-item text="Tennis" />
+                            <menu-item text="Swimwear" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Accessories"/>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Boy's">
+                <sub-items>
+                    <menu-item text="Footwear">
+                        <sub-items>
+                            <menu-item text="Leisure Trainers" />
+                            <menu-item text="Running Shoes" />
+                            <menu-item text="Outdoor Footwear" />
+                            <menu-item text="Sandals/Flip Flops" />
+                            <menu-item text="Footwear Accessories" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Leisure Clothing">
+                        <sub-items>
+                            <menu-item text="T-Shirts" />
+                            <menu-item text="Hoodies & Sweatshirts" />
+                            <menu-item text="Jackets" />
+                            <menu-item text="Pants" />
+                            <menu-item text="Shorts" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Sports Clothing">
+                        <sub-items>
+                            <menu-item text="Football" />
+                            <menu-item text="Basketball" />
+                            <menu-item text="Golf" />
+                            <menu-item text="Tennis" />
+                            <menu-item text="Swimwear" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Accessories"/>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Girl's">
+                <sub-items>
+                    <menu-item text="Footwear">
+                        <sub-items>
+                            <menu-item text="Leisure Trainers" />
+                            <menu-item text="Running Shoes" />
+                            <menu-item text="Outdoor Footwear" />
+                            <menu-item text="Sandals/Flip Flops" />
+                            <menu-item text="Footwear Accessories" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Leisure Clothing">
+                        <sub-items>
+                            <menu-item text="T-Shirts" />
+                            <menu-item text="Jackets" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Sports Clothing">
+                        <sub-items>
+                            <menu-item text="Basketball" />
+                            <menu-item text="Golf" />
+                            <menu-item text="Tennis" />
+                            <menu-item text="Swimwear" />
+                        </sub-items>
+                    </menu-item>
+                    <menu-item text="Accessories"/>
+                </sub-items>
+            </menu-item>
+        </items>
+    </kendo-menu>
+</div>
+
+<!--[if lt IE 9]>
+   <style>
+        .demo-section {
+            width: 400px;
+        }
+    </style>
+<![endif]-->

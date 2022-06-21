@@ -1,0 +1,22 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var products_value = new[] { new { ProductName = "Chang", ProductID = 2 }, new { ProductName = "Uncle Bob's Organic Dried Pears", ProductID = 7 } };
+}
+
+<div class="demo-section">
+    <h4>Products</h4>
+    <kendo-multiselect name="products"
+        datatextfield="ProductName"
+        datavaluefield="ProductID"
+        placeholder="Select products..."
+        auto-bind="false"
+        value="products_value"
+        height="520">
+        <datasource type="DataSourceTagHelperType.Custom" server-filtering="true">
+            <transport>
+                 <read url="@Url.Action("ServerFiltering_GetProducts", "MultiSelect")" />
+            </transport>
+        </datasource>
+    </kendo-multiselect>
+</div>

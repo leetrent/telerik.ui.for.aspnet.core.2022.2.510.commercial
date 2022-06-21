@@ -1,0 +1,92 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>
+            Pick the Loader's type:
+        </h4>
+        @(Html.Kendo().DropDownList()
+                .Name("type")
+                .BindTo(new[] { "pulsing", "infinite-spinner", "converging-spinner" })
+                .Events(e => e.Change("onChange"))
+        )
+    </div>
+</div>
+
+<div class="k-d-flex k-align-items-center k-text-center">
+    <div class="example-item k-flex-1">
+        <div>Primary</div>
+        @(Html.Kendo().Loader()
+            .Name("loader-primary")
+            .Size(LoaderSize.Medium)
+            .ThemeColor(LoaderThemeColor.Primary)
+        )
+    </div>
+    <div class="example-item k-flex-1">
+        <div>Secondary</div>
+        @(Html.Kendo().Loader()
+            .Name("loader-secondary")
+            .Size(LoaderSize.Medium)
+            .ThemeColor(LoaderThemeColor.Secondary)
+        )
+    </div>
+    <div class="example-item k-flex-1">
+        <div>Info</div>
+        @(Html.Kendo().Loader()
+            .Name("loader-info")
+            .Size(LoaderSize.Medium)
+            .ThemeColor(LoaderThemeColor.Info)
+        )
+    </div>
+    <div class="example-item k-flex-1">
+        <div>Success</div>
+        @(Html.Kendo().Loader()
+            .Name("loader-success")
+            .Size(LoaderSize.Medium)
+            .ThemeColor(LoaderThemeColor.Success)
+        )
+    </div>
+    <div class="example-item k-flex-1">
+        <div>Warning</div>
+        @(Html.Kendo().Loader()
+            .Name("loader-warning")
+            .Size(LoaderSize.Medium)
+            .ThemeColor(LoaderThemeColor.Warning)
+        )
+    </div>
+    <div class="example-item k-flex-1">
+        <div>Error</div>
+        @(Html.Kendo().Loader()
+            .Name("loader-error")
+            .Size(LoaderSize.Medium)
+            .ThemeColor(LoaderThemeColor.Error)
+        )
+    </div>
+</div>
+
+@section scripts {
+    <script>
+
+        function onChange(e) {
+            var primary = $('#loader-primary').data("kendoLoader");
+            var secondary = $('#loader-secondary').data("kendoLoader");
+            var info = $('#loader-info').data("kendoLoader");
+            var success = $('#loader-success').data("kendoLoader");
+            var warning = $('#loader-warning').data("kendoLoader");
+            var error = $('#loader-error').data("kendoLoader");
+
+            primary.setOptions({ type: e.sender.text() })
+            secondary.setOptions({ type: e.sender.text() })
+            info.setOptions({ type: e.sender.text() });
+            success.setOptions({ type: e.sender.text() });
+            warning.setOptions({ type: e.sender.text() });
+            error.setOptions({ type: e.sender.text() });
+        }
+
+    </script>
+}
+
+<style>
+    .example-item > div:first-child {
+        margin-bottom: 20px;
+    }
+</style>

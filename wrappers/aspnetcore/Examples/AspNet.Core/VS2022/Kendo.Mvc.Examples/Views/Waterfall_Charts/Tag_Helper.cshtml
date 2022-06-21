@@ -1,0 +1,19 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section wide">
+    <kendo-chart name="chart">
+        <chart-title text="Inventory"></chart-title>
+        <series>
+            <series-item type="ChartSeriesType.Waterfall" data="new int[] { 180, -60, -20, 10, 30 }">
+                <labels visible="true"></labels>
+            </series-item>
+        </series>
+        <category-axis>
+            <category-axis-item categories='new string[] { " In stock", "Damaged" , "Reserved" , "In transit" , "Refurbished" }'>
+            </category-axis-item>
+        </category-axis>
+        <axis-defaults>
+            <major-grid-lines visible="false" />
+        </axis-defaults>
+    </kendo-chart>
+</div>

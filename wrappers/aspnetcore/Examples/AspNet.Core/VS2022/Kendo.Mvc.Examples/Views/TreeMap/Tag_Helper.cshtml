@@ -1,0 +1,12 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-treemap name="treeMap" text-field="Name" value-field="Value">
+    <hierarchical-datasource>
+        <transport>
+            <read url="@Url.Action("TagHelper_PopulationUSA","TreeMap")" />
+        </transport>
+        <schema>
+            <hierarchical-model children="Items"></hierarchical-model>
+        </schema>
+    </hierarchical-datasource>
+</kendo-treemap>

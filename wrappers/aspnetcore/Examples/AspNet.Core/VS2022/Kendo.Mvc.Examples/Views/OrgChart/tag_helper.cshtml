@@ -1,0 +1,25 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-orgchart name="orgchart">
+    <orgchart-datasource>
+        <transport>
+            <read url="https://demos.telerik.com/kendo-ui/service/EmployeesOrgChart" />
+            <create url="https://demos.telerik.com/kendo-ui/service/EmployeesOrgChart/create" type="POST" />
+            <update url="https://demos.telerik.com/kendo-ui/service/EmployeesOrgChart/update" type="POST" />
+            <destroy url="https://demos.telerik.com/kendo-ui/service/EmployeesOrgChart/destroy" type="POST" />
+        </transport>
+        <schema>
+            <orgchart-model id="Id" parent-id="ParentId" expanded="true"
+                            name="FullName" title="Position" avatar="Avatar">
+                <fields>
+                    <field name="ParentId" nullable="true"></field>
+                    <field name="Id" type="number"></field>
+                    <field name="FullName" type="string"></field>
+                    <field name="Position" type="string"></field>
+                    <field name="Avatar" type="string"></field>
+                </fields>
+            </orgchart-model>
+        </schema>
+    </orgchart-datasource>
+</kendo-orgchart>
+

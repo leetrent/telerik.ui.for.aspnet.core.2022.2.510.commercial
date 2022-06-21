@@ -1,0 +1,59 @@
+@model IEnumerable<Kendo.Mvc.Examples.Models.ChartCategoryPoint>
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Zoom ratio:</h4>
+                <input id="ratio" name="ratio" />
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="demo-section wide">
+    @(Html.Kendo().Chart(Model)
+        .Name("chart")
+        .RenderAs(RenderingMode.Canvas)
+        .Series(series => {
+            series.Column(model=> model.Value).CategoryField("Category");
+        })
+        .Legend(leg =>
+            leg.Visible(false)
+        )
+        .CategoryAxis(axis => axis
+            .Min(0)
+            .Max(10)
+            .Labels(labels=> labels.Rotation("auto"))
+        )
+        .Pannable(pannable => pannable
+            .Lock(ChartAxisLock.Y)
+        )
+        .Zoomable(zoomable => zoomable
+            .Mousewheel(mousewheel => mousewheel.Lock(ChartAxisLock.Y))
+            .Selection(selection => selection.Lock(ChartAxisLock.Y))
+        )
+    )
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            $('#ratio').kendoSlider({
+                change: function (e) {
+                    var chart = $("#chart").getKendoChart();
+                    chart.setOptions({
+                        zoomable: {
+                            mousewheel: {
+                                rate: e.value
+                            }
+                        }
+                    });
+                },
+                min: 0.1,
+                smallStep: 0.1,
+                largeStep: 0.2,
+                max: 1
+            });
+        });
+    </script>
+}

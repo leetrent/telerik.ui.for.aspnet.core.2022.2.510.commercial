@@ -1,0 +1,33 @@
+@addTagHelper *, Kendo.Mvc
+
+    <kendo-grid name="grid" height="430">
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="20">
+            <schema>
+                <model id="OrderID">
+                    <fields>
+                        <field name="OrderID" type="number"></field>
+                        <field name="Freight" type="number"></field>
+                        <field name="OrderDate" type="date"></field>
+                        <field name="ShipName" type="string"></field>
+                        <field name="ShipCity" type="string"></field>
+                    </fields>
+                </model>
+            </schema>
+            <transport>
+                <read url="/grid/orders_read"/>
+            </transport>
+        </datasource>
+        <columns>
+            <column field="OrderID" width="100">
+                <filterable enabled="false"/>
+            </column>
+            <column field="Freight" width="100"/>
+            <column field="OrderDate" width="140" format="{0:MM/dd/yyyy}"/>
+            <column field="ShipName"/>
+            <column field="ShipCity" width="150"/>
+        </columns>
+        <pageable enabled="true"/>
+        <sortable enabled="true"/>
+        <scrollable enabled="true"/>
+        <filterable enabled="true"/>
+    </kendo-grid>

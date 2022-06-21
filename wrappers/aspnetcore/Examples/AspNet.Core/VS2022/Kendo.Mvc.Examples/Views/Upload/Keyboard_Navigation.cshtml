@@ -1,0 +1,15 @@
+@using Kendo.Mvc.UI
+<div>
+    <div class="demo-section">
+        @(Html.Kendo().Upload()
+            .Name("files")
+            .HtmlAttributes(new { accesskey = "w" })
+            .Async(a => a
+                .Save("Chunk_Upload_Save", "Upload")
+                .Remove("Chunk_Upload_Remove", "Upload")
+                .AutoUpload(false)
+                .ChunkSize(1100)
+            )
+        )
+    </div>
+</div>

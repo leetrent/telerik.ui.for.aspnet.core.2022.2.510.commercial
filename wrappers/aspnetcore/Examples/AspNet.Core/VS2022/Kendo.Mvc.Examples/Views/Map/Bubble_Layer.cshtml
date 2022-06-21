@@ -1,0 +1,92 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Bubble symbol</h4>
+        <div id="select-symbol">
+            <span>Circle</span>
+            <span>Square</span>
+        </div>
+    </div>
+    <div id="info" class="box-col"></div>
+</div>
+
+@(Html.Kendo().Map()
+    .Name("map")
+    .Center(45, 45)
+    .Zoom(4)
+    .MinZoom(3)
+    .Wraparound(false)
+    .Layers(layers =>
+    {
+        layers.Add()
+            .Type(MapLayerType.Tile)
+            .UrlTemplate("https://#= subdomain #.tile.openstreetmap.org/#= zoom #/#= x #/#= y #.png")
+            .Subdomains("a", "b", "c")
+            .Attribution("&copy; <a href='https://osm.org/copyright'>OpenStreetMap contributors</a>");
+
+        layers.Add()
+            .Type(MapLayerType.Bubble)
+            .Style(style => style
+                .Fill(fill => fill.Color("#00f").Opacity(0.4))
+                .Stroke(stroke => stroke.Width(0))
+            )
+            .DataSource(dataSource => dataSource
+                  .Read(read => read.Action("_UrbanAreas", "Map"))
+            )
+            .LocationField("Location")
+            .ValueField("Pop2010");
+    })
+    .Events(events => events
+        .ShapeMouseEnter("onShapeMouseEnter")
+        .Reset("onReset")
+    )
+)
+
+<script id="info-template" type="text/x-kendo-template">
+    <h4>#: City #, #= Country #</h4>
+    <p class="info">Population #= kendo.toString(Pop2010 * 1000, "N0") #</p>
+</script>
+
+<script id="empty-info-template" type="text/x-kendo-template">
+    <h4>Hover over urban areas</h4>
+    <p>&nbsp;</p>
+</script>
+
+@section scripts {
+    <script>
+        var template, emptyTemplate, activeShape;
+
+        function onShapeMouseEnter(e) {
+            if (!template) {
+                return;
+            }
+            if (activeShape) {
+                activeShape.options.set("stroke", null);
+            }
+            activeShape = e.shape;
+            activeShape.options.set("stroke", { width: 1.5, color: "#00f" });
+            $("#info").html(template(e.shape.dataItem));
+        }
+
+        function onReset() {
+            if (!emptyTemplate) {
+                return;
+            }
+            $("#info").html(emptyTemplate({}));
+            activeShape = null;
+        }
+
+        $(document).on("kendoReady", function () {
+            template = kendo.template($("#info-template").html());
+            emptyTemplate = kendo.template($("#empty-info-template").html());
+            $("#select-symbol").kendoButtonGroup({
+                select: function (e) {
+                    var layer = $("#map").data("kendoMap").layers[1];
+                    layer.options.symbol = this.current().index() === 0 ? "circle" : "square";
+                    layer.reset();
+                },
+                index: 0
+            });
+        });
+    </script>
+}

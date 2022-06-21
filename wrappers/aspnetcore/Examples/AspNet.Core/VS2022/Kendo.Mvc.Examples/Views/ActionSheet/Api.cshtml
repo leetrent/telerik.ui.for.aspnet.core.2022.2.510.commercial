@@ -1,0 +1,163 @@
+<div class="demo-section wide">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Open / Destroy</h4>
+            <ul class="options">
+                <li>
+                    @(Html.Kendo().Button()
+                        .Name("open")
+                        .HtmlAttributes( new {type = "button" } )
+                        .Content("Open")
+                        .Events(ev => ev.Click("openActionSheetBttn"))
+                    )
+                    @(Html.Kendo().Button()
+                        .Name("close")
+                        .HtmlAttributes( new {type = "button" } )
+                        .Content("Close")
+                        .Events(ev => ev.Click("closeActionSheetBttn"))
+                    )
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Destroy</h4>
+            <ul class="options">
+                <li>
+                    @(Html.Kendo().Button()
+                        .Name("destroy")
+                        .HtmlAttributes( new {type = "button" } )
+                        .Content("Destroy")
+                        .Events(ev => ev.Click("destroyActionSheetBttn"))
+                    )
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="demo-section wide">
+        <div class="demo-app" style="position:relative">
+            <div id="city" class="demo-view" style="position:absolute">
+                <div class="cards-container">
+                    <div class="k-card">
+                        <div class="k-card-header">
+                            <h5 class="k-card-title">San Francisco</h5>
+                            <h6 class="k-card-subtitle">City in California</h6>
+                        </div>
+                        <img class="k-card-image" src="~/shared/web/cards/sanfran.jpg" />
+                        <div class="k-card-body">
+                            <p>San Francisco, officially City and County of San Francisco and colloquially known as SF, San Fran or "The City", is the cultural, commercial, and financial center of Northern California.</p>
+                        </div>
+                    </div>
+                </div>
+                @(Html.Kendo().Button()
+                        .Name("openActionSheetBttn")
+                        .ThemeColor(ThemeColor.Primary)
+                        .Content("OPEN ACTION SHEET")
+                        .Events(ev => ev.Click("openActionSheetBttn"))
+                    )
+                @(Html.Kendo().ActionSheet()
+                        .Name("actionsheet")
+                        .Title("Select item")
+                        .Items(items =>
+                        {
+                            items.Add().Text("Edit Item").IconClass("k-icon k-i-edit").Click("onClick");
+                            items.Add().Text("Add to Favorites").IconClass("k-icon k-i-heart").Click("onClick");
+                            items.Add().Text("Upload New").IconClass("k-icon k-i-upload").Click("onClick");
+                            items.Add().Text("Cancel").IconClass("k-icon k-i-cancel").Group("bottom").Click("onClick");
+                        })
+                    )
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function openActionSheetBttn() {
+            var actionsheet = $("#actionsheet").data("kendoActionSheet");
+            actionsheet.open()
+        }
+
+        function closeActionSheetBttn() {
+            var actionsheet = $("#actionsheet").data("kendoActionSheet");
+            actionsheet.close()
+        }
+
+        function destroyActionSheetBttn() {
+            var actionsheet = $("#actionsheet").data("kendoActionSheet");
+            actionsheet.destroy();
+            kendo.alert("Kendo Action Sheet distroyed!");
+        }
+
+        function onClick(e) {
+            e.preventDefault();
+            var actionsheet = $("#actionsheet").data("kendoActionSheet");
+            actionsheet.close();
+        }
+    </script>
+}
+
+<style>
+    .demo-view {
+        transform: scale(1);
+        overflow: hidden;
+    }
+
+    .k-actionsheet-container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .k-actionsheet-container > .k-overlay {
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }    
+
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 35px;
+    }
+
+    .k-card {
+        width: 285px;
+        margin: 5%;
+    }
+
+    #openActionSheetBttn {
+        margin: 0 auto;
+        display: block;
+    }
+
+    .demo-app {
+        margin: auto;
+        width: 380px;
+        height: 600px;
+        background: #FFFFFF;
+        box-shadow: 0px 10px 20px #00000016;
+        border-radius: 30px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+    }
+
+    #city {
+        background: #F9F9F9;
+        height: inherit;
+        width: inherit;
+        border-radius: 30px;
+        border: 10px solid white;
+        box-sizing: border-box;
+    }
+
+
+    .demo-app h3 {
+        padding-top: 24px;
+        text-align: center;
+        font-size: 28px;
+        letter-spacing: 0.28px;
+        color: #3D57D8;
+        font-weight: 400;
+    }
+</style>

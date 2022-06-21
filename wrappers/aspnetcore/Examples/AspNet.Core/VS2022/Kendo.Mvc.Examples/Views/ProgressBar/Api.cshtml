@@ -1,0 +1,86 @@
+@using Kendo.Mvc.UI
+
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Toggle state</h4>
+        <ul class="options">
+            <li>
+                <button  id="enableProgressBar">Enable</button>
+                <button  id="disableProgressBar">Disable</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Value</h4>
+        <ul class="options">
+            <li>
+                <input type="text" id="newValue" value="25"  placeholder="e.g. 23" />
+                <button  id="setProgressBarValue">Set value</button>
+                <button  id="getProgressBarValue">Get value</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Indeterminate</h4>
+        <ul class="options">
+            <li>
+                <button  id="setIndeterminate">Set indeterminate</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    @(Html.Kendo().ProgressBar()
+              .Name("progressBar")
+              .Min(0)
+              .Max(100)
+              .Type(ProgressBarType.Value)
+              .Animation(a => a.Duration(4000))
+    )
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            var pb = $("#progressBar").data("kendoProgressBar");
+
+            $("#setProgressBarValue").click(function () {
+                pb.value($("#newValue").val());
+            });
+
+            $("#getProgressBarValue").click(function () {
+                alert("Current ProgressBar value is: " + pb.value());
+            });
+
+            $("#setIndeterminate").click(function () {
+                pb.value(false);
+            });
+
+            $("#enableProgressBar").click(function () {
+                pb.enable();
+            });
+
+            $("#disableProgressBar").click(function () {
+                pb.enable(false);
+            });
+        });
+    </script>
+}
+
+<style>
+    .box .k-textbox {
+        margin: 0;
+        width: 80px;
+    }
+
+    #progressBar {
+        width:100%
+    }
+
+    .k-button {
+        min-width: 80px;
+    }
+</style>

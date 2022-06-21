@@ -1,0 +1,22 @@
+@addTagHelper *, Kendo.Mvc
+
+<h4 style="text-align: center;">ColorPalette</h4>
+
+<div style="text-align: center;">
+    <kendo-colorpalette name="colorpalette" style="margin:auto"></kendo-colorpalette>
+</div>
+
+@section scripts{
+    <script>
+        $(document).on("keydown.examples", function (e) {
+            if (e.altKey && e.keyCode === 87 /* w */) {
+                $("#colorpalette").data("kendoColorPalette").focus();
+            }
+        });
+    </script>
+}
+<style>
+    .k-colorgradient-input-label {
+        text-align: initial;
+    }
+</style>

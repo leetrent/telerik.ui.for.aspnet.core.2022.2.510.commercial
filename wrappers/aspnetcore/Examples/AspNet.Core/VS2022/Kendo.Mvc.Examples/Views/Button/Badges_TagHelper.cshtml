@@ -1,0 +1,62 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="example">
+    <div class="demo-section">
+        <h4>Overlay badges</h4>
+        <div>
+            <kendo-button name="overlayDot">
+                <badge
+                   shape="@BadgeShape.Dot"
+                   theme-color="@BadgeColor.Success"/>
+                Overlay Dot
+            </kendo-button>
+
+            <kendo-button name="overlayPill">
+                <badge
+                   text="error"
+                   shape="@BadgeShape.Pill"
+                   theme-color="@BadgeColor.Error"/>
+                Overlay Pill
+            </kendo-button>
+
+            <kendo-button name="overlayRectangle">
+                <badge
+                   text="success"
+                   shape="@BadgeShape.Rectangle"
+                   theme-color="@BadgeColor.Info"/>
+                Overlay Rectangle
+            </kendo-button>
+        </div>
+
+        <hr class="k-hr" />
+
+        <h4>Inline badges</h4>
+        <div>
+            <kendo-button name="inlineDot">
+                <badge
+                   position="@BadgePosition.Inline"
+                   shape="@BadgeShape.Dot"
+                   theme-color="@BadgeColor.Success"/>
+                Inline Dot
+            </kendo-button>
+
+            <kendo-button name="inlinePill">
+                <badge
+                   text="error"
+                   position="@BadgePosition.Inline"
+                   shape="@BadgeShape.Pill"
+                   theme-color="@BadgeColor.Error"/>
+                Inline Pill
+            </kendo-button>
+
+            <kendo-button name="inlineRectangle">
+                <badge
+                   text="success"
+                   position="@BadgePosition.Inline"
+                   shape="@BadgeShape.Rectangle"
+                   theme-color="@BadgeColor.Info"/>
+                Inline Rectangle
+            </kendo-button>
+        </div>
+    </div>
+</div>

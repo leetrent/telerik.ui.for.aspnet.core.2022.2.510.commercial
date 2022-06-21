@@ -1,0 +1,128 @@
+<div class="configurator">
+    <div class="header">Configurator</div>   
+    <div class="box-col">
+        <h4>API Functions</h4>
+        <ul class="options">
+            <li>
+                <button id="enable">Enable</button> <button id="disable">Disable</button>
+            </li>
+            <li>
+                <button id="readonly">Readonly</button>
+            </li>
+            <li>
+                <button id="open">Open</button> <button id="close">Close</button>
+            </li>
+            <li>
+                <button id="getValue">Get value</button> <button id="getText">Get text</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Selection</h4>
+        <ul class="options">
+            <li>
+                <input id="index" value="0" style="width: 40px; margin: 0;" /> <button id="select">Select by index</button>
+            </li>
+            <li>
+                <input id="value" value="1" style="width: 40px; margin: 0;" /> <button id="setValue">Select by value</button>
+            </li>
+            <li>
+                <input id="word" value="Pulp" style="width: 100px; margin: 0;" /> <button id="find">Select item starting with</button>
+            </li>
+        </ul>
+    </div>   
+</div>
+<div class="demo-section">
+    <h4>Select movie</h4>
+    @(Html.Kendo().DropDownList()
+        .Name("movies")
+        .DataTextField("Text")
+        .DataValueField("Value")
+        .HtmlAttributes(new { style = "width: 100%" })
+        .BindTo(new List<SelectListItem>()
+        {
+            new SelectListItem() {
+            Text = "The Shawshank Redemption", Value ="1"
+            },
+            new SelectListItem() {
+            Text = "The Godfather", Value ="2"
+            },
+            new SelectListItem() {
+            Text = "The Godfather: Part II", Value ="3"
+            },
+            new SelectListItem() {
+            Text = "Il buono, il brutto, il cattivo.", Value ="4"
+            },
+            new SelectListItem() {
+            Text = "Pulp Fiction", Value ="5"
+            },
+            new SelectListItem() {
+            Text = "12 Angry Men", Value ="6"
+            },
+            new SelectListItem() {
+            Text = "Schindler's List", Value ="7"
+            },
+            new SelectListItem() {
+            Text = "One Flew Over the Cuckoo's Nest", Value ="8"
+            },
+            new SelectListItem() {
+            Text = "Inception", Value ="9"
+            },
+            new SelectListItem() {
+            Text = "The Dark Knight", Value ="10"
+            }
+        })
+)
+</div>
+
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            $("#movies").closest(".k-widget")
+                .attr("id", "products_wrapper");
+            var dropdownlist = $("#movies").data("kendoDropDownList"),
+                setValue = function (e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.value($("#value").val());
+                },
+                setIndex = function (e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                        var index = parseInt($("#index").val());
+                        dropdownlist.select(index);
+                    }
+                },
+                setSearch = function (e) {
+                    if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                        dropdownlist.search($("#word").val());
+                };
+            $("#enable").click(function () {                
+                dropdownlist.enable();
+            });
+            $("#disable").click(function () {
+                dropdownlist.enable(false);
+            });
+            $("#readonly").click(function () {
+                dropdownlist.readonly();
+            });
+            $("#open").click(function () {
+                dropdownlist.open();
+            });
+            $("#close").click(function () {
+                dropdownlist.close();
+            });
+            $("#getValue").click(function () {
+                alert(dropdownlist.value());
+            });
+            $("#getText").click(function () {
+                alert(dropdownlist.text());
+            });
+            $("#setValue").click(setValue);
+            $("#value").keypress(setValue);
+            $("#select").click(setIndex);
+            $("#index").keypress(setIndex);
+            $("#find").click(setSearch);
+            $("#word").keypress(setSearch);
+        });
+    </script>
+}

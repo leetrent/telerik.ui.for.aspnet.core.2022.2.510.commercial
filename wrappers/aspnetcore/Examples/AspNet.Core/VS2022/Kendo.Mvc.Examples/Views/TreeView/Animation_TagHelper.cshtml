@@ -1,0 +1,105 @@
+@addTagHelper *, Kendo.Mvc
+
+@using (Html.BeginForm("Animation", "TreeView", FormMethod.Post))
+{     
+   <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Animation Settings</h4>
+            <ul class="options">
+                <li>
+                    @Html.RadioButton("animation", "toggle")
+                    @Html.Label("toggle", "toggle animation")
+                </li>
+                <li>
+                    @Html.RadioButton("animation", "expand")
+                    @Html.Label("expand", "expand animation")
+                </li>
+                <li>
+                    @Html.CheckBox("opacity")
+                    @Html.Label("opacity", "animate opacity")
+                </li>
+            </ul>
+
+            <button style="margin-top:1em;">Apply</button>
+        </div>
+  </div>
+}
+
+<div class="demo-section">
+    <kendo-treeview auto-bind="true" load-on-demand="true" name="treeview">
+        <animation>
+            @{
+                if (ViewBag.animation == "expand")
+                {
+                    <expand effects="vertical" />
+                }
+                if (ViewBag.animation == "slide")
+                {
+                    <expand effects="vertical" />
+                }
+                if (ViewBag.opacity)
+                {
+                    <expand  effects="fade:in" />
+                }
+            }
+        </animation>
+	    <items>
+            <treeview-item expanded="false" checked="false" text="Furniture" selected="false" enabled="true">
+                <items>
+                    <treeview-item expanded="false" checked="false" text="Tables & Chairs" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Sofas" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Occasional Furniture" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Childerns Furniture" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Beds" selected="false" enabled="true">
+				    </treeview-item>
+			    </items>
+	 	    </treeview-item>
+	 	    <treeview-item expanded="true" checked="false" text="Decor" selected="false" enabled="true">
+	 	 	    <items>
+                    <treeview-item expanded="false" checked="false" text="Bed Linen" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Throws" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Curtains & Blinds" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Rugs" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Carpets" selected="false" enabled="true">
+                    </treeview-item>
+			    </items>
+	 	    </treeview-item>
+            <treeview-item expanded="false" checked="false" text="Storage" selected="false" enabled="true">
+                <items>
+                    <treeview-item expanded="false" checked="false" text="Wall Shelving" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Kids Storage" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Baskets" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Multimedia Storage" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Floor Shelving" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Toilet Roll Holders" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Storage Jars" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Drawers" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Boxes" selected="false" enabled="true">
+                    </treeview-item>
+                </items>
+                </treeview-item>
+            </items>
+</kendo-treeview>
+</div>
+
+ <style>
+    /* demo style, do not show treeview scrollbars */
+    div.k-treeview { overflow: visible; }
+</style>

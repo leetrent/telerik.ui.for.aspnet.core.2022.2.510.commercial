@@ -1,0 +1,101 @@
+@(Html.Kendo().Splitter()
+      .Name("vertical")
+      .Orientation(SplitterOrientation.Vertical)
+      .Panes(verticalPanes =>
+      {
+          verticalPanes.Add()
+              .HtmlAttributes(new { id = "top-pane" })
+              .Scrollable(false)
+              .Collapsible(false)
+              .Content(
+                Html.Kendo().Splitter()
+                    .Name("horizontal")
+                    .HtmlAttributes(new { style = "height: 100%;" })
+                    .Panes(horizontalPanes =>
+                    {
+                        horizontalPanes.Add()
+                            .HtmlAttributes(new { id = "left-pane" })
+                            .Size("220px")
+                            .Collapsible(true)
+                            .Content(@<div class="pane-content">
+                                <h3>Inner splitter / left pane</h3>
+                                <p>Resizable and collapsible.</p>
+                            </div>);
+
+horizontalPanes.Add()
+    .HtmlAttributes(new { id = "center-pane" })
+    .Content(@<div class="pane-content">
+        <h3>Inner splitter / center pane</h3>
+        <p>Resizable only.</p>
+    </div>);
+
+horizontalPanes.Add()
+    .HtmlAttributes(new { id = "right-pane" })
+    .Collapsible(true)
+    .Size("220px")
+    .Content(@<div class="pane-content">
+        <h3>Inner splitter / right pane</h3>
+        <p>Resizable and collapsible.</p>
+    </div>);
+                    }).ToHtmlString()
+              );
+
+          verticalPanes.Add()
+              .Size("100px")
+              .HtmlAttributes(new { id = "bottom-pane" })
+              .Resizable(false)
+              .Collapsible(false)
+              .Content(@<div class="pane-content">
+                <h3>Outer splitter / bottom pane</h3>
+                <p>Non-resizable and non-collapsible.</p>
+            </div>);
+      })
+)
+
+
+@section scripts {
+<script>
+    //focus the widget
+    $(document).on("keydown.examples", function (e) {
+        if (e.altKey && e.keyCode === 87 /* w */) {
+            $("#horizontal").find(".k-splitbar:first").focus();
+        }
+    });
+</script>
+}
+
+<style>
+    #vertical {
+        height: 200px;
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #middle-pane {
+        background-color: rgba(60, 70, 80, 0.10);
+    }
+
+    #bottom-pane {
+        background-color: rgba(60, 70, 80, 0.15);
+    }
+
+    #left-pane, #center-pane, #right-pane {
+        background-color: rgba(60, 70, 80, 0.05);
+    }
+
+    .pane-content {
+        padding: 0 10px;
+    }
+
+    #keyboard-nav {
+        padding-top: 35px;
+    }
+
+    ul.keyboard-legend li {
+        margin: 5px 0 15px 5px;
+    }
+
+    div.demo-section {
+        margin: 0px auto;
+    }
+</style>

@@ -1,0 +1,11 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <h4>Select product</h4>
+    <kendo-combobox datatextfield="ProductName" datavaluefield="ProductID" filter="FilterType.Contains" name="products" style="width:100%;">
+        <datasource server-filtering="false">
+            <transport>
+                <read url="@Url.Action("ClientFiltering_GetProducts","ComboBox")" cache="true" />
+            </transport>
+        </datasource>
+    </kendo-combobox>
+</div>

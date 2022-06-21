@@ -1,0 +1,85 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>SIZE</h4>
+        <ul class="options">
+            <li>
+                <input id="size" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>BORDER RADIUS</h4>
+        <ul class="options">
+            <li>
+                <input id="rounded" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>FILL MODE</h4>
+        <ul class="options">
+            <li>
+                <input id="fillMode" />
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="demo-section">
+    <h4>Set value</h4>
+
+    @(Html.Kendo().MaskedTextBox()
+                .Name("maskedtextbox")
+                .Size(ComponentSize.Medium)
+                .Rounded(Rounded.Medium)
+                .FillMode(FillMode.Solid)
+                .Mask("(999) 000-0000")
+                .Label(l => l.Content("Phone number").Floating(true))
+    )
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            var maskedtextbox = $("#maskedtextbox").data("kendoMaskedTextBox");
+
+            $("#size").kendoDropDownList({
+                dataSource: ["small", "medium", "large"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    maskedtextbox.setOptions({ size: value });
+                }
+            });
+
+            $("#rounded").kendoDropDownList({
+                dataSource: ["small", "medium", "large", "full"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    maskedtextbox.setOptions({ rounded: value });
+                }
+            });
+
+            $("#fillMode").kendoDropDownList({
+                dataSource: ["solid", "flat", "outline"],
+                value: "solid",
+                change: function () {
+                    let value = this.value();
+                    maskedtextbox.setOptions({ fillMode: value });
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    #maskedtextbox {
+        width: 135px;
+        margin-left: 3px;
+    }
+
+    .k-floating-label-container {
+        width: 100%;
+    }
+</style>

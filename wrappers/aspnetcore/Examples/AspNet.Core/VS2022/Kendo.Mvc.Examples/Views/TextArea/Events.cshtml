@@ -1,0 +1,17 @@
+<div class="demo-section">
+    <h4>Set value</h4>
+    @(Html.Kendo().TextArea()
+        .Name("description")
+        .Rows(5)
+        .Events(e => e.Change("onChange"))
+        .HtmlAttributes(new { style = "width: 100%" })
+    )
+</div>
+
+@section scripts {
+    <script>
+        function onChange() {
+            kendoConsole.log("Change :: " + this.value());
+        };
+    </script>
+}

@@ -1,0 +1,19 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var size_data = new List<string>() {
+        "X-Small",
+        "Small",
+        "Medium",
+        "Large",
+        "X-Large",
+        "2X-Large"
+    };
+}
+
+<div class="demo-section">
+    <h4>T-shirt Size</h4>
+    <kendo-dropdownlist name="size" style="width: 100%" accesskey="w"
+        bind-to="size_data">
+    </kendo-dropdownlist>
+</div>

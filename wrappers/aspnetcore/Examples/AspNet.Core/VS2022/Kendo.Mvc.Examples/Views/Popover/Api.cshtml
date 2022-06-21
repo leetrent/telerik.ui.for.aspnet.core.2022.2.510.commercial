@@ -1,0 +1,57 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Show at</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().DropDownList()
+                    .Name("selector")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .BindTo(new[] {
+                        new { Text = "Target 1", Value = 1 },
+                        new { Text = "Target 2", Value = 2 }
+                        })
+                    .Events(events => events.Change("change"))
+                )
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="popover">
+    <div id="target1" class="k-group">
+        Target 1
+    </div>
+    <div id="target2" class="k-group">
+        Target 2
+    </div>
+</div>
+
+@(Html.Kendo().Popover()
+    .For("#popover")
+    .Filter("div")
+    .Position(PopoverPosition.Right)
+    .ShowOn(PopoverShowOn.MouseEnter)
+    .Body("<span>#= target.text() #</span>")
+    .Width(200)
+)
+
+@section scripts {
+    <script type="text/javascript">
+        function change() {
+            $("#popover").data("kendoPopover").show($("#target" + this.value()));
+        }
+    </script>
+}
+<style>
+    #target1, #target2 {
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        width: 200px;
+        white-space: nowrap;
+        border-width: 1px;
+        border-style: solid;
+        padding: 2em;
+    }
+</style>

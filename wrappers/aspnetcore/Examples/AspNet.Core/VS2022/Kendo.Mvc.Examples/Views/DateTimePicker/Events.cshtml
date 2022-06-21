@@ -1,0 +1,30 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h3 class="title">Select date and time
+    </h3>
+    @(Html.Kendo().DateTimePicker()
+          .Name("datetimepicker")
+          .HtmlAttributes(new { style = "width:100%;" })
+          .Events(e =>
+          {
+              e.Change("change").Open("open").Close("close");
+          })
+    )
+</div>
+
+@section scripts {
+<script>
+    function open(e) {
+        kendoConsole.log("Open :: " + e.view + "-view");
+    }
+
+    function close(e) {
+        kendoConsole.log("Close :: " + e.view + "-view");
+    }
+
+    function change() {
+        kendoConsole.log("Change :: " + kendo.toString(this.value(), 'g'));
+    }
+</script>
+}

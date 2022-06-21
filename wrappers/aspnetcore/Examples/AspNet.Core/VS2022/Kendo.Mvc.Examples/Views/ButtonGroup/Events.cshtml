@@ -1,0 +1,28 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    @(Html.Kendo().ButtonGroup()
+       .Name("player")
+       .Items(t =>
+       {
+           t.Add().Text("Month");
+           t.Add().Text("Quarter");
+           t.Add().Text("Year");
+       })
+       .Events(ev => ev.Select("onSelect"))
+    )
+</div>
+
+@section scripts {
+<script>
+    function onSelect(e) {
+        kendoConsole.log("selected index:" + e.indices);
+    }
+</script>
+}
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

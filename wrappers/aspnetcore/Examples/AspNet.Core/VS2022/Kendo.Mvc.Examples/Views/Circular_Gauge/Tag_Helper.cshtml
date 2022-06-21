@@ -1,0 +1,35 @@
+@addTagHelper *, Kendo.Mvc
+
+@section HeadContent
+    {
+    <style>
+        #gauge-container {
+            width: 300px;
+            text-align: center;
+            margin: 0 auto 30px auto;
+            padding-top: 30px;
+        }
+
+        .k-arcgauge-label {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+<div id="example">
+    <div id="gauge-container">
+        <kendo-circulargauge name="gauge" center-template="<p>Loading...</p>#:value#%" value="65">
+           <scale min="0" max="100">               
+           </scale>
+        </kendo-circulargauge>
+ 
+        <kendo-slider name="gauge-value" value="65" min="0" max="100" show-buttons="false" on-change="updateValue"></kendo-slider>
+    </div>
+    @section scripts {
+<script>
+        function updateValue() {
+            $("#gauge").data("kendoCircularGauge").value($("#gauge-value").val());
+        }
+    </script>
+}
+</div>

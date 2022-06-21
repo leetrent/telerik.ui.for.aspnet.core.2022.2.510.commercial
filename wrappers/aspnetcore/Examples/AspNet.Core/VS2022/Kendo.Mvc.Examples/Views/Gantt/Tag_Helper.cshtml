@@ -1,0 +1,105 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-gantt name="gantt" show-work-days="false" show-work-hours="false" snap="false" height="700" filterable="true" column-menu="true">
+    <columns>
+        <gantt-column field="title" title="Title" editable="true">
+            <sortable enabled="true" />
+        </gantt-column>
+        <gantt-column title="Timings">
+            <columns>
+                <gantt-column field="start">
+                    <sortable enabled="true" />
+                </gantt-column>
+                <gantt-column field="end">
+                    <sortable enabled="true" />
+                </gantt-column>
+            </columns>
+        </gantt-column>
+        <gantt-column field="resources" title="Assigned Resources" editable="true"></gantt-column>
+    </columns>
+    <views>
+        <gantt-view type="GanttViewType.Day"></gantt-view>
+        <gantt-view type="GanttViewType.Week"></gantt-view>
+        <gantt-view type="GanttViewType.Month" selected="true"></gantt-view>
+    </views>
+    <gantt-datasource type="DataSourceTagHelperType.Ajax">
+        <transport>
+            <read url="@Url.Action("TagHelper_ReadTasks","Gantt")" />
+            <destroy url="@Url.Action("TagHelper_DestroyTask","Gantt")" />
+            <update url="@Url.Action("TagHelper_UpdateTask","Gantt")" data="onUpdateCreate" />
+            <create url="@Url.Action("TagHelper_CreateTask","Gantt")" data="onUpdateCreate" />
+        </transport>
+        <schema>
+            <model id="TaskID">
+                <fields>
+                    <field name="TaskID" type="number"></field>
+                    <field name="parentId" from="ParentID" type="number" default-value="null"></field>
+                    <field name="title" from="Title" type="string"></field>
+                    <field name="start" from="Start" type="date"></field>
+                    <field name="end" from="End" type="date"></field>
+                    <field name="summary" from="Summary" type="boolean"></field>
+                    <field name="expanded" from="Expanded" type="boolean" default-value="true"></field>
+                    <field name="percentComplete" from="PercentComplete" type="number"></field>
+                    <field name="orderId" from="OrderId" type="number"></field>
+                </fields>
+            </model>
+        </schema>
+    </gantt-datasource>
+    <dependency-datasource name="dependencies" type="DataSourceTagHelperType.Ajax">
+        <transport>
+            <read url="@Url.Action("TagHelper_ReadDependencies", "Gantt")" />
+            <create url="@Url.Action("TagHelper_CreateDependency", "Gantt")" />
+            <destroy url="@Url.Action("TagHelper_DestroyDependency", "Gantt")" />
+        </transport>
+        <schema>
+            <model id="DependencyID">
+                <fields>
+                    <field name="DependencyID" type="number"></field>
+                    <field name="predecessorId" from="PredecessorID" type="number"></field>
+                    <field name="successorId" from="SuccessorID" type="number"></field>
+                    <field name="type" from="Type" type="number"></field>
+                </fields>
+            </model>
+        </schema>
+    </dependency-datasource>
+    <resources field="resources" datacolorfield="Color" datatextfield="Name">
+        <datasource type="DataSourceTagHelperType.Custom">
+            <schema data="Data">
+                <model id="ID"></model>
+            </schema>
+            <transport>
+                <read url="@Url.Action("TagHelper_ReadResources", "Gantt")" />
+            </transport>
+        </datasource>
+    </resources>
+    <assignments datataskidfield="TaskID" dataresourceidfield="ResourceID" datavaluefield="Units">
+        <datasource type="DataSourceTagHelperType.Ajax">
+            <schema>
+                <model id="ID">
+                    <fields>
+                        <field name="ID" type="number"></field>
+                        <field name="TaskID" type="number"></field>
+                        <field name="ResourceID" type="number"></field>
+                        <field name="Units" type="number"></field>
+                    </fields>
+                </model>
+            </schema>
+            <transport>
+                <read url="@Url.Action("TagHelper_ReadAssignments", "Gantt")" />
+                <create url="@Url.Action("TagHelper_CreateAssignment", "Gantt")" />
+                <destroy url="@Url.Action("TagHelper_DestroyAssignment", "Gantt")" />
+                <update url="@Url.Action("TagHelper_UpdateAssignment", "Gantt")" />
+            </transport>
+        </datasource>    
+    </assignments>
+</kendo-gantt>
+
+@section scripts {
+<script>
+    // Send the dates for the newly creted/updated tasks as UTC strings
+    function onUpdateCreate(e) {
+        e.End = e.End.toISOString();
+        e.Start = e.Start.toISOString();
+    }
+</script>
+}

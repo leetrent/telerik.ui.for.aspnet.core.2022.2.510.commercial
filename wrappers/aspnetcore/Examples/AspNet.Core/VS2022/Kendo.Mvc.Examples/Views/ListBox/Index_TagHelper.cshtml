@@ -1,0 +1,48 @@
+@addTagHelper *,Kendo.Mvc
+@{
+    var tools = new string[] { "moveUp", "moveDown", "transferTo", "transferFrom", "transferAllTo", "transferAllFrom", "remove" };
+    var selectedItems = new List<SelectListItem>();
+}
+<div id="example" role="application">
+    <div class="demo-section wide">
+        <label for="optional" id="employees">Employees</label>
+        <label for="selected">Developers</label>
+        <br />
+        <kendo-listbox name="optional"
+                       connect-with="selected"
+                       bind-to="@ViewBag.Attendees">
+                <toolbar position="ListBoxToolbarPosition.Right"
+                         tools="tools"/>
+        </kendo-listbox>
+        <kendo-listbox name="selected"
+                       bind-to="selectedItems"
+                       selectable="ListBoxSelectable.Multiple">
+        </kendo-listbox>
+    </div>
+</div>
+
+<style>
+    #employees {
+        width: 270px;
+    }
+
+    .demo-section label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        display: inline-block;
+    }
+    #example .demo-section {
+        max-width: none;
+        width: 600px;
+    }
+
+    #example .k-listbox {
+        width: 236px;
+        height: 350px;
+    }
+
+    #example .k-listbox:first-of-type {
+        width: 270px;
+        margin-right: 1px;
+    }
+</style>

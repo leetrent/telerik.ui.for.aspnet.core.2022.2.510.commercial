@@ -1,0 +1,31 @@
+<div class="demo-section">
+    @(Html.Kendo().ExpansionPanel()
+            .Name("brazil")
+            .Title("Brazil")
+            .SubTitle("South America")
+            .Expanded(true)
+            .Events(e => e.Expand("onExpand").Collapse("onCollapse").Complete("onComplete"))
+            .Content("The word 'Brazil' likely comes from the Portuguese word for brazilwood, a tree that once grew plentifully along the Brazilian coast. In Portuguese, brazilwood is called pau-brasil, with the word brasil commonly given the etymology 'red like an ember', formed from brasa ('ember') and the suffix -il (from -iculum or -ilium). As brazilwood produces a deep red dye, it was highly valued by the European textile industry and was the earliest commercially exploited product from Brazil. Throughout the 16th century, massive amounts of brazilwood were harvested by indigenous peoples (mostly Tupi) along the Brazilian coast, who sold the timber to European traders (mostly Portuguese, but also French) in return for assorted European consumer goods.")
+            )
+</div>
+
+@section scripts {
+    <script>
+        function onExpand() {
+            kendoConsole.log("Expand");
+        };
+
+        function onCollapse() {
+            kendoConsole.log("Collapse");
+        };
+
+        function onComplete() {
+            kendoConsole.log("Complete");
+        };
+    </script>
+}
+<style>
+    .k-expander-content {
+        max-width: 600px;
+    }
+</style>

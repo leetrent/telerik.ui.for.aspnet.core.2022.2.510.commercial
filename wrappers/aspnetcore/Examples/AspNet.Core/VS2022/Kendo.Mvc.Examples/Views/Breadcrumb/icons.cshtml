@@ -1,0 +1,41 @@
+
+    <div id="example">
+        <div class="configurator">
+            <div class="header">Configurator</div>
+            <div class="box-col">
+                <button  onClick="window.location.reload()">
+                    <span class="k-icon k-i-refresh"></span>Refresh Breadcrumb
+                </button>
+            </div>
+        </div>
+        <div class="demo-section wide">
+            <h4>Breadcrumb Icons</h4>
+            @(Html.Kendo().Breadcrumb()
+                .Name("breadcrumb")
+                .Items(items =>
+                {
+                    items.Add()
+                            .Type(BreadcrumbItemType.RootItem)
+                            .Href("https://demos.telerik.com/aspnet-core/")
+                            .Text("All Components")
+                            .ShowText(true)
+                            .Icon("globe");
+                    items.Add()
+                            .Type(BreadcrumbItemType.Item)
+                            .Href("/breadcrumb")
+                            .Text("Breadcrumb")
+                            .ShowText(true)
+                            .Icon("gear")
+                            .ShowIcon(true);
+                        items.Add()
+                            .Type(BreadcrumbItemType.Item)
+                            .Href("/icons")
+                            .Text("Icons")
+                            .ShowText(true)
+                            .Icon("cloud")
+                            .ShowIcon(true);
+                })
+                .DelimiterIcon("line")
+        )
+        </div>
+    </div>

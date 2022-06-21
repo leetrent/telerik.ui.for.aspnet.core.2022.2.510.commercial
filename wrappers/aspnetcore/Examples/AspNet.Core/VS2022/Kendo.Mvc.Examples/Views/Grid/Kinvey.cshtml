@@ -1,0 +1,83 @@
+
+
+<!--[if gte IE 11]>-->
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.Product>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.ProductName);
+        columns.Bound(o => o.UnitPrice).Width(220);
+        columns.Bound(o => o.UnitsInStock).Width(220);
+        columns.Bound(o => o.Discontinued).Width(220);
+    })
+    .HtmlAttributes(new { style = "height: 550px;" })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Custom()
+        .ServerSorting(true)
+        .ServerPaging(true)
+        .PageSize(20)
+        .Type("kinvey")
+        .Transport(new { typeName = "products" })
+    )
+    .Deferred()
+)
+<br />
+<!--<![endif]-->
+@section scripts{
+<!--[if gte IE 11]>-->
+<script data-src="@Url.Content("~/shared/kinvey-html5-sdk.min.js")"></script>
+<script data-src="@Url.Content("~/shared/kendo.data.kinvey.min.js")"></script>
+<script>
+    $(document).on("kendoReady", function () {
+        Kinvey.init({
+            appKey: 'kid_SJyRpx96G',
+            appSecret: 'a88466f87e434ca4a1a0194e33d3168d'
+        });
+
+        // Get the locally stored activeUser
+        var activeUser = Kinvey.User.getActiveUser();
+        var userPromise;
+
+        if (activeUser === null) {
+            userPromise = Kinvey.User.signup();
+
+        } else {
+            userPromise = activeUser.me();
+        }
+
+        userPromise
+            // skipped if no error
+            .catch(function (userError) {
+                if (userError.name === 'InvalidCredentialsError') {
+                    // clear the activeUser using logout and then initiate login and return login response
+                    return Kinvey.User.logout()
+                        .then(function () {
+                            return Kinvey.User.signup();
+                        });
+                }
+                else {
+                    // if the error is different from InvalidCredentialsError, forward it down the chain
+                    return Promise.reject(userError);
+                }
+            })
+            .then(function () {
+                createGrid();
+            })
+            .catch(function (error) {
+                alert(error.message);
+            });
+
+        function createGrid() {
+        //The initialization of the grid and specifically reading its data should be done after succesfull log-in of the user.
+        @Html.Kendo().DeferredScripts(false)
+        }
+    });
+
+
+
+</script>
+<!--<![endif]-->
+}

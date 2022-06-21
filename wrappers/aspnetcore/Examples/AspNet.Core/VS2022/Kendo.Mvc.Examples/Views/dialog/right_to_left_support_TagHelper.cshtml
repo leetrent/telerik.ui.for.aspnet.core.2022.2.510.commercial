@@ -1,0 +1,46 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="example" class="k-rtl">
+    <kendo-dialog name="dialog" title="Software Update" width="400" modal="false" on-close="onClose" on-open="onOpen">
+        <content>
+            <p>A new version of <strong>Kendo UI</strong> is available. Would you like to download and install it now?</p>
+        </content>
+        <actions>            
+            <action text="Skip this version">
+            </action>
+            <action text="Remind me later">
+            </action>
+            <action text="Install update" primary="true">
+            </action>
+        </actions>
+    </kendo-dialog>
+
+    <kendo-button name="showDialogBtn"
+        class="hide-on-narrow"
+        style="display:none;"
+        on-click="showDialog">
+        Open Dialog
+    </kendo-button>
+</div>
+
+@section scripts {
+<script>
+    function onClose() {
+        $("#showDialogBtn").fadeIn();
+    }
+
+    function onOpen() {
+        $("#showDialogBtn").fadeOut();
+    }
+
+    function showDialog() {
+        $('#dialog').data("kendoDialog").open();
+    }
+</script>
+}
+
+<style>
+    #example {
+        min-height: 350px;
+    }
+</style>

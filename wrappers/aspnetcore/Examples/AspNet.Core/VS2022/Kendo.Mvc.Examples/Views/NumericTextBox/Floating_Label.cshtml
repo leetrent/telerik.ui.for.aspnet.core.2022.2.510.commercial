@@ -1,0 +1,16 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>Set Value</h4>
+    @(Html.Kendo().NumericTextBox<decimal>()
+        .Name("numerictextbox")
+        .Format("n0")
+        .Label(l => l.Content("Age").Floating(true))
+    )
+</div>
+
+<style>
+    .k-floating-label-container {
+        width: 100%;
+    }
+</style>

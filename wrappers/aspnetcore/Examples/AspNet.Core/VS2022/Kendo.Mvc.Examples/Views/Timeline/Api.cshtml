@@ -1,0 +1,83 @@
+<div id="example">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Navigation</h4>
+            <ul class="options">
+                <li>
+                    <button class="k-button prev">Previous</button>
+                    <button class="k-button next">Next</button>
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Open Event at Index</h4>
+            <ul class="options">
+                <li>
+                    @(Html.Kendo().NumericTextBox()
+                       .Name("eventIndex")
+                       .Min(0)
+                       .Max(19)
+                       .Value(0)
+                       .Format("n0")
+                       .Decimals(0)
+                    )
+                    <button class="openEvent">Open event</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="demo-section wide">
+        @(Html.Kendo().Timeline<Kendo.Mvc.Examples.Models.TimelineEventModel>
+            ()
+            .Name("Timeline")
+            .DataDateField("EventDate")
+            .DataDescriptionField("Description")
+            .DataSubtitleField("Subtitle")
+            .DataTitleField("Title")
+            .DataImagesField("Images")
+            .DataActionsField("Actions")
+            .Orientation(TimelineOrientation.Horizontal)
+            .DataSource(dt => dt.Read("GetHorizontalEvents", "Timeline"))
+            )
+    </div>
+</div>
+
+    @section scripts {
+<script>
+        $(document).on("kendoReady", function () {
+            var next = function (e) {
+                var timeline = $("#Timeline").data("kendoTimeline");
+                timeline.next();
+            };
+
+            var prev = function (e) {
+                var timeline = $("#Timeline").data("kendoTimeline");
+                timeline.previous();
+            };
+
+            var openEvent = function (e) {
+                if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                    var timeline = $("#Timeline").data("kendoTimeline"),
+                        eventIndex = $("#eventIndex").val(),
+                        event = timeline.element.find("li.k-timeline-track-item:not(.k-timeline-flag-wrap)").eq(eventIndex);
+
+                    timeline.open(event);
+                }
+            };
+
+
+            $(".next").click(next);
+            $(".prev").click(prev);
+
+            $(".openEvent").click(openEvent);
+            $(".openEvent").keypress(openEvent);
+        });
+    </script>
+}
+
+<style>
+    .demo-section, .box {
+        max-width: 1200px;
+    }
+</style>

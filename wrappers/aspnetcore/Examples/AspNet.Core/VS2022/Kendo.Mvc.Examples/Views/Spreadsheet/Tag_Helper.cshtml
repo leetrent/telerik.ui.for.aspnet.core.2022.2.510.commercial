@@ -1,0 +1,174 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    string[] mergedCells = new string[] { "A1:G1", "C14:E14" };
+}
+
+<div>
+    <kendo-spreadsheet name="spreadsheet" style="width: 100%">
+        <excel proxy-url="@Url.Action("TagHelper_Save", "Spreadsheet" )" />
+        <pdf proxy-url="@Url.Action("TagHelper_Save", "Spreadsheet")" />
+        <sheets>
+            <sheet name="FoodOrder" merged-cells="@mergedCells">
+                <columns>
+                    <sheet-column width="100" />
+                    <sheet-column width="215" />
+                    <sheet-column width="115" />
+                    <sheet-column width="115" />
+                    <sheet-column width="115" />
+                    <sheet-column width="155" />
+                </columns>
+                <rows>
+                    <sheet-row height="70">
+                        <cells>
+                            <cell value="Invoice #52 - 06/23/2015" font-size="32" background="rgb(96, 181, 255)" text-align="SpreadsheetTextAlign.Center" color="white">
+                            </cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="ID" background="rgb(167,214,255)" color="rgb(0,62,117)" text-align="SpreadsheetTextAlign.Center"></cell>
+                            <cell value="Product" background="rgb(167,214,255)" color="rgb(0,62,117)" text-align="SpreadsheetTextAlign.Center"></cell>
+                            <cell value="Quantity" background="rgb(167,214,255)" color="rgb(0,62,117)" text-align="SpreadsheetTextAlign.Center"></cell>
+                            <cell value="Price" background="rgb(167,214,255)" color="rgb(0,62,117)" text-align="SpreadsheetTextAlign.Center"></cell>
+                            <cell value="Tax" background="rgb(167,214,255)" color="rgb(0,62,117)" text-align="SpreadsheetTextAlign.Center"></cell>
+                            <cell value="Amount" background="rgb(167,214,255)" color="rgb(0,62,117)" text-align="SpreadsheetTextAlign.Center"></cell>
+                            <cell background="rgb(167,214,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="216321" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Calzone" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="1" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="12.39" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C3*D3*0.2" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C3*D3+E3" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="546897" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Margarita" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="2" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="8.79" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C4*D4*0.2" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C4*D4+E4" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="456231" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Pollo Formaggio" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="1" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="13.99" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C5*D5*0.2" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C5*D5+E5" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="455873" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Greek Salad" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="1" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="9.49" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C6*D6*0.2" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C6*D6+E6" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="456892" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Spinach and Blue Cheese" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="1" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="11.49" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C7*D7*0.2" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C7*D7+E7" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="546564" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Rigoletto" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="1" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="10.99" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C8*D8*0.2" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C8*D8+E8" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="789455" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Creme Brulee" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="5" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="6.99" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C9*D9*0.2" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C9*D9+E9" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="123002" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Radeberger Beer" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="4" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="4.99" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C10*D10*0.2" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C10*D10+E10" format="$#,##0.00" background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell value="564896" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Budweiser Beer" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="3" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="4.49" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C11*D11*0.2" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="C11*D11+E11" format="$#,##0.00" background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(255,255,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(229,243,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="25">
+                        <cells>
+                            <cell background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell value="Tip:" text-align="SpreadsheetTextAlign.Right" vertical-align="SpreadsheetVerticalAlign.Bottom" background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell formula="SUM(F3:F11)*0.1" bold="true" format="$#,##0.00" vertical-align="SpreadsheetVerticalAlign.Bottom" background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                    <sheet-row height="50">
+                        <cells>
+                            <cell index="0" background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell index="1" background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell index="2" value="Total Amount: " text-align="SpreadsheetTextAlign.Right" background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell index="5" formula="SUM(F3:F13)" bold="true" format="$#,##0.00" vertical-align="SpreadsheetVerticalAlign.Bottom" background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                            <cell index="6" background="rgb(193,226,255)" color="rgb(0,62,117)"></cell>
+                        </cells>
+                    </sheet-row>
+                </rows>
+            </sheet>
+        </sheets>
+    </kendo-spreadsheet>
+</div>

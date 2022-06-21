@@ -1,0 +1,31 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" height="550" resizable="true">
+    <datasource type="DataSourceTagHelperType.Ajax">
+        <transport>
+            <read url="/grid/customers_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="CompanyName" width="420"/>
+        <column title="Contact Info">
+            <columns>
+                <column field="ContactTitle" width="200" />
+                <column field="ContactName" width="200" />
+                <column title="Location">
+                    <columns>
+                        <column field="Country" width="200" />
+                        <column field="City" width="200" />
+                    </columns>
+                </column>
+                <column field="Phone" width="200" />
+            </columns>
+        </column>
+    </columns>
+    <column-menu enabled="true"/>
+    <reorderable enabled="true" columns="true"/>
+    <scrollable enabled="true"/>
+    <groupable enabled="true"/>
+    <sortable enabled="true"/>
+    <pageable enabled="true"/>
+</kendo-grid>

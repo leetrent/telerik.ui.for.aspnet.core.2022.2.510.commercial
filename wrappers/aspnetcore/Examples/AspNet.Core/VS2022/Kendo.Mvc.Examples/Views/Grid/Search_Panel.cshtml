@@ -1,0 +1,37 @@
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.OrderViewModel>()
+    .Name("grid")
+    .ToolBar(t => t.Search())
+    .Columns(columns => {
+        columns.Bound(p => p.OrderID).Filterable(false);
+        columns.Bound(p => p.Freight);
+        columns.Bound(p => p.OrderDate).Format("{0:MM/dd/yyyy}");
+        columns.Bound(p => p.ShipName);
+        columns.Bound(p => p.ShipCity);
+    })
+    .Pageable()
+    .Sortable()
+    .Search(s => {
+            s.Field(o => o.OrderID, "eq");
+            s.Field(o => o.Freight, "gt");
+            s.Field(o => o.ShipName, "contains");
+            s.Field(o => o.ShipCity, "contains");
+    })
+    .Scrollable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:550px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Read(read => read.Action("Orders_Read", "Grid"))
+     )
+)
+
+<style>
+    .k-grid .k-grid-search {
+        display: flex;
+        margin-left: auto;
+        margin-right: 0;
+    }
+</style>
+
+

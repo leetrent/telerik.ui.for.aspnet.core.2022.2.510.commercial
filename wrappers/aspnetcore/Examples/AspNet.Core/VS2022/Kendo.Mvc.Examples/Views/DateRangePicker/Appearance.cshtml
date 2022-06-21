@@ -1,0 +1,68 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>SIZE</h4>
+        <ul class="options">
+            <li>
+                <input id="size" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>BORDER RADIUS</h4>
+        <ul class="options">
+            <li>
+                <input id="rounded" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>FILL MODE</h4>
+        <ul class="options">
+            <li>
+                <input id="fillMode" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="example" style="text-align: center;">
+    <div class="demo-section wide" style="display: inline-block;">
+        <h4>Pick a date range</h4>
+        @(Html.Kendo().DateRangePicker()
+          .Name("daterangepicker")
+          .HtmlAttributes(new { style = "width: 100%", title = "daterangepicker" })
+        )
+    </div>
+</div>
+
+<script>$(document).ready(function () {
+    var daterangepicker = $("#daterangepicker").data("kendoDateRangePicker");
+
+            $("#size").kendoDropDownList({
+                dataSource: ["small", "medium", "large"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    daterangepicker.setOptions({ size: value });
+                }
+            });
+
+            $("#rounded").kendoDropDownList({
+                dataSource: ["small", "medium", "large", "full"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    daterangepicker.setOptions({ rounded: value });
+                }
+            });
+
+            $("#fillMode").kendoDropDownList({
+                dataSource: ["solid", "flat", "outline"],
+                value: "solid",
+                change: function () {
+                    let value = this.value();
+                    daterangepicker.setOptions({ fillMode: value });
+                }
+            });
+        });</script>

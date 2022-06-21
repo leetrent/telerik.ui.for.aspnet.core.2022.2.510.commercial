@@ -1,0 +1,13 @@
+<div class="demo-section">
+    <h4>Set value</h4>
+    @(Html.Kendo().TextBox()
+        .Name("textbox")
+        .Label(l => l.Content("Name").Floating(true))
+    )
+</div>
+
+<style>
+    .k-floating-label-container {
+        width: 100%;
+    }
+</style>

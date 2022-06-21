@@ -1,0 +1,46 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Search for shipping names</h4>
+    <kendo-multiselect name="orders"
+        datatextfield="ShipName"
+        datavaluefield="OrderID"
+        placeholder="Select addresses..."
+        item-template="<span class='order-id'>#= OrderID #</span> #= ShipName #, #= ShipCountry #"
+        height="450"
+        filter="FilterType.Contains"
+        value="new int[] { 10265, 10289 }">
+        <datasource type="DataSourceTagHelperType.Custom" page-size="80" server-paging="true">
+            <schema data="Data" total="Total"></schema>
+            <transport>
+                 <read url="@Url.Action("Virtualization_Read", "MultiSelect")" />
+            </transport>
+        </datasource>
+        <virtual item-height="26" value-mapper="valueMapper" />
+    </kendo-multiselect>
+</div>
+@section scripts {
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("Orders_ValueMapper", "MultiSelect")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+
+        return data;
+    }
+</script>
+}

@@ -1,0 +1,61 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Cell comments</h4>
+        <ul class="options">
+            <li>
+                <button id="toggle">Click to add / remove comment from A2 cell</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@section scripts {
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
+<script>
+    $(document).on("kendoReady", function () {
+        $("#toggle").click(function () {
+            var range = $("#spreadsheet").data("kendoSpreadsheet").activeSheet().range("A2");
+            var comment = range.comment();
+
+            if (comment === null) {
+                range.comment("Comment added using range API call");
+            } else {
+                range.comment(null);
+            }
+        });
+    });
+</script>
+}
+
+@(Html.Kendo().Spreadsheet()
+    .Name("spreadsheet")
+    .HtmlAttributes(new { style = "width:100%;height:420px" })
+    .Excel(excel => excel
+        .ProxyURL(Url.Action("Cell_Comments_Save", "Spreadsheet"))
+    )
+    .Sheets(sheets =>
+    {
+        sheets.Add()
+            .Columns(columns =>
+            {
+                columns.Add().Width(300);
+            })
+            .Rows(rows =>
+            {
+                rows.Add().Cells(cells =>
+                {
+                    cells.Add()
+                        .Value("This cell has a comment.")
+                        .Bold(true)
+                        .Comment("Comment set on the cell with the Spreadsheet initialization.");
+                });
+                rows.Add().Cells(cells =>
+                {
+                    cells.Add()
+                        .Value("This cell will get a comment on button click.")
+                        .Bold(true);
+                });
+            });
+    })
+)

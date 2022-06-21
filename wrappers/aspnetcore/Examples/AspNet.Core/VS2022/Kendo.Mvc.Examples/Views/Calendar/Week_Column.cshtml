@@ -1,0 +1,8 @@
+<div class="demo-section" style="text-align: center;">
+    <h4>Pick a date</h4>
+    @(Html.Kendo().Calendar()
+            .Name("calendar")
+            .WeekNumber(true)
+            .Messages(m => m.WeekColumnHeader("Wk"))
+    )
+</div>

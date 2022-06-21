@@ -1,0 +1,32 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    @(Html.Kendo().NumericTextBox()
+        .Name("numerictextbox")
+        .Events(e => e
+             .Change("change")
+             .Spin("spin")
+        )
+    )
+</div>            
+
+@section scripts {
+<script>
+    function change() {
+        kendoConsole.log("Change :: " + this.value());
+    }
+
+    function spin() {
+        kendoConsole.log("Spin :: " + this.value());
+    }
+</script>
+}
+<style>
+    .demo-section {
+        width: 500px;
+        text-align: center;
+    }
+    .console {
+        margin: 0;
+    }
+</style> 

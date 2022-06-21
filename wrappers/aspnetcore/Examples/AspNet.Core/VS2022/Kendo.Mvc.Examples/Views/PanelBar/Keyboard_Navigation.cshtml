@@ -1,0 +1,47 @@
+<div class="demo-section">
+    @(Html.Kendo().PanelBar()
+    .Name("panelbar")
+    .ExpandMode(PanelBarExpandMode.Multiple)
+    .Items(panelbar =>
+    {
+        panelbar.Add().Text("Projects")
+            .Items(projects =>
+            {
+                projects.Add().Text("New Business Plan");
+
+                projects.Add().Text("Sales Forecasts")
+                    .Items(forecasts =>
+                    {
+                        forecasts.Add().Text("Q1 Forecast");
+                        forecasts.Add().Text("Q2 Forecast");
+                        forecasts.Add().Text("Q3 Forecast");
+                        forecasts.Add().Text("Q4 Forecast");
+                    });
+
+                projects.Add().Text("Sales Reports");
+            });
+
+        panelbar.Add().Text("Programs")
+            .Items(programs =>
+            {
+                programs.Add().Text("Monday");
+                programs.Add().Text("Tuesday");
+                programs.Add().Text("Wednesday");
+                programs.Add().Text("Thursday");
+                programs.Add().Text("Friday");
+            });
+
+        panelbar.Add().Text("Communication").Enabled(false);
+    })
+    )
+</div>
+
+@section scripts {
+<script>
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#panelbar").focus();
+        }
+    });
+</script>
+}

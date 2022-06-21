@@ -1,0 +1,44 @@
+@using Kendo.Mvc.UI;
+@using Kendo.Mvc.Extensions;
+
+<div class="responsive-message"></div>
+
+<div id="example">
+@(Html.Kendo().PivotContainer()
+    .Name("container")
+    .ConfiguratorPosition("left")
+    .Content(@<text>
+        @(Html.Kendo().PivotConfiguratorV2()
+            .Name("configurator")
+            .Sortable()
+            .Filterable())
+
+        @(Html.Kendo().PivotGridV2()
+
+        .Name("pivotgrid")
+        .ColumnWidth(200)
+        .Height(580)
+        .Configurator("#configurator")
+        .DataSource(dataSource => dataSource.
+            Xmla()
+            .Columns(columns => {
+                columns.Add("[Date].[Calendar]").Expand(true);
+                columns.Add("[Product].[Category]");
+            })
+            .Rows(rows => rows.Add("[Geography].[City]").Expand(true))
+            .Measures(measures => measures.Values(new string[]{"[Measures].[Reseller Freight Cost]"}))
+            .Transport(transport => transport
+                .Connection(connection => connection
+                    .Catalog("Adventure Works DW 2008R2")
+                    .Cube("Adventure Works"))
+                .Read("https://demos.telerik.com/olap/msmdpump.dll")
+            )
+        ))
+
+        @(Html.Kendo().PivotConfiguratorButton()
+                .Name("Button")
+                .Configurator("configurator")
+        )
+
+    </text>))
+</div>

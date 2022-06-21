@@ -1,0 +1,15 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Products</h4>
+    <kendo-dropdownlist name="products" style="width:100%"
+        datatextfield="ProductName"
+        datavaluefield="ProductID"
+        filter="FilterType.Contains">
+        <datasource type="DataSourceTagHelperType.Custom" server-filtering="true">
+            <transport>
+                <read url="@Url.Action("ServerFiltering_GetProducts", "DropDownList")"/>
+            </transport>
+        </datasource>
+    </kendo-dropdownlist>
+</div>

@@ -1,0 +1,90 @@
+@model List<FileHelper>
+
+<style>
+    #example .demo-section {
+        max-width: 800px;
+    }
+
+    #downloadForm {
+        padding-top: 20px;
+    }
+</style>
+
+<div class="demo-section">
+
+    <form method="post" id="selectionForm" action='@Url.Action("LoadZip")'>
+        <h4>Select zip to upload in grid</h4>
+        @(Html.Kendo().Upload()
+            .Name("zipfile")
+            .Multiple(false)
+            .HtmlAttributes(new { accept = ".zip" })
+            .Validation(v => v.AllowedExtensions(new string[] { ".zip" }).MaxFileSize(4000000).MinFileSize(1)) //max file size is restricted 4MB
+            .Events(e => e.Select("onSuccess").Remove("onRemove"))
+        )
+        <div class="status">
+        </div>
+        <p style="padding-top: 1em; text-align: left">
+            <input id="btnLoad" type="submit" value="Load zip "  />
+        </p>
+    </form>
+    <form method="post" id="downloadForm" action='@Url.Action("Download")'>
+        <div>
+            @(Html.Kendo().Grid(Model)
+            .Name("grid")
+            .Columns(columns =>
+            {
+            columns.Bound(c => c.FileNameInZip);
+            columns.Bound(c => c.UncompressedSize);
+            columns.Bound(c => c.CompressedSize);
+            columns.Command(command => command.Custom("Download File").Click("getId")).Title("Download");
+            })
+            .Scrollable()
+            .NoRecords(r => r.Template("Upload Zip File to Load!"))
+            .DataSource(ds => ds.Ajax())
+            )
+
+        </div>
+        <input type="hidden" name="fileId" id="fileId" />
+    </form>
+</div>
+
+@section scripts {
+<script>
+    function getId(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        downloadFile(dataItem.ID);
+    }
+
+
+    function downloadFile(id) {
+        $('#fileId').val(id)
+        $("#downloadForm").submit();
+    }
+
+    $(document).on("kendoReady", function (e) {
+        $("#btnLoad").prop('disabled', true);
+
+        var browser = kendo.support.browser;
+
+        if (browser.msie && browser.version <= 9) {
+            var upload = $("#zipfile").getKendoUpload();
+            upload.setOptions({ validation: { allowedExtensions: [".zip"] } });
+        }
+
+    })
+
+    function onSuccess(e) {
+        if (!e.files[0].validationErrors) //check for validation errors
+            $("#btnLoad").prop('disabled', false);
+        else
+            $("#btnLoad").prop('disabled', true);
+    }
+
+    function onRemove(e) {
+        if (e.sender.getFiles().length == 1)
+            $("#btnLoad").prop('disabled', true);
+    }
+</script>
+}

@@ -1,0 +1,15 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<script>
+        function change(e) {
+             kendoConsole.log("Change in picker #" + this.element.attr("id") + " :: " + e.value);
+        }
+</script>
+
+<div class="k-d-flex k-justify-content-center">
+            <kendo-flatcolorpicker name="flatColorPicker" value="#00f" on-change="change">
+            </kendo-flatcolorpicker>
+</div>
+
+

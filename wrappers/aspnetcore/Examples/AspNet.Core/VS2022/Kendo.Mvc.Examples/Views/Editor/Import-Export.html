@@ -1,0 +1,24 @@
+<h2 class="kd-title">Description</h2>
+<div class="kd-text kd-text-secondary">
+
+    <p>This demo demonstrates how to import a file in Telerik UI for ASP.NET Core Editor and how to export the Editor content. The import and export features internally rely on the Telerik Document Processing Library.</p>
+    <p><a href="https://docs.telerik.com/devtools/document-processing/introduction">Telerik Document Processing</a> is a bundle of UI-independent, cross-platform libraries enabling you to process the most commonly used flow, fixed and spreadsheet document formats. The components allow to create documents, import, modify and export them without external dependencies between the following different formats.</p>
+
+    <p>
+        To enable the Import option in the Editor add the respective command in the Editor`s toolbar .Tools(tools => tools.Import()). By using the Import attribute you could configure the Proxy option or you could set the maximum file size and the allowed extensions of the imported file. You could import files with the following extensions through the Import option:
+        <ul>
+            <li>DOCX</li>
+            <li>RTF</li>
+            <li>HTML</li>
+            <li>TXT</li>
+        </ul>
+    </p>
+    <p>To export the content include the corresponding command to the Editor’s toolbar .Tools(tools => tools.ExportAs()) and configure the export settings through the ExportAs attribute. For instance you should specify the Proxy option, which sets the Action to which the content will be submitted, or you can specify FileName attribute to set the name of the downloaded file.</p>
+    <ul>
+        <li>DOCX</li>
+        <li>RTF</li>
+        <li>PDF</li>
+        <li>HTML</li>
+        <li>TXT</li>
+    </ul>
+</div>

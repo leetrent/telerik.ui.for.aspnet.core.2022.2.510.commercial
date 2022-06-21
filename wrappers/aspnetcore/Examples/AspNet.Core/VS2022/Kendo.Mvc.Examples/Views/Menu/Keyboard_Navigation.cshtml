@@ -1,0 +1,79 @@
+<div class="demo-section">
+    <h4>Vertical menu</h4>
+    @(Html.Kendo().Menu()
+    .Name("verticalMenu")
+    .HtmlAttributes(new { style = "width:140px;margin-bottom:30px" })
+    .Orientation(MenuOrientation.Vertical)
+    .Items(items =>
+    {
+        items.Add()
+            .Text("First Item")
+            .Items(children =>
+            {
+                children.Add().Text("Sub Item 1");
+                children.Add().Text("Sub Item 2");
+                children.Add().Text("Sub Item 3");
+                children.Add().Text("Sub Item 4");
+            });
+
+        items.Add()
+             .Text("Second Item")
+             .Items(children =>
+             {
+                 children.Add().Text("Sub Item 1");
+                 children.Add().Text("Sub Item 2");
+                 children.Add().Text("Sub Item 3");
+                 children.Add().Text("Sub Item 4");
+             });
+
+        items.Add()
+            .Enabled(false)
+            .Text("Disabled Item");
+    })
+    )
+
+    <h4 style="padding-top: 2em;">Horizontal menu</h4>
+
+    @(Html.Kendo().Menu()
+    .Name("horizontalMenu")
+    .Items(items =>
+    {
+        items.Add()
+            .Text("First Item")
+            .Items(children =>
+            {
+                children.Add().Text("Sub Item 1");
+                children.Add().Text("Sub Item 2");
+                children.Add().Text("Sub Item 3");
+                children.Add().Text("Sub Item 4");
+            });
+
+        items.Add()
+             .Text("Second Item")
+             .Items(children =>
+             {
+                 children.Add().Text("Sub Item 1");
+                 children.Add().Text("Sub Item 2");
+                 children.Add().Text("Sub Item 3");
+                 children.Add().Text("Sub Item 4");
+             });
+
+        items.Add()
+            .Enabled(false)
+            .Text("Disabled Item");
+    })
+    )
+
+</div>
+
+@section scripts {
+<script>
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#verticalMenu").focus();
+        } else if (e.altKey && e.keyCode == 81) {
+            $("#horizontalMenu").focus();
+        }
+    });
+</script>
+}

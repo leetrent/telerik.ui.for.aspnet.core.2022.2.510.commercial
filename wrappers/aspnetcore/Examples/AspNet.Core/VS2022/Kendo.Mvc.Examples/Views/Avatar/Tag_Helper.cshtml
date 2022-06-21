@@ -1,0 +1,113 @@
+@addTagHelper *, Kendo.Mvc
+
+<div>
+    <div id="avatar-container">
+        <div class="contact-list">Contacts</div>
+        <div class="user-data-container">
+            <div class="k-hbox">
+                <kendo-avatar name="avatar-text"
+                              type="AvatarType.Text"
+                              rounded="Rounded.Full"
+                              theme-color="ThemeColor.Primary"
+                              text="JS">
+                </kendo-avatar>
+                <div style="margin-left: 10px">
+                    <h2 class="contact-name">Jason Smith</h2>
+
+                    <p class="contact-position">UX Designer</p>
+                </div>
+            </div>
+            <div class="k-hbox">
+                <kendo-avatar name="avatar-text-second"
+                              type="AvatarType.Text"
+                              rounded="Rounded.Full"
+                              theme-color="ThemeColor.Primary"
+                              text="GP">
+                </kendo-avatar>
+                <div class="avatar-margin-left-10">
+                    <h2 class="contact-name">George Porter</h2>
+                    <p class="contact-position">Software Engineer</p>
+                </div>
+            </div>
+        </div>
+        <div class="user-data-container k-hbox">
+            <kendo-avatar name="avatar-image"
+                          type="AvatarType.Image"
+                          rounded="Rounded.Full"
+                          image="https://demos.telerik.com/aspnet-core/shared/web/Customers/RICSU.jpg">
+            </kendo-avatar>
+            <div class="avatar-margin-left-10">
+                <h2 class="contact-name">Michael Holz</h2>
+                <p class="contact-position">Manager</p>
+            </div>
+            <kendo-avatar name="avatar-image-second"
+                          type="AvatarType.Image"
+                          rounded="Rounded.Full"
+                          image="https://demos.telerik.com/aspnet-core/shared/web/Customers/GOURL.jpg">
+            </kendo-avatar>
+            <div class="avatar-margin-left-10">
+                <h2 class="contact-name">Andre Steward</h2>
+                <p class="contact-position">Product Manager</p>
+            </div>
+        </div>
+        <div class="user-data-container k-hbox">
+            <kendo-avatar name="avatar-icon"
+                          type="AvatarType.Icon"
+                          rounded="Rounded.Full"
+                          icon="user"
+                          fill-mode="AvatarFillMode.Solid"
+                          theme-color="ThemeColor.Primary">
+            </kendo-avatar>
+            <div class="avatar-margin-left-10">
+                <h2 class="contact-name">Unknown</h2>
+                <p class="contact-position">Not Specified</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #avatar-container {
+        width: 340px;
+        margin: auto;
+        padding: 4px 10px;
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.26), 0px 2px 2px 0px rgba(0, 0, 0, 0.12), 0px 3px 1px -2px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-position {
+        margin: 0px;
+        font-size: 0.8em;
+    }
+
+    .contact-name {
+        font-size: 1.3em;
+        font-weight: normal;
+        margin: 0px;
+    }
+
+    .contact-list {
+        text-align: center;
+        padding: 4px;
+        font-size: 20px;
+    }
+
+    .user-data-container {
+        padding: 8px 14px;
+        margin-bottom: 4px;
+        box-shadow: 0 1px 2px #ccc;
+    }
+
+    .k-hbox {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .avatar-margin-right-5 {
+        margin-right: 5px;
+    }
+
+    .avatar-margin-left-10 {
+        margin-left: 10px;
+    }
+</style>

@@ -1,0 +1,154 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Enable / Disable CheckBoxGroup</h4>
+        <ul class="options">
+            <li>
+                <button id="enableCheckBoxGroup" type="button">Enable</button>
+                <button id="disableCheckBoxGroup" type="button">Disable</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="box-col">
+        <h4>Enable / Disable item</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().NumericTextBox()
+                        .Name("buttonIndexEnable")
+                        .Value(0)
+                        .Min(0)
+                        .Format("n0")
+                        .Decimals(0)
+                )
+                <button type="button" id="enableItem">Enable item at index</button>
+            </li>
+            <li>
+                @(Html.Kendo().NumericTextBox()
+                        .Name("buttonIndexDisable")
+                        .Value(0)
+                        .Min(0)
+                        .Format("n0")
+                        .Decimals(0)
+                )
+                <button type="button" id="disableItem">Disable item at index</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="box-col">
+        <h4>Get items</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().NumericTextBox()
+                        .Name("inputGetItem")
+                        .Value(0)
+                        .Min(0)
+                        .Format("n0")
+                        .Decimals(0)
+                )
+                <button id="buttonGetItem" type="button">Get item at index</button>
+            </li>
+            <li>
+                <button id="getAllItems" type="button">Get all values</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Get/Set value</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().TextBox().Name("inputSetValue").Value("1"))
+                <button id="buttonSetValue" type="button">Set value</button>
+            </li>
+            <li>
+                <button id="getValue" type="button">Get value</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    <label class="label">Select country:</label>
+    @(Html.Kendo().CheckBoxGroup()
+            .Name("checkboxgroup")
+            .Items(i =>
+            {
+                i.Add().Label("Spain").Encoded(false).Enabled(true).Value("1");
+                i.Add().Label("<i> Italy </i>").Encoded(false).Enabled(true).Value("2");
+                i.Add().Label("Russia").Encoded(false).Enabled(true).Value("3");
+                i.Add().Label("Japan").Encoded(false).Enabled(false).Value("4");
+                i.Add().Label("Portugal").Encoded(false).Enabled(true).Value("5");
+            })
+            .Value(new string[] { "3" })
+   )
+
+    @(Html.Kendo().Dialog()
+        .Name("dialog")
+        .Visible(false)
+        .Width("400px")
+        .Content("")
+        .Modal(false)
+    )
+
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            var checkBoxGroup = $("#checkboxgroup").data("kendoCheckBoxGroup");
+            var dialog = $("#dialog").data("kendoDialog");
+
+            $("#enableCheckBoxGroup").click(function () {
+                checkBoxGroup.enable(true);
+            });
+            $("#disableCheckBoxGroup").click(function () {
+                checkBoxGroup.enable(false);
+            });
+            $("#enableItem").click(function () {
+                checkBoxGroup.enableItem(true, $("#buttonIndexEnable").val());
+            });
+            $("#disableItem").click(function () {
+                checkBoxGroup.enableItem(false, $("#buttonIndexDisable").val());
+            });
+            $("#buttonGetItem").click(function () {
+                var index = $("#inputGetItem").val()
+                var item = checkBoxGroup.item(index);
+                dialog.content("<strong>Item at index: </strong>" + index + " <strong> Value: </strong>" + $(item[0]).val());
+                dialog.open();
+            });
+            $("#getValue").click(function () {
+                dialog.content("<strong>CheckBoxGroup value:  </strong>" + checkBoxGroup.value());
+                dialog.open();
+            });
+            $("#buttonSetValue").click(function () {
+                var newValue = []
+                newValue.push($("#inputSetValue").val())
+                checkBoxGroup.value(newValue);
+            });
+            $("#getAllItems").click(function () {
+                var items = checkBoxGroup.items();
+                var texts = []
+                for (var i = 0; i < items.length; i++) {
+                    texts.push($(items[i]).val())
+                }
+                dialog.content("<strong>CheckBoxGroup values:  </strong>" + texts);
+                dialog.open();
+            });
+        });
+    </script>
+}
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .k-form-hint {
+        margin-top: 10px;
+    }
+</style>

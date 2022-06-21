@@ -1,0 +1,18 @@
+<div class="demo-section">
+    <h4>Customers</h4>
+    @(Html.Kendo().DropDownList()
+          .Name("customers")
+          .DataTextField("ContactName")
+          .DataValueField("CustomerID")
+          .Height(400)
+          .HtmlAttributes(new { style = "width:100%" })
+          .DataSource(source => source
+              .Custom()
+              .Group(g => g.Add("Country", typeof(string)))
+              .Transport(transport => transport
+                .Read(read =>
+                {
+                    read.Action("Grouping_GetCustomers", "DropDownList");
+                })))
+    )
+</div>

@@ -1,0 +1,61 @@
+<div class="demo-section">
+    <div>
+        <h4>Treeview One</h4>
+        @(Html.Kendo().TreeView()
+            .Name("treeview-left")
+            .DragAndDrop(true)
+            .Items(treeview =>
+            {
+                treeview.Add().Text("Furniture")
+                    .Expanded(true)
+                    .Items(furniture =>
+                    {
+                        furniture.Add().Text("Tables & Chairs");
+                        furniture.Add().Text("Sofas");
+                        furniture.Add().Text("Occasional Furniture");
+                    });
+
+                treeview.Add().Text("Decor")
+                    .Items(furniture =>
+                    {
+                        furniture.Add().Text("Bed Linen");
+                        furniture.Add().Text("Curtains & Blinds");
+                        furniture.Add().Text("Carpets");
+                    });
+            })
+        )
+    </div>
+    <div>
+        <h4>Treeview Two</h4>
+        @(Html.Kendo().TreeView()
+            .Name("treeview-right")
+            .DragAndDrop(true)
+            .Items(treeview =>
+            {
+                treeview.Add().Text("Storage")
+                    .Expanded(true)
+                    .Items(furniture =>
+                    {
+                        furniture.Add().Text("Wall Shelving");
+                        furniture.Add().Text("Floor Shelving");
+                        furniture.Add().Text("Kids Storage");
+                    });
+
+                treeview.Add().Text("Lights")
+                    .Items(furniture =>
+                    {
+                        furniture.Add().Text("Ceiling");
+                        furniture.Add().Text("Table");
+                        furniture.Add().Text("Floor");
+                    });
+            })
+        )
+    </div>
+</div>
+
+<style>
+    .demo-section{
+        display:flex;
+        justify-content:space-evenly;
+    }
+</style>

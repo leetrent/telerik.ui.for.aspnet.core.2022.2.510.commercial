@@ -1,0 +1,20 @@
+<h4 style="text-align: center;">ColorPalette</h4>
+
+<div style="text-align: center;">
+    @Html.Kendo().ColorPalette().Name("colorpalette").HtmlAttributes(new { style = "margin:auto" })
+</div>
+
+@section scripts{
+    <script>
+        $(document).on("keydown.examples", function (e) {
+            if (e.altKey && e.keyCode === 87 /* w */) {
+                $("#colorpalette").data("kendoColorPalette").focus();
+            }
+        });
+    </script>
+}
+<style>
+    .k-colorgradient-input-label {
+        text-align: initial;
+    }
+</style>

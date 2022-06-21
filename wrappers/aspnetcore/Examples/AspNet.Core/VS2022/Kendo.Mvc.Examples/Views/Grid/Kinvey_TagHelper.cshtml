@@ -1,0 +1,93 @@
+@addTagHelper *, Kendo.Mvc
+
+<!--[if gte IE 11]>-->
+<script>
+    // initialize DataSource with the dataStore option
+    var dataSourceOptions = {
+        type: "kinvey",
+        serverSorting: true,
+        serverPaging: true,
+        pageSize: 20,
+        transport: {
+            typeName: "products"
+        },
+        schema: {
+            model: {
+                id: "_id"
+            }
+        },
+        error: function(err) {
+            alert(JSON.stringify(err));
+        }
+    };
+    var dataSource = new kendo.data.DataSource(dataSourceOptions);
+</script>
+
+<kendo-grid name="grid" height="550" deferred="true" datasource-id="dataSource">
+    <columns>
+        <column field="ProductName"/>
+        <column field="UnitPrice" width="220"/>
+        <column field="UnitsInStock" width="220"/>
+        <column field="Discontinued" width="220"/>
+    </columns>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <scrollable enabled="true"/>
+</kendo-grid>
+<br />
+<!--<![endif]-->
+@section scripts{
+<!--[if gte IE 11]>-->
+<script data-src="@Url.Content("~/shared/kinvey-html5-sdk.min.js")"></script>
+<script data-src="@Url.Content("~/shared/kendo.data.kinvey.min.js")"></script>
+<script>
+    $(document).on("kendoReady", function () {
+        Kinvey.init({
+            appKey: 'kid_SJyRpx96G',
+            appSecret: 'a88466f87e434ca4a1a0194e33d3168d'
+        });
+
+        // Get the locally stored activeUser
+        var activeUser = Kinvey.User.getActiveUser();
+        var userPromise;
+
+        if (activeUser === null) {
+            userPromise = Kinvey.User.signup();
+
+        } else {
+            userPromise = activeUser.me();
+        }
+
+        userPromise
+            // skipped if no error
+            .catch(function (userError) {
+                if (userError.name === 'InvalidCredentialsError') {
+                    // clear the activeUser using logout and then initiate login and return login response
+                    return Kinvey.User.logout()
+                        .then(function () {
+                            return Kinvey.User.signup();
+                        });
+                }
+                else {
+                    // if the error is different from InvalidCredentialsError, forward it down the chain
+                    return Promise.reject(userError);
+                }
+            })
+            .then(function () {
+                createGrid();
+            })
+            .catch(function (error) {
+                alert(error.message);
+            });
+
+        function createGrid() {
+        //The initialization of the grid and specifically reading its data should be done after succesfull log-in of the user.
+        @Html.Kendo().DeferredScripts(false)
+        }
+    });
+
+
+
+</script>
+<!--<![endif]-->
+}

@@ -1,0 +1,14 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section wide">
+    <kendo-menu name="Menu" datatextfield="Name">
+        <hierarchical-datasource>
+            <schema>
+                <hierarchical-model children="Products"></hierarchical-model>
+            </schema>
+            <transport>
+                <read url="@Url.Action("GetCategories", "Menu")" />
+            </transport>
+        </hierarchical-datasource>
+    </kendo-menu>
+</div>

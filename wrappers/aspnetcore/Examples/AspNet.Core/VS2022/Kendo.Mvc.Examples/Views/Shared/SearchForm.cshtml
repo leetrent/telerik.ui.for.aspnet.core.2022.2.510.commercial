@@ -1,0 +1,12 @@
+@{
+    var action = ViewBag.SearchAction == null ? Url.Action("Search", "Home") : ViewBag.SearchAction;
+}
+
+
+<form action="@action">
+    <div class="input-container">
+        <label for="search" class="hidden">Search: </label>
+        @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\zoom.svg")))
+        <input role="searchbox" class="kd-input" name="q" placeholder="Search ..." autofocus value="@Context.Request.Query["q"]" />
+    </div>
+</form>

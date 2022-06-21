@@ -1,0 +1,24 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-pivotcontainer name="container" configurator-position="left">
+        <kendo-pivotconfiguratorv2 name="configurator" sortable="true" filterable="true"></kendo-pivotconfiguratorv2>
+
+        <kendo-pivotgridv2 name="pivotgrid" column-width="200" height="580" configurator="#configurator">
+            <pivot-datasource type="PivotDataSourceType.Xmla">
+                <columns>
+                    <pivot-datasource-column name="[Date].[Calendar]" expand="true"></pivot-datasource-column>
+                    <pivot-datasource-column name="[Product].[Category]"></pivot-datasource-column>
+                </columns>
+                <rows>
+                    <row name="[Geography].[City]" expand="true"></row>
+                </rows>
+                <measures values=@(new string[] {"[Measures].[Reseller Freight Cost]"} )></measures>
+                <transport read-url="https://demos.telerik.com/olap/msmdpump.dll">
+                    <connection catalog="Adventure Works DW 2008R2" cube="Adventure Works"></connection>
+                </transport>
+            </pivot-datasource>
+        </kendo-pivotgridv2>
+
+        <kendo-pivotconfiguratorbutton name="button" configurator="configurator"></kendo-pivotconfiguratorbutton>
+</kendo-pivotcontainer>
+

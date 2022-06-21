@@ -1,0 +1,62 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model IEnumerable<Kendo.Mvc.Examples.Models.Category>
+
+@using Kendo.Mvc.TagHelpers
+
+<div class="demo-section">
+    <h4>Using <code>items</code> tag helper</h4>
+    <kendo-panelbar name="project" >
+        <items>
+            <panelbar-item text="Storage" expanded="true">
+                <items>
+                    <panelbar-item text="Wall Shelving"></panelbar-item>
+                    <panelbar-item text="Floor Shelving"></panelbar-item>
+                    <panelbar-item text="Kids Storag"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Lights">
+                <items>
+                    <panelbar-item text="Ceiling"></panelbar-item>
+                    <panelbar-item text="Table"></panelbar-item>
+                    <panelbar-item text="Floor"></panelbar-item>
+                </items>
+            </panelbar-item>
+        </items>
+    </kendo-panelbar>
+</div>
+
+<div class="demo-section">
+    <h4>Using <code>hierarchical-datasource</code> tag helper</h4>
+    <kendo-panelbar name="employees" datatextfield="FullName" >
+        <hierarchical-datasource>
+            <transport>
+                <read url="https://demos.telerik.com/kendo-ui/service/Employees" datatype="jsonp" />
+            </transport>
+            <schema type="json">
+                <hierarchical-model id="EmployeeId" has-children="HasEmployees">
+                </hierarchical-model>
+            </schema>
+        </hierarchical-datasource>
+    </kendo-panelbar>
+</div>
+
+@{
+    var items = Model.Select(category =>
+    {
+        return new PanelBarItemBase
+        {
+            Text = category.CategoryName,
+            Items = category.Products.Select(product =>
+            {
+                return new PanelBarItemBase { Text = product.ProductName };
+            })
+        };
+    });
+}
+
+<div class="demo-section">
+    <h4>Using model binding</h4>
+    <kendo-panelbar name="categories" bind-to="@items"></kendo-panelbar>
+</div>

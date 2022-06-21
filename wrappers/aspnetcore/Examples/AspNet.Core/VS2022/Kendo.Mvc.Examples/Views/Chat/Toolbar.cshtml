@@ -1,0 +1,93 @@
+<div class="demo-section">
+    @(Html.Kendo().Chat()
+        .Name("chat")
+        .Toolbar(toolbar =>
+        {
+            toolbar.Toggleable(true);
+            toolbar.Buttons(buttons =>
+            {
+                buttons.Add().Name("sendimage").IconClass("k-icon k-i-image");
+            });
+        })
+        .Events(e =>
+        {
+            e.ToolClick("onToolClick");
+        })
+    )
+
+    @(Html.Kendo().Upload()
+        .Name("files")
+        .Async(a => a
+            .Save("Save", "Upload")
+            .Remove("Remove", "Upload")
+            .AutoUpload(true)
+        )
+        .Events(e => e.Success("onSuccess"))
+        .ShowFileList(false)
+        .DropZone("#chat")
+        .Validation(validation =>
+        {
+            validation.AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" });
+            validation.MinFileSize(500);
+        })
+    )
+    <div class="demo-hint">You can use the Image tool in the toolbar to send an image. Or drop an image on the Chat component.</div>
+</div>
+
+@section scripts {
+<script>
+    function onToolClick(e) {
+        if (e.name === "sendimage") {
+            $("#files").click();
+        }
+    }
+
+    function onSuccess(e) {
+        if (e.operation === "upload") {
+            for (var i = 0; i < e.files.length; i++) {
+                var file = e.files[i].rawFile;
+
+                if (file) {
+                    var reader = new FileReader();
+
+                    reader.onloadend = function () {
+                        chat.renderAttachments({
+                            attachments: [{
+                                contentType: "image_card",
+                                content: {
+                                    image: this.result
+                                }
+                            }],
+                            attachmentLayout: "list"
+                        }, chat.getUser());
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    }
+
+    var chat;
+    $(document).on("kendoReady", function () {
+        var IMAGE_CARD_TEMPLATE = kendo.template(
+            '<div class="k-card k-card-type-rich">' +
+            '<div class="k-card-body quoteCard">' +
+            '<img class="image-attachment" src="#: image #" />' +
+            '</div>' +
+            '</div>'
+        );
+
+        kendo.chat.registerTemplate("image_card", IMAGE_CARD_TEMPLATE);
+        chat = $("#chat").data("kendoChat");
+        $("#files").data("kendoUpload").wrapper.hide();
+    });
+</script>
+}
+
+<style>
+    .k-card .image-attachment {
+        max-height: 120px;
+    }
+</style>
+

@@ -1,0 +1,45 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" height="430">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="20">
+        <schema>
+            <model>
+                <fields>
+                    <field name="OrderID" type="number"></field>
+                    <field name="ShipName" type="string"></field>
+                    <field name="Freight" type="number"></field>
+                    <field name="OrderDate" type="date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="/grid/orders_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="OrderID" width="220">
+            <filterable enabled="true">
+                <cell enabled="true" show-operators="false"/>
+            </filterable>
+        </column>
+        <column field="ShipName" width="500">
+            <filterable enabled="true">
+                <cell enabled="true" suggestion-operator="Contains" operator="contains"/>
+            </filterable>
+        </column>
+        <column field="Freight"  width="250">
+            <filterable enabled="true">
+                <cell enabled="true" operator="gte"/>
+            </filterable>
+        </column>
+        <column field="OrderDate" width="220" format="{0:MM/dd/yyyy}">
+            <filterable enabled="true">
+                <cell enabled="true"/>
+            </filterable>
+        </column>
+    </columns>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <scrollable enabled="true"/>
+    <filterable enabled="true" mode="row"/>
+</kendo-grid>

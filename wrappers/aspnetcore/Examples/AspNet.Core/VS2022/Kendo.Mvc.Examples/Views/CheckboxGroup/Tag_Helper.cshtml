@@ -1,0 +1,58 @@
+@addTagHelper *, Kendo.Mvc
+@model Kendo.Mvc.Examples.Models.CheckBoxGroupViewModel
+
+<div class="demo-section">
+    <div class="box-col">
+        <label class="label">How to get in touch?</label>
+        <kendo-checkboxgroup input-name="checkboxItem"
+                             label-position="CheckBoxGroupLabelPosition.Before"
+                             layout="CheckBoxGroupLayout.Vertical"
+                             bind-to="Model.Items"
+                             for="CheckBoxGroupValue">
+        </kendo-checkboxgroup>
+        <div class="k-form-hint">You will not be receiving advertising materials.</div>
+    </div>
+    <br /><br />
+    <div class="box-col">
+        <label class="label">Select color:</label>
+        <kendo-checkboxgroup name="test"  layout="CheckBoxGroupLayout.Horizontal">
+            <kendo-checkboxgroup-items>
+                <kendo-checkboxgroup-item value="Green" css-class="green" label="Green"></kendo-checkboxgroup-item>
+                <kendo-checkboxgroup-item value="Red" css-class="red" label="Red"></kendo-checkboxgroup-item>
+                <kendo-checkboxgroup-item value="Blue" css-class="blue" label="Blue"></kendo-checkboxgroup-item>
+            </kendo-checkboxgroup-items>
+        </kendo-checkboxgroup>
+    </div>
+</div>
+
+
+
+    <style>
+        .label {
+            font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+            color: #656565;
+            display: inline-block;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .k-form-hint {
+            margin-top: 10px;
+        }
+
+        #radiogroup {
+            margin-top: 10px;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>

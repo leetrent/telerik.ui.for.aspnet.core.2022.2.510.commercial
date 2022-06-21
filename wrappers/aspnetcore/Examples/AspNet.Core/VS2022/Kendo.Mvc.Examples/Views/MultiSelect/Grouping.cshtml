@@ -1,0 +1,29 @@
+<div class="demo-section">
+    <h4>Search for shipping names</h4>
+
+    @(Html.Kendo().MultiSelect()
+          .Name("customers")
+          .DataTextField("ContactName")
+          .DataValueField("CustomerID")
+          .Placeholder("Select customers...")
+          .DataSource(source =>  source
+              .Custom()
+              .Group(g => g.Add("Country", typeof(string)))
+              .Transport(transport => transport
+                .Read(read =>
+                {
+                    read.Action("Grouping_GetCustomers", "MultiSelect")
+                        .Data("onAdditionalData");
+                }))
+              .ServerFiltering(true))
+     )
+</div>
+@section scripts {
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#customers").val()
+        };
+    }
+</script>
+}

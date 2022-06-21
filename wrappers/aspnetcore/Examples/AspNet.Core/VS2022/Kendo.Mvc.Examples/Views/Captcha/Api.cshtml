@@ -1,0 +1,118 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <button id="value" >Get Captcha Value</button>
+            </li>
+            <li>
+                <button id="getCaptchaId" >Get Captcha Id</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <button id="validate" >Validate</button>
+            </li>
+            <li>
+                <button id="isValid" >IsValid</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <button id="enable" >Enable/Disable</button>
+            </li>
+            <li>
+                <button id="readonly" >Readonly</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <button id="speak" >Speak</button>
+            </li>
+            <li>
+                <button id="reset" >Reset</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section auto">
+    <form id="form">
+        @(Html.Kendo().Captcha()
+        .Name("captcha")
+        .CaptchaImage((string)ViewData["Captcha"])
+        .CaptchaId((string)ViewData["CaptchaID"])
+        .DataCaptchaField("Captcha")
+        .DataCaptchaIdField("CaptchaID")
+        .Handler(handler => handler.Action("Reset_Api", "Captcha"))
+        .AudioHandlerFunction("audioHandler")
+        .ValidationHandler(handler => handler.Action("Validate_Api", "Captcha"))
+)
+    </form>
+</div>
+
+@section scripts {
+    <script>
+
+        var isReadonly = true;
+
+        $(document).on("kendoReady", function () {
+            $("#form").kendoValidator();
+
+            var captcha = $("#captcha").data("kendoCaptcha");
+
+            $("#value").click(function () {
+                alert(captcha.value());
+            });
+
+            $("#getCaptchaId").click(function () {
+                alert(captcha.getCaptchaId());
+            });
+
+            $("#validate").click(function () {
+                captcha.validate().done(function (data) {
+                     alert(captcha.isValid(), data);
+                 });
+            });
+
+            $("#isValid").click(function () {
+                alert(captcha.isValid());
+            });
+
+            $("#enable").click(function () {
+                var isDisabled = $("#captcha").data("kendoCaptcha").wrapper.hasClass("k-state-disabled");
+
+                 captcha.enable(isDisabled);
+            });
+
+            $("#readonly").click(function () {
+                captcha.readonly(isReadonly);
+                isReadonly = !isReadonly;
+            });
+
+            $("#speak").click(function () {
+                captcha.speak();
+            });
+
+            $("#reset").click(function () {
+                captcha.reset();
+            });
+        });
+
+        function audioHandler(args) {
+            args.success("../shared/UserFiles/captcha/" + args.data.CaptchaID + ".wav");
+        }
+    </script>
+}
+
+<style>
+    #demo-runner {
+        text-align: center;
+    }
+</style>

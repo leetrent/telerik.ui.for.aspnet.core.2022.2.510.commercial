@@ -1,0 +1,96 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
+
+@(Html.Kendo().Spreadsheet()
+    .Name("spreadsheet")
+    .HtmlAttributes(new { style = "width:100%;" })
+    .Images(new { testImage = "../shared/web/spreadsheet/sample-image.png" })
+    .Sheets(sheets =>
+    {
+        sheets.Add()
+            .Name("Food Order")
+            .Drawings(dr=>
+            {
+                dr.Add()
+                  .TopLeftCell("C3")
+                  .OffsetX(30)
+                  .OffsetY(10)
+                  .Width(450)
+                  .Height(330)
+                  .Image("testImage");                
+
+            })
+            .Columns(columns =>
+            {
+                columns.Add().Width(115);
+                columns.Add().Width(115);
+            })
+            .Rows(rows =>
+            {
+
+                rows.Add().Height(25).Cells(cells =>
+                {
+                    cells.Add()
+                        .Value("ID")
+                        .TextAlign(SpreadsheetTextAlign.Center);
+
+                    cells.Add()
+                        .Value("Product")
+                        .TextAlign(SpreadsheetTextAlign.Center);
+
+                });
+
+                rows.Add().Cells(cells =>
+                {
+                    cells.Add()
+                        .Value(216321)
+                        .TextAlign(SpreadsheetTextAlign.Center);
+
+                    cells.Add().Value("Calzone");
+
+                });
+
+                rows.Add().Cells(cells =>
+                {
+                    cells.Add()
+                        .Value(546897)
+
+                        .TextAlign(SpreadsheetTextAlign.Center);
+
+                    cells.Add()
+                        .Value("Margarita");
+                });
+
+                rows.Add().Cells(cells =>
+                {
+                    cells.Add()
+                        .Value(456231)
+                        .TextAlign(SpreadsheetTextAlign.Center);
+
+                    cells.Add().Value("Pollo Formaggio");
+                });
+
+                rows.Add().Cells(cells =>
+                {
+                    cells.Add()
+                        .Value(455873)
+                        .TextAlign(SpreadsheetTextAlign.Center);
+
+                    cells.Add()
+                        .Value("Greek Salad");
+
+                });
+
+                rows.Add().Cells(cells =>
+                {
+                    cells.Add()
+                        .Value(456892)
+                        .TextAlign(SpreadsheetTextAlign.Center);
+
+                    cells.Add().Value("Spinach and Blue Cheese");
+
+                });
+
+
+            });
+    })
+)

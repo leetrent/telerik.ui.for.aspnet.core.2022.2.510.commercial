@@ -1,0 +1,169 @@
+@using Kendo.Mvc.Examples.Models.Gantt;
+
+@(Html.Kendo().Gantt<TaskViewModel, DependencyViewModel>()
+    .Name("gantt")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.TaskID).Title("ID").Width(50);
+        columns.Bound(c => c.Title).Editable(true).Sortable(true);
+        columns.Bound(c => c.Start).Width(100).Editable(true).Sortable(true);
+        columns.Bound(c => c.End).Width(100).Editable(true).Sortable(true);
+    })
+    .Views(views =>
+    {
+        views.DayView();
+        views.WeekView(weekView => weekView.Selected(true));
+        views.MonthView();
+    })
+    .Events(events => events
+        .DataBound("onDataBound")
+        .DataBinding("onDataBinding")
+        .Add("onAdd")
+        .Edit("onEdit")
+        .Cancel("onCancel")
+        .Change("onChange")
+        .Remove("onRemove")
+        .Save("onSave")
+        .Navigate("onNavigate")
+        .MoveStart("onMoveStart")
+        .Move("onMove")
+        .MoveEnd("onMoveEnd")
+        .ResizeStart("onResizeStart")
+        .Resize("onResize")
+        .ResizeEnd("onResizeEnd")
+        .ColumnResize("onColumnResize")
+        .ColumnHide("onColumnHide")
+        .ColumnShow("onColumnShow")
+        .ColumnReorder("onColumnReorder")
+    )
+    .Height(700)
+    .ShowWorkHours(false)
+    .ShowWorkDays(false)
+    .Reorderable(true)
+    .Resizable(true)
+    .ColumnMenu(true)
+    .DataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.TaskID);
+            m.ParentId(f => f.ParentID);
+            m.Field(f => f.Expanded).DefaultValue(true);
+        })
+        .Read("Events_ReadTasks", "Gantt")
+        .Destroy("Events_DestroyTask", "Gantt")
+        .Update(update => update.Action("Events_UpdateTask", "Gantt").Data("onUpdateCreate"))
+        .Create(create => create.Action("Events_CreateTask", "Gantt").Data("onUpdateCreate"))
+    )
+    .DependenciesDataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.DependencyID);
+            m.PredecessorId(f => f.PredecessorID);
+            m.SuccessorId(f => f.SuccessorID);
+        })
+        .Read("Events_ReadDependencies", "Gantt")
+        .Create("Events_CreateDependency", "Gantt")
+        .Destroy("Events_DestroyDependency", "Gantt")
+    )
+)
+
+@section scripts {
+<script>
+        // Send the dates for the newly creted/updated tasks as UTC strings
+        function onUpdateCreate(e) {
+            e.End = e.End.toISOString();
+            e.Start = e.Start.toISOString();
+        }
+
+        function onChange(e) {
+            var gantt = e.sender;
+            var selection = gantt.select();
+
+            if (selection.length) {
+                var dataItem = gantt.dataItem(selection);
+                kendoConsole.log("Gantt selection change :: " + dataItem.title);
+            }
+        }
+
+        function onAdd(e) {
+            if (e.task) {
+                kendoConsole.log("Task added");
+            } else {
+                kendoConsole.log("Dependency added");
+            }
+        }
+
+        function onEdit(e) {
+            kendoConsole.log("Task about to be edited :: " + e.task.title);
+        }
+
+        function onCancel(e) {
+            kendoConsole.log("Cancel task edit :: " + e.task.title);
+        }
+
+        function onRemove(e) {
+            if (e.task) {
+                kendoConsole.log("Task removed :: " + e.task.title);
+            } else {
+                kendoConsole.log("Dependency removed");
+            }
+            
+        }
+
+        function onSave(e) {
+            kendoConsole.log("Task saved :: " + e.task.title);
+        }
+
+        function onDataBound() {
+            kendoConsole.log("Gantt data bound");
+        }
+
+        function onDataBinding() {
+            kendoConsole.log("Gantt data binding");
+        }
+
+        function onNavigate(e) {
+            kendoConsole.log(kendo.format("navigate:: view:{0};", e.view));
+        }
+
+        function onMoveStart(e) {
+            kendoConsole.log("moveStart");
+        }
+
+        function onMove(e) {
+            kendoConsole.log("move");
+        }
+
+        function onMoveEnd(e) {
+            kendoConsole.log("moveEnd");
+        }
+
+        function onResizeStart(e) {
+            kendoConsole.log("resizeStart");
+        }
+
+        function onResize(e) {
+            kendoConsole.log("resize");
+        }
+
+        function onResizeEnd(e) {
+            kendoConsole.log("resizeEnd");
+        }
+
+        function onColumnResize(e) {
+            kendoConsole.log(e.column[0].title + " column resized");
+        }
+
+        function onColumnHide(e) {
+            kendoConsole.log(e.column.title + " column has been hidden");
+        }
+
+        function onColumnShow(e) {
+            kendoConsole.log(e.column.title + " column has been shown");
+        }
+
+        function onColumnReorder(e) {
+            kendoConsole.log(e.column.title + " column reordered");
+        }
+</script>
+}

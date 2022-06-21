@@ -1,0 +1,22 @@
+@addTagHelper *, Kendo.Mvc
+
+    <kendo-grid name="Grid">
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="15">
+            <transport>
+	            <read url="/grid/customajaxbinding_read"/>
+            </transport>
+        </datasource>
+        <columns>
+            <column field="OrderID">
+                <groupable enabled="false"/>
+            </column>
+            <column field="ShipCity"/>
+            <column field="ShipCountry"/>
+            <column field="ShipName"/>
+        </columns>
+        <pageable enabled="true"/>
+        <sortable enabled="true"/>
+        <filterable enabled="true"/>
+        <scrollable enabled="true"/>
+        <groupable enabled="true"/>
+    </kendo-grid>

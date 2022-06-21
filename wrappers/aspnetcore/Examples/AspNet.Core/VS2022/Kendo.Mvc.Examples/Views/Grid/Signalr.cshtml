@@ -1,0 +1,120 @@
+<div class="configurator">
+    <div class="box-col">
+        <h4>Information</h4>
+        <p>Create, update or destroy grid items below. The Chart is loaded in an IFRAME to simulate a remote client. To open the chart in another browser you may use <a href="@Url.Action("SignalR_Chart", "Grid")">this link</a></p>
+        <p>
+            <strong>Note:</strong> To further enhance real-time experience, the Grid will also display changes from other users,
+            which currently happen to perform CRUD operations on the same demo.
+            If you refresh the page, all changes will be lost, because the remote service only broadcasts changes, it does not actually save them.
+        </p>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="https://unpkg.com/@@aspnet/signalr@1.1.0/dist/browser/signalr.js"></script>
+    <script>
+        var url = "https://demos.telerik.com/aspnet-core/service/signalr/hubs/products";
+
+        var hub = new signalR.HubConnectionBuilder()
+            .withUrl(url, {
+                transport: signalR.HttpTransportType.LongPolling
+            })
+            .build();
+
+        var hubStart = hub.start();
+        
+
+        function onEdit() {
+            this.showColumn(2);
+        }
+
+        function onSave() {
+            this.hideColumn(2);
+        }
+    </script>
+}
+
+<div class="signalr-grid-container">
+    @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ProductName).Width(150);
+            columns.Bound(p => p.UnitsInStock).Width(120).Filterable(false);
+            columns.Bound(p => p.Category).ClientTemplate("#=Category.CategoryName#").Hidden(true).Filterable(false).Width(150);
+            columns.Bound(p => p.Category.CategoryName).ClientGroupHeaderTemplate("#=value#").Hidden(true).Filterable(false);
+            columns.Command(command =>
+            {
+                command.Edit();
+                command.Destroy();
+            }).Width(200);
+        })
+        .ToolBar(toolbar =>
+        {
+            toolbar.Create();
+        })
+        .Groupable()
+        .Pageable()
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Scrollable()
+        .HtmlAttributes(new { style = "height:100%;" })
+        .DataSource(dataSource => dataSource
+            .SignalR()
+            .PageSize(20)
+            .Group(gr=>gr.Add(f=>f.Category.CategoryName))
+            .Transport(tr => tr
+                .Promise("hubStart")
+                .Hub("hub")
+                .Client(c => c
+                    .Read("read")
+                    .Create("create")
+                    .Update("update")
+                    .Destroy("destroy"))
+                .Server(s => s
+                    .Read("read")
+                    .Create("create")
+                    .Update("update")
+                    .Destroy("destroy")))
+                .Schema(schema => schema
+                .Model(model =>
+                {
+                    model.Id("ID");
+                    model.Field("ID", typeof(int)).Editable(false);
+                    model.Field("UnitsInStock", typeof(int));
+                    model.Field(m => m.Category).DefaultValue(new CategoryViewModel() { CategoryID = 1, CategoryName = "Beverages" });
+                })
+            )
+        ).Events(e=>e.Edit("onEdit").Save("onSave"))
+    )
+</div>
+<iframe src="@Url.Action("SignalR_Chart", "Grid")"></iframe>
+
+<style>
+    .signalr-grid-container {
+        display: inline-block;
+        vertical-align: top;
+        width: 49%;
+        height: 600px;
+        margin: 1% 1% 1% 0;
+    }
+
+    iframe {
+        width: 49%;
+        height: 600px;
+        margin: 1% 0;
+        border: 1px solid #555;
+    }
+
+    @@media only screen and (max-width: 900px) {
+        .signalr-grid-container,
+        iframe {
+            width: 100%;
+        }
+    }
+
+    .km-native-scroller {
+        overflow-x: hidden;
+    }
+</style>

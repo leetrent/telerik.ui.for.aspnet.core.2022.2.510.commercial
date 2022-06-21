@@ -1,0 +1,14 @@
+@addTagHelper *, Kendo.Mvc
+
+<div>
+    <kendo-colorgradient name="colorgradient" on-change="onChange" style="margin: auto;" value="#00f">
+    </kendo-colorgradient>
+</div>
+ 
+@section scripts {
+<script type="text/javascript">
+    function onChange(e) {
+        kendoConsole.log("Change in picker #" + this.element.attr("id") + " :: " + e.value);
+    }
+</script>
+}

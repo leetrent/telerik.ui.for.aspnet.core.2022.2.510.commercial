@@ -1,0 +1,78 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Get / Set Value</h4>
+        <ul class="options">
+            <li>
+                <button id="get">Get value</button>
+                <button id="reset">Reset value</button>
+            </li>
+            <li>
+                <input id="value" value="3" style="float:none" />
+                <button id="set">Set value</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Enable / Disable</h4>
+        <ul class="options">
+            <li>
+                <button id="enable">Enable</button>
+                <button id="disable">Disable</button>
+            </li>
+            <li>
+                <button id="readonly">Toggle Readonly</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    <h4>Rating API</h4>
+    @(Html.Kendo().Rating()
+        .Name("rating")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+    )
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var rating = $("#rating").getKendoRating();
+
+        var setValue = function () {
+            rating.value($("#value").val());
+        };
+
+        $("#enable").click(function() {
+            rating.enable();
+        });
+
+        $("#disable").click(function() {
+            rating.enable(false);
+        });
+
+        $("#readonly").click(function() {
+            rating.readonly(!rating.options.readonly);
+        });
+
+        $("#value").kendoNumericTextBox({
+            change: setValue,
+            min: 1,
+            max: 6
+        });
+
+        $("#set").click(setValue);
+
+        $("#get").click(function() {
+            alert(rating.value());
+        });
+
+        $("#reset").click(function() {
+            rating.value(null);
+        });
+    });
+</script>
+}

@@ -1,0 +1,27 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Search for shipping names</h4>
+    <kendo-multiselect name="customers"
+        datatextfield="ContactName"
+        datavaluefield="CustomerID"
+        placeholder="Select customers...">
+        <datasource type="DataSourceTagHelperType.Custom" server-filtering="true">
+            <groups>
+                <group typeof="string" field="Country"></group>
+            </groups>
+            <transport>
+                 <read url="@Url.Action("Grouping_GetCustomers", "MultiSelect")" data="onAdditionalData"/>
+            </transport>
+        </datasource>
+    </kendo-multiselect>
+</div>
+@section scripts {
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#customers").val()
+        };
+    }
+</script>
+}

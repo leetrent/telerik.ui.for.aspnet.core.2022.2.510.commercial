@@ -1,0 +1,114 @@
+<div class="demo-section wide">
+    @(Html.Kendo().Wizard()
+        .Name("wizard")
+        .LoadOnDemand(true)
+        .Tag("form")
+        .HtmlAttributes(new { @novalidate ="" })
+        .ReloadOnSelect(false)
+        .Steps(steps =>
+        {
+            steps.Add().ContentUrl(Url.Content("~/shared/web/wizard/ajax/ajaxContent1.html")).Title("Welcome")
+            .Buttons(b =>
+                {
+                    b.Next();
+                });
+            steps.Add<Kendo.Mvc.Examples.Models.Form.UserViewModel>()
+                .Title("Attendee Details")
+                .Form(form =>
+                {
+                    form.FormData(Model);
+                    form.Items(items =>
+                        {
+                            items.Add().Field(f => f.FirstName);
+                            items.Add().Field(f => f.LastName);
+                            items.Add().Field(f => f.Email);
+                            items.Add().Field(f => f.Company);
+                        });
+                    form.Layout("grid");
+                    form.Grid(g => {
+                        g.Cols(2);
+                        g.Gutter(20);
+                    });
+            });
+        steps.Add().ContentUrl(Url.Content("~/shared/web/wizard/ajax/ajaxContent3.html")).Title("Agenda")
+        .Buttons(b =>
+            {
+                b.Previous();
+                b.Next();
+            });
+        steps.Add().ContentUrl(Url.Content("~/shared/web/wizard/ajax/ajaxContent4.html")).Title("Finish")
+        .Buttons(b =>
+            {
+                b.Previous();
+                b.Done();
+            });
+    })
+        .Events(events =>
+        {
+            events.Activate("onActivate");
+            events.Error("onError");
+            events.Done("onDone");
+            events.Select("onSelect");
+            events.Reset("onReset");
+            events.ContentLoad("onContentLoad");
+            events.FormValidateFailed("onFormValidateFailed");
+        })
+    )
+</div>
+
+@section scripts{ 
+<script>
+    function onActivate(e) {
+        kendoConsole.log("Activate :: " + e.step.options.title);
+    };
+
+    function onContentLoad(e) {
+        kendoConsole.log("ContentLoad :: " + e.step.options.title);
+
+        if (e.step.options.index == 3) {
+            updateSelection(e);
+        }
+    };
+
+    function onDone(e) {
+        e.originalEvent.preventDefault();
+        kendoConsole.log("Done");
+    };
+
+    function onError(e) {
+        kendoConsole.error("Error :: Loading failed with " + e.xhr.statusText + " " + e.xhr.status);
+    };
+
+    function onReset(e) {
+        kendoConsole.log("Reset");
+    };
+
+    function onSelect(e) {
+        kendoConsole.log("Select :: " + e.step.options.title);
+
+        if (e.step.options.index == 3) {
+            updateSelection(e);
+        }
+    };
+
+    function onFormValidateFailed(e) {
+        kendoConsole.log("Validation error on ::" + e.step.options.title);
+    };
+
+    function updateSelection(e) {
+        var selectedTalk = e.sender.wrapper.find('#talk').getKendoDropDownList().dataItem();
+        var selectedWorkshop = e.sender.wrapper.find('#workshop').getKendoDropDownList().dataItem();
+        $('#selectedTalk').html(selectedTalk.id === '' ? '' : selectedTalk.title);
+        $('#selectedWorkshop').html(selectedWorkshop.id === '' ? '' : selectedWorkshop.title);
+    };
+</script>
+}
+
+<style>
+    .wizardContainer {
+        display: flex;
+        height: 200px;
+        justify-content: center;
+        align-items: center;
+    }
+</style>

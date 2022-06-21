@@ -1,0 +1,88 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>API Functions</h4>
+        <ul class="options">
+            <li>
+                <button id="open">Open</button>
+                <button id="close">Close</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>&nbsp;</h4>
+        <ul class="options">
+            <li>
+                <button id="refresh">Refresh</button>
+                <button id="center">Center</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>&nbsp;</h4>
+        <ul class="options">
+            <li>
+                <button id="pin">Pin</button>
+                <button id="unpin">Unpin</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@(Html.Kendo().Window()
+        .Name("window")
+        .Width(630)
+        .Height(315)
+        .Draggable()
+        .Resizable()
+        .Title("Rams's Ten Principles of Good Design")
+        .Actions(actions => actions.Pin().Refresh().Maximize().Close())
+        .LoadContentFrom("LoadAjaxContent", "Window")
+)
+<div class="responsive-message"></div>
+@section scripts {
+<script>
+    $(document).on("kendoReady", function() {
+        var myWindow = $("#window");
+
+        $("#open").click( function (e) {
+            myWindow.data("kendoWindow").open();
+        });
+
+        $("#close").click( function (e) {
+            myWindow.data("kendoWindow").close();
+        });
+
+        $("#refresh").click( function (e) {
+            myWindow.data("kendoWindow").refresh();
+        });
+
+        $("#center").click( function (e) {
+            myWindow.data("kendoWindow").center();
+        });
+
+        $("#pin").click( function (e) {
+            myWindow.data("kendoWindow").pin();
+        });
+
+        $("#unpin").click( function (e) {
+            myWindow.data("kendoWindow").unpin();
+        });
+    });
+</script>
+}
+<style>
+    #example {
+        min-height: 600px;
+    }
+
+    .k-window {
+        z-index: 100000;
+    }
+
+    @@media screen and (max-width: 1023px) {
+        div.k-window {
+            display: none !important;
+        }
+    }
+</style>

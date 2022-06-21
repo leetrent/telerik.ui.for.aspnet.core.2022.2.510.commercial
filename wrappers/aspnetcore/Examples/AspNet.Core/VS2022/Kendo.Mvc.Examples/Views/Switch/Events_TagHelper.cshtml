@@ -1,0 +1,19 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <kendo-switch name="switch" on-change="onChange"></kendo-switch>
+</div>
+
+@section scripts {
+<script>
+    function onChange(e) {
+        kendoConsole.log("checked: " + e.checked);
+    }
+</script>
+}
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

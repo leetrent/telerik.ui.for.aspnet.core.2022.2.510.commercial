@@ -1,0 +1,31 @@
+@(Html.Kendo().OrgChart<Kendo.Mvc.Examples.Models.OrgChartEmployeeViewModel>()
+        .Name("orgchart")
+        .Editable(false)
+        .GroupField("ParentID")
+        .GroupHeaderTemplateId("groupHeaderTemplate")
+        .DataSource(dataSource => dataSource
+            .Read(read => read.Action("GroupingByParentData", "OrgChart"))
+            .Model(m => {
+                m.Id(f => f.ID);
+                m.ParentId(f => f.ParentID);
+                m.Name(f => f.Name);
+                m.Title(f => f.Title);
+                m.Avatar(f => f.Avatar);
+                m.Expanded(f=>f.Expanded);
+            })
+        )
+    )
+
+<script id="groupHeaderTemplate" type="text/x-kendo-template">
+     #
+       var orgChart=$('\#orgchart').data('kendoOrgChart');
+       var ds = orgChart.dataSource;
+       var parent = ds.get(data.value);
+
+       if(parent){
+           #<span>Reports To: <strong>#: parent.name #</strong></span>#
+       }
+     #
+    </strong>
+</script>
+

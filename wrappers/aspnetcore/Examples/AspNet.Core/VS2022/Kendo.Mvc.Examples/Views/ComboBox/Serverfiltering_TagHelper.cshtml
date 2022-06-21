@@ -1,0 +1,13 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Find a product</h4>
+    <kendo-combobox auto-bind="false" datatextfield="ProductName" datavaluefield="ProductID" min-length="3" placeholder="Select product" filter="FilterType.Contains" name="products" style="width:100%;">
+        <datasource server-filtering="true">
+            <transport>
+                <read url="@Url.Action("ServerFiltering_GetProducts", "ComboBox") cache="true" />
+            </transport>
+        </datasource>
+    </kendo-combobox>
+    <div class="demo-hint">Hint: type at least three characters. For example "che".</div>
+</div>

@@ -1,0 +1,17 @@
+<div class="demo-section" style="text-align: center;">
+    @(Html.Kendo().Calendar()
+          .Name("calendar")
+          .Selectable("multiple")
+    )
+</div>
+
+@section scripts {
+<script>
+    //focus the widget
+    $(document).on("keydown.examples", function (e) {
+        if (e.altKey && e.keyCode === 87 /* w */) {
+            $("#calendar").data("kendoCalendar").focus();
+        }
+    });
+</script>
+}

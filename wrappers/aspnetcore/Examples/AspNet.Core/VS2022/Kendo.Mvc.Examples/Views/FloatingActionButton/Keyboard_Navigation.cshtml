@@ -1,0 +1,31 @@
+<div class="demo-section" style="height:300px">
+    @(Html.Kendo().FloatingActionButton()
+        .Name("fab")
+        .Align(FloatingActionButtonAlign.BottomCenter)
+        .AlignOffset(ao => ao.Horizontal(0).Vertical(50))
+        .PositionMode(FloatingActionButtonPositionMode.Absolute)
+        .ThemeColor(FloatingActionButtonThemeColor.Info)
+        .Size(FloatingActionButtonSize.Medium)
+        .Icon("share")
+        .Items(items =>
+        {
+            items.Add().Label("Download").Icon("download").Click("onItemClick");
+            items.Add().Label("Print").Icon("print").Click("onItemClick");
+            items.Add().Label("Email").Icon("email").Click("onItemClick");
+        })
+    )
+</div>
+
+@section scripts{
+    <script>
+        $(document).keydown(function (e) {
+            if (e.altKey && e.keyCode === 87) {
+                $("#fab").data("kendoFloatingActionButton").wrapper.focus();
+            }
+        });
+
+        function onItemClick(e) {
+            kendo.alert($(e.target).text() + " action");
+        };
+    </script>
+    }

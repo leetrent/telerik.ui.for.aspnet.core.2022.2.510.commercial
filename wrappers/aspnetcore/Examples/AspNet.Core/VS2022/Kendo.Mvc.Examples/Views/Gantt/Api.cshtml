@@ -1,0 +1,104 @@
+@using Kendo.Mvc.Examples.Models.Gantt;
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Selection</h4>
+        <ul class="options">
+            <li>
+                <input type="text" value="0" id="selectTask" />
+                <button class="selectTask">Select task</button>
+            </li>
+            <li>
+                <button class="clearSelection">Clear selected task</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Get selected task</h4>
+        <ul class="options">
+            <li>
+                <button class="getData">Get data</button>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        $(document).on("kendoReady", function () {
+            $(".clearSelection").click(function () {
+                var gantt = $("#gantt").data("kendoGantt");
+                gantt.clearSelection();
+            });
+            function selectTask(e) {
+                if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode) {
+                    var gantt = $("#gantt").data("kendoGantt");
+                    var taskIndex = $("#selectTask").val();
+                    gantt.select("tr:eq(" + taskIndex + ")");
+                }
+            }
+            $(".selectTask").click(selectTask);
+            $("#selectTask").keypress(selectTask);
+            $(".getData").click(function () {
+                var gantt = $("#gantt").data("kendoGantt");
+                var selection = gantt.select();
+                if (!selection.length) {
+                    alert("No item selected");
+                } else {
+                    var dataItem = gantt.dataItem(selection);
+                    alert(
+                        "'" + dataItem.title + "' is " +
+                        (dataItem.percentComplete * 100) + "% complete"
+                    );
+                }
+            });
+        })
+        // Send the dates for the newly creted/updated tasks as UTC strings
+        function onUpdateCreate(e) {
+            e.End = e.End.toISOString();
+            e.Start = e.Start.toISOString();
+        }
+    </script>
+</div>
+
+@(Html.Kendo().Gantt<TaskViewModel, DependencyViewModel>()
+    .Name("gantt")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.TaskID).Title("ID").Width(50);
+        columns.Bound(c => c.Title).Editable(true).Sortable(true);
+        columns.Bound(c => c.Start).Width(100).Editable(true).Sortable(true);
+        columns.Bound(c => c.End).Width(100).Editable(true).Sortable(true);
+    })
+    .Views(views =>
+    {
+        views.DayView();
+        views.WeekView(weekView => weekView.Selected(true));
+        views.MonthView();
+    })
+    .Height(400)
+    .ShowWorkHours(false)
+    .ShowWorkDays(false)
+    .DataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.TaskID);
+            m.ParentId(f => f.ParentID);
+            m.Field(f => f.Expanded).DefaultValue(true);
+        })
+        .Read("API_ReadTasks", "Gantt")
+        .Destroy("API_DestroyTask", "Gantt")
+        .Update(update => update.Action("API_UpdateTask", "Gantt").Data("onUpdateCreate"))
+        .Create(create => create.Action("API_CreateTask", "Gantt").Data("onUpdateCreate"))
+    )
+    .DependenciesDataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.DependencyID);
+            m.PredecessorId(f => f.PredecessorID);
+            m.SuccessorId(f => f.SuccessorID);
+        })
+        .Read("API_ReadDependencies", "Gantt")
+        .Create("API_CreateDependency", "Gantt")
+        .Destroy("API_DestroyDependency", "Gantt")
+    )
+)

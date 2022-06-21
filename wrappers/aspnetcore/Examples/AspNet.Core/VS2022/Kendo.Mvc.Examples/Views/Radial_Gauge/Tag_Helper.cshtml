@@ -1,0 +1,46 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="gauge-container">
+    <kendo-radialgauge name="gauge">
+        <radialgauge-pointers>
+            <pointer value="10" color="#2798df"></pointer>
+            <pointer value="50" color="#ffc700"></pointer>
+            <pointer value="75" color="#c20000"></pointer>
+        </radialgauge-pointers>
+        <scale>
+            <radialgauge-scale-ranges>
+                <range color="#2798df" from="0" to="20">
+                </range>
+                <range color="#ffc700" from="20" to="65">
+                </range>
+                <range color="#c20000" from="65" to="100">
+                </range>
+            </radialgauge-scale-ranges>
+        </scale>
+    </kendo-radialgauge>
+</div>
+
+<style>
+    #gauge-container {
+        width: 386px;
+        height: 386px;
+        text-align: center;
+        margin: 0 auto 30px auto;
+    }
+
+    #gauge {
+        width: 350px;
+        height: 300px;
+        margin: 0 auto;
+        border-color: transparent;
+    }
+
+    #gauge-container .k-slider {
+        margin-top: -11px;
+        width: 140px;
+    }
+
+    html[class*="dark"] .k-body {
+        background-color: #2e374f;
+    }
+</style>

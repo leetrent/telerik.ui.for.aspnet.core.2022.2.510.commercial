@@ -1,0 +1,16 @@
+<div class="demo-section">
+    <h4>Select product</h4>
+    @(Html.Kendo().AutoComplete()
+          .Name("products")
+          .DataTextField("ProductName")
+          .HtmlAttributes(new { style = "width:100%" })
+          .Filter("contains")
+          .DataSource(source => {
+              source.Read(read =>
+              {
+                  read.Action("ClientFiltering_GetProducts", "AutoComplete");
+              })
+              .ServerFiltering(false);
+          })
+    )
+</div>

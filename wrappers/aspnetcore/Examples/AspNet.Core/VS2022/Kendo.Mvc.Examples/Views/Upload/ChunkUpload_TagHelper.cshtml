@@ -1,0 +1,9 @@
+@addTagHelper *, Kendo.Mvc
+<div>
+    <div class="demo-section">
+        <kendo-upload name="files">
+            <async auto-upload="true" save-url="@Url.Action("Chunk_Upload_Save", "Upload")" remove-url="@Url.Action("Chunk_Upload_Remove", "Upload")" chunk-size="11000" />
+            <validation max-file-size="20000000" />
+        </kendo-upload>
+    </div>
+</div>

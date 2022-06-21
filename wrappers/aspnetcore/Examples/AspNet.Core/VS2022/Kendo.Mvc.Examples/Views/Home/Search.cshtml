@@ -1,0 +1,40 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.SuppressFooter = true;
+}
+
+@section styles {
+	<link href="@String.Format("{0}/styles/kendo-ui-demos/demopage.min.css{1}", ViewBag.AssetsCDN, Html.Version())" rel="stylesheet" />
+}
+
+@section scripts {
+    @foreach (string scriptName in Kendo.Mvc.Examples.Models.ScriptGroups.All)
+    {
+        if (scriptName.Contains("jszip") || scriptName.Contains("jquery"))
+        {
+            continue;
+        }
+
+        <script src="@Url.Script(scriptName)"></script>
+    }
+
+    <script src="@Url.Content("~/shared/demopage.js" + Html.Version())"></script>
+    <script src="@Url.Content("~/shared/searchresults.js" + Html.Version())"></script>
+}
+
+<main role="main" class="kd-jquery kd-search-page">
+    <div class="kd-content-container">
+        @Html.Partial("Sidebar")
+
+
+        <div class="kd-demo-content">
+            <div class="container container-sm">
+                <h1 class="kd-title">Search results</h1>
+                @Html.Partial("SearchResults")
+            </div>
+
+            @Html.Partial("Footer")
+        </div>
+    </div>
+</main>
+

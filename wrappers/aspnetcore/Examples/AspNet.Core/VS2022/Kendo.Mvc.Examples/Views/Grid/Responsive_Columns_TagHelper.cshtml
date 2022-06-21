@@ -1,0 +1,57 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" style="height:550px;" resizable="true">
+    <columns>
+        <column field="ContactName" media="(min-width: 450px)">
+        </column>
+        <column field="ContactTitle" width="250" media="(min-width: 850px)">
+        </column>
+        <column field="CompanyName" width="250" media="(min-width: 850px)">
+        </column>
+        <column field="Country" media="(min-width: 450px)">
+        </column>
+        <column template="#=resColTemplate(data)#" title="Items" media="(min-width: 450px)">
+        </column>
+    </columns>
+    <sortable enabled="true" />
+    <scrollable enabled="true" />
+    <reorderable enabled="true" />
+    <column-menu enabled="true" />
+    <filterable enabled="true" mode="row" />
+    <pageable enabled="true" refresh="true" page-sizes-enabled="true" button-count="5" />
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="20">
+        <schema data="Data" total="Total" errors="Errors">
+        </schema>
+        <transport>
+            <read url="@Url.Action("Responsive_Columns_Customers_Read","Grid")" />
+        </transport>
+    </datasource>
+</kendo-grid>
+
+<script id="responsive-column-template" type="text/x-kendo-template">
+    <strong>Contact Name</strong>
+    <p class="col-template-val">#=data.ContactName#</p>
+
+    <strong>Contact Title</strong>
+    <p class="col-template-val">#=data.ContactTitle#</p>
+
+    <strong>Company Name</strong>
+    <p class="col-template-val">#=data.CompanyName#</p>
+
+    <strong>Country</strong>
+    <p class="col-template-val">#=data.Country#</p>
+</script>
+
+<script>
+    var resColTemplate;
+
+    $(document).ready(function () {
+        resColTemplate = kendo.template($("#responsive-column-template").html());
+    });
+</script>
+
+<style>
+    .col-template-val {
+        margin: 0 0 1em .5em;
+    }
+</style>

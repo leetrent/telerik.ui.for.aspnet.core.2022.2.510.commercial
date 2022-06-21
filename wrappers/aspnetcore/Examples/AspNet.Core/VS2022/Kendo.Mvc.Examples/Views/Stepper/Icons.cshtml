@@ -1,0 +1,12 @@
+<div class="demo-section wide">
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Steps(s =>
+        {
+            s.Add().Label("Home").Icon("home");
+            s.Add().Label("Settings").Icon("gear");
+            s.Add().Label("Attachments").Icon("attachment");
+            s.Add().Label("Save").Icon("save");
+        })
+    )
+</div>

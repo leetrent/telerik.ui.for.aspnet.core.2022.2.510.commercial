@@ -1,0 +1,21 @@
+<div class="demo-section">
+    <h4>Continuous Selection</h4>
+    @(Html.Kendo().Rating()
+        .Name("ratingContinuous")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+        .Selection("continuous")
+    )
+</div>
+
+<div class="demo-section">
+    <h4>Single Selection</h4>
+    @(Html.Kendo().Rating()
+        .Name("ratingSingle")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+        .Selection("single")
+    )
+</div>

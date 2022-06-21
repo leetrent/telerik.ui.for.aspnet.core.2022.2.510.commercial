@@ -1,0 +1,78 @@
+<div class="demo-section wide" style="width:700px">
+    @(Html.Kendo().Wizard()
+        .Name("wizard")
+        .ContentPosition(WizardContentPosition.Right)
+        .ValidateForms(false)
+        .Tag("form")
+        .HtmlAttributes(new { @novalidate ="" })
+        .Events(ev => ev.Done("onDone"))
+        .Stepper(stepper=>stepper.Linear(false))
+        .Steps(steps =>
+        {
+            steps.Add()
+                .Title("Welcome")
+                .Content("<div style=\"text-align:center\"><h3>Complete the Registration Form to enroll in the course</h3></div>")
+                .Buttons(b =>
+                {
+                    b.Next();
+                });
+            steps.Add<Kendo.Mvc.Examples.Models.Form.UserViewModel>()
+                .Title("User Details")
+                .Form(form =>
+                {
+                    form.FormData(Model);
+                    form.Items(items =>
+                    {
+                        items.Add().Field(f => f.UserName);
+                        items.Add().Field(f => f.Email);
+                        items.Add().Field(f => f.Password).InputHtmlAttributes(new { @type ="password" });
+                    });
+                })
+                .Buttons(b =>
+                {
+                    b.Previous();
+                    b.Next();
+                });
+            steps.Add<Kendo.Mvc.Examples.Models.Form.UserViewModel>()
+                .Title("Personal Details")
+                .Form(form =>
+                {
+                    form.FormData(Model);
+                    form.Items(items =>
+                    {
+                        items.Add().Field(f => f.FirstName);
+                        items.Add().Field(f => f.LastName);
+                        items.Add().Field(f => f.DateOfBirth);
+                    });
+                })
+                .Buttons(b =>
+                {
+                    b.Previous();
+                    b.Next();
+                });
+            steps.Add()
+                .Title("Finish")
+                .Content("<div style=\"text-align:center\"><h3>Registration Complete!</h3></div>")
+                .Buttons(b =>
+                {
+                    b.Previous();
+                    b.Done();
+                });
+        })
+    )
+</div>
+
+@section scripts{ 
+<script>
+    function onDone(e) {
+        e.originalEvent.preventDefault();
+        kendo.alert("Thank you for registering! Registration details would be sent to your email.");
+    }
+
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#wizard .k-step-current .k-step-link").focus();
+        }
+    });
+</script>
+}

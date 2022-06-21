@@ -1,0 +1,7 @@
+<h2 class="kd-title">Description</h2>
+<p>This example shows how to customize some of the native Editor tools (font size, font name and block format) by modifying the tools' item collections, as well as how to create completely custom tools (Content Area Background Color and Insert a Horizontal Ruler).</p>
+<p>You can use the Add method of the FontName, FontSize and Formatting settings to modify the default font size, font name and formatblock options set.</p>
+<p>To add a new custom button on the toolbar: set the Tools -&gt; CustomButton:</p>
+<p>.CustomButton(cb =&gt; cb.Name("custom").ToolTip("horizontal rule").Exec("execFunction"))</p>
+<p>Where the Exec param should be the name of a JavaScript function that will be fired when the custom button is clicked.</p>
+<p>If you want to create a custom dropdown with a label next to it, you can set the Tools -&gt; CustomTemplate and specify the HTML markup that will be rendered on the toolbar.</p>

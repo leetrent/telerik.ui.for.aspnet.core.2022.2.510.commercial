@@ -1,0 +1,36 @@
+@(Html.Kendo().OrgChart<Kendo.Mvc.Examples.Models.OrgChartEmployeeViewModel>()
+    .Name("orgchart")
+    .Template("<div class='custom'>" +
+                "<div><img src=' #: Avatar #'/></div>" +
+                "<span>Name: <strong> #: Name # </strong></span>" +
+                "<div><i> Position: #: Title # </i></div>" +
+                "</div>")
+    .GroupHeaderTemplate("<i> #: field #</i>:<strong>#: value # </strong>")
+    .GroupField("Title")
+    .DataSource(dataSource => dataSource
+        .Read(read => read.Action("TemplatesData", "OrgChart"))
+        .Model(m => {
+            m.Id(f => f.ID);
+            m.ParentId(f => f.ParentID);
+            m.Name(f => f.Name);
+            m.Title(f => f.Title);
+            m.Avatar(f => f.Avatar);
+            m.Expanded(f=>f.Expanded);
+        })
+    )
+)
+<style>
+    .custom {
+        padding: 25px;
+        display: inline-grid;
+    }
+
+        .custom > div, .custom > span {
+            margin: 0 auto;
+        }
+
+    img {
+        height: 50px;
+        float: right;
+    }
+</style>

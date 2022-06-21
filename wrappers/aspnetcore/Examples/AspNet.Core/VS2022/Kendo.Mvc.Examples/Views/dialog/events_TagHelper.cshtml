@@ -1,0 +1,87 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="example">
+    <kendo-dialog name="dialog" title="Software Update" width="400" modal="false"
+        on-init-open="onInitOpen"
+        on-open="onOpen"
+        on-show="onShow"
+        on-close="onClose"
+        on-hide="onHide"
+        >
+        <actions>
+            <action text="Cancel" action="onCancel">
+            </action>
+            <action text="OK" action="onOK" primary="true">
+            </action>
+        </actions>
+        <content>
+            <p>A new version of <strong>Kendo UI</strong> is available. Would you like to download and install it now?</p>
+        </content>
+    </kendo-dialog>
+
+    <kendo-button name="showDialogBtn"
+        class="hide-on-narrow"
+        style="display:none;"
+        on-click="showDialog">
+        Open Dialog
+    </kendo-button>
+</div>
+
+@section scripts {
+<script>
+
+    function showDialog() {
+        $("#dialog").data("kendoDialog").open();
+        $("#showDialogBtn").fadeOut();
+    }
+
+    function onInitOpen(e) {
+        kendoConsole.log("event :: initOpen");
+    }
+
+    function onOpen(e) {
+        kendoConsole.log("event :: open");
+    }
+
+    function onShow(e) {
+        kendoConsole.log("event :: show");
+    }
+
+    function onHide(e) {
+        kendoConsole.log("event :: hide");
+    }
+
+    function onClose(e) {
+        $("#showDialogBtn").fadeIn();
+        kendoConsole.log("event :: close");
+    }
+
+    function onCancel(e) {
+        kendoConsole.log("action :: Cancel");
+    }
+
+    function onOK(e) {
+        kendoConsole.log("action :: OK");
+    }
+
+</script>
+}
+
+<style>
+    #example {
+        min-height: 150px;
+    }
+
+    #example .box {
+        margin: 0;
+    }
+
+    #showDialogBtn {
+        text-align: center;
+        position: absolute;
+        white-space: nowrap;
+        padding: 1em;
+        cursor: pointer;
+        margin-top: 30px;
+    }
+</style>

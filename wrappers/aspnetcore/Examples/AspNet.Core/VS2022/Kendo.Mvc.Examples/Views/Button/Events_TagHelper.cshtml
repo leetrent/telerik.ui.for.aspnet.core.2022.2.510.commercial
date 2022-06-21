@@ -1,0 +1,38 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>Buttons</h4>
+
+    <kendo-button name="textButton" on-click="onClick">
+        Text button
+    </kendo-button>
+
+    <kendo-button name="refreshButton" icon="refresh" on-click="onClick">
+        Refresh Button
+    </kendo-button>
+
+    <kendo-button name="disabledButton" enable="false" on-click="onClick">
+        Disabled button
+    </kendo-button>
+
+    <p class="demo-hint">The disabled button will not fire click events.</p>
+</div>
+
+@section scripts {
+<script>
+    function onClick(e) {
+        kendoConsole.log("event :: click (" + $(e.event.target).closest(".k-button").attr("id") + ")");
+    }
+</script>
+}
+
+<style>
+    .demo-section {
+        line-height: 4em;
+    }
+
+    .demo-section .k-button {
+        margin-right: 10px;
+    }
+</style>

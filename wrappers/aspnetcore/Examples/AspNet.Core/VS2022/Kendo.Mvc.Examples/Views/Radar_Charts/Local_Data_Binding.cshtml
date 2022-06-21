@@ -1,0 +1,27 @@
+@model IEnumerable<Kendo.Mvc.Examples.Models.ProteinScoreItem>
+
+<div class="demo-section wide">
+    @(Html.Kendo().Chart(Model)
+        .Name("chart")
+        .Title(title => title
+            .Text("Protein quality, Apple raw")
+        )
+        .Series(series =>
+        {
+            series.RadarColumn(
+                model => model.Score
+            )
+            .CategoryField("Abbr")
+            .Name("Proteins");
+        })
+        .ValueAxis(axis => axis.Numeric()
+            .Visible(false)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+        )
+        .Legend(legend => legend
+            .Visible(false)
+        )
+    ) 
+</div>

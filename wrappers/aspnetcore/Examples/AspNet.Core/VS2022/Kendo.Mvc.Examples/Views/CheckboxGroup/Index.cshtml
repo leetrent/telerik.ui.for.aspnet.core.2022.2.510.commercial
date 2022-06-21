@@ -1,0 +1,82 @@
+@model Kendo.Mvc.Examples.Models.CheckBoxGroupViewModel
+
+<div class="demo-section wide">
+    <div>
+        <label class="label">Choose Hike Equipment:</label>
+        <div>
+            <input type="checkbox" id="selectAllCheckbox" class="k-checkbox k-checkbox-md k-rounded-md k-roundend-md">
+            <label class="k-checkbox-label" for="selectAllCheckbox">Select all available equipment</label>
+        </div>
+        <hr />
+        @(Html.Kendo().CheckBoxGroup()
+            .Name("checkboxgroup")
+            .Items(i =>
+            {
+                i.Add().Label("Day pack").Value("1");
+                i.Add().Label("Hiking poles").Value("2");
+                i.Add().Label("Hiking boots").Value("3");
+                i.Add().Label("UV protection sunglass").Value("4");
+                i.Add().Label("Trousers").Value("5").Enabled(false);
+            })
+            .Value(new string[] { "1", "2" })
+        )
+    </div>
+
+    <div>
+        <label class="label">Select color:</label>
+        @(Html.Kendo().CheckBoxGroup()
+            .Name("checkboxgroup-second")
+            .Layout("horizontal")
+            .Value(Model.CheckBoxGroupValue)
+            .BindTo(Model.Items)
+        )
+    </div>
+</div>
+
+<script>
+    $("#selectAllCheckbox").change(function () {
+        var checkBoxGroup = $("#checkboxgroup").data("kendoCheckBoxGroup")
+        if (this.checked) {
+            checkBoxGroup.checkAll(true)
+        } else {
+            checkBoxGroup.checkAll(false)
+        }
+    });
+</script>
+
+<style>
+    .demo-section {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    hr {
+        border: 1px solid darkgrey;
+        margin-bottom: 40px;
+    }
+
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .k-form-hint {
+        margin-top: 10px;
+    }
+
+    .green {
+        color: green;
+    }
+
+    .blue {
+        color: blue;
+    }
+
+    .red {
+        color: red;
+    }
+</style>

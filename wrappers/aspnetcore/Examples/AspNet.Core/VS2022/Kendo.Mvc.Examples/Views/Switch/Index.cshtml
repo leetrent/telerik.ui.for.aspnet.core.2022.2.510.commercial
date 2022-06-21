@@ -1,0 +1,14 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    @(Html.Kendo().Switch()
+                .Name("switch")
+                .Messages(c => c.Checked("YES").Unchecked("NO"))
+    )
+</div>
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

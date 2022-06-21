@@ -1,0 +1,65 @@
+@addTagHelper *, Kendo.Mvc
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Size:</h4>
+                <input id="size" name="size" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    <kendo-treeview auto-bind="true" load-on-demand="true" name="treeview" size="ComponentSize.Medium">
+        <items>
+            <treeview-item expanded="true" checked="false" text="Item 1" selected="false" enabled="true">
+                <items>
+                    <treeview-item expanded="false" checked="false" text="Item 1.1" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Item 1.2" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Item 1.3" selected="false" enabled="true">
+                    </treeview-item>
+</items>
+            </treeview-item>
+            <treeview-item expanded="false" checked="false" text="Item 2" selected="false" enabled="true">
+                <items>
+                    <treeview-item expanded="false" checked="false" text="Item 2.1" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Item 2.2" selected="false" enabled="true">
+                    </treeview-item>
+                    <treeview-item expanded="false" checked="false" text="Item 2.3" selected="false" enabled="true">
+                    </treeview-item>
+                </items>
+            </treeview-item>
+            <treeview-item expanded="false" checked="false" text="Item 3" selected="false" enabled="true">
+            </treeview-item>
+        </items>
+    </kendo-treeview>
+</div>
+<script>
+    $(document).ready( function () {
+        var treeview = $("#treeview").data("kendoTreeView");
+
+        var size = $("#size").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            value: "medium",
+            change: onChange,
+            dataSource: [
+                { text: "Small", value: "small" },
+                { text: "Medium", value: "medium" },
+                { text: "Large", value: "large" }
+            ]
+        }).data("kendoDropDownList");
+
+        function onChange(e) {
+            var sizeValue = size.value();
+            treeview.setOptions({
+                size: sizeValue
+            })
+        }
+    });
+</script>

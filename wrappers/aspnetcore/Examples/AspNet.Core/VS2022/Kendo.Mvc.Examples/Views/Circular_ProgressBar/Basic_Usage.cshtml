@@ -1,0 +1,68 @@
+@using Kendo.Mvc.UI
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Configuration</h4>
+        <div>
+            <button id="start-progress">Start Progress</button>
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().CircularProgressBar()
+    .Name("progressbar")
+    .Value(0)
+    .Colors(c =>
+    {
+        c.Add().Color("#C0392B").To(25);
+        c.Add().Color("#D35400").From(25).To(50);
+        c.Add().Color("#D4AC0D").From(50).To(75);
+        c.Add().Color("#58D68D").From(75).To(99);
+        c.Add().Color("#229954").From(99);
+    })
+    .CenterTemplate("<span style='color: #: color #;'>#= value == 100 ? \"<span class='k-icon k-i-check'></span>\" : value + '%' #</span>")
+)
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function() {
+            $("#start-progress").kendoButton({
+                themeColor: "secondary",
+                click: function () {
+                    startProgress();
+                }
+            });
+
+            $("#reset-progress").kendoButton({
+                themeColor: "error",
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+
+                    pb.value(0);
+                }
+            });
+
+            function startProgress() {
+                let interval = setInterval(function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+                    let value = pb.value();
+
+                    if (value >= 100) {
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    pb.value(value + 1);
+                }, 50);
+            }
+        })
+    </script>
+}
+
+<style>
+    #progressbar {
+        margin: 3em;
+    }
+</style>

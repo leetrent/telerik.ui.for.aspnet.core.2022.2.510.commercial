@@ -1,0 +1,39 @@
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.js"></script>
+    <script>
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.worker.js';
+    </script>
+    <script>
+        function onRender(e) {
+            kendoConsole.log("page rendered: " + e.page.pageNumber);
+        }
+
+        function onOpen(e) {
+            kendoConsole.log("file open: " + e.file.name);
+        }
+
+        function onError(e) {
+            kendoConsole.log("error message: " + e.message);
+        }
+    </script>
+
+}
+
+<div id="example">
+    @(Html.Kendo().PDFViewer().Name("pdfviewer")
+        .PdfjsProcessing(pdf => pdf.File(Url.Content("~/shared/web/pdfViewer/sample.pdf")))
+        .Height(700)
+        .Events(events => events
+            .Render("onRender")
+            .Open("onOpen")
+            .Error("onError")
+        )
+    )
+</div>
+
+
+<style>
+    html body #pdfviewer {
+        width: 100% !important;
+    }
+</style>

@@ -1,0 +1,16 @@
+<div>
+    @(Html.Kendo().ColorGradient()
+        .Name("colorgradient")
+        .Value("#00f")
+        .HtmlAttributes(new {style = "margin: auto;"})
+        .Events(ev => ev.Change("onChange"))
+    )
+</div>
+    
+@section scripts {
+<script type="text/javascript">
+    function onChange(e) {
+        kendoConsole.log("Change in picker #" + this.element.attr("id") + " :: " + e.value);
+    }
+</script>
+}

@@ -1,0 +1,38 @@
+<div class="demo-section">
+    <label for="radiogroup" class="label">Select language:</label>
+    @(Html.Kendo().CheckBoxGroup()
+        .Name("checkboxgroup")
+        .BindTo(new[] { "English", "German", "Italian", "Russian", "Spanish" })
+        .Layout(CheckBoxGroupLayout.Vertical)
+        .LabelPosition(CheckBoxGroupLabelPosition.Before)
+        .Value(new string[] { "Italian" })
+    )
+</div>
+
+<script>
+    //focus the widget
+    $(document).on("keydown.examples", function (e) {
+        if (e.altKey && e.keyCode === 87 /* w */) {
+            $("#checkboxgroup").find(".k-checkbox:first").focus();
+        }
+    });
+</script>
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .k-form-hint {
+        margin-top: 10px;
+    }
+
+
+    .k-checkbox-label {
+        width: 50px;
+    }
+</style>

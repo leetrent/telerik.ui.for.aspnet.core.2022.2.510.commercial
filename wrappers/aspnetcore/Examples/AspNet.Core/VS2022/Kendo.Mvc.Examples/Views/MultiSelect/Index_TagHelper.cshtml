@@ -1,0 +1,67 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var multiSelect_data = new List<string>()
+    {
+        "Steven White",
+        "Nancy King",
+        "Anne King",
+        "Nancy Davolio",
+        "Robert Davolio",
+        "Michael Leverling",
+        "Andrew Callahan",
+        "Michael Suyama",
+        "Anne King",
+        "Laura Peacock",
+        "Robert Fuller",
+        "Janet White",
+        "Nancy Leverling",
+        "Robert Buchanan",
+        "Andrew Fuller",
+        "Anne Davolio",
+        "Andrew Suyama",
+        "Nige Buchanan",
+        "Laura Fuller"
+    };
+}
+
+<div class="demo-section">
+    <h2>Invite Attendees</h2>
+    <label for="required">Required</label>
+    <kendo-multiselect name="required"
+        placeholder="Select attendees..."
+        value='new string[] { "Anne King", "Andrew Fuller" }'
+        bind-to="multiSelect_data">
+    </kendo-multiselect>
+
+    <label for="optional">Optional</label>
+    <kendo-multiselect name="optional"
+        placeholder="Select attendees..."
+        auto-close="false"
+        bind-to="multiSelect_data">
+    </kendo-multiselect>
+    <button id="get">Send Invitation</button>
+</div>
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var required = $("#required").data("kendoMultiSelect");
+        var optional = $("#optional").data("kendoMultiSelect");
+
+        $("#get").click(function () {
+            alert("Attendees:\n\nRequired: " + required.value() + "\nOptional: " + optional.value());
+        });
+    });
+</script>
+}
+<style>
+    .demo-section label {
+        display: block;
+        margin: 15px 0 5px 0;
+    }
+
+    #get {
+        float: right;
+        margin: 25px auto 0;
+    }
+</style>

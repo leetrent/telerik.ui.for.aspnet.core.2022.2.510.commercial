@@ -1,0 +1,130 @@
+@using Kendo.Mvc.Examples.Models.TaskBoard
+
+<div class="demo-section wide">
+
+    @(Html.Kendo().TaskBoard()
+        .Name("taskBoard")
+        .Columns(c =>
+        {
+            c.Add().Text("To-do").Status("todo");
+            c.Add().Text("In Progress").Status("inProgress");
+            c.Add().Text("Done").Status("done");
+        })
+        .DataCategoryField("Color")
+        .DataDescriptionField("Description")
+        .DataStatusField("Status")
+        .DataTitleField("Title")
+        .DataOrderField("Order")
+        .BindTo((IEnumerable<CardViewModel>)ViewBag.Cards)
+        .Resources(r => r
+            .Add().Field("Color")
+            .DataColorField("Color")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .BindTo(
+                new List<Resource>()
+                    {
+                        new Resource { Color = "#ffa500", Text = "orange", Value = "orange"},
+                        new Resource { Color = "#008000", Text = "green", Value = "green" },
+                        new Resource { Color = "#0000ff", Text = "blue", Value = "blue"}
+                    }
+            )
+        )
+        .Height("750")
+        .Events(ev =>
+        {
+            ev.Change("onChange");
+            ev.ColumnsDataBinding("onColumnDataBinding");
+            ev.ColumnsDataBound("onColumnDataBound");
+            ev.DataBinding("onDataBinding");
+            ev.DataBound("onDataBound");
+            ev.DeleteCard("onDeleteCard");
+            ev.DeleteColumn("onDeleteColumn");
+            ev.EditCard("onEditCard");
+            ev.EditColumn("onEditColumn");
+            ev.Move("onMove");
+            ev.MoveEnd("onMoveEnd");
+            ev.MoveStart("onMoveStart");
+            ev.MoveStart("onMoveStart");
+            ev.SaveCard("onSaveCard");
+            ev.SaveColumn("onSaveColumn");
+            ev.Select("onSelect");
+        })
+    )
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        function onChange(e) {
+            kendoConsole.log("event: Change");
+        }
+
+        function onColumnDataBinding(e) {
+            kendoConsole.log("event: ColumnDataBinding");
+        }
+
+        function onColumnDataBound(e) {
+            kendoConsole.log("event: ColumnDataBound");
+        }
+
+        function onDataBinding(e) {
+            kendoConsole.log("event: DataBinding");
+        }
+
+        function onDataBound(e) {
+            kendoConsole.log("event: DataBound");
+        }
+
+        function onDeleteCard(e) {
+            kendoConsole.log("event: DeleteCard");
+        }
+
+        function onDeleteColumn(e) {
+            kendoConsole.log("event: DeleteColumn");
+        }
+
+        function onEditCard(e) {
+            kendoConsole.log("event: EditCard");
+        }
+
+        function onEditColumn(e) {
+            kendoConsole.log("event: EditColumn");
+        }
+
+        function onMove(e) {
+            kendoConsole.log("event: Move");
+        }
+
+        function onMoveEnd(e) {
+            kendoConsole.log("event: MoveEnd");
+        }
+
+        function onMoveStart(e) {
+            kendoConsole.log("event: MoveStart");
+        }
+
+        function onSaveCard(e) {
+            kendoConsole.log("event: SaveCard");
+        }
+
+        function onSaveColumn(e) {
+            kendoConsole.log("event: SaveColumn");
+        }
+
+        function onSelect(e) {
+            kendoConsole.log("event: Select");
+        }
+
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>

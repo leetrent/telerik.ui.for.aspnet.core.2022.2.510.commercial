@@ -1,0 +1,47 @@
+<div class="kd-search-content">
+    <div id="search-container">
+        <div id="results-msg" class="result-message"></div>
+        <div id="results" class="result-content"></div>
+        <div class="site-pager"></div>
+    </div>
+    <div id="no-results" class="no-result" style="display: none">
+        <h1 class="kd-title">Sorry,</h1>
+        <h2 class="kd-title">There were no results found. Maybe try a broader search or:</h2>
+        <ul class="kd-list">
+            <li><p class="kd-text">Make sure all words are spelled correctly.</p></li>
+            <li><p class="kd-text">Try different keywords.</p></li>
+            <li><p class="kd-text">Try more general keywords.</p></li>
+        </ul>
+        <a href="javascript:history.back()" class="kd-link go-back">Go back</a>
+    </div>
+</div>
+
+
+<script type="text/x-kendo-template" id="results-template">
+    <div class="item">
+        <h4 class="kd-title">
+            <a class="kd-link" href="#= url #">#= title #</a>
+        </h4>
+        <p class="kd-text text-small">#= excerpt #</p>
+        <p class="kd-text text-small"><a class="kd-link" href="#= url #">/#= url.split("/").slice(3).join("/") #</a></p>
+    </div>
+</script>
+
+<script type="text/x-kendo-template" id="results-message-template">
+    <p class="kd-text text-small m-0">About #: searchInformation.totalResults # results (#: searchInformation.searchTime # seconds)</p>
+    <hr />
+    #if(spelling) {#
+    <div class="spelling">
+        <p class="kd-text text-small">
+            <strong>Did you mean:</strong>
+            <a class="kd-link" href="#: $('form[action]').attr('action') #?q=#:spelling.correctedQuery#">#= spelling.htmlCorrectedQuery #</a>
+        </p>
+    </div>
+    #}#
+</script>
+
+<script>
+    var GSC_INSTANCE = '@ViewBag.GoogleCustomSearchInstance';
+    var GSC_KEY =  '@ViewBag.GoogleApiKey';
+    var GSC_URL = 'https://www.googleapis.com/customsearch/v1';
+</script>

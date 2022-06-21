@@ -1,0 +1,19 @@
+<div class="demo-section">
+    <h4>Products</h4>
+    @(Html.Kendo().MultiSelect()
+          .Name("products")
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .Placeholder("Select products...")
+          .AutoBind(false)
+          .Value(new[] { new { ProductName = "Chang", ProductID = 2 }, new { ProductName = "Uncle Bob's Organic Dried Pears", ProductID = 7 } })
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("ServerFiltering_GetProducts", "MultiSelect");
+              })
+              .ServerFiltering(true);
+          })
+    )
+</div>

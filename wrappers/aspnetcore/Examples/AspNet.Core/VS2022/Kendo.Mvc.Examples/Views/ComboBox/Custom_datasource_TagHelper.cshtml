@@ -1,0 +1,13 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Products</h4>
+    <kendo-combobox auto-bind="false" datatextfield="ProductName" datavaluefield="ProductID" min-length="3" placeholder="Select Product" filter="FilterType.Contains" name="products" style="width:100%;">
+        <datasource type="DataSourceTagHelperType.Custom" custom-type="odata" server-filtering="true">
+            <transport>
+                <read url="https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products" />
+            </transport>
+        </datasource>
+    </kendo-combobox>
+    <div class="demo-hint">Hint: type at least three characters. For example "che".</div>
+</div>

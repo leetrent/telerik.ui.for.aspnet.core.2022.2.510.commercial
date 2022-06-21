@@ -1,0 +1,31 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section wide" style="max-width: 644px;">
+    @(Html.Kendo().MediaPlayer()
+            .AutoPlay(true)
+            .Mute(true)
+            .Navigatable(true)
+            .Media(m => m
+                .Title("Digital Factory")
+                .Source(new[] {
+                    new { quality = "360p", url = "https://telerik-media.s3.amazonaws.com/digital-factory/digital-factory-360.mp4" },
+                    new { quality = "480p", url = "https://telerik-media.s3.amazonaws.com/digital-factory/digital-factory-480.mp4" },
+                    new { quality = "720p", url = "https://telerik-media.s3.amazonaws.com/digital-factory/digital-factory-720.mp4" }
+                })
+            )
+            .Name("mediaPlayer")
+            .HtmlAttributes(new { style = "height:360px" })
+    )
+</div>
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        //focus the widget
+        $(document).on("keydown.examples", function (e) {
+            if (e.altKey && e.keyCode === 87 /* w */) {
+                $("#mediaPlayer").focus();
+            }
+        });
+    });
+</script>
+}

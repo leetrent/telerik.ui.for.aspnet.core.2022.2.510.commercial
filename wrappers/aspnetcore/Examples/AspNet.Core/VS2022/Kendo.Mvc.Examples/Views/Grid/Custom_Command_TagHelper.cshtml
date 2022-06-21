@@ -1,0 +1,53 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="Grid">
+    <datasource type="DataSourceTagHelperType.Ajax">
+        <transport>
+            <read url="/grid/customcommand_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="FirstName"/>
+        <column field="LastName"/>
+        <column field="Title"/>
+        <column>
+            <commands>
+                <column-command text="ViewDetails" click="showDetails"/>
+            </commands>
+        </column>
+    </columns>
+</kendo-grid>
+
+<kendo-window name="Details"
+    title="Customer Details"
+    visible="false"
+    modal="true"
+    draggable="true" 
+    width="300">
+</kendo-window>
+
+ <script type="text/x-kendo-template" id="template">
+    <div id="details-container">
+        <h2>#= FirstName # #= LastName #</h2>
+        <em>#= Title #</em>
+        <dl>
+            <dt>City: #= City #</dt>
+            <dt>Address: #= Address #</dt>
+        </dl>
+    </div>
+</script>
+
+@section scripts {
+<script type="text/javascript">
+    function showDetails(e) {
+        e.preventDefault();
+
+        var detailsTemplate = kendo.template($("#template").html());
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#Details").data("kendoWindow");
+
+        wnd.content(detailsTemplate(dataItem));
+        wnd.center().open();
+    }
+</script>
+}

@@ -1,0 +1,87 @@
+
+    <script>
+        function onResize(e) {
+            kendoConsole.log("Resized: " + e.container.find("> .k-card-header").text());
+        }
+
+        function onReorder(e) {
+            console.log(e)
+            kendoConsole.log("Reordered: " + e.container.find(".k-card-header").text());
+        }
+    </script>
+
+<div class="center">
+    <div class="demo-section auto">
+        <p>Resize or reorder the containers to see the events that the TileLayout component exposes.</p>
+        <br />
+        <br />
+        <br />
+        <!-- container templates -->
+        <script id="shells" type="text/x-kendo-template">
+            <div style="display: flex; height: 100%;">
+                <img src="@Url.Content("~/shared/web/cards/shells.jpg")" style="margin-right: 1em;">
+                <div class="left">
+                    <p>
+                        <em> Leaving seashells where they are is actually one of the easiest ways to protect marine life and make a small contribution to saving our oceans.</em>
+                    </p>
+                    <p>
+                        Seemingly innocent shell collecting may have a huge impact on the environment.
+                    </p>
+                    <p>
+                        Depending on the shell you take, you could be robbing an animal of a home, building material, food or even disturbing an entire ocean ecosystem.
+                    </p>
+                </div>
+            </div>
+        </script>
+        <script id="tulips" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/tulips.jpg")" />
+            <div class="k-vbox k-column">
+                <div class="k-card-body">
+                    <p>In the 17th century tulips were extremely popular in Europe. Holland was gripped in a craze for tulips that lead many to even sell off their fortunes.</p>
+                </div>
+            </div>
+        </script>
+        <script id="cherry" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/sortable/5.jpg")" />
+            <div class="k-vbox k-column">
+                <div class="k-card-body">
+                    <p>Sakura is the Japanese term for ornamental cherry blossom trees and their blossoms. Sakura is special in Japan and there are even "Sakura forecasts".</p>
+                </div>
+            </div>
+        </script>
+
+        <div id="tilelayout"></div>
+
+    </div>
+</div>
+
+
+    @(Html.Kendo().TileLayout()
+        .Name("tilelayout")
+        .Columns(2)
+        .RowsHeight("350px")
+        .ColumnsWidth("300px")
+        .Containers(c => {
+            c.Add().Header(h => h.Text("Shells")).BodyTemplateId("shells").ColSpan(1).RowSpan(2);
+            c.Add().Header(h => h.Text("Tulips")).BodyTemplateId("tulips").ColSpan(1).RowSpan(1);
+            c.Add().Header(h => h.Text("Cherry Blossoms")).BodyTemplateId("cherry").ColSpan(1).RowSpan(1);
+        })
+        .Reorderable()
+        .Resizable()
+        .Events(e=>e.Reorder("onReorder").Resize("onResize"))
+    )
+
+<style>
+
+    .k-card-header {
+        flex: 0 0 auto;
+    }
+
+    .k-card-body {
+        overflow: auto;
+    }
+
+    .left {
+        text-align: left;
+    }
+</style>

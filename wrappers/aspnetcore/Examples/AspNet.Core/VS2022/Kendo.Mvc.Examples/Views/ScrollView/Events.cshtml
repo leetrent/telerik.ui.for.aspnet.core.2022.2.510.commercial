@@ -1,0 +1,90 @@
+@{
+    var random = new Random();
+}
+
+<div id="example" style="margin:auto; width:70%">
+    @(Html.Kendo().ScrollView()
+                .Name("scrollView")
+                .ContentHeight("100%")
+                .Items(x =>
+                {
+                    x.Add().Content("<div class='photo photo1'></div>");
+                    x.Add().Content("<div class='photo photo2'></div>");
+                    x.Add().Content("<div class='photo photo3'></div>");
+                    x.Add().Content("<div class='photo photo4'></div>");
+                    x.Add().Content("<div class='photo photo5'></div>");
+                    x.Add().Content("<div class='photo photo6'></div>");
+                    x.Add().Content("<div class='photo photo7'></div>");
+                    x.Add().Content("<div class='photo photo8'></div>");
+                    x.Add().Content("<div class='photo photo9'></div>");
+                    x.Add().Content("<div class='photo photo10'></div>");
+                }
+                )
+                .HtmlAttributes(new { style = "height:420px; width:660px; max-width: 100%; margin: auto;" })
+                .Events(x => x.Change("onChange").Refresh("onRefresh"))
+    )
+</div>
+@section scripts {
+<script>
+    function onChange(e) {
+        kendoConsole.log("page " + e.nextPage);
+    }
+
+    function onRefresh(e) {
+        kendoConsole.log("Total: " + e.pageCount + " Current: " + e.page);
+    }
+</script>
+}
+
+
+<style>
+
+    .photo {
+        display: inline-block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        width:inherit;
+        height:inherit;
+    }
+
+    .photo1 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo2 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo3 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo4 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo5 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo6 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo7 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo8 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo9 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+
+    .photo10 {
+        background-image: url('@Url.Content("~/shared/images/photos/"+ random.Next(1,30) +".jpg")');
+    }
+</style>

@@ -1,0 +1,34 @@
+@addTagHelper *, Kendo.Mvc
+<kendo-grid mobile="Disabled" name="grid" style="height:430px;">
+    <columns>
+       <column field="CustomerID" width="100">
+        </column>
+        <column field="Country" width="100" >
+        </column>
+        <column field="CompanyName" width="100">
+        </column>
+        <column field="City" width="100" >
+        </column>
+        <column field="PostalCode" width="100" >
+        </column>
+    </columns>
+    <datasource page="0" group-paging="true" batch="false" type="DataSourceTagHelperType.Ajax" page-size="50" auto-sync="false">
+        <schema data="Data" total="Total" errors="Errors">
+        </schema>
+        <transport>
+            <read url="@Url.Action("AllCustomers", "Grid")" />
+        </transport>
+        <groups >
+            <group field="City"></group>
+            <group field="CompanyName"></group>
+        </groups>
+    </datasource>
+    <filterable enabled="true" mode="menu">
+        <messages info="Show items with value that:" title="Show items with value that:" is-true="is true" is-false="is false" filter="Filter" clear="Clear" and="And" or="Or" select-value="-Select value-" operator="Operator" value="Value" search="Search" check-all="Select All" selected-items-format="{0} selected items" />
+    </filterable>
+    <scrollable enabled="true" virtual="true" />
+    <groupable enabled="true">
+        <messages empty="Drag a column header and drop it here to group by that column" />
+    </groupable>
+    <sortable enabled="true" />
+</kendo-grid>

@@ -1,0 +1,53 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="center">
+    <div class="demo-section auto">
+        <!-- container templates -->
+        <script id="barcelona" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/barcelona.jpg")" />
+        </script>
+        <script id="sofia" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/sofia.jpg")" />
+        </script>
+        <script id="rome" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/rome.jpg")" />
+        </script>
+        <script id="sa" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/south-africa.jpg")" />
+        </script>
+        <script id="sanfran" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/sanfran.jpg")" />
+        </script>
+        <script id="seaview" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/Seaview-Appartments.png")" />
+        </script>
+        <kendo-tilelayout columns="2" columns-width="285px" reorderable="true" rows-height="285px" name="tilelayout">
+            <containers>
+                <container body-template-id="barcelona" col-span="1" row-span="1">
+                    <container-header text="Barcelona" />
+                </container>
+                <container body-template-id="sofia" col-span="1" row-span="1">
+                    <container-header text="Sofia" />
+                </container>
+                <container body-template-id="rome" col-span="1" row-span="1">
+                    <container-header text="Rome" />
+                </container>
+                <container body-template-id="sa" col-span="1" row-span="1">
+                    <container-header text="South Africa" />
+                </container>
+                <container body-template-id="sanfran" col-span="1" row-span="1">
+                    <container-header text="San Francisco" />
+                </container>
+                <container body-template-id="seaview" col-span="1" row-span="1">
+                    <container-header text="Sea View Apartments" />
+                </container>
+            </containers>
+        </kendo-tilelayout>
+    </div>
+</div>
+<style>
+    .k-card-image {
+        width: 285px;
+        height: 189px;
+    }
+</style>

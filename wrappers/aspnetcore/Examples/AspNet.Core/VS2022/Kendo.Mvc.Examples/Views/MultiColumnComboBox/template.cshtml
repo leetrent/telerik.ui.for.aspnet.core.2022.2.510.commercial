@@ -1,0 +1,70 @@
+
+<div class="demo-section">
+    <h4>Customers</h4>
+    @(Html.Kendo().MultiColumnComboBox()
+          .Name("customers")
+          .DataTextField("ContactName")
+          .DataValueField("CustomerID")
+          .Columns(columns =>
+          {
+              columns.Add()
+                  .Field("ContactName")
+                  .Title("Name")
+                  .Template("<span class=\"k-state-default photo\" style=\"background-image: url(" + Url.Content("~/shared/web/Customers/") + "#:data.CustomerID#.jpg" + ");\" ></span>")
+                  .HeaderTemplate("<span class=\"dropdown-header\">Photo</span>")
+                  .Width("100px");
+
+              columns.Add()
+                  .Field("CustomerID")
+                  .Title("ID")
+                  .Template("<span class=\"k-state-default\"><h3>#: data.ContactName #</h3><p>#: data.CompanyName #</p></span>")
+                  .HeaderTemplate("<span class=\"dropdown-header\">Contact info</span>");
+          })
+          .FooterTemplate("Total <strong>#: instance.dataSource.total() #</strong> items found")
+          .HtmlAttributes(new { style = "width: 100%;" })
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("Template_GetCustomers", "MultiColumnComboBox");
+              });
+          })
+          .Filter("startswith")
+          .Height(300)
+    )
+    <p class="demo-hint">
+        Open the ComboBox to see the customized appearance.
+    </p>
+</div>
+
+<style>
+
+    #customers-list .dropdown-header {
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    #customers-list .photo {
+        box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+        margin: 0 10px 0 0;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    #customers-list h3 {
+        margin: 0 0 1px 0;
+        padding: 0;
+        font-size: 1.2em;
+        font-weight: normal;
+    }
+
+    #customers-list p {
+        margin: 0;
+        padding: 0;
+        font-size: .8em;
+    }
+</style>

@@ -1,0 +1,48 @@
+@using Kendo.Mvc.UI
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Set component  type</h4>
+        @(Html.Kendo().DropDownList()
+            .Name("ddl")
+            .BindTo(new string[] { "modern", "classic" })
+            .Value("modern")
+            .Events(ev=>ev.Change("onChange"))
+        )
+    </div>
+</div>
+
+<div class="demo-section">
+    <h4>Select Date/Time:</h4>
+    <div>
+        @(Html.Kendo().DateTimePicker()
+            .Name("datetimepicker")
+            .Value(DateTime.Now)
+            .ComponentType("modern")
+            .HtmlAttributes(new { style = "width: 100%", title = "datetimepicker" })
+            .DateInput()
+        )
+    </div>
+</div>
+
+
+    @section scripts {
+<script>
+        function onChange(e) {
+            var picker = $("#datetimepicker").data("kendoDateTimePicker");
+            var type = this.value();
+            var value = picker.value();
+            var parent = $("#datetimepicker").parent();
+
+            picker.destroy();
+            parent.empty();
+            parent.append('<input id="datetimepicker" title="datetimepicker" style="width: 100%;" />')
+
+            $("#datetimepicker").kendoDateTimePicker({
+                componentType: type,
+                value:value
+            });
+        }
+    </script>
+}

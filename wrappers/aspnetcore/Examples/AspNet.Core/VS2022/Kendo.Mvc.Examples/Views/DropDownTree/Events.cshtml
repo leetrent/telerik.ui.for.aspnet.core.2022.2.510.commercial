@@ -1,0 +1,81 @@
+<div class="demo-section">
+    @(Html.Kendo().DropDownTree()
+            .Name("dropdowntree")
+            .Checkboxes(true)
+            .CheckAll(true)
+            .HtmlAttributes(new { style = "width: 100%" })
+            .Height("auto")
+            .AutoWidth(true)
+            .Filter(FilterType.Contains)
+            .Events(events => events
+                .DataBound("onDataBound")
+                .Open("onOpen")
+                .Close("onClose")
+                .Change("onChange")
+                .Filtering("onFiltering")
+                .Select("onSelect")
+            )
+            .Items(ddtree =>
+            {
+                ddtree.Add().Text("Furniture")
+                    .Expanded(true)
+                    .Items(furniture =>
+                    {
+                        furniture.Add().Text("Tables & Chairs");
+                        furniture.Add().Text("Sofas");
+                        furniture.Add().Text("Occasional Furniture");
+                    });
+
+                ddtree.Add().Text("Decor")
+                    .Expanded(false)
+                    .Items(furniture =>
+                    {
+                        furniture.Add().Text("Bed Linen");
+                        furniture.Add().Text("Curtains & Blinds");
+                        furniture.Add().Text("Carpets");
+                    });
+                ddtree.Add().Text("Storage");
+            })
+    )
+</div>
+
+@section scripts {
+<script>
+
+    function onDataBound() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event: dataBound");
+        }
+    }
+
+    function onOpen() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event: open");
+        }
+    }
+
+    function onClose() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event: close");
+        }
+    }
+
+    function onChange() {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event: change");
+        }
+    }
+
+    function onFiltering(e) {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: filtering");
+        }
+    }
+
+    function onSelect(e) {
+        if ("kendoConsole" in window) {
+            kendoConsole.log("event :: select");
+        }
+    }
+</script>
+}

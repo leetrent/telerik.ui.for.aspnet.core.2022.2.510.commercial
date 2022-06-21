@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="k-@ViewBag.Theme.Name kd-mode" data-is-dark="false">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="Lq7XyIRTAHKClUsWVsZVTS256ekyvUTQBfwdu4UulWQ" />
+    <meta name="description" content="@ViewBag.Meta">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>@(ViewBag.Title ?? "Telerik UI for ASP.NET Core Demos")</title>
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" />
+    <link rel="canonical" href="@(Context.Request.Scheme + "://" + Context.Request.Host + Context.Request.PathBase + Context.Request.Path)" />
+
+    <link rel="preconnect" href="https://geolocation.onetrust.com" />
+    <link rel="preconnect" href="https://cdn.cookielaw.org" />
+    <link rel="preconnect" href="https://d6vtbcy3ong79.cloudfront.net" />
+    <link rel="preconnect" href="https://d3fu8oi3wk1rz4.cloudfront.net" />
+
+    <script>
+        function isMobile() {
+            var result = false;
+            var matches = [
+                /(Windows Phone(?: OS)?)\s(\d+)\.(\d+(\.\d+)?)/,
+                /(Silk)\/(\d+)\.(\d+(\.\d+)?)/,
+                /(Android|Android.*(?:Opera|Firefox).*?\/)\s*(\d+)\.?(\d+(\.\d+)?)?/,
+                /(iPhone|iPod).*OS\s+(\d+)[\._]([\d\._]+)/,
+                /(iPad).*OS\s+(\d+)[\._]([\d_]+)/,
+                /(MeeGo).+NokiaBrowser\/(\d+)\.([\d\._]+)/,
+                /(webOS)\/(\d+)\.(\d+(\.\d+)?)/,
+                /(BlackBerry|BB10).*?Version\/(\d+)\.(\d+(\.\d+)?)/,
+                /(PlayBook).*?Tablet\s*OS\s*(\d+)\.(\d+(\.\d+)?)/,
+                /(MSIE)\s+(\d+)\.(\d+(\.\d+)?)/,
+                /(tizen).*?Version\/(\d+)\.(\d+(\.\d+)?)/i,
+                /(sailfish).*rv:(\d+)\.(\d+(\.\d+)?).*firefox/i,
+                /(Mobile).*rv:(\d+)\.(\d+(\.\d+)?).*Firefox/
+            ];
+
+            for (var i = 0; i < matches.length; i++) {
+                result = matches[i].test(window.navigator.userAgent);
+                if (result) {
+                    break;
+                }
+            }
+
+            return result;
+        }
+    </script>
+
+	<script>
+        if (localStorage.isBlack) document.documentElement.setAttribute("data-is-dark", localStorage.isBlack);
+    </script>
+
+    <!-- Styles Start -->
+    <link href="@String.Format("{0}/styles/kendo-ui-demos/base.min.css{1}", ViewBag.AssetsCDN, Html.Version())" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+    <!--Styles End -->
+
+	@{
+        Kendo.Mvc.Examples.Models.Themes.Theme SelectedTheme = ViewBag.Theme ?? Kendo.Mvc.Examples.Models.Themes.Theme.DefaultTheme;
+
+        bool isSassTheme = ViewBag.IsSassTheme;
+    }
+
+    <script>
+        window.isSassTheme = "@isSassTheme" === "True";
+        window.selectedTheme = "@SelectedTheme.Name";
+        window.selectedThemeCommon = "@ViewBag.CommonFile";
+    </script>
+
+    @RenderSection("HeadContent", false)
+</head>
+<body>
+    <!-- JavaScript Error Handler/Collector for Staging -->
+    @if (Context.Request.Path.HasValue && (Context.Request.Path.Value.IndexOf("kendobuild") >= 0))
+    {
+    <script>window.sessionStorage.setItem("errorMsg", "no error");window.onerror = HandleError; document.onerror = HandleError; document.body.onerror = HandleError;function HandleError(msg) {window.sessionStorage.setItem("errorMsg", msg);return true;}</script>
+    }
+    @Html.Partial("Header")
+    @Html.Partial("GoogleTagManager")
+    @Html.Partial("SubNavigation")
+
+    @RenderBody()
+
+    <script src="@Url.Script("jquery.min.js")"></script>
+    @RenderSection("scripts", required: false)
+
+    <!-- Remove GDPR and Cookies Message on localhost and kendobuild -->
+    @if ((Context.Request.Host.Value.IndexOf("localhost") == -1) && (Context.Request.Host.Value.IndexOf("kendobuild") == -1))
+    {
+        <!--GDPR and Cookies Consent Message  -->
+        <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-language="en" type="text/javascript" charset="UTF-8" data-domain-script="3dfce4f2-dab6-4128-9f33-df7e0597da82"></script>
+        <!--script to enable GDPR and Cookies Consent Message on live -->
+        <script src="https://d29pqwjodcr0n2.cloudfront.net/toggle-optanon-consent.js" type="text/javascript" charset="UTF-8"></script>
+    }
+</body>
+</html>

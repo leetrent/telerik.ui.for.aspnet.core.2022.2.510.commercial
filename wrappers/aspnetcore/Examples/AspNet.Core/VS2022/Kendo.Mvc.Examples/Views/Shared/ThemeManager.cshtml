@@ -1,0 +1,94 @@
+@using Kendo.Mvc.Examples.Models.Themes;
+@{
+    IEnumerable<LessTheme> lessThemes = ViewBag.LessThemes;
+    IEnumerable<SassTheme> sassThemes = ViewBag.SassThemes;
+    Theme SelectedTheme = ViewBag.Theme;
+    bool isSassTheme = ViewBag.IsSassTheme;
+}
+
+<script>
+    window.selectedTheme = "@SelectedTheme.Name";
+</script>
+
+<span class="theme-chooser-label kd-text kd-text-primary mb-0">Change Theme</span>
+<div class="theme-chooser-wrapper dropdown-wrapper">
+    <div class="theme-chooser-toggle-btn dropdown-toggle" tabindex="0" role="button" aria-haspopup="listbox" aria-controls="less-theme-choser-listbox sass-theme-choser-listbox">
+        @if (SelectedTheme != null)
+        {
+            var palette = isSassTheme ?
+                SelectedTheme.Palette.Where((source, index) => index != 1 && index != 3).ToArray() :
+                SelectedTheme.Palette;
+            var themeName = isSassTheme ?
+                SelectedTheme.Name.Split('-')[0] :
+                SelectedTheme.Title;
+
+            @Html.Partial("ThemeColors", palette);
+
+            <span class="theme-@SelectedTheme.Title">
+                <span class="theme-name">@themeName</span>
+            </span>
+        }
+        <span class="spacer"></span>
+        <span class="icon arrow" aria-hidden="true">
+            @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\arrow-60-down.svg")))
+        </span>
+    </div>
+    <div class="theme-chooser-dropdown dropdown">
+        <div class="theme-chooser-header">
+            <div class="header-title">
+                <h4 class="kd-title">Themes & Swatches</h4>
+            </div>
+            <div class="type-chooser">
+                <div class="theme-type @(isSassTheme ? "active" : "")" data-select="sass-list">SASS</div>
+                <div class="theme-type @(isSassTheme ? "" : "active")" data-select="less-list">LESS</div>
+            </div>
+            <div class="theme-builder" style="@(isSassTheme ? "" : "visibility: hidden;")">
+                <a class="tb-button kd-link" target="_blank" href="https://themebuilder.telerik.com/kendo-ui">
+                    <span class="icon">
+                        @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\tb-icon-blue.svg")))
+                    </span>
+                    Launch Theme Builder
+                </a>
+            </div>
+        </div>
+        <div id="sass-theme-choser-listbox" role="listbox" aria-label="SASS themes" class="themes-list sass-list kd-list" style="@(isSassTheme ? "" : "display: none;")">
+            @foreach (var theme in sassThemes)
+            {
+                <div role="group" class="theme-col">
+                    <div id="group-heding-@theme.Title" class="theme-title" style="color: @theme.Primary; fill: @theme.Primary;">
+                        <span class="icon" aria-hidden="true">
+                            @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\brush.svg")))
+                        </span>
+                        @theme.Title Theme
+                    </div>
+                    <ul role="none" class="kd-list">
+                        @foreach (Theme swatch in theme.Swatches)
+                        {
+                            var selectedClass = SelectedTheme.Name.Equals(swatch.Name) ? "kd-theme-selected" : "";
+                            <li role="option" aria-describedby="group-heding-@theme.Title" class="kd-theme theme-@swatch.Title @selectedClass" data-val="@swatch.Name">
+                                @if (!string.IsNullOrEmpty(swatch.Icon))
+                                {
+                                    <span class="theme-icon">
+                                        @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\icons\\theme-chooser\\" + @swatch.Icon + ".svg")))
+                                    </span>
+                                }
+                                <span class="theme-name">@swatch.Title</span>
+                                @Html.Partial("ThemeColors", swatch.Palette)
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+        <ul id="less-theme-choser-listbox" role="listbox" aria-label="LESS themes" class="themes-list less-list kd-list" style="@(isSassTheme ? "display: none;" : "")">
+            @foreach (var theme in lessThemes)
+            {
+                var selectedClass = SelectedTheme.Name.Equals(theme.Name) ? "kd-theme-selected" : "";
+                <li role="option" class="kd-theme theme-@theme.Title @selectedClass" data-val="@theme.Name">
+                    <span class="theme-name">@theme.Title</span>
+                    @Html.Partial("ThemeColors", theme.Palette)
+                </li>
+            }
+        </ul>
+    </div>
+</div>

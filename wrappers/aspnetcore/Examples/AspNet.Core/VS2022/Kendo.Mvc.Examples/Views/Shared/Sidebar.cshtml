@@ -1,0 +1,62 @@
+<aside class="kd-sidebar">
+    @if (ViewBag.CurrentWidget != null)
+    {
+        <div class="kd-sidebar-current hidden" data-value="@ViewBag.CurrentWidget.Text"></div>
+        <div class="kd-sidebar-toggle">
+			<a href="#" title="See all components" class="kd-link back-nav">
+                <span class="text">All Components</span>
+				<span class="arrow-prev">
+					@Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\arrow-chevron-left.svg")))
+				</span>
+				<span class="arrow-next">
+					@Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\arrow-chevron-right.svg")))
+				</span>
+			</a>
+        </div>
+    }
+    <div class="kd-sidebar-container">
+        <div class="kd-sidebar-root-nav" aria-hidden="true">
+            @foreach (IGrouping<string, NavigationWidget> category in ViewBag.WidgetCategories)
+            {
+                <ul class="root-nav-categories kd-list">
+                    @if (category.Any(c => c.ShouldInclude()))
+                    {
+                        <li>
+                            <h3 class="kd-title"><span class="root-nav expand"></span>@category.Key</h3>
+                            <ul class="root-nav-widgets kd-list @(ViewBag.CurrentWidget != null && ViewBag.CurrentWidget.Category == category.Key ? "active" : "" )">
+                                @foreach (var widget in category)
+                                {
+                                    if (widget.ShouldInclude())
+                                    {
+                                        <li class="@(ViewBag.CurrentWidget != null && ViewBag.CurrentWidget.Text == widget.Text ? "active" : "")">
+                                            @Html.WidgetLink(widget, (string)ViewBag.NavProduct)
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        @if (ViewBag.CurrentWidget != null)
+        {
+            <div class="kd-sidebar-demo-nav">
+                <h3 class="kd-title">@ViewBag.CurrentWidget.Text</h3>
+                <ul class="kd-list">
+                    @foreach (NavigationExample example in ViewBag.CurrentWidget.Items)
+                    {
+                        if (example.ShouldInclude())
+                        {
+                            if (!string.IsNullOrEmpty(example.Group))
+                            {
+                                <li><span class="group">@example.Group</span></li>
+                            }
+                            <li>@Html.ExampleLink(example)</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</aside>

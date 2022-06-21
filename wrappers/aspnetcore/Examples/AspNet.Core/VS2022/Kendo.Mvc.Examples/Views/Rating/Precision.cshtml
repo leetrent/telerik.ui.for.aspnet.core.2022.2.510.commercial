@@ -1,0 +1,21 @@
+<div class="demo-section">
+    <h4>Item Precision</h4>
+    @(Html.Kendo().Rating()
+        .Name("ratingItem")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+        .Precision("item")
+    )
+</div>
+
+<div class="demo-section">
+    <h4>Half Precision</h4>
+    @(Html.Kendo().Rating()
+        .Name("ratingHalf")
+        .Min(1)
+        .Max(6)
+        .Value(3.5)
+        .Precision("half")
+    )
+</div>

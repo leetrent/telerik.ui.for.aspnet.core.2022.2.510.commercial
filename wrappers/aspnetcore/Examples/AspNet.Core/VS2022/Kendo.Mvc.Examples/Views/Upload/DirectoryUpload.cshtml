@@ -1,0 +1,20 @@
+@using Kendo.Mvc.UI
+
+<div >
+    <div class="demo-section">
+        @(Html.Kendo().Upload()
+            .Name("files")
+            .Async(a => a
+                .Save("Directory_Upload_Chunk_Save", "Upload")
+                .Remove("Directory_Upload_Remove", "Upload")
+                .ChunkSize(11000)
+            )
+            .Directory(true)
+            .DirectoryDrop(true)
+            .Validation(validation =>
+            {
+                validation.MaxFileSize(20000000);
+            })
+        )
+    </div>
+</div>

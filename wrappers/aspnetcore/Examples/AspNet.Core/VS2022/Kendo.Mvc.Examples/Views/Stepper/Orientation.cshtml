@@ -1,0 +1,44 @@
+@model Kendo.Mvc.UI.StepperOrientationType
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        @using (Html.BeginForm())
+        {
+            <h4>Orientation Settings</h4>
+            <label for="orientation">Orientation:</label>
+
+            @(Html.Kendo().DropDownList()
+                            .Name("orientation")
+                            .Items(items =>
+                                {
+                                    items.Add().Text("Horizontal").Value("horizontal");
+                                    items.Add().Text("Vertical").Value("vertical");
+                                })
+                            .Events(events => events.Change("onChange"))
+            )
+        }
+    </div>
+</div>
+
+<div class="demo-section wide">
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Orientation(Model)
+        .Steps(s =>
+        {
+            s.Add().Label("Personal Details").Icon("user").Selected(true);
+            s.Add().Label("New Appointment").Icon("calendar");
+            s.Add().Label("Review").Icon("preview");
+            s.Add().Label("Submit").Icon("file-add");
+        })
+    )
+</div>
+
+@section scripts {
+<script>
+    function onChange() {
+        $("form").submit();
+    }
+</script>
+}

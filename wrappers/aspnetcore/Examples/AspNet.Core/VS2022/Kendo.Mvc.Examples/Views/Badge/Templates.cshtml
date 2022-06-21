@@ -1,0 +1,51 @@
+<div class="demo-section">
+    <ul class="k-listgroup">
+        <li class="k-listgroup-item">
+            <a href="#" class="k-link">
+                Inbox
+                @(Html.Kendo().Badge()
+                    .Name("badge-inbox")
+                    .Text(100.2f)
+                    .Max(99)
+                    .ThemeColor(BadgeColor.Info)
+                )
+            </a>
+        </li>
+        <li class="k-listgroup-item">
+            <a href="#" class="k-link">
+                Sent Items
+                @(Html.Kendo().Badge()
+                    .Name("badge-sent")
+                    .Text("15")
+                    .ThemeColor(BadgeColor.Success)
+                    .TemplateId("sentTemplate")
+                )
+            </a>
+        </li>
+        <li class="k-listgroup-item">
+            <a href="#" class="k-link">
+                Missed converstations
+                @(Html.Kendo().Badge()
+                    .Name("badge-missed")
+                    .Text("120")
+                    .ThemeColor(BadgeColor.Warning)
+                    .Template("#= +this._text > 100 ? 'a lot' : this._text #")
+                )
+            </a>
+        </li>
+    </ul>
+</div>
+
+<script id="sentTemplate" type="text/x-kendo-template">
+    #= this._text # items
+</script>
+
+<style>
+    .k-listgroup-item > .k-link {
+        justify-content: space-between;
+    }
+    .k-listgroup .k-link:hover {
+        background-color: #555;
+        color: white;
+    }   
+</style>

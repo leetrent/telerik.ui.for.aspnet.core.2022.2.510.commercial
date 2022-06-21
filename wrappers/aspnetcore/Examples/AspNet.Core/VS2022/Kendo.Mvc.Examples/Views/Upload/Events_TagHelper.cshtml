@@ -1,0 +1,57 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <kendo-upload name="files" on-cancel="onCancel" on-complete="onComplete" on-error="onError" on-progress="onProgress" on-remove="onRemove" on-select="onSelect" on-success="onSuccess" on-upload="onUpload">
+        <async auto-upload="true" save-url="@Url.Action("Events_Save", "Upload")" remove-url="@Url.Action("Events_Remove", "Upload")" />
+    </kendo-upload>
+</div>
+
+
+    <script>
+        function onSelect(e) {
+            kendoConsole.log("Select :: " + getFileInfo(e));
+        }
+
+        function onUpload(e) {
+            kendoConsole.log("Upload :: " + getFileInfo(e));
+        }
+
+        function onSuccess(e) {
+            kendoConsole.log("Success (" + e.operation + ") :: " + getFileInfo(e));
+        }
+
+        function onError(e) {
+            kendoConsole.log("Error (" + e.operation + ") :: " + getFileInfo(e));
+        }
+
+        function onComplete(e) {
+            kendoConsole.log("Complete");
+        }
+
+        function onCancel(e) {
+            kendoConsole.log("Cancel :: " + getFileInfo(e));
+        }
+
+        function onRemove(e) {
+            kendoConsole.log("Remove :: " + getFileInfo(e));
+        }
+
+        function onProgress(e) {
+            kendoConsole.log("Upload progress :: " + e.percentComplete + "% :: " + getFileInfo(e));
+        }
+
+        function onClear(e) {
+            kendoConsole.log("Clear");
+        }
+
+        function getFileInfo(e) {
+            return $.map(e.files, function (file) {
+                var info = file.name;
+
+                // File size is not available in all browsers
+                if (file.size > 0) {
+                    info += " (" + Math.ceil(file.size / 1024) + " KB)";
+                }
+                return info;
+            }).join(", ");
+        }
+    </script>

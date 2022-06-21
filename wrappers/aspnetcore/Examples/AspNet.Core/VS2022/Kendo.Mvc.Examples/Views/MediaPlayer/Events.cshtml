@@ -1,0 +1,43 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section wide" style="max-width: 644px;">
+    @(Html.Kendo().MediaPlayer()
+        .Name("MediaPlayer")
+        .AutoPlay(true)
+        .Events(e => e.Play("onPlay").Pause("onPause").End("onEnd").Ready("onReady")
+            .TimeChange("onTimeChange").VolumeChange("onVolumeChange"))
+        .Media(m => m
+            .Title("NASA Chose Telerik")
+            .Source("https://www.youtube.com/watch?v=u0vMSEjx-jA")
+        )
+        .HtmlAttributes(new { style = "height:360px" })
+    )
+</div>
+
+@section scripts {
+<script>
+    function onPlay() {
+        kendoConsole.log("event :: play");
+    }
+
+    function onPause() {
+        kendoConsole.log("event :: pause");
+    }
+
+    function onEnd() {
+        kendoConsole.log("event :: end");
+    }
+
+    function onReady() {
+        kendoConsole.log("event :: ready");
+    }
+
+    function onTimeChange() {
+        kendoConsole.log("event :: timeChange");
+    }
+
+    function onVolumeChange() {
+        kendoConsole.log("event :: volumeChange");
+    }
+</script>
+}

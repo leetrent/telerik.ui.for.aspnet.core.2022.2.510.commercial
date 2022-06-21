@@ -1,0 +1,75 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <button  onClick="window.location.reload()">
+            <span class="k-icon k-i-refresh"></span>Refresh Breadcrumb
+        </button>
+    </div>
+</div>
+
+<div class="demo-section wide">
+    <h4>Breadcrumb - Editable</h4>
+    @(Html.Kendo().Breadcrumb()
+            .Name("breadcrumbEdit")
+            .Items(items =>
+            {
+                items.Add()
+                     .Type(BreadcrumbItemType.RootItem)
+                     .Text("All Components")
+                     .ShowText(false)
+                     .Icon("home")
+                     .ShowIcon(true);
+                items.Add()
+                     .Type(BreadcrumbItemType.Item)
+                     .Text("Breadcrumb")
+                     .ShowText(true);
+                items.Add()
+                    .Type(BreadcrumbItemType.Item)
+                    .Text("Keyboard Navigation")
+                    .ShowText(true);
+            })
+            .Editable(true)
+            .Navigational(false)
+    )
+</div>
+<div class="demo-section wide">
+    <h4>Breadcrumb - Navigational</h4>
+    @(Html.Kendo().Breadcrumb()
+            .Name("breadcrumbNav")
+            .Items(items =>
+            {
+                items.Add()
+                     .Type(BreadcrumbItemType.RootItem)
+                     .Href("https://demos.telerik.com/aspnet-core/")
+                     .Text("All Components")
+                     .ShowText(false)
+                     .Icon("home")
+                     .ShowIcon(true);
+                items.Add()
+                     .Type(BreadcrumbItemType.Item)
+                     .Href("https://demos.telerik.com/aspnet-core/breadcrumb")
+                     .Text("Breadcrumb")
+                     .ShowText(true);
+                items.Add()
+                    .Type(BreadcrumbItemType.Item)
+                    .Href("https://demos.telerik.com/aspnet-core/breadcrumb/keyboard-navigation")
+                    .Text("Keyboard Navigation")
+                    .ShowText(true);
+            })
+            .Editable(false)
+            .Navigational(true)
+    )
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            //focus the widget
+            $(document).on("keydown.examples", function (e) {
+                if (e.altKey && e.keyCode === 87 /* w */) {
+                    $("#breadcrumbEdit").data("kendoBreadcrumb").wrapper.focus();
+                }
+            });
+        });
+    </script>
+}

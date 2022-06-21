@@ -1,0 +1,19 @@
+<div class="demo-section">
+    <h4>Rating</h4>
+    @(Html.Kendo().Rating()
+        .Name("rating")
+    )
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        //focus the widget
+        $(document).on("keydown.examples", function (e) {
+            if (e.altKey && e.keyCode === 87 /* w */) {
+                $("#rating").data("kendoRating").wrapper.focus();
+            }
+        });
+    });
+</script>
+}

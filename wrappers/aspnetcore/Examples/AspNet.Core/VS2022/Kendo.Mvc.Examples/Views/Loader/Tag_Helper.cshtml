@@ -1,0 +1,59 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var products = new string[] { "pulsing", "infinite-spinner", "converging-spinner" };
+}
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>
+            Pick the Loader's type:
+        </h4>
+        <kendo-dropdownlist name="type" on-change="onChange" bind-to="@products">
+        </kendo-dropdownlist>
+    </div>
+</div>
+
+<div class="k-d-flex k-align-items-center">
+    <div class="k-flex-1 k-text-center">
+        <div>Small</div>
+        <div class="example-item-wrap k-d-flex k-align-items-center k-justify-content-center">
+            <kendo-loader name="loader-small" size="LoaderSize.Small">
+            </kendo-loader>
+        </div>
+    </div>
+    <div class="k-flex-1 k-text-center">
+        <div>Medium</div>
+        <div class="example-item-wrap k-d-flex k-align-items-center k-justify-content-center">
+            <kendo-loader name="loader-medium" size="LoaderSize.Medium">
+            </kendo-loader>
+        </div>
+    </div>
+    <div class="k-flex-1 k-text-center">
+        <div>Large</div>
+        <div class="example-item-wrap k-d-flex k-align-items-center k-justify-content-center">
+            <kendo-loader name="loader-large" size="LoaderSize.Large">
+            </kendo-loader>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function onChange(e) {
+            var smallLoader = $('#loader-small').data("kendoLoader");
+            var mediumLoader = $('#loader-medium').data("kendoLoader");
+            var largeLoader = $('#loader-large').data("kendoLoader");
+
+            smallLoader.setOptions({ type: e.sender.text() })
+            mediumLoader.setOptions({ type: e.sender.text() })
+            largeLoader.setOptions({ type: e.sender.text() });
+        }
+    </script>
+}
+
+<style>
+    .example-item-wrap {
+        min-height: 80px;
+    }
+</style>

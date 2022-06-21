@@ -1,0 +1,56 @@
+ <div class="demo-section">
+    @(Html.Kendo().TreeView()
+        .Name("treeview")
+        .HtmlAttributes(new { tabindex = "1", accesskey = "w" })
+        .Items(treeview =>
+        {
+            treeview.Add().Text("Furniture")
+                .Items(root =>
+                {
+                    root.Add().Text("Tables & Chairs");
+                    root.Add().Text("Sofas");
+                    root.Add().Text("Occasional Furniture");
+                    root.Add().Text("Childerns Furniture");
+                    root.Add().Text("Beds");
+                });
+
+            treeview.Add().Text("Decor")
+                .Expanded(true)
+                .Items(root =>
+                {
+                    root.Add().Text("Bed Linen");
+                    root.Add().Text("Throws");
+                    root.Add().Text("Curtains & Blinds");
+                    root.Add().Text("Rugs");
+                    root.Add().Text("Carpets");
+                });
+
+            treeview.Add().Text("Storage")
+                .Items(root =>
+                {
+                    root.Add().Text("Wall Shelving");
+                    root.Add().Text("Kids Storage");
+                    root.Add().Text("Baskets");
+                    root.Add().Text("Multimedia Storage");
+                    root.Add().Text("Floor Shelving");
+                    root.Add().Text("Toilet Roll Holders");
+                    root.Add().Text("Storage Jars");
+                    root.Add().Text("Drawers");
+                    root.Add().Text("Boxes");
+                });
+        })
+    )
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        //focus the widget
+        $(document).on("keydown.examples", function (e) {
+            if (e.altKey && e.keyCode === 87 /* w */) {
+                $("#treeview").data("kendoTreeView").wrapper.focus();
+            }
+        });
+    });
+</script>
+}

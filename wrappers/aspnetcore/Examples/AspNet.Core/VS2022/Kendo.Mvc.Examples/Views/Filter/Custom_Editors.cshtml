@@ -1,0 +1,69 @@
+<div id="example" role="application">
+    @(Html.Kendo().DataSource<Kendo.Mvc.Examples.Models.ProductViewModel>()
+        .Name("dataSource1")
+         .Ajax(t =>
+                 {
+             t.Read("Editing_Read", "Grid");
+             t.Model(model => model.Id(p => p.ProductID));
+             t.PageSize(20);
+             t.ServerOperation(false);
+         })
+    )
+
+    @(Html.Kendo().Filter<Kendo.Mvc.Examples.Models.ProductViewModel>()
+      .Name("filter")
+      .ApplyButton(true)
+      .DataSource("dataSource1")
+      .Fields(f =>
+      {
+          f.Add(p=>p.ProductName).Label("Product Name");
+          f.Add(p=>p.CategoryID).Label("Category").DefaultValue(1).EditorTemplateHandler("categoryDropDownEditor");
+          f.Add(p=>p.UnitPrice).Label("Unit Price").EditorTemplateHandler("unitPriceEditor");
+          f.Add(p=>p.UnitsInStock).Label("Units In Stock");
+          f.Add(p=>p.QuantityPerUnit).Label("Quantity Per Unit");
+      })
+    )
+
+    <br />
+    <br />
+    <br />
+
+    @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+        .Name("Grid")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ProductName);
+            columns.Bound(p => p.Category).ClientTemplate("#=Category.CategoryName#");
+            columns.Bound(p => p.UnitPrice);
+            columns.Bound(p => p.UnitsInStock);
+            columns.Bound(p => p.QuantityPerUnit);
+        })
+        .Pageable()
+        .DataSource("dataSource1")
+    )
+</div>
+
+@section scripts {
+<script>
+    function categoryDropDownEditor(container, options) {
+        $('<input data-bind="value: value" name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                dataTextField: "CategoryName",
+                dataValueField: "CategoryID",
+                dataSource: {
+                    type: "odata",
+                    transport: {
+                        read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Categories"
+                    }
+                }
+            });
+    }
+
+    function unitPriceEditor(container, options) {
+        $('<input data-bind="value: value" name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoNumericTextBox();
+    }
+</script>
+}

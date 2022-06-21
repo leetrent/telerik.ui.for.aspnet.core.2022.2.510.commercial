@@ -1,0 +1,91 @@
+<div class="demo-section wide">
+
+    <script id="card-template" type="text/x-kendo-template">
+        <div class="template-container">
+            <div class="template-header">
+                <span class="template-title">#: Title #</span>
+                <span class="template-menu">#=cardMenuButton#</span>
+            </div>
+            <p>#= (Description == null) ? ' ' : Description #</p>
+            <p>#:kendo.toString( Start, "MMMM dd")#</p>
+        </div>
+    </script>
+
+    @(Html.Kendo().TaskBoard<Kendo.Mvc.Examples.Models.Scheduler.TaskViewModel, Kendo.Mvc.Examples.Models.TaskBoard.Column>()
+        .Name("taskBoard")
+        .ColumnSettings(columnSettings => columnSettings
+            .DataTextField("Text")
+            .DataStatusField("ID")
+        )
+        .Columns(dataSource => dataSource
+            .Ajax()
+            .Model(model => model.Id(p => p.ID))
+            .Read("Editing_Columns_Read", "TaskBoard")
+            .Create("Editing_Columns_Create", "TaskBoard")
+            .Update("Editing_Columns_Update", "TaskBoard")
+            .Destroy("Editing_Columns_Destroy", "TaskBoard")
+        )
+        .DataTitleField("Title")
+        .DataStatusField("OwnerID")
+        .DataDescriptionField("Description")
+        .DataCategoryField("ID")
+        .TemplateId("card-template")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model => model.Id(p => p.TaskID))
+            .Read(read => read.Action("Tasks_Read", "TaskBoard"))
+            .Create(update => update.Action("Tasks_Create", "TaskBoard"))
+            .Update(update => update.Action("Tasks_Update", "TaskBoard"))
+            .Destroy(update => update.Action("Tasks_Destroy", "TaskBoard"))
+        )
+        .Height("750")
+        .Events(ev =>
+        {
+            ev.Execute("onExecute");
+        })
+    )
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function onExecute(e) {
+            if (e.command === "MoveCardCommand") {
+                e.preventDefault();
+            }
+        }
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .template-container {
+        padding-top: 10px;
+        padding-left: 12px;
+    }
+
+    .column-status {
+        padding-top: 5px;
+    }
+
+    .column-text {
+        padding-left: 10px;
+    }
+
+    .template-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .template-title {
+        color: red;
+        word-wrap: break-word;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>

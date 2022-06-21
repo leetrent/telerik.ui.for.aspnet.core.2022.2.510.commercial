@@ -1,0 +1,70 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Selection</h4>
+        <ul class="options">
+            <li>
+                <h4>Choose a marker type:</h4>
+                @(Html.Kendo().DropDownList()
+                    .Name("dropDownList")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Events(e => e.Change("onChange"))
+                    .BindTo(new List<SelectListItem>() {
+                        new SelectListItem() {
+                            Text = "Rectangle",
+                            Value = "rect"
+                        },
+                        new SelectListItem() {
+                            Text = "Rounded rectangle",
+                            Value = "roundedRect"
+                        },
+                        new SelectListItem() {
+                            Text = "Circle",
+                            Value = "circle"
+                        },
+                        new SelectListItem() {
+                            Text = "Triangle",
+                            Value = "triangle"
+                        },
+                        new SelectListItem() {
+                            Text = "Custom",
+                            Value = "custom"
+                        }
+                    })
+                    .Value("circle")
+                    .HtmlAttributes(new { style = "width: 100%" })
+                )
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section wide">
+    @(Html.Kendo().Chart()
+        .Name("heatmap")
+        .Series(s=>s.HeatMap("Value", "Column", "Row").Labels(l=>l.Visible(false)).Markers(m=>m.Type(ChartMarkerShape.Circle)))
+        .DataSource(dataSource=> dataSource.Read("HeatMap_Markers_Data", "HeatMap"))
+        .Legend(legend=>legend.Visible(false))
+    )
+</div>
+
+@section scripts{
+    <script>
+        function onChange(e) {
+            let value = this.value();
+            let heatmap = $("#heatmap").data("kendoChart");
+            if (value === "custom") {
+                heatmap.options.series[0].markers = {
+                    size: 30,
+                    rotation: -45
+                };
+            } else {
+                heatmap.options.series[0].markers = {
+                    type: value
+                };
+            }
+            heatmap.redraw();
+        }
+    </script>
+}

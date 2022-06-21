@@ -1,0 +1,49 @@
+@using Kendo.Mvc.UI
+@using Kendo.Mvc.Examples.Models.TreeList
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var dataSource1 = new kendo.data.TreeListDataSource({
+            type: "odata-v4",
+            transport: {
+                read: {
+                    url: function (item) {
+                        if (item.hasOwnProperty('id')) {
+                            return "https://demos.telerik.com/kendo-ui/service-v4/odata/Employees(" + item.id + ")/Subordinates";
+                        } else {
+                            return "https://demos.telerik.com/kendo-ui/service-v4/odata/Employees/Default.TopEmployees()/";
+                        }
+                    }
+                }
+            },
+            schema: {
+                model: {
+                    id: "EmployeeID",
+                    parentId: "ReportsTo",
+                    fields: {
+                        ReportsTo: { field: "ReportsTo", nullable: true },
+                        EmployeeID: { field: "EmployeeID", type: "number" }
+                    }
+                }
+            }
+        });
+
+        $("#treelist").getKendoTreeList().setDataSource(dataSource1);
+    });
+</script>
+}
+
+@(Html.Kendo().TreeList<EmployeeViewModel>()
+    .Name("treelist")
+    .Columns(columns =>
+    {
+        columns.Add().Field(e => e.FirstName).Width(220);
+        columns.Add().Field(e => e.LastName).Width(160);
+        columns.Add().Field(e => e.City).Width(160);
+        columns.Add().Field(e => e.HomePhone).Width(200);
+        columns.Add().Field(e => e.Address).Width(140);
+    })
+    .Filterable()
+    .Sortable()
+)

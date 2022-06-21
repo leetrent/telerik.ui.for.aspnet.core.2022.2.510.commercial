@@ -1,0 +1,50 @@
+@addTagHelper *, Kendo.Mvc
+
+<a href="#" class="k-button k-button-flat-base k-button-flat k-button-md k-rounded-md k-icon-button" id="save">Save State</a>
+<a href="#" class="k-button k-button-flat-base k-button-flat k-button-md k-rounded-md k-icon-button" id="load">Load State</a>
+
+<kendo-grid name="grid" style="height:550px;" resizable="true">
+    <columns>
+        <column field="ContactName" width="400" locked="true">
+        </column>
+        <column field="ContactTitle" width="400">
+        </column>
+        <column field="CompanyName" width="410">
+        </column>
+        <column field="Country" width="100">
+        </column>
+    </columns>
+    <sortable enabled="true" />
+    <scrollable enabled="true" />
+    <reorderable enabled="true" />
+    <column-menu enabled="true" />
+    <filterable enabled="true" mode="row" />
+    <pageable enabled="true" refresh="true" page-sizes-enabled="true" button-count="5" />
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="20" >
+        <schema data="Data" total="Total" errors="Errors">
+        </schema>
+        <transport>
+            <read url="@Url.Action("Customers_Read","Grid")" />
+        </transport>
+    </datasource>
+</kendo-grid>
+
+<script>
+
+    $(document).ready( function () {
+        var grid = $("#grid").data("kendoGrid");
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+            localStorage["kendo-grid-options"] = kendo.stringify(grid.getOptions());
+        });
+
+        $("#load").click(function (e) {
+            e.preventDefault();
+            var options = localStorage["kendo-grid-options"];
+            if (options) {
+                grid.setOptions(JSON.parse(options));
+            }
+        });
+    });
+</script>

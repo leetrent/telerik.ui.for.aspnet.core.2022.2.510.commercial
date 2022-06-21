@@ -1,0 +1,62 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Vertical menu</h4>
+    <kendo-menu name="verticalMenu" style="width:140px;margin-bottom:30px;" orientation="MenuOrientation.Vertical">
+        <items>
+            <menu-item text="First Item">
+                <sub-items>
+                    <menu-item text="Sub Item 1"></menu-item>
+                    <menu-item text="Sub Item 2"></menu-item>
+                    <menu-item text="Sub Item 3"></menu-item>
+                    <menu-item text="Sub Item 4"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Second Item">
+                <sub-items>
+                    <menu-item text="Sub Item 1"></menu-item>
+                    <menu-item text="Sub Item 2"></menu-item>
+                    <menu-item text="Sub Item 3"></menu-item>
+                    <menu-item text="Sub Item 4"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Disabled Item" enabled="false"></menu-item>
+        </items>
+    </kendo-menu>
+
+    <h4 style="padding-top: 2em;">Horizontal menu</h4>
+
+    <kendo-menu name="horizontalMenu">
+        <items>
+            <menu-item text="First Item">
+                <sub-items>
+                    <menu-item text="Sub Item 1"></menu-item>
+                    <menu-item text="Sub Item 2"></menu-item>
+                    <menu-item text="Sub Item 3"></menu-item>
+                    <menu-item text="Sub Item 4"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Second Item">
+                <sub-items>
+                    <menu-item text="Sub Item 1"></menu-item>
+                    <menu-item text="Sub Item 2"></menu-item>
+                    <menu-item text="Sub Item 3"></menu-item>
+                    <menu-item text="Sub Item 4"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Disabled Item" enabled="false"></menu-item>
+        </items>
+    </kendo-menu>
+</div>
+
+@section scripts {
+<script>
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#verticalMenu").focus();
+        } else if (e.altKey && e.keyCode == 81) {
+            $("#horizontalMenu").focus();
+        }
+    });
+</script>
+}

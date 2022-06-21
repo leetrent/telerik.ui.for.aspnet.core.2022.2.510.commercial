@@ -1,0 +1,63 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Size:</h4>
+                <input id="size" name="size" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    @(Html.Kendo().TreeView()
+        .Name("treeview")
+        .Size(ComponentSize.Medium)
+        .Items(items =>
+        {
+            items.Add().Text("Item 1").Expanded(true)
+                .Items(subItems =>
+                {
+                    subItems.Add().Text("Item 1.1");
+                    subItems.Add().Text("Item 1.2");
+                    subItems.Add().Text("Item 1.3");
+                });
+            items.Add().Text("Item 2")
+                .Items(subItems =>
+                {
+                    subItems.Add().Text("Item 2.1");
+                    subItems.Add().Text("Item 2.2");
+                    subItems.Add().Text("Item 2.3");
+                });
+            items.Add().Text("Item 3");
+        })
+    )
+</div>
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var treeview = $("#treeview").data("kendoTreeView");
+
+        var size = $("#size").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            value: "medium",
+            change: onChange,
+            dataSource: [
+                { text: "Small", value: "small" },
+                { text: "Medium", value: "medium" },
+                { text: "Large", value: "large" }
+            ]
+        }).data("kendoDropDownList");
+        
+        function onChange(e) {
+            var sizeValue = size.value();
+            treeview.setOptions({
+                size: sizeValue
+            })
+        }
+    });
+</script>
+}
+

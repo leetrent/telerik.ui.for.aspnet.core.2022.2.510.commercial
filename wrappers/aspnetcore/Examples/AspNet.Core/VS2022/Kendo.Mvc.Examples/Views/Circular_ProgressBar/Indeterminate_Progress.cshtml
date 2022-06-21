@@ -1,0 +1,16 @@
+@using Kendo.Mvc.UI
+
+@(Html.Kendo().CircularProgressBar()
+    .Name("progressbar")
+    .Indeterminate(true)
+    .Colors(c =>
+    {
+        c.Add().Color("#0071bc");
+    })
+)
+
+<style>
+    #progressbar {
+        margin: 3em;
+    }
+</style>

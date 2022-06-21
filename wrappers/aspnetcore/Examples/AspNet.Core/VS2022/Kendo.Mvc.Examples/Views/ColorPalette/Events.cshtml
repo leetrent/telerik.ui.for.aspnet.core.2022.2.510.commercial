@@ -1,0 +1,14 @@
+<div class="k-d-flex k-justify-content-center" style="margin-top:150px">
+    @(Html.Kendo().ColorPalette()
+    .Name("colorpalette")
+    .Events(ev=>ev.Change("onChange")))
+</div>
+
+@section scripts{
+<script>
+    function onChange(e) {
+        kendoConsole.log("Change in picker #" + this.element.attr("id") + " :: " + e.value);
+    }
+</script>
+}
+

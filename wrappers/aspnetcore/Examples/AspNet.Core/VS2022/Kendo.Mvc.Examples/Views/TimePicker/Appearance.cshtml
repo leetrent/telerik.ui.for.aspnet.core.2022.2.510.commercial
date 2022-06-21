@@ -1,0 +1,94 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Size:</h4>
+                <input id="size" name="size" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Fill Mode:</h4>
+                <input id="fillMode" name="fillMode" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Border Radius:</h4>
+                <input id="rounded" name="rounded" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    <h4>Select time</h4>
+    @(Html.Kendo().TimePicker()
+        .Name("timepicker")
+        .Size(ComponentSize.Medium)
+        .Rounded(Rounded.Medium)
+        .FillMode(FillMode.Solid)
+        .HtmlAttributes(new { style = "width: 100%" })
+    )
+</div>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            $("#size").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                value: "medium",
+                change: onChange,
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" }
+                ]
+            });
+
+            $("#rounded").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                value: "medium",
+                change: onChange,
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" },
+                    { text: "Full", value: "full" }
+                ]
+            });
+
+            $("#fillMode").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                value: "solid",
+                change: onChange,
+                dataSource: [
+                    { text: "Solid", value: "solid" },
+                    { text: "Flat", value: "flat" },
+                    { text: "Outline", value: "outline" }
+                ]
+            });
+
+            function onChange(e) {
+                var timepicker = $("#timepicker").data("kendoTimePicker");
+                var size = $("#size").data("kendoDropDownList").value();
+                var rounded = $("#rounded").data("kendoDropDownList").value();
+                var fillMode = $("#fillMode").data("kendoDropDownList").value();
+
+                timepicker.setOptions({
+                    size: size,
+                    rounded: rounded,
+                    fillMode: fillMode
+                });
+            }
+        });
+    </script>
+}

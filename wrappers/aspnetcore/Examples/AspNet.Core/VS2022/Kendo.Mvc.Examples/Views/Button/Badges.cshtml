@@ -1,0 +1,20 @@
+
+<div id="example">
+    <div class="demo-section">
+        <h4>Overlay badges</h4>
+        <div>
+            @(Html.Kendo().Button().Name("overlayDot").Content("Overlay Dot").Badge(b => b.Shape(BadgeShape.Dot).ThemeColor(BadgeColor.Success)))
+            @(Html.Kendo().Button().Name("overlayPill").Content("Overlay Pill").Badge(b => b.Text("error").Shape(BadgeShape.Pill).ThemeColor(BadgeColor.Error)))
+            @(Html.Kendo().Button().Name("overlayRectangle").Content("Overlay Rectangle").Badge(b => b.Text("success").Shape(BadgeShape.Rectangle).ThemeColor(BadgeColor.Info)))
+        </div>
+
+        <hr class="k-hr" />
+
+        <h4>Inline badges</h4>
+        <div>
+            @(Html.Kendo().Button().Name("inlineDot").Content("Inline Dot").Badge(b => b.Position(BadgePosition.Inline).Shape(BadgeShape.Dot).ThemeColor(BadgeColor.Success)))
+            @(Html.Kendo().Button().Name("inlinePill").Content("Inline Pill").Badge(b => b.Position(BadgePosition.Inline).Text("error").Shape(BadgeShape.Pill).ThemeColor(BadgeColor.Error)))
+            @(Html.Kendo().Button().Name("inlineRectangle").Content("Inline Rectangle").Badge(b => b.Position(BadgePosition.Inline).Text("success").Shape(BadgeShape.Rectangle).ThemeColor(BadgeColor.Info)))
+        </div>
+    </div>
+</div>

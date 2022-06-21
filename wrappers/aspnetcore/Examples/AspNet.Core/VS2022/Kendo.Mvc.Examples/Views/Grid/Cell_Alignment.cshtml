@@ -1,0 +1,41 @@
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.OrderViewModel>()
+    .Name("grid")
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .Columns(columns =>
+        {
+            columns.Bound(o => o.OrderDate).Width(120).Format("{0:MM/dd/yyyy}")
+                .HeaderHtmlAttributes(new { @class = "k-text-center" })
+                .HtmlAttributes(new { @class = "k-text-right" });
+            columns.Bound(o => o.Freight)
+                .ClientFooterTemplate("Total: #=sum#")
+                .FooterHtmlAttributes(new { style = "text-align: right" })
+                .HeaderHtmlAttributes(new { style = "text-align: center" })
+                .HtmlAttributes(new { style = "text-align: right" });
+            columns.Bound(o => o.ShipCity)
+                .HeaderHtmlAttributes(new { style = "text-align: center" })
+                .HtmlAttributes(new { style = "text-align: right" });
+            columns.Bound(o => o.ShipName)
+                .HeaderHtmlAttributes(new { style = "text-align: center" })
+                .HtmlAttributes(new { style = "text-align: right" });
+            columns.Bound(o => o.ShippedDate).Format("{0:MM/dd/yyyy}")
+                .HeaderHtmlAttributes(new { style = "text-align: center" })
+                .HtmlAttributes(new { style = "text-align: right" });
+            columns.Bound(o => o.OrderID).Width(110)
+                .HeaderHtmlAttributes(new { style = "text-align: center" })
+                .HtmlAttributes(new { style = "text-align: right" });
+        })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(15)
+        .Aggregates(aggregates =>
+        {
+            aggregates.Add(p => p.Freight).Sum();
+        })
+        .Read(read => read.Action("CellAlignment_Read", "Grid"))
+     )
+     .Resizable(resize => resize.Columns(true))
+     .Reorderable(reorder => reorder.Columns(true))
+)

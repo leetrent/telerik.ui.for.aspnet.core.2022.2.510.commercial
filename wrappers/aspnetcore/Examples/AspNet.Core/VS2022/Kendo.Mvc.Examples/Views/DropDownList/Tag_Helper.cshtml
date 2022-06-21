@@ -1,0 +1,50 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Search for shipping name</h4>
+    <kendo-dropdownlist name="orders" style="width:100%"
+                        datatextfield="ShipName"
+                        datavaluefield="OrderID"
+                        min-length="3"
+                        template="#= OrderID # | For: #= ShipName #, #= ShipCountry #"
+                        height="520"
+                        filter="FilterType.Contains">
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="80">
+            <transport>
+                <read url="@Url.Action("TagHelper_Virtualization_Read", "DropDownList")" />
+            </transport>
+        </datasource>
+        <virtual item-height="26" value-mapper="valueMapper" />
+        <popup-animation>
+            <open duration="500" />
+            <close duration="500" />
+        </popup-animation>
+    </kendo-dropdownlist>
+    <div class="demo-hint">Hint: type at least three characters. For example "vin"</div>
+</div>
+
+@section scripts {
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("TagHelper_Orders_ValueMapper", "DropDownList")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+
+        return data;
+    }
+</script>
+}

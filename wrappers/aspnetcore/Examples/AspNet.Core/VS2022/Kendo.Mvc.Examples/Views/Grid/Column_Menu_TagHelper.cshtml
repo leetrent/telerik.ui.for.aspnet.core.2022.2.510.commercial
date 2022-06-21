@@ -1,0 +1,104 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var ddl_data = new List<string>() { "modern", "classic" };
+}
+
+<div class="configurator">
+    <div class="header">
+        Configurator
+    </div>
+    <div class="box-col">
+        <h4>Set component  type</h4>
+        <kendo-dropdownlist name="dropDownList"
+            value="modern"
+            on-change="onChange"
+            bind-to="ddl_data">
+        </kendo-dropdownlist>
+    </div>
+    <div class="box-col">
+        <h4>Sort the columns in the column menu by</h4>
+        <ul class="fieldlist">
+            <li>
+                <input type="radio" name="sort" id="default" data-value="null" >
+                <label class="k-radio-label" for="default">Default</label>
+            </li>
+            <li>
+                <input type="radio" name="sort" id="asc" data-value="asc" checked="checked">
+                <label class="k-radio-label" for="asc">Ascending</label>
+            </li>
+            <li>
+                <input type="radio" name="sort" id="desc" data-value="desc">
+                <label class="k-radio-label" for="desc">Descending</label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<kendo-grid name="Grid" height="550" resizable="true">
+    <datasource type="DataSourceTagHelperType.Ajax">
+        <transport>
+            <read url="/grid/columnmenu_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="OrderID" width="150"/>
+        <column field="ShipCountry" width="300"/>
+        <column field="ShipName" width="350"/>
+        <column field="ShipAddress">
+            <filterable enabled="false"/>
+        </column>
+    </columns>
+    <pageable enabled="true"/>
+    <filterable enabled="true"/>
+    <sortable enabled="true"/>
+    <column-menu component-type="modern">
+        <column-menu-columns sort="asc">
+            <column-menu-columns-groups>
+                <column-menu-columns-group title="Order ID" columns='new List<string> { "OrderID" }' />
+                <column-menu-columns-group title="Address" columns='new List<string> { "ShipCountry", "ShipName", "ShipAddress" }' />
+            </column-menu-columns-groups>
+        </column-menu-columns>
+    </column-menu>
+</kendo-grid>
+
+@section scripts{
+    <script>
+        function onChange() {
+            var type = this.value();
+            var grid = $("#Grid").getKendoGrid();
+
+            grid.setOptions({
+                columnMenu: {
+                    componentType: type
+                }
+            });
+        }
+
+        $(document).on("kendoReady", function () {
+            $("input[type='radio']").change(function (e) {
+                var grid = $("#Grid").getKendoGrid();
+                var value = $(this).data("value");
+
+                grid.setOptions({
+                    columnMenu: {
+                        columns: {
+                            sort: value
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+<style>
+    .fieldlist {
+        margin: 0 0 -1em;
+        padding: 0;
+    }
+
+    .fieldlist li {
+        list-style: none;
+        padding-bottom: 1em;
+    }
+</style>

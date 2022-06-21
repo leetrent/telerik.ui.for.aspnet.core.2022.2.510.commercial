@@ -1,0 +1,61 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Change Color</h4>
+        <ul class="options">
+            <li>
+                <input type="text" value="#4c2c92" id="newColor" placeholder="e.g. #4c2c92" style="height: 30px;" />
+                <button id="redraw">Redraw</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Value</h4>
+        <ul class="options">
+            <li>
+                <input type="text" id="newValue" value="75" placeholder="e.g. 23" style="height: 30px; width: 187px" />
+                <button id="setProgressBarValue">Set value</button>
+                <button id="getProgressBarValue">Get value</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script id="progress-template" type="text/kendo-ui-template">
+    <span style='color: \\#2e8540;'>#: value #%</span>
+</script>
+
+<kendo-circularprogressbar name="progressbar" value=25 center-template-id="progress-template">
+</kendo-circularprogressbar>
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function () {
+            var pb = $("#progressbar").data("kendoCircularProgressBar");
+
+            $("#setProgressBarValue").click(function () {
+                pb.value($("#newValue").val());
+            });
+
+            $("#getProgressBarValue").click(function () {
+                alert("Current ProgressBar value is: " + pb.value());
+            });
+
+            $("#redraw").click(function () {
+                pb.options.color = $("#newColor").val();
+                pb.redraw();
+            });
+
+            $("#newValue").kendoNumericTextBox({
+                min: 0
+            });
+        })
+    </script>
+}
+<style>
+    #progressbar {
+        margin: 3em;
+    }
+</style>

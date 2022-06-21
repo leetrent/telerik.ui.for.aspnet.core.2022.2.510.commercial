@@ -1,0 +1,85 @@
+
+<script>
+    function onCancel(e) {
+        kendoConsole.log("event: Cancel");
+    }
+
+    function onChange(e) {
+        kendoConsole.log("event: Change");
+    }
+
+    function onCollapse(e) {
+        kendoConsole.log("event: Collapse --> " + e.dataItems[0].name + " collapsed");
+    }
+
+    function onCreate(e) {
+        kendoConsole.log("event: Create");
+    }
+
+    function onExpand(e) {
+        kendoConsole.log("event: Expand --> " + e.dataItems[0].name + " expanded");
+
+    }
+
+    function onDataBinding(e) {
+        kendoConsole.log("event: DataBinding");
+    }
+
+    function onDataBound(e) {
+        kendoConsole.log("event: DataBound");
+    }
+
+    function onDelete(e) {
+        kendoConsole.log("event: Delete");
+    }
+
+    function onEdit(e) {
+        kendoConsole.log("event: Edit");
+    }
+
+    function onSave(e) {
+        kendoConsole.log("event: Save");
+    }
+
+    function onSelect(e) {
+        kendoConsole.log("event: Select --> " + e.dataItems[0].name + " selected");
+    }
+</script>
+@(Html.Kendo().OrgChart<Kendo.Mvc.Examples.Models.OrgChartEmployeeViewModel>()
+    .Name("orgchart")
+    .Events(e => e
+          .Cancel("onCancel")
+          .Change("onChange")
+          .Collapse("onCollapse")
+          .Create("onCreate")
+          .Expand("onExpand")
+          .DataBinding("onDataBinding")
+          .DataBound("onDataBound")
+          .Delete("onDelete")
+          .Edit("onEdit")
+          .Save("onSave")
+          .Select("onSelect"))
+    .DataSource(dataSource => dataSource
+        .Read(read => read.Action("EventsRead", "OrgChart"))
+        .Create(read => read.Action("EventsCreate", "OrgChart"))
+        .Destroy(read => read.Action("EventsDestroy", "OrgChart"))
+        .Update(read => read.Action("EventsUpdate", "OrgChart"))
+        .Model(m => {
+            m.Id(f => f.ID);
+            m.ParentId(f => f.ParentID);
+            m.Name(f => f.Name);
+            m.Title(f => f.Title);
+            m.Avatar(f => f.Avatar);
+            m.Expanded(f=>f.Expanded);
+        })
+    )
+)
+<div class="kd-example-console">
+    <div class="header">
+        <span class="title">CONSOLE LOG</span>
+        <span class="clear kd-text-secondary">Clear log</span>
+    </div>
+    <div class="console"></div>
+</div>
+
+

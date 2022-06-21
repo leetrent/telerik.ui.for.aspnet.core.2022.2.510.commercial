@@ -1,0 +1,28 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<kendo-map name="map2" center="new double[] { 30.268107, -97.744821 }" zoom="15">
+    <layer-defaults>
+        <map-marker>
+            <tooltip>
+                <popup-animation>
+                    <open duration="1200" effects="zoom:in" />
+                </popup-animation>
+            </tooltip>
+        </map-marker>
+    </layer-defaults>
+    <layers>
+        <layer type="MapLayerType.Marker" location-field="LatLng" title-field="Name">
+            <datasource>
+                <transport>
+                    <read url="@Url.Action("_StoreLocations", "Map")" type="POST" />
+                </transport>
+            </datasource>
+        </layer>
+        <layer type="MapLayerType.Tile"
+               url-template="https://#= subdomain #.tile.openstreetmap.org/#= zoom #/#= x #/#= y #.png"
+               subdomains='new string[] { "a", "b", "c" }'
+               attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap contributors</a>. Tiles courtesy of <a href='https://www.opencyclemap.org/'>Andy Allan</a>">
+        </layer>
+    </layers>
+</kendo-map>

@@ -1,0 +1,20 @@
+@section HeadContent {
+    <script src="~/lib/kendo/js/cultures/kendo.culture.de-DE.min.js"></script>
+}
+
+@using System.Globalization
+<script type="text/javascript">
+    //set culture of the Kendo UI
+    kendo.culture("de-DE");
+</script>
+
+@{ 
+    CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("de-DE");
+}
+<div class="demo-section">
+    @(Html.Kendo().TimePicker()
+      .Name("timepicker")
+      .Value(DateTime.Now)
+      .HtmlAttributes(new { style = "width: 100%" })
+    )
+</div>

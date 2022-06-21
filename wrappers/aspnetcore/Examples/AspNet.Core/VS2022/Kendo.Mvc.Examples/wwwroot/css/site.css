@@ -1,0 +1,14 @@
+html body .tabstrip-item .dropdown .try-telerik .icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    background: url("../images/repl-ninja-avatar.svg");
+}
+
+.tabstrip-item .try-telerik {
+    padding: 14px 10px;
+}
+
+html body .tabstrip-item .dropdown .tb-edit-button .icon {
+    background: url("../shared/images/site/tb-icon-blue.svg");
+}

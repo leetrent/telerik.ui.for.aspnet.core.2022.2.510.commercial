@@ -1,0 +1,63 @@
+@using Kendo.Mvc.UI
+
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Enable / Disable</h4>
+            <ul class="options">
+                <li>
+                    <button id="enableButtonGroup" type="button">Enable</button>
+                    <button id="disableButtonGroup" type="button">Disable</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="box-col">
+            <h4>Select</h4>
+            <ul class="options">
+                <li>
+                    <input type="text" value="0" id="buttonIndex" /> <button type="button" id="selectButton">Select</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<div class="demo-section">
+    @(Html.Kendo().ButtonGroup()
+           .Name("select-period")
+           .Index(0)
+           .Items(t =>
+           {
+               t.Add().Text("Month");
+               t.Add().Text("Quarter");
+               t.Add().Text("Year");
+           })
+    )
+</div>
+
+@section scripts {
+<script>
+     $(document).on("kendoReady", function () {
+         var buttonGroup = $("#select-period").data("kendoButtonGroup");
+
+
+         $("#enableButtonGroup").click(function () {
+             buttonGroup.enable(true);
+         });
+
+         $("#disableButtonGroup").click(function () {
+             buttonGroup.enable(false);
+         });
+
+         $("#selectButton").click(function () {
+             buttonGroup.select(parseInt($("#buttonIndex").val()));
+         });
+     });
+</script>
+}
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

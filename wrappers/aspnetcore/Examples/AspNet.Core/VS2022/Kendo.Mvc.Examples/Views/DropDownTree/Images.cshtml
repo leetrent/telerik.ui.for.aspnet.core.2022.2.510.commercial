@@ -1,0 +1,112 @@
+<div class="demo-section">
+    <h4>DropDownTree with images</h4>
+    @(Html.Kendo().DropDownTree()
+        .Name("dropdowntree-images")
+        .HtmlAttributes(new { style = "width: 100%" })
+        .Height("auto")
+        .Items(dropdowntree =>
+        {
+            dropdowntree.Add().Text("Inbox")
+                .ImageUrl(Url.Content("~/shared/web/treeview/mail.png"))
+                .Expanded(true)
+                .Items(inbox =>
+                {
+                    inbox.Add().Text("Read Mail")
+                        .ImageUrl(Url.Content("~/shared/web/treeview/readmail.png"));
+                });
+
+            dropdowntree.Add().Text("Drafts")
+                .ImageUrl(Url.Content("~/shared/web/treeview/edit.png"));
+
+            dropdowntree.Add().Text("Search Folders")
+                .ImageUrl(Url.Content("~/shared/web/treeview/search.png"))
+                .Expanded(true)
+                .Items(inbox =>
+                {
+                    inbox.Add().Text("Categorized Mail")
+                        .ImageUrl(Url.Content("~/shared/web/treeview/search.png"));
+
+                    inbox.Add().Text("Large Mail")
+                        .ImageUrl(Url.Content("~/shared/web/treeview/search.png"));
+
+                    inbox.Add().Text("Unread Mail")
+                        .ImageUrl(Url.Content("~/shared/web/treeview/search.png"));
+                });
+
+            dropdowntree.Add().Text("Settings")
+                .ImageUrl(Url.Content("~/shared/web/treeview/settings.png"));
+        })
+    )
+</div>
+
+<div class="demo-section">
+    <h4>DropDownTree with sprites</h4>
+    @(Html.Kendo().DropDownTree()
+        .Name("dropdowntree-sprites")
+        .HtmlAttributes(new { style = "width: 100%" })
+        .Height("auto")
+        .Items(dropdowntree =>
+        {
+            dropdowntree.Add().Text("My Documents")
+                .SpriteCssClasses("rootfolder")
+                .Expanded(true)
+                .Items(root =>
+                {
+                    root.Add().Text("Kendo UI Project")
+                        .Expanded(true)
+                        .SpriteCssClasses("folder")
+                        .Items(project =>
+                        {
+                            project.Add().Text("about.html").SpriteCssClasses("html");
+                            project.Add().Text("index.html").SpriteCssClasses("html");
+                            project.Add().Text("logo.png").SpriteCssClasses("image");
+                        });
+
+                    root.Add().Text("New Web Site")
+                        .Expanded(true)
+                        .SpriteCssClasses("folder")
+                        .Items(item =>
+                        {
+                            item.Add().Text("mockup.jpg").SpriteCssClasses("image");
+                            item.Add().Text("Research.pdf").SpriteCssClasses("pdf");
+                        });
+
+                    root.Add().Text("Reports")
+                        .Expanded(true)
+                        .SpriteCssClasses("folder")
+                        .Items(reports =>
+                        {
+                            reports.Add().Text("February.pdf").SpriteCssClasses("pdf");
+                            reports.Add().Text("March.pdf").SpriteCssClasses("pdf");
+                            reports.Add().Text("April.pdf").SpriteCssClasses("pdf");
+                        });
+                });
+        })
+    )
+</div>
+
+<style>
+    .k-dropdowntree .k-sprite, .k-popup .k-sprite {
+        background-image: url("../shared/web/treeview/coloricons-sprite.png");
+    }
+
+    .rootfolder {
+        background-position: 0 0;
+    }
+
+    .folder {
+        background-position: 0 -16px;
+    }
+
+    .pdf {
+        background-position: 0 -32px;
+    }
+
+    .html {
+        background-position: 0 -48px;
+    }
+
+    .image {
+        background-position: 0 -64px;
+    }
+</style>

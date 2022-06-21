@@ -1,0 +1,35 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="wrapper">
+    <kendo-panelbar name="panelbar" expand-mode="@PanelBarExpandMode.Single">
+        <items>
+            <panelbar-item text="BODY" content-url="/shared/web/panelbar/ajax/ajaxContent1.html">
+            </panelbar-item>
+            <panelbar-item text="ENGINE" content-url="/shared/web/panelbar/ajax/ajaxContent2.html">
+            </panelbar-item>
+            <panelbar-item text="TRANSMISSION" content-url="/shared/web/panelbar/ajax/ajaxContent3.html">
+            </panelbar-item>
+            <panelbar-item text="PERFORMANCE" content-url="/shared/web/panelbar/ajax/ajaxContent4.html">
+            </panelbar-item>
+        </items>
+    </kendo-panelbar>
+</div>
+<style>
+    .wrapper {
+        height: auto;
+        min-height: 400px;
+        margin: 20px auto;
+        padding: 20px 0 0;
+        background: url('@Url.Content("~/shared/web/panelbar/astonmartin.png")') no-repeat center 50px transparent;
+    }
+    #panelbar {
+        width: 250px;
+        margin-left: auto;
+        margin-right: 0;
+    }
+    #panelbar p {
+        padding: 1em;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+</style>

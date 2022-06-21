@@ -1,0 +1,234 @@
+<div id="example">
+    <div class="demo-section">
+        @using (Html.BeginForm("Download_Document_Pdf", "WordsProcessing"))
+        {
+            <div class="document-options-wrapper">
+                <span>
+                    @(Html.Kendo().RadioButton()
+                    .Name("loadDocument")
+                    .Value("template")
+                    .Label("Load Template Document")
+                    .Checked(true)
+                )
+                </span>
+
+                <span style="float: right">
+                    @(Html.Kendo().RadioButton()
+                    .Name("loadDocument")
+                    .Value("custom")
+                    .Label("Load Custom Document")
+                )
+                </span>
+
+                <hr class="clear" />
+            </div>
+
+            <div class="document-content-wrapper">
+                <div id="preview-template">
+                    <span>Preview:</span>
+                    <div class="imageContainer">
+                        <img src="~/shared/web/wordsprocessing/SampleDocumentImagePDF.png" />
+                    </div>
+                </div>
+
+                <div id="preview-custom">
+                    @(Html.Kendo().Button()
+                        .Name("uploadFileBtn")
+                        .Content("Load Custom Document")
+                        .HtmlAttributes(new { type = "button" })
+                        .Events(events => events.Click("uploadFile"))
+                    )
+
+                    @(Html.Kendo().Upload()
+                        .Name("customDocument")
+                        .Multiple(false)
+                        .ShowFileList(false)
+                        .Events(events => events.Select("onSelect"))
+                    )
+
+                    <div class="preview">
+                        <span>Preview:</span>
+                        <div class="imageContainer custom-doc">
+                            <img src="~/shared/web/wordsprocessing/CustomDocument_file.png" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="file-data">
+                    <span>File Name:</span>
+                    <div id="fileName"></div>
+                </div>
+            </div>
+
+            <hr class="clear" />
+
+            @(Html.Kendo().Button()
+                .Name("submitFormBtn")
+                .HtmlAttributes(new { @class = "float-right wide-btn" })
+                .ThemeColor(ThemeColor.Primary)
+                .Content("Convert and Download")
+                .HtmlAttributes(new{ type="submit" })
+            )
+        }
+    </div>
+</div>
+
+@section scripts {
+<script>
+    function loadTemplate(ev) {
+        $("#fileName").text("SampleDocument.docx");
+    }
+
+    function uploadFile(ev) {
+        $("#customDocument").click();
+    }
+
+    function onSelect(ev) {
+        clearHighlights();
+
+        var file = ev.files[0],
+            fileLabel =  $("#fileName"),
+            submitFormBtn = $("#submitFormBtn").getKendoButton(),
+            imageContainerWrapper = $(".imageContainer.custom-doc"),
+            imageContainer = $(".imageContainer.custom-doc img");
+
+        if (!/.docx|.rtf|.html|.txt/.test(file.extension)) {
+            ev.preventDefault();
+            submitFormBtn.enable(false);
+            setTimeout(function() {
+                alert("Only documents with *.docx, *.rtf, *.html or *.txt extensions are accepted!");
+            }, 0);
+        } else {
+            var baseUrl = "@Url.Content("~/")";
+                fileExt = file.extension.substr(1),
+                placeholderImagePath = baseUrl + "shared/web/wordsprocessing/" + fileExt + "_file.png";
+
+            submitFormBtn.enable(true);
+            fileLabel.text(file.name);
+            imageContainer.attr("src", placeholderImagePath);
+            imageContainerWrapper.css("visibility", "visible");
+        }
+    }
+
+    function clearHighlights() {
+        // refresh ui elements
+        var fileLabel = $("#fileName"),
+            imageContainerWrapper = $(".imageContainer.custom-doc");
+
+        fileLabel.text("");
+        imageContainerWrapper.css("visibility", "hidden");
+
+        // clear upload
+        var upload = $("#customDocument").data("kendoUpload"),
+            fileInput = upload.wrapper.find("input").first();
+
+        if (!fileInput.is("#customDocument")) {
+            fileInput.remove();
+        }
+    }
+
+    $(document).on("kendoReady", function () {
+        loadTemplate();
+
+        $('input[name="loadDocument"]').change(function () {
+            var documentType = $(this).val(),
+                submitBtn = $("#submitFormBtn").getKendoButton(),
+                previewTemplate = $("#preview-template"),
+                previewCustom = $("#preview-custom");
+
+            if (documentType == 'template') {
+                clearHighlights();
+                loadTemplate();
+
+                submitBtn.enable(true);
+                previewTemplate.show();
+                previewCustom.hide();
+
+            } else {
+                clearHighlights();
+
+                submitBtn.enable(false);
+                previewCustom.show();
+                previewTemplate.hide();
+            }
+        });
+    })
+</script>
+}
+
+<style>
+    #preview-custom {
+        display: none;
+    }
+
+    .document-options-wrapper label:nth-child(4){
+        float: right;
+    }
+
+    .file-options-wrapper {
+        line-height: 30px;
+    }
+
+    .imageContainer {
+        border: 1px solid #c9c9c9;
+        height: 259px;
+        width: 200px;
+        position: relative;
+        margin: 0 auto;
+        top: -13px;
+    }
+
+    .imageContainer.custom-doc {
+        border: none;
+    }
+
+    .imageContainer img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    #fileName {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        white-space: nowrap;
+        width: 202px;
+        margin-left: 27px;
+    }
+
+    #uploadFileBtn {
+        margin-bottom: 15px;
+    }
+
+    .float-right {
+        float: right;
+    }
+
+    .wide-btn {
+        width: 240px;
+    }
+
+    .k-upload {
+        display: none;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    hr {
+        margin: 15px 0;
+        border-width: 0 0 1px 0;
+        border-color: #c9c9c9;
+        border-style: solid;
+    }
+</style>

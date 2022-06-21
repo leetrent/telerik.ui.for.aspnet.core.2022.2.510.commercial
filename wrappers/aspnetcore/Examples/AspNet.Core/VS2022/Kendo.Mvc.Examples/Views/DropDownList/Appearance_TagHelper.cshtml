@@ -1,0 +1,175 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Size:</h4>
+                <input id="size" name="size" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Fill Mode:</h4>
+                <input id="fillMode" name="fillMode" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Border Radius:</h4>
+                <input id="rounded" name="rounded" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section">
+    <h4>Categories:</h4>
+    <kendo-dropdownlist name="categories" style="width:100%"
+        size="ComponentSize.Medium"
+        rounded="Rounded.Medium"
+        fill-mode="FillMode.Solid"
+        option-label="Select category..."
+        datatextfield="CategoryName"
+        datavaluefield="CategoryId"
+        height="310"
+        template="<span class='k-state-default' style='background-image: url(/shared/web/dropdownlist/#:data.CategoryId#.jpg);'></span><span class='k-state-default' style='padding-left: 15px;'><h3>#: data.CategoryName #</h3></span>"
+        value-template="<span class='selected-value' style='background-image: url(/shared/web/dropdownlist/#:data.CategoryId#.jpg);'></span><span>#:data.CategoryName#</span>"
+        footer-template="Total number of <strong>#: instance.dataSource.total() #</strong> categories found"
+       >
+        <datasource type="DataSourceTagHelperType.Custom">
+            <transport>
+                <read url="@Url.Action("Overview_Get_Categories", "DropDownList")"/>
+            </transport>
+        </datasource>
+    </kendo-dropdownlist>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var dropDownList = $("#categories").data('kendoDropDownList');
+
+        var size = $("#size").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            value: "medium",
+            change: onChange,
+            dataSource: [
+                { text: "Small", value: "small" },
+                { text: "Medium", value: "medium" },
+                { text: "Large", value: "large" }
+            ]
+        }).data("kendoDropDownList");
+
+        var rounded = $("#rounded").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            change: onChange,
+            value: "medium",
+            dataSource: [
+                { text: "Small", value: "small" },
+                { text: "Medium", value: "medium" },
+                { text: "Large", value: "large" },
+                { text: "Full", value: "full" }
+            ]
+        }).data("kendoDropDownList");
+
+        var fill = $("#fillMode").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            change: onChange,
+            value: "solid",
+            dataSource: [
+                { text: "Solid", value: "solid" },
+                { text: "Flat", value: "flat" },
+                { text: "Outline", value: "outline" }
+            ]
+        }).data("kendoDropDownList");
+
+        function onChange(e) {
+
+            var sizeValue = size.value();
+            var roundedValue = rounded.value();
+            var fillValue = fill.value();
+            var selectedValues = dropDownList.value();
+            dropDownList.value([]);
+            dropDownList.setOptions({
+                size: sizeValue,
+                rounded: roundedValue,
+                fillMode: fillValue
+            })
+            dropDownList.value(selectedValues);
+        }
+    });
+</script>
+
+<style>
+    .k-readonly {
+        color: gray;
+    }
+
+    .selected-value {
+        display: inline-block;
+        vertical-align: middle;
+        width: 24px;
+        height: 24px;
+        background-size: 100%;
+        margin-right: 5px;
+        border-radius: 50%;
+    }
+
+    #categories-list .k-item {
+        line-height: 1em;
+        min-width: 300px;
+    }
+
+    /* Material Theme padding adjustment*/
+    .k-material #categories-list .k-item,
+    .k-material #categories-list .k-item.k-state-hover,
+    .k-materialblack #categories-list .k-item,
+    .k-materialblack #categories-list .k-item.k-state-hover {
+        padding-left: 5px;
+        border-left: 0;
+    }
+
+    #categories-list .k-item > span {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        vertical-align: middle;
+        display: table-cell;
+        vertical-align: central;
+        margin: 10px 10px 10px 5px;
+    }
+
+        #categories-list .k-item > span:first-child {
+            -moz-box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+            -webkit-box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+            box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+            margin: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+
+    #categories-list h3 {
+        font-size: 1.2em;
+        font-weight: normal;
+        margin: 0 0 1px 0;
+        padding: 0;
+    }
+
+    #categories-list p {
+        margin: 0;
+        padding: 0;
+        font-size: .8em;
+    }
+</style>

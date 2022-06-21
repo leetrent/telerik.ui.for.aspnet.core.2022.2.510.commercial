@@ -1,0 +1,54 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Search for shipping name</h4>
+    <kendo-multicolumncombobox name="orders" style="width:100%"
+                    datatextfield="ShipName"
+                    datavaluefield="OrderID"
+                    min-length="3"
+                    height="520"
+                    filter="FilterType.Contains">
+        <multicolumncombobox-columns>
+            <column field="OrderID" template="#=OrderID # | For:" width="100px" />
+            <column field="ShipName"  width="300px" />
+            <column field="ShipCountry"  width="100px" />
+        </multicolumncombobox-columns>
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="80">
+            <transport>
+                <read url="@Url.Action("TagHelper_Virtualization_Read", "MultiColumnComboBox")" />
+            </transport>
+        </datasource>
+        <virtual item-height="33" value-mapper="valueMapper" />
+        <popup-animation>
+            <open duration="500" />
+            <close duration="500" />
+        </popup-animation>
+    </kendo-multicolumncombobox>
+    <div class="demo-hint">Hint: type at least three characters. For example "vin"</div>
+</div>
+
+@section scripts {
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("TagHelper_Orders_ValueMapper", "MultiColumnComboBox")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+
+        return data;
+    }
+</script>
+}

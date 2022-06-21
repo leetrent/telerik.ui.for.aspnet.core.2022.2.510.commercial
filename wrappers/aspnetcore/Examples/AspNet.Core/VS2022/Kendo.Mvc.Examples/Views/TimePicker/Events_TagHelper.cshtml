@@ -1,0 +1,31 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">            
+    <h4 class="title">Select time</h4>
+    <kendo-timepicker name="timepicker" style="width: 100%"
+        on-change="change"
+        on-open="open"
+        on-close="close">
+    </kendo-timepicker>
+</div>
+<div class="demo-section">
+    <h3 class="title">Console log
+    </h3>
+    <div class="console"></div>
+</div>
+
+@section scripts {
+<script>
+    function open() {
+        kendoConsole.log("Open");
+    }
+
+    function close() {
+        kendoConsole.log("Close");
+    }
+
+    function change() {
+        kendoConsole.log("Change :: " + kendo.toString(this.value(), 't'));
+    }
+</script>
+}

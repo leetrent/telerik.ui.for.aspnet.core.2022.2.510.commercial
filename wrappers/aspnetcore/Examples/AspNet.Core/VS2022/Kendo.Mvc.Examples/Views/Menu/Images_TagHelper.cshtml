@@ -1,0 +1,83 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+
+    <h4>Menu with images</h4>
+    <kendo-menu name="menuImages">
+        <items>
+            <menu-item text="Baseball" image-url="@Url.Content("~/shared/icons/sports/baseball.png")">
+                <sub-items>
+                    <menu-item text="Top News" image-url="@Url.Content("~/shared/icons/16/star.png")" />
+                    <menu-item text="Photo Galleries" image-url="@Url.Content("~/shared/icons/16/photo.png")" />
+                    <menu-item separator="true"></menu-item>
+                    <menu-item text="Videos Records" image-url="@Url.Content("~/shared/icons/16/video.png")" />
+                    <menu-item text="Radio Records" image-url="@Url.Content("~/shared/icons/16/speaker.png")" />
+                </sub-items>
+            </menu-item>
+            <menu-item text="Golf" image-url="@Url.Content("~/shared/icons/sports/golf.png")">
+                <sub-items>
+                    <menu-item text="Top News" image-url="@Url.Content("~/shared/icons/16/star.png")" />
+                    <menu-item text="Photo Galleries" image-url="@Url.Content("~/shared/icons/16/photo.png")" />
+                    <menu-item separator="true"></menu-item>
+                    <menu-item text="Videos Records" image-url="@Url.Content("~/shared/icons/16/video.png")" />
+                    <menu-item text="Radio Records" image-url="@Url.Content("~/shared/icons/16/speaker.png")" />
+                </sub-items>
+            </menu-item>
+            <menu-item text="Swimming" image-url="@Url.Content("~/shared/icons/sports/swimming.png")">
+                <sub-items>
+                    <menu-item text="Top News" image-url="@Url.Content("~/shared/icons/16/star.png")" />
+                    <menu-item text="Photo Galleries" image-url="@Url.Content("~/shared/icons/16/photo.png")" />
+                </sub-items>
+            </menu-item>
+        </items>
+    </kendo-menu>
+</div>
+
+<div class="demo-section">
+
+    <h4>Menu with sprites</h4>
+
+    <kendo-menu name="menuSprites">
+        <items>
+            <menu-item text="Brazil" icon-class="k-sprite brazilFlag">
+                <sub-items>
+                    <menu-item text="History" icon-class="k-sprite historyIcon" />
+                    <menu-item text="Geography" icon-class="k-sprite geographyIcon" />
+                </sub-items>
+            </menu-item>
+            <menu-item text="India" icon-class="k-sprite indiaFlag">
+                <sub-items>
+                    <menu-item text="History" icon-class="k-sprite historyIcon" />
+                    <menu-item text="Geography" icon-class="k-sprite geographyIcon" />
+                </sub-items>
+            </menu-item>
+            <menu-item text="Netherlands" icon-class="k-sprite netherlandsFlag">
+                <sub-items>
+                    <menu-item text="History" icon-class="k-sprite historyIcon" />
+                    <menu-item text="Geography" icon-class="k-sprite geographyIcon" />
+                </sub-items>
+            </menu-item>
+        </items>
+    </kendo-menu>
+</div>
+
+<style>
+    #menuSprites .k-sprite {
+        background-image: url("@Url.Content("~/shared/styles/flags.png")");
+    }
+    .brazilFlag {
+        background-position: 0 0;
+    }
+    .indiaFlag {
+        background-position: 0 -32px;
+    }
+    .netherlandsFlag {
+        background-position: 0 -64px;
+    }
+    .historyIcon {
+        background-position: 0 -96px;
+    }
+    .geographyIcon {
+        background-position: 0 -128px;
+    }
+</style>

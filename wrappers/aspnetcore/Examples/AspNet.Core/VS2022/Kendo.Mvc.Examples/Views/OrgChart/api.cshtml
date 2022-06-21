@@ -1,0 +1,213 @@
+<div id="example">
+
+    <div class="configurator">
+        <div class="header">Configurator</div>
+
+        <div class="box-col">
+            <h4>Expand/ Collapse OrgChart node</h4>
+            <ul class="options">
+                <li>
+                    <input type="number" value="0" id="expandNodeIndex" /> <button type="button" id="expandItem">Expand node at index</button>
+                </li>
+                <li>
+                    <input type="number" value="0" id="collapseNodeIndex" /> <button type="button" id="collapseItem">Collapse node at index</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="box-col">
+            <h4>Edit/select node</h4>
+            <ul class="options">
+                <li>
+                    <input type="number" value="0" id="editNodeIndex" /><button id="editNode" type="button">Edit node at index</button>
+                </li>
+                <li>
+                    <input type="number" value="0" id="selectNodeIndex" /><button id="selectNode" type="button">Select node at index</button>
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Append/Delete node</h4>
+            <ul class="options">
+                <li>
+                    <input id="appendNode" value="Node" />
+                    <button id="appendNodeToSelected">Append node</button>
+                </li>
+                <li>
+                    <button id="removeNode">Remove node</button>
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>Get data</h4>
+            <ul class="options">
+                <li>
+                    <button id="getCollapsedNodes" type="button">Get Collapsed</button>
+                </li>
+                <li>
+                    <button id="getParentNode" type="button">Get Parent</button>
+                    <button id="getAllNodes" type="button">Get All</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div id="dialog"></div>
+
+    @(Html.Kendo().OrgChart<Kendo.Mvc.Examples.Models.OrgChartEmployeeViewModel>()
+               .Name("orgchart")
+               .DataSource(dataSource => dataSource
+                   .Read(read => read.Action("ApiData", "OrgChart"))
+                   .Model(m => {
+                       m.Id(f => f.ID);
+                       m.ParentId(f => f.ParentID);
+                       m.Name(f => f.Name);
+                       m.Title(f => f.Title);
+                       m.Avatar(f => f.Avatar);
+                       m.Expanded(f => f.Expanded);
+                   })
+               )
+)
+
+    <script>
+        $(document).ready(function () {
+            var orgChart = $("#orgchart").data('kendoOrgChart');
+
+            var dialog = $("#dialog").kendoDialog({
+                visible: false,
+                modal: false,
+                width: "400px",
+                content: ""
+            }).data("kendoDialog");
+
+            $("#expandNodeIndex").kendoNumericTextBox({
+                min: 0,
+                decimal: 0,
+                format: "n0",
+                value: 0
+            });
+
+            $("#collapseNodeIndex").kendoNumericTextBox({
+                min: 0,
+                decimal: 0,
+                format: "n0",
+                value: 0
+            });
+
+            $("#editNodeIndex").kendoNumericTextBox({
+                min: 0,
+                decimal: 0,
+                format: "n0",
+                value: 0
+            });
+
+            $("#selectNodeIndex").kendoNumericTextBox({
+                min: 0,
+                decimal: 0,
+                format: "n0",
+                value: 0
+            });
+
+            $("#removeNode").click(function () {
+                var selected = $('[role="treeitem"][tabindex="0"]');
+                orgChart.delete(selected);
+            });
+
+            $("#appendNodeToSelected").click(function () {
+                var text = $('#appendNode').val();
+
+                var newId = orgChart.dataSource.data().length + 1;
+                var parent = $('[role="treeitem"][tabindex="0"]')
+                var parentDataItem = orgChart.dataItem(parent);
+
+                orgChart.append({
+                    id: newId,
+                    parentId: parentDataItem.id,
+                    name: text,
+                    title: text + " title"
+                }, parent);
+            });
+
+            $("#expandItem").click(function () {
+                var items = orgChart.items()
+                var index = $('#expandNodeIndex').val()
+
+                if (!items[index]) {
+                    kendo.alert('No such index')
+                } else if (items[index] && $(items[index]).attr('aria-expanded') == "true") {
+                    kendo.alert('Node is already expanded')
+                } else {
+                    orgChart.expand(items[index]);
+                }
+            });
+
+            $("#collapseItem").click(function () {
+                var items = orgChart.items()
+                var index = $('#collapseNodeIndex').val()
+
+                if (!items[index]) {
+                    kendo.alert('Node with such index is not rendered')
+                } else if (items[index] && $(items[index]).attr('aria-expanded') == "false") {
+                    kendo.alert('Node is already collapsed')
+                } else {
+                    orgChart.collapse(items[index]);
+                }
+            });
+
+            $("#editNode").click(function () {
+                var items = orgChart.items()
+                var index = $('#editNodeIndex').val()
+
+                if (!items[index]) {
+                    kendo.alert('Node with such index is not rendered')
+                } else {
+                    orgChart.edit(items[index]);
+                }
+            });
+
+            $("#selectNode").click(function () {
+                var items = orgChart.items()
+                var index = $('#selectNodeIndex').val()
+
+                if (!items[index]) {
+                    kendo.alert('Node with such index is not rendered')
+                } else {
+                    orgChart.select(items[index]);
+                }
+            });
+
+            $("#getCollapsedNodes").click(function () {
+                var collapsed = orgChart.getCollapsedNodes()
+                var collapsedTitles = []
+                for (var i = 0; i < collapsed.length; i++) {
+                    var current = $(collapsed[i]).find('.k-card-title').text()
+                    collapsedTitles.push(current)
+                }
+                dialog.content("<strong>OrgChart collapsed nodes titles:</strong> " + collapsedTitles.join());
+                dialog.open();
+            });
+
+            $("#getParentNode").click(function () {
+                var selected = $('[role="treeitem"][tabindex="0"]');
+
+                var parent = orgChart.parent(selected);
+                var parentTitle = $(parent).find('.k-card-title').text()
+
+                dialog.content("<strong>OrgChart parent node title:</strong> " + parentTitle);
+                dialog.open();
+            });
+
+            $("#getAllNodes").click(function () {
+                var items = orgChart.items()
+                var itemsTitles = []
+                for (var i = 0; i < items.length; i++) {
+                    var current = $(items[i]).find('.k-card-title').text()
+                    itemsTitles.push(current)
+                }
+                dialog.content("<strong>OrgChart nodes titles:</strong> " + itemsTitles.join());
+                dialog.open();
+            });
+        })
+    </script>
+</div>

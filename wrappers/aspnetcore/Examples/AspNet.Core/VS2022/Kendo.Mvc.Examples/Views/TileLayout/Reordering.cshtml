@@ -1,0 +1,44 @@
+<div class="center">
+    <div class="demo-section auto">
+        <!-- container templates -->
+        <script id="barcelona" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/barcelona.jpg")" />
+        </script>
+        <script id="sofia" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/sofia.jpg")" />
+        </script>
+        <script id="rome" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/rome.jpg")" />
+        </script>
+        <script id="sa" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/south-africa.jpg")" />
+        </script>
+        <script id="sanfran" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/sanfran.jpg")" />
+        </script>
+        <script id="seaview" type="text/x-kendo-template">
+            <img class="k-card-image" draggable="false" src="@Url.Content("~/shared/web/cards/Seaview-Appartments.png")" />
+        </script>
+        @(Html.Kendo().TileLayout()
+            .Name("tilelayout")
+            .Columns(2)
+            .RowsHeight("285px")
+            .ColumnsWidth("285px")
+            .Containers(c => {
+                c.Add().Header(h => h.Text("Barcelona")).BodyTemplateId("barcelona").ColSpan(1).RowSpan(1);
+                c.Add().Header(h => h.Text("Sofia")).BodyTemplateId("sofia").ColSpan(1).RowSpan(1);
+                c.Add().Header(h => h.Text("Rome")).BodyTemplateId("rome").ColSpan(1).RowSpan(1);
+                c.Add().Header(h => h.Text("South Africa")).BodyTemplateId("sa").ColSpan(1).RowSpan(1);
+                c.Add().Header(h => h.Text("San Francisco")).BodyTemplateId("sanfran").ColSpan(1).RowSpan(1);
+                c.Add().Header(h => h.Text("Sea View Apartments")).BodyTemplateId("seaview").ColSpan(1).RowSpan(1);
+            })
+            .Reorderable()
+        )
+    </div>
+</div>
+<style>
+    .k-card-image {
+        width: 285px;
+        height: 189px;
+    }
+</style>

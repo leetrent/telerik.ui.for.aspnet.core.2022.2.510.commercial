@@ -1,0 +1,87 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <ul id="fieldlist">
+        <li>
+            <label for="categories">Catergories:</label>
+            <kendo-combobox datatextfield="CategoryName" datavaluefield="CategoryId" placeholder="Select category..." filter="FilterType.Contains" name="categories" style="width:100%;">
+                <datasource>
+                    <transport>
+                        <read url="@Url.Action("GetCascadeCategories","ComboBox")" cache="true" />
+                    </transport>
+                </datasource>
+            </kendo-combobox>
+        </li>
+        <li>
+            <label for="products">Products:</label>
+            <kendo-combobox auto-bind="false" cascade-from="categories" datatextfield="ProductName" datavaluefield="ProductID" enable="false" placeholder="Select product..." filter="FilterType.Contains" name="products" style="width:100%;">
+                <datasource server-filtering="true">
+                    <transport>
+                        <read data="filterProducts" url="@Url.Action("GetCascadeProducts","ComboBox")" />
+                    </transport>
+                </datasource>
+            </kendo-combobox>
+        </li>
+        <li>
+            <label for="orders">Orders:</label>
+            <kendo-combobox auto-bind="false" cascade-from="products" datatextfield="ShipCity" datavaluefield="OrderID" enable="false" placeholder="Select order..." filter="FilterType.Contains" name="orders" style="width:100%;">
+                <datasource    server-filtering="true">
+                    <transport>
+                        <read data="filterOrders" url="@Url.Action("GetCascadeOrders","ComboBox")" />
+                    </transport>
+                </datasource>
+            </kendo-combobox>
+        </li>
+        <li>
+            <button class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" id="get">View Order</button>
+        </li>
+</div>
+<script>
+    $(document).ready( function () {
+        var categories = $("#categories").data("kendoComboBox"),
+            products = $("#products").data("kendoComboBox"),
+            orders = $("#orders").data("kendoComboBox");
+
+        $("#get").click(function () {
+            var categoryInfo = "\nCategory: { id: " + categories.value() + ", name: " + categories.text() + " }",
+                productInfo = "\nProduct: { id: " + products.value() + ", name: " + products.text() + " }",
+                orderInfo = "\nOrder: { id: " + orders.value() + ", name: " + orders.text() + " }";
+
+            alert("Order details:\n" + categoryInfo + productInfo + orderInfo);
+        });
+    });
+
+    function filterOrders() {
+        return {
+            products: $("#products").val(),
+            orderFilter: $("#orders").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterProducts() {
+        return {
+            categories: $("#categories").val(),
+            productFilter: $("#products").data("kendoComboBox").input.val()
+        };
+    }
+</script>
+<style>
+    #fieldlist {
+        margin: 0;
+        padding: 0;
+    }
+
+        #fieldlist li {
+            list-style: none;
+            padding-bottom: 1.5em;
+            text-align: left;
+        }
+
+        #fieldlist label {
+            display: block;
+            padding-bottom: .3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+</style>

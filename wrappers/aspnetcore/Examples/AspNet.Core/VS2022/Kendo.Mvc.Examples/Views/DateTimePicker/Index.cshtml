@@ -1,0 +1,11 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>Select date:</h4>
+    @(Html.Kendo().DateTimePicker()
+        .Name("datetimepicker")
+        .Value(DateTime.Now)
+        .HtmlAttributes(new { style = "width: 100%", title = "datetimepicker" })
+        .DateInput()
+    )
+</div>

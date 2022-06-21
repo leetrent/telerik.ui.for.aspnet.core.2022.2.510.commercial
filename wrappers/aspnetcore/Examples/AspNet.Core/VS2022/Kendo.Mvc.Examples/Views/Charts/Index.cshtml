@@ -1,0 +1,289 @@
+
+<script>
+    function formatSales(value) {
+        if (value == 0) {
+            return 0;
+        }
+        else {
+            // hundreds
+            if (value <= 999) {
+                return value;
+            }
+            // thousands
+            else if (value >= 1000 && value <= 999999) {
+                return "$" + (value / 1000) + ".00K";
+            }
+            // millions
+            else if (value >= 1000000 && value <= 999999999) {
+                return "$" + (value / 1000000) + ".00M";
+            }
+        }
+    };
+
+    function formatPerformersSales(value) {
+        if (value == 0) {
+            return 0;
+        }
+        else {
+            // hundreds
+            if (value <= 999) {
+                return value;
+            }
+            // thousands
+            else if (value >= 1000 && value <= 999999) {
+                return "$" + (value / 1000) + "K";
+            }
+            // millions
+            else if (value >= 1000000 && value <= 999999999) {
+                return "$" + (value / 1000000) + "M";
+            }
+        }
+    };
+
+    function formatTooltip(value) {
+        return "$" + kendo.toString(value, "#,##");
+    };
+
+    function categoryAxisLabelTemplate(value) {
+        return value.split(" ").join("\n");
+    };
+
+
+    function setSalesPerformersBarsColor(point) {
+        switch (point.index) {
+            case 0: {
+                return "#2185b4";
+            };
+            case 1: {
+                return "#319fd2";
+            };
+            case 2: {
+                return "#3eaee2";
+            };
+            case 3: {
+                return "#89CFF0";
+            };
+            case 4: {
+                return "#B0DFE5";
+            };
+        };
+    };
+
+    var prevItemValue;
+    function itemColor(e) {
+        var currentItemValue = e.dataItem;
+        var currentLargerThenPrev = !prevItemValue || currentItemValue.Volume >= prevItemValue.Volume;
+        if (currentItemValue.Volume) {
+            prevItemValue = currentItemValue;
+        }
+        return currentLargerThenPrev ? '#B0DFE5' : '#2185b4';
+    }
+
+    $(window).on("resize", function () {
+        setDonutChartLabelsPosition()
+    });
+
+    $(document).on("kendoReady", function () {
+        setDonutChartLabelsPosition()
+    });
+
+    function setDonutChartLabelsPosition() {
+        var donutChart = $("#donut-chart").data("kendoChart");
+        var donutSeries = donutChart.options.series;
+        if ($(window).width() <= 716) {
+            donutSeries[0].labels.position = "center";
+            donutChart.setOptions({
+                series: donutSeries
+            });
+        }
+        else {
+            donutSeries[0].labels.position = "outsideEnd";
+            donutChart.setOptions({
+                series: donutSeries
+            });
+        }
+    }
+</script>
+
+
+    @(Html.Kendo().Chart<Kendo.Mvc.Examples.Models.Chart.ProductCategoriesModel>()
+        .Name("column-chart")
+        .Title("Sales by Product Category Over Time")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Bottom)
+            .Margin(m => m.Left(25))
+            )
+        .DataSource(ds => ds.Read(read => read.Action("SalesByProductCategory", "Charts")))
+        .Series(series =>
+        {
+            series.Column(model => model.VacantLand).Name("Vacant Land").CategoryField("Year").Tooltip(tooltip => tooltip.Template("Vacant Land: #= formatTooltip(value) #")).Color("#2185b4");
+            series.Column(model => model.ResidentialProperties).Name("Residential Properties").CategoryField("Year").Tooltip(tooltip => tooltip.Template("Residential Properties: #= formatTooltip(value) #")).Color("#319fd2");
+            series.Column(model => model.CommercialProperties).Name("Commercial Properties").CategoryField("Year").Tooltip(tooltip => tooltip.Template("Commercial Properties: #= formatTooltip(value) #")).Color("#3eaee2");
+            series.Line(model => model.Total).Name("Total Sales").Axis("axis").Tooltip(tooltip => tooltip.Template("Total Sales(#= data.category#): #= formatTooltip(value) #")).Color("red");
+        })
+        .CategoryAxis(axis => axis
+            .MajorGridLines(lines => lines.Visible(false))
+            .AxisCrossingValue(0, 10)
+        )
+        .ValueAxis(axis => axis.Numeric()
+            .Labels(labels => labels.Template("#= formatSales(value) #"))
+            .MajorUnit(1000000)
+            .Title("Sales")
+            .Line(line => line.Visible(false))
+        )
+        .ValueAxis(axis => axis.Numeric()
+            .Name("axis")
+            .Labels(labels => labels.Template("#= formatSales(value) #"))
+            .Title("Total sales")
+            .MajorUnit(2000000)
+            .Line(line => line.Visible(false))
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+        )
+    )
+
+    <div class="flex-container demo-section wide">
+        @(Html.Kendo().Chart<Kendo.Mvc.Examples.Models.Chart.FunnelSalesModel>()
+            .Name("funnel-chart")
+            .Title(t => t.Text("Sales Funnel 2019").Position(ChartTitlePosition.Top))
+            .Series(
+                srs => srs.Funnel("Value", "Category")
+            .SegmentSpacing(1)
+            )
+            .DataSource(ds =>
+            {
+                ds.Read(read => read.Action("FunnelSales", "Charts"))
+                .Sort(sort => sort.Add(model => model.Category).Ascending());
+            })
+            .SeriesColors("#166f99", "#2185b4", "#3eaee2", "#89CFF0", "#B0DFE5")
+            .SeriesDefaults(sd =>
+            {
+                sd.Funnel().Labels(lbls =>
+                {
+                    lbls.Visible(true)
+                        .Background("transparent")
+                        .Color("white")
+                        .Format("{0:c0}");
+                })
+                .DynamicSlope(false)
+                .DynamicHeight(false);
+            })
+            .Legend(false)
+            .Tooltip(tt => tt.Visible(true).Template("#= category #"))
+        )
+        @(Html.Kendo().Chart<Kendo.Mvc.Examples.Models.Chart.RegionSalesModel>()
+            .Name("donut-chart")
+            .ChartArea(chartArea => chartArea
+                .Background("transparent"))
+                .Title(title => title
+                    .Text("2019 Sales per Region")
+                    .Position(ChartTitlePosition.Top)
+                    .Margin(0, 0, 25, 0)
+            )
+            .Legend(legend => legend.Visible(false))
+            .SeriesDefaults(series => series.Donut().StartAngle(300))
+            .DataSource(ds => ds
+                .Read(read => read.Action("SalesByRegion", "Charts")))
+            .Series(series =>
+             {
+                series.Donut("Sales", "Region")
+                    .Padding(40)
+                    .Labels(labels => labels
+                        .Visible(true)
+                        .Position(ChartPieLabelsPosition.OutsideEnd)
+                        .Template("#= category #: \n #= value#%")
+                        .Background("transparent"));
+            })
+            .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Template("#= dataItem.Region #: #= value #%")
+            )
+            .SeriesColors("#166f99", "#2185b4", "#319fd2", "#3eaee2", "#89CFF0", "#B0DFE5")
+        )
+        @(Html.Kendo().Chart<Kendo.Mvc.Examples.Models.Chart.SalesPerformersModel>()
+            .Name("bar-chart")
+            .Title("Top 5 Sales Performers")
+            .Legend(legend => legend
+                .Visible(false)
+            )
+            .DataSource(ds => ds.Read(read => read.Action("SalesPerformers", "Charts"))
+            .Sort(sort => sort.Add(model => model.SalesAmount).Ascending()))
+            .Series(series =>
+                    {
+                series.Bar(model => model.SalesAmount).Name("Sales amount").CategoryField("SalesPerson").ColorHandler("setSalesPerformersBarsColor").Gap(1);
+            })
+            .CategoryAxis(axis => axis
+                .MajorGridLines(lines => lines.Visible(false))
+                .Labels(labels => labels.Template("#= categoryAxisLabelTemplate(data.value) #"))
+            )
+            .ValueAxis(axis => axis.Numeric()
+                .Line(line => line.Visible(false))
+                .MajorGridLines(lines => lines.Visible(false))
+                .Labels(x => x.Template("#= formatPerformersSales(value) #"))
+                .MajorUnit(500000)
+            )
+            .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Template("#= formatTooltip(value) #")
+            )
+        )
+    </div>
+
+    @(Html.Kendo().StockChart<Kendo.Mvc.Examples.Models.StockDataPoint>()
+        .Name("stock-chart")
+        .Title("Company Stocks")
+        .DataSource(ds => ds.Read(read => read
+            .Action("BoeingStockDataRead", "Charts")
+        ))
+        .DateField("Date")
+        .Series(series =>
+        {
+            series.Candlestick(s => s.Open, s => s.High, s => s.Low, s => s.Close).ColorHandler("itemColor"); ;
+        })
+        .Navigator(nav => nav
+            .Series(series =>
+            {
+                series.Area(s => s.Close).Color("#3eaee2");
+            })
+            .Select(
+                DateTime.Parse("2009/02/05"),
+                DateTime.Parse("2011/10/07")
+            )
+        )
+    )
+
+
+<style>
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 40px 0 40px 0;
+    }
+
+    #funnel-chart {
+        flex-grow: 1;
+    }
+
+    #donut-chart {
+        flex-basis: 45%;
+        margin: 0 20px 0 20px;
+        background: center no-repeat url('@Url.Content("~/shared/styles/world-map.png")');
+        background-size:contain;
+    }
+
+    #bar-chart {
+        flex-grow: 1;
+    }
+
+    @@media only screen and (max-width: 1815px) and (min-width: 1500px) {
+      #donut-chart {
+        flex-basis: 60%;
+        }
+    }
+    @@media only screen and (max-width: 1500px) {
+      #donut-chart {
+        flex-basis: 100%;
+        }
+    }
+</style>

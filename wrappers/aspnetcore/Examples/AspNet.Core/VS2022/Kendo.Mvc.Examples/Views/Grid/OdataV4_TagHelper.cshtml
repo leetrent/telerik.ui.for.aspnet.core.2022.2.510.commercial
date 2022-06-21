@@ -1,0 +1,73 @@
+@addTagHelper *, Kendo.Mvc
+
+<script>
+    // initialize DataSource with the dataStore option
+    var dataSourceOptions = {
+        batch: true,
+        type: "odata-v4",
+        transport: {
+            read: {
+                url: function () {
+                    return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products";
+                }
+            },
+            update: {
+                url: function (dataItem) {
+                    return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products(" + dataItem.ProductID + ")";
+                }
+            },
+            batch: {
+                url: function () {
+                    return "https://demos.telerik.com/kendo-ui/service-v4/odata/$batch";
+                }
+            },
+            create: {
+                url: function (dataItem) {
+                    delete dataItem.ProductID;
+                    return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products";
+                }
+            },
+            destroy: {
+                url: function (dataItem) {
+                    return "https://demos.telerik.com/kendo-ui/service-v4/odata/Products(" + dataItem.ProductID + ")";
+                }
+            }
+        },
+        schema: {
+            model: {
+                id: "ProductID",
+                fields: {
+                    ProductID: { editable: false },
+                    ProductName: { type: "string" },
+                    UnitPrice: { type: "number" },
+                    Discontinued: { type: "boolean" },
+                    UnitsInStock: { type: "number" }
+                }
+            }
+        },
+        pageSize: 20
+    };
+    var dataSource = new kendo.data.DataSource(dataSourceOptions);
+</script>
+
+
+<kendo-grid name="Grid" navigatable="true" datasource-id="dataSource">
+    <columns>
+        <column field="ProductName"/>
+        <column field="UnitPrice" width="140"/>
+        <column field="UnitsInStock" width="140"/>
+        <column field="Discontinued" width="100"/>
+        <column width="150">
+            <commands>
+                <column-command text="Delete" name="destroy"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <toolbar>
+        <toolbar-button name="create"></toolbar-button> 
+        <toolbar-button name="save"></toolbar-button>
+    </toolbar>
+    <editable mode="incell"/>
+    <pageable enabled="true"/>
+    <scrollable enabled="true"/>
+</kendo-grid>

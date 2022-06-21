@@ -1,0 +1,197 @@
+
+       <script id="treeview" type="text/kendo-ui-template">
+
+        # if (!item.items && item.spriteCssClass) { #
+            #: item.text #
+            <span class='k-icon k-i-close kendo-icon'></span>
+        # } else if(!item.items && !item.spriteCssClass) { #
+            <span class="k-sprite pdf"></span>
+            #: item.text #
+            <span class='k-icon k-i-close telerik-icon'></span>
+        # } else if (item.items && item.spriteCssClass){ #
+            #: item.text #
+        # } else { #
+            <span class="k-sprite folder"></span>
+            #: item.text #
+        # } #
+
+    </script>
+
+    <div class="demo-section wide">
+        <div id="demo-section-title" class="treeview-flex">
+            <div>
+                <h3>
+                    Select nodes, folders and drag them between the TreeViews
+                </h3>
+            </div>
+        </div>
+        <div class="treeview-flex">
+            @(Html.Kendo().TreeView()
+                    .Name("treeview-kendo")
+                    .TemplateId("treeview")
+                    .Checkboxes(c=>c.CheckChildren(true))
+                    .DragAndDrop(true)
+                    .Items(treeview =>
+                    {
+                        treeview.Add().Text("My Documents")
+                            .SpriteCssClasses("folder")
+                            .Expanded(true)
+                            .Items(root =>
+                            {
+                                root.Add().Text("Kendo UI Project")
+                                    .Expanded(true)
+                                    .SpriteCssClasses("folder")
+                                    .Items(images =>
+                                    {
+                                        images.Add().Text("about.html")
+                                            .SpriteCssClasses("html");
+
+                                        images.Add().Text("index.html")
+                                            .SpriteCssClasses("html");
+
+                                        images.Add().Text("logo.png")
+                                            .SpriteCssClasses("image");
+                                    });
+
+                                root.Add().Text("Reports")
+                                    .Expanded(true)
+                                    .SpriteCssClasses("folder")
+                                    .Items(reports =>
+                                    {
+                                        reports.Add().Text("February.pdf")
+                                            .SpriteCssClasses("pdf");
+                                        reports.Add().Text("March.pdf")
+                                            .SpriteCssClasses("pdf");
+                                        reports.Add().Text("April.pdf")
+                                            .SpriteCssClasses("pdf");
+                                    });
+
+                            });
+                    })
+            )
+        </div>
+         <div class="treeview-flex">
+            <div>
+                <h4>Drag and Drop</h4>
+            </div>
+        </div>
+        <div class="treeview-flex">
+            @(Html.Kendo().TreeView()
+                    .Name("treeview-telerik")
+                    .TemplateId("treeview")
+                    .Checkboxes(true)
+                    .DragAndDrop(true)
+                    .Items(treeview =>
+                    {
+                        treeview.Add().Text("My Documents")
+                            .Expanded(true)
+                            .Items(root =>
+                            {
+                                root.Add().Text("New Web Site")
+                                    .Expanded(true)
+                                    .Items(images =>
+                                    {
+                                        images.Add().Text("mockup.pdf");
+                                        images.Add().Text("Research.pdf");
+                                    });
+
+                                root.Add().Text("Reports")
+                                    .Expanded(true)
+                                    .Items(reports =>
+                                    {
+                                        reports.Add().Text("May.pdf");
+                                        reports.Add().Text("June.pdf");
+                                        reports.Add().Text("July.pdf");
+                                    });
+
+                            });
+                    })
+            )
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).on("click", ".kendo-icon", function (e) {
+            e.preventDefault();
+            var treeview = $("#treeview-kendo").data("kendoTreeView");
+            treeview.remove($(this).closest(".k-item"));
+        });
+        $(document).on("click", ".telerik-icon", function (e) {
+            e.preventDefault();
+            var treeview = $("#treeview-telerik").data("kendoTreeView");
+            treeview.remove($(this).closest(".k-item"));
+        });
+    </script>
+
+    <style>
+
+        @@media screen and (max-width: 680px) {
+            .treeview-flex {
+                flex: auto !important;
+                width: 100%;
+            }
+        }
+
+        #demo-section-title h3 {
+            margin-bottom: 2em;
+            text-align: center;
+        }
+
+        .treeview-flex h4 {
+            color: #656565;
+            margin-bottom: 1em;
+            text-align: center;
+        }
+
+        #demo-section-title {
+            width: 100%;
+            flex: auto;
+        }
+
+        .treeview-flex {
+            flex: 1;
+            -ms-flex: 1 0 auto;
+        }
+
+        .k-treeview {
+            max-width: 240px;
+            margin: 0 auto;
+        }
+
+        #treeview-kendo .k-sprite {
+            background-image: url("@Url.Content("~/shared/web/treeview/coloricons-sprite.png")");
+        }
+
+        #treeview-telerik .k-sprite {
+            background-image: url("@Url.Content("~/shared/web/treeview/coloricons-sprite.png")");
+        }
+
+        .demo-section {
+            margin-bottom: 5px;
+            overflow: auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .rootfolder {
+            background-position: 0 0;
+        }
+
+        .folder {
+            background-position: 0 -16px;
+        }
+
+        .pdf {
+            background-position: 0 -32px;
+        }
+
+        .html {
+            background-position: 0 -48px;
+        }
+
+        .image {
+            background-position: 0 -64px;
+        }
+
+    </style>

@@ -1,0 +1,24 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.TagHelpers;
+@model IEnumerable<Kendo.Mvc.Examples.Models.Category>
+
+@{
+    var menuItems = Model.Select(category =>
+    {
+        return new MenuItemBase
+        {
+            Text = category.CategoryName,
+            Children = category.Products.Select(product =>
+            {
+                return new MenuItemBase { Text = product.ProductName };
+            })
+        };
+    });
+}
+
+<div class="demo-section wide">
+
+    <kendo-menu name="Menu" bind-to="menuItems">
+    </kendo-menu>
+
+</div>

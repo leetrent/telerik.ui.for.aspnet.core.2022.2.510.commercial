@@ -1,0 +1,84 @@
+@using Kendo.Mvc.Examples.Models.Gantt;
+
+@(Html.Kendo().Gantt<TaskViewModel, DependencyViewModel>()
+    .Name("gantt")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.Title).Editable(true).Sortable(true);
+        columns.Resources("resources").Editable(true).Title("Assigned Resources");
+    })
+    .Views(views =>
+    {
+        views.DayView();
+        views.WeekView();
+        views.MonthView(monthView => monthView.Selected(true));
+    })
+    .Height(700)
+    .ShowWorkHours(false)
+    .ShowWorkDays(false)
+    .Snap(false)
+    .DataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.TaskID);
+            m.ParentId(f => f.ParentID);
+            m.Field(f => f.Expanded).DefaultValue(true);
+        })
+        .Read("Resources_ReadTasks", "Gantt")
+        .Destroy("Resources_DestroyTask", "Gantt")
+        .Update(update => update.Action("Resources_UpdateTask", "Gantt").Data("onUpdateCreate"))
+        .Create(create => create.Action("Resources_CreateTask", "Gantt").Data("onUpdateCreate"))
+    )
+    .DependenciesDataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.DependencyID);
+            m.PredecessorId(f => f.PredecessorID);
+            m.SuccessorId(f => f.SuccessorID);
+        })
+        .Read("Resources_ReadDependencies", "Gantt")
+        .Create("Resources_CreateDependency", "Gantt")
+        .Destroy("Resources_DestroyDependency", "Gantt")
+    )
+    .Resources(r => r
+        .Field("resources")
+        .DataColorField("Color")
+        .DataTextField("Name")
+        .DataSource(d => d
+            .Custom()
+            .Schema(s => s
+                .Model(m => m.Id("ID"))
+                .Data("Data")
+            )
+            .Transport(t =>
+            {
+                t.Read("ReadResources", "Gantt");
+            })
+        )
+    )
+    .Assignments<ResourceAssignmentViewModel>(a => a
+        .DataTaskIdField("TaskID")
+        .DataResourceIdField("ResourceID")
+        .DataValueField("Units")
+        .DataSource(d => d
+            .Model(m =>
+            {
+                m.Id(f => f.ID);
+            })
+            .Read("Resources_ReadAssignments", "Gantt")
+            .Create("Resources_CreateAssignment", "Gantt")
+            .Destroy("Resources_DestroyAssignment", "Gantt")
+            .Update("Resources_UpdateAssignment", "Gantt")
+        )
+    )
+)
+
+@section scripts {
+<script>
+    // Send the dates for the newly creted/updated tasks as UTC strings
+    function onUpdateCreate(e) {
+        e.End = e.End.toISOString();
+        e.Start = e.Start.toISOString();
+    }
+</script>
+}

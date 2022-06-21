@@ -1,0 +1,55 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var event_data = new List<SelectListItem>()
+    {
+                new SelectListItem() {
+                    Text = "Item 1", Value = "1"
+                },
+                new SelectListItem() {
+                    Text = "Item 2", Value = "2"
+                },
+                new SelectListItem() {
+                    Text = "Item 3", Value = "3"
+                }
+            };
+}
+<script>
+    function onOpen() {
+        kendoConsole.log("event: open");
+    }
+
+    function onClose() {
+        kendoConsole.log("event: close");
+    }
+
+    function onChange() {
+        kendoConsole.log("event: change");
+    }
+
+    function onDataBound() {
+        kendoConsole.log("event: dataBound");
+    }
+
+    function onSelect(e) {
+        if ("kendoConsole" in window) {
+            if (e.item) {
+                var dataItem = this.dataItem(e.item.index());
+                kendoConsole.log("event :: select (" + dataItem.Text + " : " + dataItem.Value + ")");
+            } else {
+                kendoConsole.log("event :: select");
+            }
+        }
+    }
+
+    function onFiltering() {
+        kendoConsole.log("event: filtering");
+    }
+</script>
+
+<div class="demo-section">
+    <h4>ComboBox</h4>
+    <kendo-combobox datatextfield="Text" datavaluefield="Value" filter="FilterType.StartsWith" bind-to="event_data" name="combobox" on-change="onChange" on-select="onSelect" on-open="onOpen" on-close="onClose" on-data-bound="onDataBound" on-filtering="onFiltering" style="width:100%;">
+    </kendo-combobox>
+</div>
+

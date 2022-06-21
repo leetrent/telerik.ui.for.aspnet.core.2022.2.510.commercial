@@ -1,0 +1,56 @@
+@using Kendo.Mvc.UI
+
+<div id="example">
+	<div class="k-rtl demo-section">
+		<h3 class="title">ProgressBar</h3>
+		<div id="progressBar"></div>
+		@(Html.Kendo().ProgressBar()
+			  .Name("progressBar")
+			  .Type(ProgressBarType.Percent)
+			  .Animation(a => a.Duration(600))
+			  .Events(e => e.Complete("onComplete"))
+		)
+		<button id="startProgress" >Start progress</button>
+	</div>
+
+	@section scripts {
+<script>
+        $(document).on("kendoReady", function () {
+            $("#startProgress").click(function () {
+                if (!$(this).hasClass("k-state-disabled")) {
+                    $(this).addClass("k-state-disabled");
+
+                    progress();
+                }
+            });
+        });
+
+        function onComplete() {
+            $("#startProgress").removeClass("k-state-disabled").text("Restart Progress");
+        }
+
+        function progress() {
+            var pb = $("#progressBar").data("kendoProgressBar");
+            pb.value(0);
+
+            var interval = setInterval(function () {
+                if (pb.value() < 100) {
+                    pb.value(pb.value() + 10);
+                } else {
+                    clearInterval(interval);
+                }
+            }, 100);
+        }
+	</script>
+}
+
+	<style>
+		#progressBar {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .demo-section {
+            text-align: right;
+        }
+	</style>
+</div>

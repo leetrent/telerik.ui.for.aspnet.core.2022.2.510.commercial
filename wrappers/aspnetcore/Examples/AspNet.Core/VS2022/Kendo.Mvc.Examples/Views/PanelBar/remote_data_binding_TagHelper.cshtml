@@ -1,0 +1,11 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <kendo-panelbar name="panelbar"
+        datatextfield="Name">
+        <hierarchical-datasource>
+            <transport>
+                <read url="@Url.Action("Employees", "PanelBar")" />
+            </transport>
+        </hierarchical-datasource>
+    </kendo-panelbar>
+</div>

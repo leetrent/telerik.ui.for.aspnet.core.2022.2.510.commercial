@@ -1,0 +1,46 @@
+@model Kendo.Mvc.Examples.Models.PagerViewModel
+
+
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            @using (Html.BeginForm())
+            {
+                <h4>The pager should ...</h4>
+                <ul class="options">
+                    <li>@Html.CheckBoxFor(pager => pager.Input) @Html.LabelFor(m => m.Input, "have an input box for the page number")</li>
+                    <li>@Html.CheckBoxFor(pager => pager.Numeric) @Html.LabelFor(m => m.Numeric, "have numeric pager")</li>
+                    <li>@Html.CheckBoxFor(pager => pager.Info) @Html.LabelFor(m => m.Info, "display the current range of items")</li>
+                    <li>@Html.CheckBoxFor(pager => pager.PreviousNext) @Html.LabelFor(m => m.Info, "display the 'first', 'previous', 'next' and 'last' buttons")</li>
+                    <li>@Html.CheckBoxFor(pager => pager.Refresh) @Html.LabelFor(m => m.Refresh, "display the 'refresh' button")</li>
+                    <li>@Html.CheckBoxFor(pager => pager.PageSizes) @Html.LabelFor(m => m.PageSizes, "allow the user to change the page size")</li>
+                </ul>
+                <br />
+                <button  type="submit">Apply</button>
+            }
+        </div>
+    </div>
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.OrderViewModel>()
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(o => o.OrderID);
+          columns.Bound(o => o.ContactName);
+          columns.Bound(o => o.ShipAddress);
+          columns.Bound(o => o.OrderDate).Format("{0:d}");
+          columns.Bound(o => o.ShipCountry);
+      })
+      .Pageable(pager => pager
+        .Input(Model.Input)
+        .Numeric(Model.Numeric)
+        .Info(Model.Info)
+        .PreviousNext(Model.PreviousNext)
+        .Refresh(Model.Refresh)
+        .PageSizes(Model.PageSizes)
+      )
+      .DataSource(dataSource => dataSource
+          .Ajax()
+              .Read(read => read.Action("Paging_Orders", "Grid"))
+      )
+)

@@ -1,0 +1,16 @@
+<div class="demo-section wide">
+    @(Html.Kendo().Chart()
+        .Name("heatmap")
+        .Series(s=>s.HeatMap("Value", "Column", "Row").Labels(l=>l.Visible(false)))
+        .DataSource(dataSource=> dataSource.Read("RemoteData", "HeatMap"))
+        .Legend(legend=>legend.Visible(false))
+        .XAxis(x =>
+        {
+            x.Numeric().Crosshair(c => c.Visible(true).Tooltip(t => t.Visible(true)));
+        })
+        .YAxis(y =>
+        {
+            y.Numeric().Crosshair(c => c.Visible(true).Tooltip(t => t.Visible(true)));
+        })
+    )
+</div>

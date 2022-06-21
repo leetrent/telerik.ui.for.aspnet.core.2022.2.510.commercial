@@ -1,0 +1,30 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="configurator">
+    <div class="box-col">
+        <h4>Information</h4>
+        <p>Select the cells you want to copy press Ctrl/Command + C to copy into the clipboard then go to Excel and paste</p>
+    </div>
+</div>
+
+<kendo-grid name="cellSelection" navigatable="true" selectable="multiple, cell">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="5">
+        <schema>
+            <model>
+                <fields>
+                    <field name="OrderDate" type="date"></field>
+                </fields>
+            </model>
+         </schema>
+        <transport>
+            <read url="/grid/orders_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="ShipCountry" width="200"/>
+        <column field="Freight" width="200"/>
+        <column field="OrderDate" format="{0:dd/MM/yyyy}"/>
+    </columns>
+    <pageable button-count="4" info="false"/>
+    <allow-copy enabled="true" />
+</kendo-grid>

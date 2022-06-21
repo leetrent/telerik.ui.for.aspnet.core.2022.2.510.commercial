@@ -1,0 +1,40 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.Examples.Models
+@using Kendo.Mvc.UI.Fluent
+@using Kendo.Mvc.TagHelpers
+<div class="demo-section">
+    <div>
+        <h4>Inline data (default settings)</h4>
+        <kendo-treeview name="treeview-left" bind-to="(IEnumerable<TreeViewItemBase>)ViewBag.inlineDefault">
+        </kendo-treeview>
+    </div>
+    <div>
+        <h4>Inline data</h4>
+        <kendo-treeview name="treeview-right">
+                <items>
+                    @{
+                    foreach( var category in ViewBag.inline){
+                        <treeview-item text="@category.CategoryName">
+                            <items>
+                                @{
+                                    foreach(var subCategory in category.SubCategories)
+                                    {
+                                        <treeview-item text="@subCategory.SubCategoryName">
+                                        </treeview-item>
+                                    }
+                                }
+                            </items>
+                        </treeview-item>
+                    }
+                }
+                </items>
+        </kendo-treeview>
+    </div>
+</div>
+
+<style>
+    .demo-section {
+        display: flex;
+        justify-content: space-evenly;
+    }
+</style>

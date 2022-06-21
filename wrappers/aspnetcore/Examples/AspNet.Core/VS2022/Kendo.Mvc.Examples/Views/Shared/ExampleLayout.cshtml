@@ -1,0 +1,217 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles  {
+	<link href="@String.Format("{0}/styles/kendo-ui-demos/demopage.min.css{1}", ViewBag.AssetsCDN, Html.Version())" rel="stylesheet" />
+    <link href="@String.Format("{0}/styles/kendo-ui-demos/demorunner.min.css{1}", ViewBag.AssetsCDN, Html.Version())" rel="stylesheet" />
+    <link href="@String.Format("{0}/styles/feedback-form/styles.min.css{1}", ViewBag.AssetsCDN, Html.Version())" rel="stylesheet" />
+    <link href="@Url.Content("~/css/site.min.css")" rel="stylesheet" />
+    @foreach (string styleName in Kendo.Mvc.Examples.Models.StyleGroups.All)
+    {
+        @Html.StyleLink(styleName, (string)ViewBag.Theme.Name, (string)ViewBag.CommonFile)
+    }
+    @RenderSection("styles", required: false)
+}
+@section scripts  {
+    @foreach (string scriptName in Kendo.Mvc.Examples.Models.ScriptGroups.All)
+    {
+        if (scriptName.Contains("jszip") && ViewBag.CurrentExample != null
+        && !ViewBag.CurrentExample.Text.Contains("Excel") && !ViewBag.CurrentExample.Url.Contains("spreadsheet"))
+        {
+            continue;
+        }
+
+        if (scriptName.Contains("jquery"))
+        {
+            continue;
+        }
+
+        <script data-src="@Url.Script(scriptName)"></script>
+    }
+    <script data-src="@Url.Content("~/shared/console.min.js" + Html.Version())"></script>
+    <script data-src="@Url.Content("~/shared/prettify.min.js" + Html.Version())"></script>
+    <script data-src="@Url.Content("~/shared/jquery.validate.js" + Html.Version())"></script>
+    <script data-src="@Url.Content("~/shared/jquery.validate.unobtrusive.js" + Html.Version())"></script>
+    <script src="@Url.Content("~/shared/demopage.min.js" + Html.Version())"></script>
+	<script src="@String.Format("{0}/scripts/kendo-ui-demos/app-theme.min.js{1}", ViewBag.AssetsCDN, Html.Version())"></script>
+    <script src="@String.Format("{0}/scripts/feedback-form/index.min.js{1}", ViewBag.AssetsCDN, Html.Version())" ></script>
+    <script src="@Url.Content("~/js/site.js")"></script>
+
+    <script>
+        var DOJO_ROOT = "";
+        var CDN_ROOT = "";
+        var IS_ANGULARJS_EXAMPLE = false;
+    </script>
+    <script src="@Url.Content("~/shared/demo-runner.min.js" + Html.Version())"></script>
+
+    @RenderSection("scripts", required: false)
+}
+@section HeadContent {
+    @RenderSection("HeadContent", false)
+}
+
+
+<main role="main" class="kd-jquery">
+    <div class="kd-content-container">
+        @Html.Partial("Sidebar")
+
+        <div class="kd-demo-content">
+            <div class="container container-sm">
+                <!-- Breadcrumb -->
+                @{
+                    var url = ViewBag.PathBase + "/";
+                    var widgetUrl = url + ViewBag.CurrentExample.Url.Split('/')[0];
+                    var demoUrl = url + ViewBag.CurrentExample.Url;
+                }
+
+                <nav class="kd-breadcrumb-nav" aria-label="Demos breadcrumbs">
+                    <ol class="kd-list">
+                        <li>
+                            <a class="kd-link" href="@url">Components</a>
+                            <span class="delimiter">/ </span>
+                        </li>
+                        <li>
+                            <a class="kd-link" href="@widgetUrl">@Html.Raw(ViewBag.CurrentWidget.Text)</a>
+                            <span class="delimiter">/ </span>
+                        </li>
+                        <li class="active">
+                            <a class="kd-link" href="@demoUrl">@Html.Raw(ViewBag.CurrentExample.Text)</a>
+                        </li>
+                    </ol>
+                </nav>
+
+                <!-- CTA Non Overview -->
+                @if (ViewBag.CtaType.Equals("small")) {
+                    <section class="kd-cta-panel cta-small">
+                        <div class="container flex-center">
+                            <div class="kd-cta kd-cta-sm">
+                                <p class="kd-text">
+                                    New to Telerik UI for ASP.NET Core?
+                                    <a class="kd-link js-link" href="https://www.telerik.com/download-trial-file/v2/aspnet-core-ui">
+                                        Download free 30-day trial
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                }
+
+                <!-- Title -->
+                <h1 class="kd-title">
+                    @if (ViewBag.CurrentExample != null)
+                    {
+                        @ViewBag.CurrentExample.Text
+                    }
+                </h1>
+
+                <!-- Demo Runner -->
+                @Html.Partial("DemoRunner")
+                <noscript id="demoCode">
+                    @RenderBody()
+                </noscript>
+
+                <!-- CTA Overview -->
+                @if (ViewBag.CtaType.Equals("large")) {
+                    <section class="kd-cta-panel">
+                        <div class="flex-center">
+                            <div class="kd-cta kd-cta-lg kd-cta-full-width">
+                                <div class="kd-cta-content-wrapper">
+                                    <div class="kd-cta-image">
+                                         <img loading="lazy" src="@Url.Content("~/shared/images/site/devcraft-ninja-small.svg")" alt="devcraft ninja image" />
+                                    </div>
+                                    <div class="kd-cta-title-desc">
+                                        <div class="kd-cta-desc">
+                                            <p class="text-small m-0">
+                                                The @ViewBag.CurrentWidget.Text component is part of <a href="https://www.telerik.com/aspnet-core-ui" class="kd-link text-bold">Telerik UI for ASP.NET Core</a>, a professional grade UI library with 110+ components for building modern and feature-rich applications. To try it out sign up for a free 30-day trial.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kd-cta-button-wrapper">
+                                    <a href="https://www.telerik.com/download-trial-file/v2/aspnet-core-ui" class="kd-button kd-button-primary kd-button-md">Download Free Trial</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                }
+
+                <!-- Description -->
+                <div class="kd-demo-content-container">
+                    @if (ViewBag.CurrentExample.AltDescription != null)
+                    {
+                        <section class="kd-demo-description">
+                            @Html.Raw(ViewBag.CurrentExample.AltDescription)
+                            @if (ViewBag.IsOverviewPage != null)
+                            {
+                                @Html.Partial("OverviewDescription")
+                            }
+                        </section>
+                    }
+
+                    @if (ViewBag.Description != null)
+                    {
+                        <section class="kd-demo-description">
+                            <h2 class="kd-title">Description</h2>
+                            <div class="kd-text kd-text-secondary">
+                                @Html.Raw(ViewBag.Description)
+                            </div>
+                            @if (ViewBag.IsOverviewPage != null)
+                            {
+                                @Html.Partial("OverviewDescription")
+                            }
+                        </section>
+                    }
+
+                    <!-- Resources Links -->
+                    @if (ViewBag.Forum != null || ViewBag.Documentation != null || ViewBag.CodeLibrary != null)
+                    {
+                        <section class="kd-demo-resources">
+                            <h2 class="kd-title">Support & Learning Resources</h2>
+                            <ul class="kd-list kd-list-bullets">
+                                @if (ViewBag.CurrentExample.Links != null)
+                                {
+                                    foreach (var item in ViewBag.CurrentExample.Links)
+                                    {
+                                        <li><a class="kd-link" href="@item.Url">@item.Text</a></li>
+                                    }
+                                }
+                                else if (ViewBag.Documentation != null)
+                                {
+                                    <li><a class="kd-link" href="@ViewBag.Documentation">@ViewBag.CurrentWidget.Text Documentation Overview</a></li>
+                                }
+                                @if (ViewBag.Forum != null)
+                                {
+                                    <li><a class="kd-link" href="@ViewBag.Forum">@ViewBag.CurrentWidget.Text Forums</a></li>
+                                }
+                                <li><a class="kd-link" href="https://docs.telerik.com/aspnet-core/knowledge-base">Knowledge Base</a></li>
+                            </ul>
+                        </section>
+                    }
+                    @if (ViewBag.IsOverviewPage != null)
+                    {
+                        <section class="kd-demo-resources">
+                            <h3 class="kd-title">Additional Resources</h3>
+                            <ul class="kd-list kd-list-bullets">
+                                <li><a class="kd-link" href="https://www.telerik.com/blogs/web-aspnet-core">ASP.NET Core Blog</a></li>
+                                <li><a class="kd-link" href="https://www.telerik.com/videos/aspnet-core-ui">ASP.NET Core Videos</a></li>
+                                <li><a class="kd-link" href="https://www.telerik.com/support/whats-new/aspnet-core-ui/roadmap">Telerik UI for ASP.NET Core Roadmap</a></li>
+                                <li><a class="kd-link" href="https://www.telerik.com/purchase/aspnet-core-ui">Telerik UI for ASP.NET Core Pricing</a></li>
+                                <li><a class="kd-link" href="https://learn.telerik.com/learn/course/external/view/elearning/8/telerik-ui-for-aspnet-core">Telerik UI for ASP.NET Core Training</a></li>
+                            </ul>
+                        </section>
+                    }
+                </div>
+            </div>
+
+            @Html.Partial("Footer")
+        </div>
+    </div>
+</main>
+
+<!-- Feedback Form -->
+<feedback-form
+    question-msg="Is this demo helpful?"
+    sheet-id="@ViewBag.FeedbackId"
+    kinvey-app-key="kid_rJKE638xD"
+    icon-url="@Url.Content("~/shared/images/site/devcraft-ninja-small.svg")">
+</feedback-form>

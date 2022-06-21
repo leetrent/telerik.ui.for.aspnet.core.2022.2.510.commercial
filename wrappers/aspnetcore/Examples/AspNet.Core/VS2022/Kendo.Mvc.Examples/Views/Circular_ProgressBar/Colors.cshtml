@@ -1,0 +1,75 @@
+@using Kendo.Mvc.UI
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Configuration</h4>
+        <div>
+            <button id="value1">Start Value to 0</button>
+            <button id="value2">Start Value to 25</button>
+            <button id="value3">Start Value to 50</button>
+            <button id="value4">Start Value to 75</button>
+            <button id="value5">Start Value to 100</button>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().CircularProgressBar()
+    .Name("progressbar")
+    .Value(0)
+    .Colors(c =>
+    {
+        c.Add().Color("#C0392B").To(25);
+        c.Add().Color("#D35400").From(25).To(50);
+        c.Add().Color("#D4AC0D").From(50).To(75);
+        c.Add().Color("#229954").From(75).To(100);
+    })
+    .CenterTemplate("<span style='color: #: color #;'>#: value #%</span>")
+)
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function() {
+            $("#value1").kendoButton({
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+                    pb.value(0);
+                }
+            });
+
+            $("#value2").kendoButton({
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+                    pb.value(25);
+                }
+            });
+
+            $("#value3").kendoButton({
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+                    pb.value(50);
+                }
+            });
+
+            $("#value4").kendoButton({
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+                    pb.value(75);
+                }
+            });
+
+            $("#value5").kendoButton({
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+                    pb.value(100);
+                }
+            });
+        })
+    </script>
+}
+
+<style>
+    #progressbar {
+        margin: 3em;
+    }
+</style>

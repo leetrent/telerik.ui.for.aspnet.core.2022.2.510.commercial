@@ -1,0 +1,34 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="Grid">
+    <columns>
+        <column field="ProductName" footer-template="Total Count: #=count#" group-footer-template="Count: #=count#">
+        </column>
+        <column field="UnitPrice" format="{0:C}" group-header-template="Sum: #=sum#">
+        </column>
+        <column field="UnitsOnOrder" footer-template="Average: #=average#" group-footer-template="Average: #=average#">
+        </column>
+        <column field="UnitsInStock" footer-template="Min: #= min # Max: #= max #" group-header-template="Units In Stock: #= value # (Count: #= count#)">
+        </column>
+    </columns>
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="10" server-operation="true">
+        <schema data="Data" total="Total" errors="Errors">
+        </schema>
+        <transport>
+            <read url="@Url.Action("Aggregates_Read","Grid")" />
+        </transport>
+        <aggregates>
+            <aggregate field="UnitsInStock" aggregate="min,max,count" />
+            <aggregate field="UnitsOnOrder" aggregate="average" />
+            <aggregate field="ProductName" aggregate="count" />
+            <aggregate field="UnitPrice" aggregate="sum" />
+        </aggregates>
+        <groups>
+            <group field="UnitsInStock"></group>
+        </groups>
+    </datasource>
+    <pageable button-count="5">
+    </pageable>
+    <sortable enabled="true" />
+    <groupable enabled="true" />
+</kendo-grid>

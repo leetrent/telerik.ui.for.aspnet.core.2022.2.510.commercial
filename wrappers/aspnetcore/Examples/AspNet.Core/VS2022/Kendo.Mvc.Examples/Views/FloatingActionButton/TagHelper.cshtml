@@ -1,0 +1,38 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section fabContainer" style="height:300px; position:relative;">
+    <kendo-floatingactionbutton name="fab"
+            align="FloatingActionButtonAlign.BottomCenter"
+            align-offset-vertical="50"
+            position-mode="FloatingActionButtonPositionMode.Absolute"
+            icon="share"
+            shape="FloatingActionButtonShape.Rectangle"
+            size="FloatingActionButtonSize.Medium"
+            theme-color="FloatingActionButtonThemeColor.Info"
+            on-expand="onExpand"
+            on-collapse="onCollapse"
+            style="z-index:10001">
+        <floatingactionbutton-items>
+            <floatingactionbutton-item label="Download" icon="download" click="onItemClick"></floatingactionbutton-item>
+            <floatingactionbutton-item label="Print" icon="print" click="onItemClick"></floatingactionbutton-item>
+            <floatingactionbutton-item label="Email" icon="email" click="onItemClick"></floatingactionbutton-item>
+        </floatingactionbutton-items>
+    </kendo-floatingactionbutton>
+</div>
+
+@section scripts{
+<script>
+    function onItemClick(e) {
+        kendo.alert($(e.target).text() + ' action')
+    };
+
+    function onExpand(e) {
+        $('.fabContainer').addClass('k-overlay');
+    };
+
+    function onCollapse(e) {
+        $('.fabContainer').removeClass('k-overlay');
+    };
+</script>
+
+}

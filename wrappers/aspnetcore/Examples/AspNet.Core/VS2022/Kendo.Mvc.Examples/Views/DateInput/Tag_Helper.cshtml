@@ -1,0 +1,10 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model OrderViewModel
+
+<form asp-controller="dateinput" asp-action="tag-helper" method="post" role="form">
+    <div class="demo-section">
+        <h4>Enter a date</h4>
+        <kendo-dateinput name="dateinput" style='width: 100%;'></kendo-dateinput>
+    </div>
+</form>

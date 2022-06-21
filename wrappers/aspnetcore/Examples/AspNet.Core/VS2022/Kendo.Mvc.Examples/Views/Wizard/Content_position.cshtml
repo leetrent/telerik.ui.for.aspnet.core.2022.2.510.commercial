@@ -1,0 +1,97 @@
+@model Kendo.Mvc.Examples.Controllers.CompositeContentPositionModel
+@using(Html.BeginForm()) {
+    <text>
+        <div class="configurator">
+            <div class="header">Configurator</div>
+            <div class="box-col">
+                <h4>Content position Settings</h4>
+                <ul class="options">
+                    <li>
+                        <label for="orientation">Content position:</label>
+                        @(Html.Kendo().DropDownList()
+                               .Name("position")
+                               .Items(items =>
+                                   {
+                                       items.Add().Text("Bottom").Value("bottom");
+                                       items.Add().Text("Right").Value("right");
+                                       items.Add().Text("Left").Value("left");
+                                   })
+                        )
+                    </li>
+                </ul>
+                <button  style="width: 80px;">Apply</button>
+            </div>
+        </div>
+    </text>
+}
+
+<div class="demo-section wide" style="width:700px">
+    @(Html.Kendo().Wizard()
+        .Name("wizard")
+        .Events(ev => ev.Done("onDone"))
+        .Tag("form")
+        .HtmlAttributes(new { @novalidate ="" })
+        .ContentPosition(Model.Position.Position)
+        .Steps(s =>
+        {
+            s.Add<Kendo.Mvc.Examples.Controllers.CompositeContentPositionModel>()
+                .Title("User data")
+                .Form(f => f
+                    .FormData(Model)
+                    .Validatable(v =>
+                    {
+                        v.ValidateOnBlur(true);
+                        v.ValidationSummary(vs => vs.Enable(false));
+                    })
+                    .Items(items =>
+                    {
+                        items.Add().Field(p => p.First.FirstName).Label("FirstName");
+                        items.Add().Field(p => p.First.LastName).Label("LastName");
+                    })
+                )
+                .Buttons(b =>
+                {
+                    b.Next();
+                });
+            s.Add<Kendo.Mvc.Examples.Controllers.CompositeContentPositionModel>()
+                .Title("Login data")
+                .Form(f => f
+                    .FormData(Model)
+                    .Validatable(v =>
+                    {
+                        v.ValidateOnBlur(true);
+                        v.ValidationSummary(vs => vs.Enable(false));
+                    })
+                    .Items(items =>
+                    {
+                        items.Add().Field(p => p.Second.Username).Label("Username");
+                        items.Add().Field(p => p.Second.Email).Label("Email");
+                        items.Add().Field(p => p.Second.Password).Label("Password").InputHtmlAttributes(new { @type = "password" }).Hint("Hint: enter alphanumeric characters only.");
+                    })
+                )
+                .Buttons(b =>
+                {
+                    b.Previous();
+                    b.Next();
+                });
+            s.Add()
+                .Title("Register")
+                .Content("<h3>Click on the \"Register\" button to complete your registration.</h3>")
+                .Buttons(b =>
+                {
+                    b.Previous();
+                    b.Done().Text("Register");
+                });
+        })
+    )
+</div>
+
+
+@section scripts{ 
+<script>
+    function onDone(e) {
+        e.originalEvent.preventDefault();
+        kendo.alert("Thank you for registering! Registration details would be sent to your email.");
+    }
+</script>
+}

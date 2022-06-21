@@ -1,0 +1,35 @@
+@addTagHelper *, Kendo.Mvc
+
+
+<div class="k-rtl">
+    <kendo-grid name="grid" style="height:430px;" resizable="true">
+        <columns>
+            <column field="ProductName">
+            </column>
+            <column field="UnitPrice" width="130">
+            </column>
+            <column field="UnitsInStock" width="130">
+            </column>
+            <column field="Discontinued" width="130">
+            </column>
+            <column>
+                <commands>
+                    <column-command text="Edit" name="edit"></column-command>
+                    <column-command text="Delete" name="destroy"></column-command>
+                </commands>
+            </column>
+        </columns>
+        <datasource on-error="error" page="0" type="DataSourceTagHelperType.Ajax" page-size="15" server-operation="false">
+            <schema data="Data" total="Total" errors="Errors">
+                <model id="ProductID"></model>
+            </schema>
+            <transport>
+                <read url="@Url.Action("Products_Read","Grid")" />
+            </transport>
+        </datasource>
+        <pageable enabled="true" />
+        <sortable enabled="true" />
+        <scrollable enabled="true" />
+
+    </kendo-grid>
+</div>

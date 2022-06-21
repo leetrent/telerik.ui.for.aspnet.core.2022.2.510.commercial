@@ -1,0 +1,31 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>ButtonGroup with text and icon</h4>
+    @(Html.Kendo().ButtonGroup()
+       .Name("player")
+       .Items(t =>
+       {
+           t.Add().Text("Play").Icon("play");
+           t.Add().Text("Pause").Icon("pause");
+           t.Add().Text("stop").Icon("stop");
+       })
+    )
+    <br /><br />
+    <h4>ButtonGroup only with icons</h4>
+    @(Html.Kendo().ButtonGroup()
+       .Name("player2")
+       .Items(t =>
+       {
+           t.Add().Icon("play");
+           t.Add().Icon("pause");
+           t.Add().Icon("stop");
+       })
+    )
+</div>
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

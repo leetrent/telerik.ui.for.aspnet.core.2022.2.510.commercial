@@ -1,0 +1,45 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <ul id="fieldlist">
+        <li>
+            <label>Temperature</label>
+            <kendo-slider name="slider"
+                          increase-button-title="Right"
+                          decrease-button-title="Left"
+                          min="0" max="30"
+                          small-step="1"
+                          large-step="10"
+                          value="18" class="temperature" title="slider"></kendo-slider>
+        </li>
+        <li>
+            <label>Humidity</label>
+            <kendo-rangeslider name="rangeslider" class="humidity"
+                               min="0" max="10"
+                               small-step="1"
+                               large-step="10"></kendo-rangeslider>
+        </li>
+    </ul>
+</div>
+
+<style>
+   #fieldlist {
+       margin: 0 0 -2em;
+       padding: 0;
+       text-align: center;
+   }
+
+   #fieldlist > li {
+       list-style: none;
+       padding-bottom: 2em;
+   }
+
+   #fieldlist label {
+       display: block;
+       padding-bottom: 1em;
+       font-weight: bold;
+       text-transform: uppercase;
+       font-size: 12px;
+       color: #444;
+   }
+</style>

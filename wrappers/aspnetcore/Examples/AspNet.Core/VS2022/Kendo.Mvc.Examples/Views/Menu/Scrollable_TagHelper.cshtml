@@ -1,0 +1,99 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Horizontal</h4>
+        <kendo-menu name="horizontalMenu">
+            <scrollable enabled="true"/>
+            <items>
+                <menu-item text="Mens">
+                    <sub-items>
+                        <menu-item text="Jackets and Coats" />
+                        <menu-item text="Jeans" />
+                        <menu-item text="Knitwear" />
+                        <menu-item text="Shirts" />
+                        <menu-item text="Belts" />
+                        <menu-item text="Socks" />
+                        <menu-item text="Fan Zone" />                         
+                    </sub-items>
+                </menu-item>
+                <menu-item text="Ladies">
+                    <sub-items>
+                        <menu-item text="Jackets and Coats" />
+                        <menu-item text="Jeans" />
+                        <menu-item text="Knitwear" />
+                        <menu-item text="Shirts" />
+                        <menu-item text="Belts" />
+                        <menu-item text="Socks" />
+                        <menu-item text="Fan Zone" />
+                    </sub-items>
+                </menu-item>
+                <menu-item text="Kids">
+                    <sub-items>
+                        <menu-item text="Jackets and Coats" />
+                        <menu-item text="Jeans" />
+                        <menu-item text="Knitwear" />
+                        <menu-item text="Shirts" />
+                        <menu-item text="Belts" />
+                        <menu-item text="Socks" />
+                        <menu-item text="Fan Zone" />
+                    </sub-items>
+                </menu-item>
+                <menu-item text="Sports"/>
+                <menu-item text="Brands"/>
+                <menu-item text="Accessories"/>
+                <menu-item text="Promotions"/>
+                <menu-item text="Contacts"/>
+                <menu-item text="About us"/>
+        </items>
+    </kendo-menu>
+
+    <h4 style="padding-top: 2em;margin-top:30px">Vertical</h4>
+
+    <kendo-menu name="verticalMenu" orientation="MenuOrientation.Vertical" style="width:150px; height:150px;">
+        <scrollable enabled="true"/>
+        <items>
+            <menu-item text="Mens">
+                <sub-items>
+                    <menu-item text="Jackets and Coats" />
+                    <menu-item text="Jeans" />
+                    <menu-item text="Knitwear" />
+                    <menu-item text="Shirts" />
+                    <menu-item text="Belts" />
+                    <menu-item text="Socks" />
+                    <menu-item text="Fan Zone" />                         
+                </sub-items>
+            </menu-item>
+            <menu-item text="Ladies">
+                <sub-items>
+                    <menu-item text="Jackets and Coats" />
+                    <menu-item text="Jeans" />
+                    <menu-item text="Knitwear" />
+                    <menu-item text="Shirts" />
+                    <menu-item text="Belts" />
+                    <menu-item text="Socks" />
+                    <menu-item text="Fan Zone" />
+                </sub-items>
+            </menu-item>
+            <menu-item text="Kids">
+                <sub-items>
+                    <menu-item text="Jackets and Coats" />
+                    <menu-item text="Jeans" />
+                    <menu-item text="Knitwear" />
+                    <menu-item text="Shirts" />
+                    <menu-item text="Belts" />
+                    <menu-item text="Socks" />
+                    <menu-item text="Fan Zone" />
+                </sub-items>
+            </menu-item>
+            <menu-item text="Sports"/>
+            <menu-item text="Brands"/>
+            <menu-item text="News"/>
+            <menu-item text="About us"/>
+        </items>
+    </kendo-menu>
+</div>
+<style>
+    .k-menu-scroll-wrapper.horizontal li.k-item.k-last {
+        border-right-width: 0;
+    }
+</style>

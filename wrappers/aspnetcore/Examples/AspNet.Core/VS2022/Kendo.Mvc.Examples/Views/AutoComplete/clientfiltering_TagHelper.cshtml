@@ -1,0 +1,14 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Select product</h4>
+    <kendo-autocomplete name="products" style="width:100%"
+            dataTextField="ProductName"
+            filter="FilterType.Contains">
+            <datasource type="DataSourceTagHelperType.Custom" server-filtering="false">
+                <transport>
+                    <read url="@Url.Action("ClientFiltering_GetProducts", "AutoComplete")"/>
+                </transport>
+            </datasource>
+    </kendo-autocomplete>
+</div>

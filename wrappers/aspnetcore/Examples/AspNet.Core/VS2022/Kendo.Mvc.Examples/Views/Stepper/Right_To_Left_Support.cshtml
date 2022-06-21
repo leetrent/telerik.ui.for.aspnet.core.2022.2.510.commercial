@@ -1,0 +1,13 @@
+<div class="demo-section wide k-rtl">
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Steps(s =>
+        {
+            s.Add().Label("First step");
+            s.Add().Label("Second step");
+            s.Add().Label("Third step").Selected(true);
+            s.Add().Label("Fourth step").Enabled(false);
+            s.Add().Label("Fifth step");
+        })
+    )
+</div>

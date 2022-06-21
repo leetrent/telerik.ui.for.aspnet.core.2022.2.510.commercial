@@ -1,0 +1,35 @@
+<div class="demo-section" style="height:300px">
+@(Html.Kendo().FloatingActionButton()
+    .Name("fab")
+    .Align(FloatingActionButtonAlign.BottomCenter)
+    .AlignOffset(ao=>ao.Horizontal(0).Vertical(50))
+    .PositionMode(FloatingActionButtonPositionMode.Absolute)
+    .ThemeColor(FloatingActionButtonThemeColor.Info)
+    .Size(FloatingActionButtonSize.Medium)
+    .Icon("share")
+    .Items(items =>
+    {
+        items.Add().Label("Download").Icon("download").Click("onItemClick");
+        items.Add().Label("Print").Icon("print").Click("onItemClick");
+        items.Add().Label("Email").Icon("email").Click("onItemClick");
+    })
+    .Events(ev=>ev.Click("onClick").Collapse("onCollapse").Expand("onExpand"))
+    )
+</div>
+
+@section scripts{
+<script>
+    function onClick() {
+        kendoConsole.log("event: click");
+    };
+    function onExpand() {
+        kendoConsole.log("event: expand");
+    };
+    function onCollapse() {
+        kendoConsole.log("event: collapse");
+    };
+    function onItemClick(e) {
+        kendoConsole.log($(e.target).text() + " item clicked");
+    };
+</script>
+}

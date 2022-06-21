@@ -1,0 +1,171 @@
+<script id="rowTemplate" type="text/x-kendo-template">
+    <tr data-uid='#: data.model.uid #' role="row">
+    <td role="gridcell">
+    #for(var i = 0; i < (hasChildren ? level : (level + 1)); i++){#
+                <span class="k-icon k-i-none"></span>
+            #}#
+            #if(data.hasChildren){#
+                <span class="k-icon k-i-#=data.model.expanded? 'collapse' : 'expand'#"></span>
+            #}#
+       <div class='employee-photo'
+        style='background-image: url(@Url.Content("~/shared/web/treelist/people")/#: data.model.EmployeeId #.jpg);'></div>
+       <div class='employee-name'>#: data.model.FirstName # #: data.model.LastName # <span class = 'employee-position'>#: data.model.Position #</span></div>
+    </td>
+    <td role="gridcell">
+        <img class= "county-flag" src="../shared/web/country-flags/#: data.model.CountryFlag #.png" />
+    </td>
+    <td role="gridcell">
+         <span class='badgeTemplate'>#: Math.floor((kendo.date.today() - data.model.HireDate)/(365*24*60*60*1000)) #</span>
+    </td>
+    </tr>
+</script>
+
+<script id="altRowTemplate" type="text/x-kendo-template">
+    <tr data-uid='#: data.model.uid #' role="row" class="k-alt">
+    <td role="gridcell">
+    #for(var i = 0; i < (hasChildren ? level : (level + 1)); i++){#
+                <span class="k-icon k-i-none"></span>
+            #}#
+            #if(data.hasChildren){#
+                <span class="k-icon k-i-#=data.model.expanded? 'collapse' : 'expand'#"></span>
+            #}#
+       <div class='employee-photo'
+        style='background-image: url(@Url.Content("~/shared/web/treelist/people")/#: data.model.EmployeeId #.jpg);'></div>
+       <div class='employee-name'>#: data.model.FirstName # #: data.model.LastName # <span class = 'employee-position'>#: data.model.Position #</span></div>
+    </td>
+    <td role="gridcell">
+        <img class= "county-flag" src="../shared/web/country-flags/#: data.model.CountryFlag #.png" />
+    </td>
+    <td role="gridcell">
+         <span class='badgeTemplate'>#: Math.floor((kendo.date.today() - data.model.HireDate)/(365*24*60*60*1000)) #</span>
+    </td>
+    </tr>
+</script>
+
+<script>
+
+    function onDataBound(e) {
+        var treeList = this;
+        treeList.table.find("tr").each(function () {
+            var data = treeList.dataItem(this);
+
+            var additionalClass = getAdditionalClass(data.EmployeeId);
+
+            $(this).find(".badgeTemplate").kendoBadge({
+                shape: 'pill',
+                fill: "outline",
+                size: "large",
+                themeColor: "inherit"
+            }).addClass(additionalClass);
+
+            kendo.bind($(this), data);
+        });
+    }
+
+    function getAdditionalClass(employeeId) {
+        if (employeeId % 3 == 0) {
+            return 'lengthOfServiceBlue';
+        }
+        else if (employeeId % 3 == 1) {
+            return "lengthOfServiceGreen";
+        }
+        else {
+            return "lengthOfServicePurple";
+        }
+    }
+</script>
+
+@(Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModel>()
+    .Name("treelist")
+    .Columns(columns =>
+    {
+        columns.Add().Field(e => e.FirstName).Title("Employee").Width(450);
+        columns.Add().Field(e => e.Country).Title("Country").Width(130);
+        columns.Add().Field(e => e.HireDate).Title("Length of Service").Width(185);
+    })
+    .Filterable()
+    .Sortable()
+    .RowTemplateId("rowTemplate")
+    .AltRowTemplateId("altRowTemplate")
+    .DataSource(dataSource => dataSource
+        .Read(read => read.Action("AllWithCountryAndColor", "TreeList"))
+        .ServerOperation(false)
+        .Model(m => {
+            m.Id(f => f.EmployeeId);
+            m.ParentId(f => f.ReportsTo);
+            m.Expanded(true);
+            m.Field(f => f.FirstName);
+            m.Field(f => f.LastName);
+            m.Field(f => f.ReportsTo);
+        })
+    )
+    .Height(540)
+    .Pageable(p => p.PageSize(15)
+                    .PageSizes(true)
+    )
+    .Events(e => e.DataBound("onDataBound"))
+)
+
+<style>
+    .employee-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .employee-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 22px;
+        padding-left: 3px;
+    }
+
+    .employee-position {
+        text-align: left;
+        letter-spacing: 0px;
+        opacity: 1;
+        font-size: 9px;
+        display: block
+    }
+
+    .lengthOfServicePurple {
+        background: #6153CB26 0% 0% no-repeat padding-box;
+        border: 1px solid #6153CB;
+        color: #6153CB;
+        width: 85px;
+        height: 22px;
+        margin-left: 35%;
+    }
+
+    .lengthOfServiceBlue {
+        background: #537DCB26 0% 0% no-repeat padding-box;
+        border: 1px solid #537DCB;
+        color: #537DCB;
+        width: 85px;
+        height: 22px;
+        margin-left: 35%;
+    }
+
+    .lengthOfServiceGreen {
+        background: #53CBAB26 0% 0% no-repeat padding-box;
+        border: 1px solid #53CBAB;
+        color: #53CBAB;
+        width: 85px;
+        height: 22px;
+        margin-left: 35%;
+    }
+
+    .county-flag {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 30%;
+    }
+</style>

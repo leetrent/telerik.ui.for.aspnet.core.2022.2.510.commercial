@@ -1,0 +1,42 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <kendo-panelbar name="panelbar" expand-mode="@PanelBarExpandMode.Multiple">
+        <items>
+            <panelbar-item text="Projects">
+                <items>
+                    <panelbar-item text="New Business Plan"></panelbar-item>
+                    <panelbar-item text="Sales Forecasts">
+                        <items>
+                            <panelbar-item text="Q1 Forecast"></panelbar-item>
+                            <panelbar-item text="Q2 Forecast"></panelbar-item>
+                            <panelbar-item text="Q3 Forecast"></panelbar-item>
+                            <panelbar-item text="Q4 Forecast"></panelbar-item>
+                        </items>
+                    </panelbar-item>
+                    <panelbar-item text="Sales Reports"></panelbar-item>
+                    <panelbar-item text="Programs">
+                        <items>
+                            <panelbar-item text="Monday"></panelbar-item>
+                            <panelbar-item text="Tuesday"></panelbar-item>
+                            <panelbar-item text="Wednesday"></panelbar-item>
+                            <panelbar-item text="Thursday"></panelbar-item>
+                            <panelbar-item text="Friday"></panelbar-item>
+                        </items>
+                    </panelbar-item>
+                    <panelbar-item text="Communication" enabled="false"></panelbar-item>
+                </items>
+            </panelbar-item>
+        </items>
+    </kendo-panelbar>
+</div>
+
+@section scripts {
+<script>
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#panelbar").focus();
+        }
+    });
+</script>
+}

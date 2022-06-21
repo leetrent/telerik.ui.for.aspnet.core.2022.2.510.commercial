@@ -1,0 +1,63 @@
+@(Html.Kendo().DataSource<Kendo.Mvc.Examples.Models.TimelineEventModel>()
+    .Name("sharedDataSource")
+    .Custom(dataSource => dataSource
+       .Transport(tr => tr.Read(read => read.Action("GetEvents", "Timeline")))
+    )
+)
+
+<div id="example">
+    <div class="box wide">
+        <div class="box-col">
+            @(Html.Kendo().DropDownList()
+                .Name("titles")
+                .DataTextField("Title")
+                .DataValueField("Title")
+                .DataSource("sharedDataSource")
+                .OptionLabel("Select an item...")
+                .Value("Barcelona & Tenerife")
+            )
+            <button  id="remove">Remove Item</button>
+        </div>
+    </div>
+    <div class="demo-section wide">
+        @(Html.Kendo().Timeline<Kendo.Mvc.Examples.Models.TimelineEventModel>()
+           .Name("Timeline")
+           .DataDateField("EventDate")
+           .DataDescriptionField("Description")
+           .DataSubtitleField("Subtitle")
+           .DataTitleField("Title")
+           .DataImagesField("Images")
+           .DataActionsField("Actions")
+           .Orientation(TimelineOrientation.Vertical)
+           .AlternatingMode()
+           .CollapsibleEvents()
+           .DataSource("sharedDataSource")
+        )
+    </div>
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        $("#remove").click(function () {
+            var ddl = $("#titles").getKendoDropDownList();
+            var selectedItem = ddl.value();
+            var dataItems = $.grep(sharedDataSource.data(), function (item) {
+                return item.Title == selectedItem;
+            });
+
+            if (dataItems.length) {
+                sharedDataSource.remove(dataItems[0]);
+            }
+
+            ddl.value(-1);
+        });
+    });
+</script>
+}
+
+<style>
+    .demo-section, .box {
+        max-width: 1200px;
+    }
+</style>

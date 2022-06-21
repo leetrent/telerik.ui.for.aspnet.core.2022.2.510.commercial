@@ -1,0 +1,25 @@
+<div class="k-rtl demo-section">
+    @(Html.Kendo().DropDownTree()
+            .Name("dropdowntree")
+            .HtmlAttributes(new { style = "width: 100%" })
+            .Height("auto")
+            .Items(items =>
+            {
+                items.Add().Text("Furniture").Expanded(true)
+                    .Items(childred =>
+                    {
+                        childred.Add().Text("Tables & Chairs");
+                        childred.Add().Text("Sofas");
+                        childred.Add().Text("Occasional Furniture");
+                    });
+                items.Add().Text("Decor")
+                    .Items(childred =>
+                    {
+                        childred.Add().Text("Bed Linen");
+                        childred.Add().Text("Curtains & Blinds");
+                        childred.Add().Text("Carpets");
+                    });
+            })
+    )
+
+</div>

@@ -1,0 +1,122 @@
+<script type="text/javascript">
+    kendo.culture("en-US");
+</script>
+
+<script>
+    function index(dataItem) {
+        var data = $("#productsGrid").data("kendoGrid").dataSource.data();
+        return data.indexOf(dataItem);
+    }
+</script>
+
+<div id="example">
+    <div class="demo-section custom-width">
+        @model ItemsModel
+
+        @using (Html.BeginForm("GenerateFile", "SpreadProcessing"))
+        {
+
+            @(Html.Kendo().Grid(Model.Products)
+                .Name("productsGrid")
+                .Columns(columns =>
+                        {
+                            columns.Bound(p => p.ProductName).Title("Name").ClientTemplate("#= ProductName #" + "<input type='hidden' name='Products[#= index(data)#].ProductName' value='#= ProductName #' />").Width(300);
+                            columns.Bound(p => p.UnitPrice).Title("Price").ClientTemplate("#= kendo.format('{0:c2}', UnitPrice) #" + "<input type='hidden' name='Products[#= index(data)#].UnitPrice' value='#= UnitPrice #' />").Width(100);
+                            columns.Bound(p => p.UnitPrice).Title("Stock").ClientTemplate("#= UnitsInStock #" + "<input type='hidden' name='Products[#= index(data)#].UnitsInStock' value='#= UnitsInStock #' />").Width(100);
+                        })
+                        .Scrollable()
+                        .Pageable(pageable => pageable.Enabled(false))
+                        .HtmlAttributes(new { style = "width: 520px; height: 500px;" })
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .ServerOperation(false)
+                            .Model(model =>
+                                {
+                                    model.Id(p => p.ProductID);
+                        }
+                    )
+                )
+            )
+
+            <div class="grid-generation-options">
+                <div class="color-pickers">
+                    <div class="generation-options-row">
+                        <span class="color-label">Header background: </span>
+
+                        @(Html.Kendo().ColorPicker()
+                        .Name("headerColor")
+                        .Value("#ffffff")
+                        )
+                    </div>
+                    <div class="generation-options-row">
+                        <span class="color-label">Rows background: </span>
+
+                        @(Html.Kendo().ColorPicker()
+                        .Name("rowColor")
+                        .Value("#ffffff")
+                        )
+                    </div>
+                </div>
+
+                <div class="file-options-wrapper generation-options-row">
+
+                    @Html.Label("fileExtension", "File format: ")
+
+                    @(Html.Kendo().DropDownList()
+                .Name("fileFormat")
+                .SelectedIndex(0)
+                .Items(items =>
+                {
+                    items.Add().Text("XLSX").Value("xlsx");
+                    items.Add().Text("CSV").Value("csv");
+                    items.Add().Text("TXT").Value("txt");
+                    items.Add().Text("XLSM").Value("xlsm");
+                }
+                )
+                    )
+
+                </div>
+            </div>
+            <hr class="clear" />
+
+            <input type="submit" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md wide-btn" value="Generate and Download" />
+        }
+    </div>
+</div>
+
+
+<style>
+
+    .column {
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    input.wide-btn {
+        width: 240px;
+        float: right;
+    }
+
+    .float-right {
+        float: right;
+    }
+
+    .color-label,
+    .file-options-wrapper label {
+        display: inline-block;
+        width: 130px;
+        margin-right: 10px;
+    }
+
+    .grid-generation-options {
+        margin: 1em 0;
+    }
+
+    .generation-options-row {
+        margin-top: 1em;
+    }
+
+    hr {
+        margin: 1em 0;
+    }
+</style>

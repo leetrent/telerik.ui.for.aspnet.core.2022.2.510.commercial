@@ -1,0 +1,27 @@
+<div id="example" style="text-align: center;">
+    <div class="demo-section wide" style="display: inline-block;">
+        <h4>Select a date range</h4>
+        @(Html.Kendo().DateRangePicker()
+            .Name("daterangepicker")
+            .HtmlAttributes(new { style = "width: 100%", title = "daterangepicker" })
+            .Events(e => e.Open("onOpen").Close("onClose").Change("onChange"))
+        )
+    </div>
+
+    @section scripts {
+<script>
+        function onOpen() {
+            kendoConsole.log("Open");
+        }
+
+        function onClose() {
+            kendoConsole.log("Close");
+        }
+
+        function onChange() {
+            var range = this.range();
+            kendoConsole.log("Change :: start - " + kendo.toString(range.start, 'd') + " end - " + kendo.toString(range.end, 'd'));
+        }
+    </script>
+}
+</div>

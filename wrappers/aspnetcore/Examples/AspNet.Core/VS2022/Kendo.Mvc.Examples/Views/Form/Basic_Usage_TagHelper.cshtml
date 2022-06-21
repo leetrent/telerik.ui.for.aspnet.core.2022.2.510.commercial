@@ -1,0 +1,40 @@
+@addTagHelper *, Kendo.Mvc
+
+@model Kendo.Mvc.Examples.Models.Form.UserViewModel
+
+<div class="demo-section">
+    <div id="validation-success"></div>
+    <kendo-form form-data="@Model" name="formExample" on-validate-field="onFormValidateField" on-submit="onFormSubmit" on-clear="onFormClear" action="Index" method="POST">
+        <form-items>
+            <form-item type="group">
+                <item-label text="Feedback Form" />
+                <form-items>
+                    <form-item field="Email">
+                        <item-label text="Email:" optional="true" />
+                    </form-item>
+                    <form-item field="Feedback">
+                        <item-label text="Feedback:">
+                        <textarea-editor rows="5"></textarea-editor>
+                    </form-item>
+                </form-items>
+            </form-item>
+        </form-items>
+        <validatable validate-on-blur="true" />
+    </kendo-form>
+</div>
+
+<script>
+
+    function onFormValidateField(e) {
+        $("#validation-success").html("");
+    }
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        $("#validation-success").html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+    }
+
+    function onFormClear(e) {
+        $("#validation-success").html("");
+    }
+</script>

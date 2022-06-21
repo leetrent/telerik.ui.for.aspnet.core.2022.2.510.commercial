@@ -1,0 +1,69 @@
+@{
+    string theme = (string)ViewBag.Theme.Name.Split('-')[0];
+    string themeCapitalized = char.ToUpper(theme[0]) + theme.Substring(1);
+
+    //list of components not available in themebuilder
+    string[] components = { "treemap", "pdfviewer", "diagram",
+     "contextmenu", "dateinput", "form", "cards", "reporting integration",
+    "checkbox","radiobutton","validator","pdf export","barcode","qr code","datasource","drawingapi","globalization",
+    "integrationwithjslibraries","mvvm","single-pageapplication","templates","touchevents","drag and drop","fx","sortable","styling","ripple container","responsive panel",
+    "box plot charts","bullet charts","funnel charts","radar charts","range bar charts","range area charts","scatter charts","waterfall charts","chart api","sparklines",
+    "spreadprocessing", "pdfprocessing", "zip library", "wordsprocessing", "spreadstreamprocessing", "actionsheet" };
+
+    string[] modelBindingComponents = { "area-charts/date-axis", "area-charts/grouped-data", "bar-charts/date-axis",
+    "bar-charts/logarithmic-axis", "bar-charts/pan-and-zoom", "checkboxgroup/events", "checkboxgroup/index", "checkboxgroup/layout", "checkboxgroup/tag-helper", "dateinput/tag-helper", "datepicker/tag-helper", "datetimepicker/tag-helper", "editor/globalization", "form/success", "form/tag-helper", "grid/paging", "line-charts/date-axis", "line-charts/grouped-data", "line-charts/notes", "line-charts/visuals", "listview/custom-datasource", "menu/menu-bind-attributes", "menu/modelbinding", "menu/orientation", "menu/tag-helper", "numerictextbox/tag-helper", "panelbar/tag-helper", "pivotgrid/local-flat-data-binding", "polar-charts/smooth-polar-line", "radiogroup/events", "radiogroup/index", "radiogroup/layout", "radiogroup/tag-helper", "scatter-charts/date-axis", "scatter-charts/grouped-data", "scatter-charts/multiple-axes", "scatter-charts/pan-and-zoom", "scheduler/restriction", "scheduler/templates", "sortable/integration-grid", "spreadprocessing/grid-integration", "stepper/keyboard-navigation", "stepper/layout", "stepper/operation-modes", "stepper/orientation", "tilelayout/index", "timepicker/tag-helper", "treeview/tag-helper", "upload/index", "upload/result", "upload/result-tag-helper", "waterfall-charts/horizontal", "wizard/index", "wizard/content-position", "ziplibrary/index", "dropdowntree/local-data-binding", "grid/local-data-binding", "panelbar/local-data-binding", "taskboard/local-data-binding", "treeview/local-data-binding", "area-charts/local-data-binding", "bar-charts/local-data-binding", "box-plot-charts/local-data-binding",       "bubble-charts/local-data-binding", "bullet-charts/local-data-binding", "donut-charts/local-data-binding", "funnel-charts/local-data-binding", "line-charts/local-data-binding", "pie-charts/local-data-binding", "polar-charts/local-data-binding", "radar-charts/local-data-binding", "range-bar-charts/local-data-binding", "range-area-charts/local-data-binding", "scatter-charts/local-data-binding", "sparklines/local-data-binding", "waterfall-charts/local-data-binding" };
+
+    string currentComponent = ((NavigationItem)ViewBag.CurrentWidget).Text.ToLower();
+
+    string currentExample = ((string)ViewBag.CurrentExample.Url).ToLower(); }
+
+@if (!components.Contains(currentComponent) && !modelBindingComponents.Contains(currentExample))
+{
+<div class="dropdown-wrapper edit-dropdown">
+    <span role="button" class="tabstrip-link dropdown-toggle" tabindex="0" aria-controls="edit-example-menu">
+        EDIT IN TELERIK REPL
+        <span class="icon arrow">@Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\arrow-60-down.svg")))</span>
+    </span>
+    <div id="edit-example-menu" role="menu" class="dropdown">
+        <ul role="none" class="kd-list">
+            <li role="menuitem">
+				<span class="try-telerik track--edit-in-repl">
+					<span class="icon"></span>
+					<span class="kd-link">
+						Edit in Telerik REPL
+					</span>
+				</span>
+            </li>
+            <li role="menuitem" class="theme-builder track--edit-in-themebuilder">
+                @Html.Partial("ThemeBuilderButton", true)
+            </li>
+        </ul>
+    </div>
+</div> }
+else
+{
+    if (!components.Contains(currentComponent))
+    {
+        <span role="link" tabindex="0" class="track--edit-in-themebuilder">
+            @Html.Partial("ThemeBuilderButton", false)
+        </span>
+    }
+
+    if (!modelBindingComponents.Contains(currentExample))
+    {
+        <span role="link" tabindex="0" class="tabstrip-link tb-edit-button try-telerik track--edit-in-repl">
+            <span>
+                Edit in Telerik REPL
+            </span>
+            <span class="icon">
+                @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\hyperlink-open-sm.svg")))
+            </span>
+        </span>
+    }
+}
+
+<form id="repl-form" action="https://netcorerepl.telerik.com/" method="post" target="_blank">
+    <input id="ThemeName" name="ThemeName" type="hidden" />
+    <input id="DemoContent" name="DemoContent" type="hidden" />
+    <input id="DemoUrl" name="DemoUrl" type="hidden" />
+</form>

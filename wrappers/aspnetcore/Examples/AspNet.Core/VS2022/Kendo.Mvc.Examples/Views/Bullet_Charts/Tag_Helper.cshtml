@@ -1,0 +1,185 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <table class="history">
+        <tr>
+            <td class="item">mmHg</td>
+            <td class="chart">
+                <kendo-chart name="chart-mmHg">
+                    <chart-legend visible="false"></chart-legend>
+                    <series-defaults type="ChartSeriesType.Bullet"></series-defaults>
+
+                    <series>
+                        <series-item data="new double[][] { new double[] { 750, 762.5 }}"></series-item>
+                    </series>
+
+                    <chart-area>
+                        <margin top="0" />
+                        <margin right="0" />
+                        <margin bottom="0" />
+                        <margin left="0" />
+                    </chart-area>
+
+                    <category-axis>
+                        <category-axis-item>
+                            <major-grid-lines visible="false" />
+                            <major-ticks visible="false" />
+                        </category-axis-item>
+                    </category-axis>
+
+                    <value-axis>
+                        <value-axis-item type="numeric" min="715" max="795">
+                            <minor-ticks visible="true" />
+                            <major-grid-lines visible="false" />
+                            <plot-bands>
+                                <chart-value-axis-plot-band from="715" to="752" color="#ccc" opacity="0.6"></chart-value-axis-plot-band>
+                                <chart-value-axis-plot-band from="752" to="772" color="#ccc" opacity="0.3"></chart-value-axis-plot-band>
+                            </plot-bands>
+                        </value-axis-item>
+                    </value-axis>
+
+                    <tooltip visible="true" shared="true" template="Maximum: #= value.target # <br /> Average: #= value.current #"></tooltip>
+                </kendo-chart>
+            </td>
+        </tr>
+        <tr>
+            <td class="item">hPa</td>
+            <td class="chart">
+                <kendo-chart name="chart-hPa">
+                    <chart-legend visible="false"></chart-legend>
+                    <series-defaults type="ChartSeriesType.Bullet"></series-defaults>
+
+                    <series>
+                        <series-item data="new double[][] { new double[] { 1001, 1017 }}"></series-item>
+                    </series>
+
+                    <chart-area>
+                        <margin top="0" />
+                        <margin right="0" />
+                        <margin bottom="0" />
+                        <margin left="0" />
+                    </chart-area>
+
+                    <category-axis>
+                        <category-axis-item>
+                            <major-grid-lines visible="false" />
+                            <major-ticks visible="false" />
+                        </category-axis-item>
+                    </category-axis>
+
+                    <value-axis>
+                        <value-axis-item type="numeric" min="955" max="1055">
+                            <minor-ticks visible="true" />
+                            <major-grid-lines visible="false" />
+                            <plot-bands>
+                                <chart-value-axis-plot-band from="955" to="1002" color="#ccc" opacity="0.6"></chart-value-axis-plot-band>
+                                <chart-value-axis-plot-band from="1002" to="1027" color="#ccc" opacity="0.3"></chart-value-axis-plot-band>
+                            </plot-bands>
+                        </value-axis-item>
+                    </value-axis>
+
+                    <tooltip visible="true" shared="true" template="Maximum: #= value.target # <br /> Average: #= value.current #"></tooltip>
+                </kendo-chart>
+            </td>
+        <tr>
+            <td class="item">hum</td>
+            <td class="chart">
+                <kendo-chart name="chart-hum">
+                    <chart-legend visible="false"></chart-legend>
+                    <series-defaults type="ChartSeriesType.Bullet"></series-defaults>
+
+                    <series>
+                        <series-item data="new double[][] { new double[] { 45, 60 }}"></series-item>
+                    </series>
+
+                    <chart-area>
+                        <margin top="0" />
+                        <margin right="0" />
+                        <margin bottom="0" />
+                        <margin left="0" />
+                    </chart-area>
+
+                    <category-axis>
+                        <category-axis-item>
+                            <major-grid-lines visible="false" />
+                            <major-ticks visible="false" />
+                        </category-axis-item>
+                    </category-axis>
+
+                    <value-axis>
+                        <value-axis-item type="numeric" min="0" max="100">
+                            <minor-ticks visible="true" />
+                            <major-grid-lines visible="false" />
+                            <plot-bands>
+                                <chart-value-axis-plot-band from="0" to="33" color="#ccc" opacity="0.6"></chart-value-axis-plot-band>
+                                <chart-value-axis-plot-band from="33" to="66" color="#ccc" opacity="0.3"></chart-value-axis-plot-band>
+                            </plot-bands>
+                        </value-axis-item>
+                    </value-axis>
+
+                    <tooltip visible="true" shared="true" template="Maximum: #= value.target # <br /> Average: #= value.current #"></tooltip>
+                </kendo-chart>
+            </td>
+        </tr>
+        <tr>
+            <td class="item">temp</td>
+            <td class="chart">
+                <kendo-chart name="chart-temp">
+                    <chart-legend visible="false"></chart-legend>
+                    <series-defaults type="ChartSeriesType.Bullet"></series-defaults>
+
+                    <series>
+                        <series-item data="new double[][] { new double[] { 25, 22 }}"></series-item>
+                    </series>
+
+                    <chart-area>
+                        <margin top="0" />
+                        <margin right="0" />
+                        <margin bottom="0" />
+                        <margin left="0" />
+                    </chart-area>
+
+                    <category-axis>
+                        <category-axis-item>
+                            <major-grid-lines visible="false" />
+                            <major-ticks visible="false" />
+                        </category-axis-item>
+                    </category-axis>
+
+                    <value-axis>
+                        <value-axis-item type="numeric" min="0" max="30">
+                            <minor-ticks visible="true" />
+                            <major-grid-lines visible="false" />
+                            <plot-bands>
+                                <chart-value-axis-plot-band from="0" to="10" color="yellow" opacity="0.3"></chart-value-axis-plot-band>
+                                <chart-value-axis-plot-band from="10" to="20" color="orange" opacity="0.3"></chart-value-axis-plot-band>
+                                <chart-value-axis-plot-band from="20" to="30" color="red" opacity="0.3"></chart-value-axis-plot-band>
+                            </plot-bands>
+                        </value-axis-item>
+                    </value-axis>
+
+                    <tooltip visible="true" shared="true" template="Maximum: #= value.target # <br /> Average: #= value.current #"></tooltip>
+                </kendo-chart>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .history {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .history .k-chart {
+        height: 65px;
+    }
+
+    .history td.item {
+        line-height: 65px;
+        width: 20px;
+        text-align: right;
+        padding-bottom: 22px;
+    }
+</style>

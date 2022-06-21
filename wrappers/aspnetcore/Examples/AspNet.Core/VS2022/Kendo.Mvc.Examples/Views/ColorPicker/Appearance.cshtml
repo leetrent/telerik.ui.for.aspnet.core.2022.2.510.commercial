@@ -1,0 +1,120 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Size:</h4>
+                <input id="size" name="size" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Fill Mode:</h4>
+                <input id="fillMode" name="fillMode" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <h4>Border Radius:</h4>
+                <input id="rounded" name="rounded" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section hidden-on-narrow wide">
+    <div class="column">
+        <h3 class="title"><label for="picker">Choose Your Color</label></h3>
+        @(Html.Kendo().ColorPicker()
+            .Name("picker")
+            .Value("#ff0000")
+            .Format(ColorPickerFormat.Rgb)
+            .Formats(new string[] { "rgb", "hex" })
+        )
+    </div>
+</div>
+
+<style>
+    .demo-section {
+        display: inline-flex;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .column {
+        margin: auto;
+        text-align: center;
+    }
+
+        .column .title {
+            color: #a3a3a3;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: normal;
+            padding: 41px 0 20px;
+        }
+
+    .k-colorpicker {
+        vertical-align: top;
+        margin: 20px 0;
+    }
+</style>
+
+<script>
+        $(document).ready(function () {
+            var colorPicker = $('#picker').data('kendoColorPicker');
+
+            var size = $("#size").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                value: "medium",
+                change: onChange,
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" }
+                ]
+            }).data("kendoDropDownList");
+
+            var rounded = $("#rounded").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                change: onChange,
+                value: "medium",
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" },
+                    { text: "Full", value: "full" }
+                ]
+            }).data("kendoDropDownList");
+
+            var fill = $("#fillMode").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                change: onChange,
+                value: "solid",
+                dataSource: [
+                    { text: "Solid", value: "solid" },
+                    { text: "Flat", value: "flat" },
+                    { text: "Outline", value: "outline" }
+                ]
+            }).data("kendoDropDownList");
+
+            function onChange(e) {
+                var sizeValue = size.value();
+                var roundedValue = rounded.value();
+                var fillValue = fill.value();
+
+                colorPicker.setOptions({
+                    size: sizeValue,
+                    rounded: roundedValue,
+                    fillMode: fillValue
+                })
+            }
+        });
+</script>

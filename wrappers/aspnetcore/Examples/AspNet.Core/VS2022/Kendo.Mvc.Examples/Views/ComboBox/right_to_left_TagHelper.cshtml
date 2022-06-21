@@ -1,0 +1,23 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var rtl_data = new List<SelectListItem>()
+        {
+                    new SelectListItem() {
+                        Text = "Item 1", Value = "1"
+                    },
+                    new SelectListItem() {
+                        Text = "Item 2", Value = "2"
+                    },
+                    new SelectListItem() {
+                        Text = "Item 3", Value = "3"
+                    }
+                };
+}
+<div class="demo-section">
+    <div class="k-rtl">
+        <h4>RTL ComboBox</h4>
+        <kendo-combobox datatextfield="Text" datavaluefield="Value" suggest="true" filter="FilterType.StartsWith" name="combobox" style="width:100%;" bind-to="rtl_data">
+        </kendo-combobox>
+    </div>
+</div>

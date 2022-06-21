@@ -1,0 +1,91 @@
+<div class="demo-section">
+    <div id="validation-success"></div>
+    @(Html.Kendo().Form<Kendo.Mvc.Examples.Models.Form.UserViewModel>()
+        .Name("Form")
+        .HtmlAttributes(new { method = "POST"})
+        .Items(items =>
+        {
+            items.AddGroup()
+                .Label("Sign up")
+                .Items(i =>
+                {
+                    i.Add()
+                         .Field(f => f.FirstName)
+                         .Label(l => l.Text("First Name:"))
+                         .Hint("Hint: First Name is Required");
+                    i.Add()
+                         .Field(f => f.LastName)
+                         .Label(l => l.Text("Last Name:"))
+                         .Hint("Hint: Last Name is Required");
+                    i.Add()
+                        .Field(f => f.UserName)
+                        .Label(l => l.Text("User Name:"))
+                        .Hint("Hint: The UserName field is required.");
+                    i.Add()
+                        .Field(f => f.Password)
+                        .Label(l => l.Text("Password:"))
+                        .Hint("Hint: Password is required")
+                        .EditorTemplateHandler("setPasswordEditor");
+                    i.Add().Field("Captcha").Editor(ed => ed.Captcha()
+                        .CaptchaImage((string)ViewData["Captcha"])
+                        .CaptchaId((string)ViewData["CaptchaID"])
+                        .DataCaptchaField("Captcha")
+                        .DataCaptchaIdField("CaptchaID")
+                        .Handler(handler => handler.Action("Reset", "Captcha"))
+                        .AudioHandlerFunction("audioHandler")
+                        .ValidationHandler(handler => handler.Action("Validate", "Captcha"))
+                        );
+                });
+        })
+        .Events(ev => ev.ValidateField("onFormValidateField").Submit("onFormSubmit"))
+)
+</div>
+
+@section scripts {
+    <script>
+    $(document).on("kendoReady", function() {
+        $("#form").kendoValidator();
+    });
+
+    function setPasswordEditor(container, options) {
+        $('<input type="password" id="Password" name="' + options.field + '" title="Password" required="required" autocomplete="off" aria-labelledby="Password-form-label" data-bind="value: Password" aria-describedby="Password-form-hint"/>')
+            .appendTo(container)
+            .kendoTextBox();
+    }
+
+    function audioHandler(args) {
+        args.success("./shared/UserFiles/captcha/" + args.data.CaptchaID + ".wav");
+    }
+
+    function onFormValidateField(e) {
+        $("#validation-success").html("");
+    }
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        $("#validation-success").html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+    }
+    </script>
+}
+
+
+<style>
+    .k-form-legend {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .demo-section {
+        width: 45%;
+    }
+
+    .k-form {
+        width: 35%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .k-form-clear {
+        display: none;
+    }
+</style>

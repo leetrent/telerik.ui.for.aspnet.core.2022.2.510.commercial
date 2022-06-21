@@ -1,0 +1,117 @@
+@using Kendo.Mvc.UI
+
+<script id="fileTemplate" type="text/x-kendo-template">
+    <span class='k-progress'></span>
+    <div class='file-wrapper'>
+        <span class='file-icon #=addExtensionClass(files[0].extension)#'></span>
+        <h4 class='file-heading file-name-heading'>Name: #=name#</h4>
+        <h4 class='file-heading file-size-heading'>Size: #=size# bytes</h4>
+        <strong class="k-upload-status">
+            <button type='button' class='k-upload-action'></button>
+            <button type='button' class='k-upload-action'></button>
+        </strong>
+    </div>
+</script>
+
+<div class="demo-section">
+    @(Html.Kendo().Upload()
+            .Name("files")
+            .TemplateId("fileTemplate")
+            .Async(a => a
+                .Save("Templates_Save", "Upload")
+                .Remove("Templates_Remove", "Upload")
+                .AutoUpload(false)
+            )
+    )
+</div>
+
+<script type="text/javascript">
+    function addExtensionClass(extension) {
+        switch (extension) {
+            case '.jpg':
+            case '.img':
+            case '.png':
+            case '.gif':
+                return "img-file";
+            case '.doc':
+            case '.docx':
+                return "doc-file";
+            case '.xls':
+            case '.xlsx':
+                return "xls-file";
+            case '.pdf':
+                return "pdf-file";
+            case '.zip':
+            case '.rar':
+                return "zip-file";
+            default:
+                return "default-file";
+        }
+    }
+</script>
+
+<style>
+    .file-icon {
+        display: inline-block;
+        float: left;
+        width: 48px;
+        height: 48px;
+        margin-left: 10px;
+        margin-top: 13.5px;
+    }
+
+    .img-file {
+        background-image: url(../shared/web/upload/jpg.png);
+    }
+
+    .doc-file {
+        background-image: url(../shared/web/upload/doc.png);
+    }
+
+    .pdf-file {
+        background-image: url(../shared/web/upload/pdf.png);
+    }
+
+    .xls-file {
+        background-image: url(../shared/web/upload/xls.png);
+    }
+
+    .zip-file {
+        background-image: url(../shared/web/upload/zip.png);
+    }
+
+    .default-file {
+        background-image: url(../shared/web/upload/default.png);
+    }
+
+    .file-heading {
+        font-family: Arial;
+        font-size: 1.1em;
+        display: inline-block;
+        float: left;
+        width: 60%;
+        margin: 0 0 0 20px;
+        height: 25px;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .file-name-heading {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .file-size-heading {
+        font-weight: normal;
+        font-style: italic;
+    }
+
+    li.k-file div.file-wrapper {
+        position: relative;
+        height: 75px;
+        width: 100%;
+    }
+</style>

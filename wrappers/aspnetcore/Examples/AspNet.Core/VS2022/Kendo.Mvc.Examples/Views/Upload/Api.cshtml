@@ -1,0 +1,49 @@
+@using Kendo.Mvc.UI
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>API Functions</h4>
+        <ul class="options">
+            <li>
+                <button class="toggleEnabled">Toggle enabled state</button>
+            </li>
+            <li>
+                <button class="enable">Enable</button> <button class="disable">Disable</button>
+            </li>
+        </ul>
+    </div>
+</div>
+    <form method="post">
+        <div class="demo-section">
+            @(Html.Kendo().Upload()
+                .Name("files")
+                .Async(a => a
+                    .Save("Api_Save", "Upload")
+                    .Remove("Api_Remove", "Upload")
+                    .AutoUpload(true)
+                )
+            )
+        </div>
+    </form>
+    @section scripts {
+        <script>
+            function getUpload() {
+                return $("#files").data("kendoUpload");
+            }
+
+            $(document).on("kendoReady", function () {
+                $(".toggleEnabled").click(function () {
+                    getUpload().toggle();
+                });
+
+                $(".enable").click(function () {
+                    getUpload().enable();
+                });
+
+                $(".disable").click(function () {
+                    getUpload().disable();
+                });
+            });
+        </script>
+    }

@@ -1,0 +1,49 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var multiSelect_data = new List<string>()
+    {
+        "Steven White",
+        "Nancy King",
+        "Anne King",
+        "Nancy Davolio",
+        "Robert Davolio",
+        "Michael Leverling",
+        "Andrew Callahan",
+        "Michael Suyama",
+        "Anne King",
+        "Laura Peacock",
+        "Robert Fuller",
+        "Janet White",
+        "Nancy Leverling",
+        "Robert Buchanan",
+        "Andrew Fuller",
+        "Anne Davolio",
+        "Andrew Suyama",
+        "Nige Buchanan",
+        "Laura Fuller"
+    };
+}
+
+<div class="demo-section">
+    <h4>'Single' tag mode</h4>
+    <kendo-multiselect name="required"
+        auto-close="false"
+        tag-mode="@MultiSelectTagMode.Single"
+        placeholder="Select attendees..."
+        value='new string[] { "Anne King", "Andrew Fuller" }'
+        bind-to="multiSelect_data">
+    </kendo-multiselect>
+
+    <h4>'Multiple' tag mode</h4>
+    <kendo-multiselect name="optional"
+        auto-close="false"
+        placeholder="Select attendees..."
+        bind-to="multiSelect_data">
+    </kendo-multiselect>
+</div>
+<style>
+    .demo-section * + h4 {
+        margin-top: 2em;
+    }
+</style>

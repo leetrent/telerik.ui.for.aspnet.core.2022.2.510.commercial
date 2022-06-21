@@ -1,0 +1,53 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" style="height:550px;">
+    <columns>
+        <column field="OrderID" width="100">
+        </column>
+        <column field="Freight" width="100">
+        </column>
+        <column field="OrderDate" width="100" format="{0:dd/MM/yyyy}">
+        </column>
+        <column field="ShipName" width="100">
+        </column>
+        <column field="ShipCity" width="100">
+        </column>
+    </columns>
+    <toolbar>
+        <toolbar-button name="search">
+        </toolbar-button>
+    </toolbar>
+    <search fields-extended="@(new object[]
+                                        {new {Name = "OrderID", Operator = "eq"},
+                                         new {Name = "Freight", Operator = "gt"},
+                                         new {Name = "ShipName", Operator = "contains"},
+                                         new {Name = "ShipCity", Operator = "contains"} }) ">
+    </search>
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="20">
+        <schema data="Data" total="Total" errors="Errors">
+            <model id="OrderID">
+                <fields>
+                    <field name="OrderID" type="number"></field>
+                    <field name="ShipName" type="string"></field>
+                    <field name="ShipCity" type="string"></field>
+                    <field name="OrderDate" type="Date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="@Url.Action("Orders_Read", "Grid" )" />
+        </transport>
+    </datasource>
+    <pageable button-count="5">
+        <messages display="{0} - {1} of {2} items" empty="No items to display" page="Page" of="of {0}" items-per-page="items per page" first="Go to the first page" previous="Go to the previous page" next="Go to the next page" last="Go to the last page" refresh="Refresh" more-pages="More pages" />
+    </pageable>
+    <sortable enabled="true" />
+</kendo-grid>
+
+<style>
+    .k-grid .k-grid-search {
+        display: flex;
+        margin-left: auto;
+        margin-right: 0;
+    }
+</style>

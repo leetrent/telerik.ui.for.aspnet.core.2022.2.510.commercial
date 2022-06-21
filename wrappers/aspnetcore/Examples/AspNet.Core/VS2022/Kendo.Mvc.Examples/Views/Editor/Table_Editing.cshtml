@@ -1,0 +1,75 @@
+@* Make sure tag helpers are not available for the Editor content *@
+@removeTagHelper "*, Microsoft.AspNet.Mvc.Razor"
+@removeTagHelper "*, Microsoft.AspNetCore.Mvc.Razor"
+
+@(Html.Kendo().Editor()
+      .Name("editor")
+      .HtmlAttributes(new { style = "height:440px", aria_label = "editor" })
+      .Tools(tools => tools.Clear().TableEditing())
+      .Value(@<text>
+          <table class="k-table" style="width: 769px; height: 178px;">
+            <tbody>
+                <tr style="height: 22.905%;" data-role="resizable">
+                    <td style="width: 12.5%;" data-role="resizable" colspan="2"><strong>Next</strong><strong> Q Marketing
+                            Budget</strong></td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable" colspan="2"><strong>January</strong>
+                    </td>
+                    <td style="width: 12.5%; text-align: center;" colspan="2" data-role="resizable"><strong>February</strong>
+                    </td>
+                    <td style="width: 12.5%; text-align: center;" colspan="2"><strong>March</strong></td>
+                </tr>
+                <tr style="height: 22.905%;" data-role="resizable">
+                    <td style="width: 12.5%;" data-role="resizable" rowspan="5"><strong>Campaign</strong></td>
+                    <td style="width: 12.5%;" data-role="resizable"></td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Planned</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Actual</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Planned</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Actual</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Planned</td>
+                    <td style="width: 12.5%; text-align: center;">Actual</td>
+                </tr>
+                <tr style="height: 15.0838%;" data-role="resizable">
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Social Media</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">2000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">1850</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable"><span
+                            style="text-align: center;">2000</span></td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable"><span
+                            style="text-align: center;">2000</span></td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable"><span
+                            style="text-align: center;">2000</span></td>
+                    <td style="width: 12.5%; text-align: center;"><span style="text-align: center;">2000</span></td>
+                </tr>
+                <tr style="height: 14.5251%;" data-role="resizable">
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">TV Ads</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">40 000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">55 000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable"><span style="text-align: center;">40
+                            000</span></td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">40 000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable"><span
+                            style="text-align: center;">-</span></td>
+                    <td style="width: 12.5%; text-align: center;">-</td>
+                </tr>
+                <tr style="height: 12.8492%;" data-role="resizable">
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Flyers</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">550</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">550</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">-&nbsp;</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">-</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">-</td>
+                    <td style="width: 12.5%; text-align: center;">-</td>
+                </tr>
+                <tr style="height: 11.7318%;">
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">Radio Ads</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">15 000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">15 000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">10 000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">10 000</td>
+                    <td style="width: 12.5%; text-align: center;" data-role="resizable">5000</td>
+                    <td style="width: 12.5%; text-align: center;">5000</td>
+                </tr>
+            </tbody>
+        </table>
+      </text>)
+)

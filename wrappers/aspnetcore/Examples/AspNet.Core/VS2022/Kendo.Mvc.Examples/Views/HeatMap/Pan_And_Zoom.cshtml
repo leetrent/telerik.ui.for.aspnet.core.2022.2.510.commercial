@@ -1,0 +1,12 @@
+<div class="demo-section wide">
+    @(Html.Kendo().Chart()
+        .Name("heatmap")
+        .Series(s=>s.HeatMap("Value", "Column", "Row").Labels(l=>l.Visible(false)))
+        .DataSource(dataSource=> dataSource.Read("HeatMap_Data", "HeatMap"))
+        .Legend(legend=>legend.Visible(false))
+        .Pannable()
+        .Zoomable()
+        .XAxis(x => x.Min(10))
+        .YAxis(x=>x.Min(15))
+    )
+</div>

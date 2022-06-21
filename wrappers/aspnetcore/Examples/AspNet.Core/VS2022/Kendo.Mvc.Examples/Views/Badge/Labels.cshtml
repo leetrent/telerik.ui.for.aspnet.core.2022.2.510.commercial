@@ -1,0 +1,76 @@
+<div class="demo-section">
+    <script type="text/x-kendo-template" id="template">
+        <div class="issue">
+            <h4>
+                #:Title#
+                #if(Type === 'feature'){#
+                    @(Html.Kendo().Badge()
+                        .Name("feature#=Id#")
+                        .ThemeColor(BadgeColor.Info)
+                        .Text("Feature request")
+                        .ToClientTemplate()
+                    )
+                #}#
+                #if(Type === 'enhancement'){#
+                    @(Html.Kendo().Badge()
+                        .Name("enhancement#=Id#")
+                        .ThemeColor(BadgeColor.Warning)
+                        .Text("Enhancement")
+                        .ToClientTemplate()
+                    )
+                #}#
+                #if(Type === 'bug'){#
+                    @(Html.Kendo().Badge()
+                        .Name("bug#=Id#")
+                        .ThemeColor(BadgeColor.Error)
+                        .Text("Bug")
+                        .ToClientTemplate()
+                    )
+                #}#
+                #if(Type === 'documentation'){#
+                    @(Html.Kendo().Badge()
+                        .Name("documentation#=Id#")
+                        .ThemeColor(BadgeColor.Primary)
+                        .Text("Documentation")
+                        .ToClientTemplate()
+                    )
+                #}#
+                #if(Approved){#
+                    @(Html.Kendo().Badge()
+                        .Name("approved#=Id#")
+                        .ThemeColor(BadgeColor.Success)
+                        .Text("Approved")
+                        .ToClientTemplate()
+                    )
+                #}#
+            </h4>
+            <p><small>#:AdditionalInfo#</small></p>
+        </div>
+    </script>
+    @(Html.Kendo().ToolBar()
+        .Name("toolbar")
+        .Items(items =>
+        {
+            items.Add().Template("<span class='k-d-flex k-flex-row k-align-items-center'><span class='k-icon k-i-warning'></span> 5 Open</span>");
+            items.Add().Template("<span class='k-d-flex k-flex-row k-align-items-center'><span class='k-icon k-i-check'></span> 90 Closed</span>");
+        })
+    )
+
+    @(Html.Kendo().ListView<IssueModel>()
+        .Name("listview")
+        .TagName("div")
+        .DataSource(d => d.Ajax().Read(r => r.Action("GetIssues", "Badge")))
+        .ClientTemplateId("template")
+    )
+</div>
+
+<style>
+    .issue {
+        padding: 10px 20px;
+        border-bottom: 1px solid lightgrey;
+    }
+
+    #toolbar .status-icon {
+        margin-inline-end: 4px;
+    }
+</style>

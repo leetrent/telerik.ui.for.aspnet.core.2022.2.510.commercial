@@ -1,0 +1,37 @@
+@addTagHelper "*, Kendo.Mvc"
+
+@{
+    var items = new List<IInputGroupItem>()
+    {
+        new InputGroupItemModel() { Label = "English", Enabled = true, Encoded = false, Value = "1" },
+        new InputGroupItemModel() { Label = "German",  Enabled = true, Encoded = false, Value = "2" },
+        new InputGroupItemModel() { Label = "Italian", Enabled = true, Encoded = false, Value = "3" },
+        new InputGroupItemModel() { Label = "Russian", Enabled = true, Encoded = false, Value = "4" },
+        new InputGroupItemModel() { Label = "Spanish", Enabled = true, Encoded = false, Value = "5" },     
+    };
+}
+
+<div class="demo-section k-rtl">
+    <label for="radiogroup" class="label">Select language:</label>
+    <kendo-radiogroup name="radiogroup"
+                      radio-name="radiogroup" 
+                      bind-to="items"
+                      layout="RadioGroupLayout.Vertical"
+                      label-position="RadioGroupLabelPosition.Before"
+                      value="3">
+    </kendo-radiogroup>
+</div>
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .k-form-hint {
+        margin-top: 10px;
+    }
+</style>

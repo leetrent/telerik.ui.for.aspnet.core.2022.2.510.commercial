@@ -1,0 +1,116 @@
+@{
+    Layout = null;
+    ViewBag.Product = "aspnet-core";
+    var theme = (string)@ViewBag.Theme != "material-v2" ? (string)@ViewBag.Theme : "sass";
+}
+
+@foreach (string scriptName in Kendo.Mvc.Examples.Models.ScriptGroups.All)
+{
+    <script src="@Url.Script(scriptName)"></script>
+}
+
+@foreach (string styleName in Kendo.Mvc.Examples.Models.StyleGroups.All)
+{
+    @Html.StyleLink(styleName, (string)ViewBag.Theme, (string)ViewBag.CommonFile, false)
+}
+
+    <script src="https://unpkg.com/@@aspnet/signalr@1.1.0/dist/browser/signalr.js"></script>
+    <script>
+        var url = "https://demos.telerik.com/aspnet-core/service/signalr/hubs/products";
+
+        var hub = new signalR.HubConnectionBuilder()
+            .withUrl(url, {
+                transport: signalR.HttpTransportType.LongPolling
+            })
+            .build();
+
+        var hubStart = hub.start();
+
+        function onPush(e) {
+            var notification = $("#notification").data("kendoNotification");
+            notification.success(e.type);
+        }
+
+        function showLoading() {
+            kendo.ui.progress($(".signalr-chart-container"), true);
+        }
+
+        function onRender(e) {
+            kendo.ui.progress($(".signalr-chart-container"), false);
+        }
+    </script>
+
+    @(Html.Kendo().Notification()
+      .Name("notification")
+      .Width("30%")
+      .Position(position => position
+          .Top(30)
+          .Right(30))
+)
+    <div class="signalr-chart-container" style="width:100%;">
+        @(Html.Kendo().Chart<Kendo.Mvc.Examples.Models.ProductViewModel>()
+            .Name("chart")
+            .ChartArea(ch=>ch.Height(1300))
+            .Theme(theme)
+            .Title("Products - Live Updates")
+            .DataSource(dataSource => dataSource
+               .SignalR()
+               .Sort(s=>s.Add(sort=>sort.Category.CategoryName))
+               .Group(g=>g.Add(gr=>gr.Category.CategoryID))
+               .Events(ev => ev.Push("onPush"))
+               .AutoSync(true)
+               .Transport(tr => tr
+                   .Promise("hubStart")
+                   .Hub("hub")
+                   .Client(c => c
+                       .Read("read")
+                       .Create("create")
+                       .Update("update")
+                       .Destroy("destroy"))
+                   .Server(s => s
+                       .Read("read")
+                       .Create("create")
+                       .Update("update")
+                       .Destroy("destroy")))
+                       .Events(e=>e.RequestStart("showLoading"))
+               .Schema(schema => schema
+                .Model(model =>
+                {
+                    model.Id("ID");
+                    model.Field("ID", typeof(int)).Editable(false);
+                    model.Field("UnitsInStock", typeof(int));
+                    model.Field(m => m.Category).DefaultValue(new CategoryViewModel() { CategoryID = 1, CategoryName = "Beverages" });
+                }))
+             )
+            .Series(series =>
+            {
+                series.Bar(
+                    valueExpression: model => model.UnitsInStock,
+                    categoryExpression: model => model.ProductName).Spacing(-1);
+            })
+             .CategoryAxis(axis =>
+                 axis.Labels(labels => {
+                     labels.Position(ChartAxisLabelsPosition.OnAxis);
+                     labels.TemplateId("shortLabels");
+                 }))
+                 .Tooltip(tooltip => tooltip
+                 .Visible(true)
+                 .Template("#= category #: #= value #")
+
+             )
+             .Legend(l => l.Visible(false))
+             .Events(ev=>ev.Render("onRender"))
+       )
+    </div>
+    <style>
+        .signalr-chart-container {
+            height: 600px;
+        }
+    </style>
+    <script id="shortLabels" type="text/x-kendo-template">
+        # if (value.length > 8) { #
+        # value = value.substring(0, 8);#
+        # return value + "...";#
+        #  } #
+        # return value; #
+    </script>

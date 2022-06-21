@@ -1,0 +1,43 @@
+@using Kendo.Mvc
+@using Kendo.Mvc.Examples
+
+
+<script>
+    function onDataBound(e){
+         var grid = e.sender;
+            var items = e.sender.items();
+
+            items.each(function (e) {
+                var dataItem = grid.dataItem(this);
+                var ddt = $(this).find('.avatar');
+
+                $(ddt).kendoAvatar({
+                    type: "image",
+                    size: "large",
+                    rounded:"full",
+                    image: "https://demos.telerik.com/aspnet-core/shared/web/Customers/" + dataItem.CustomerID + ".jpg"
+                });
+            })
+    }
+</script>
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.Customer>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.ContactName).ClientTemplate("<div class='avatar'></div><span class='contact-name'>#: data.ContactName #</span>");
+        columns.Bound(p => p.Address);
+    })
+    .Events(events => events.DataBound("onDataBound"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .AutoSync(true)
+        .Model(model =>
+        {
+            model.Id(p => p.CustomerID);
+        
+        })
+        .Read("Customers_Read", "Grid")
+    )
+)

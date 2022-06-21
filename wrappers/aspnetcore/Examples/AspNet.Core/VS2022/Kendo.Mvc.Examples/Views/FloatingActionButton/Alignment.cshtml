@@ -1,0 +1,118 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Alignment Settings relative to the container</h4>
+        @(Html.Kendo().DropDownList()
+            .Name("alignment")
+            .Items(items =>
+            {
+                items.Add().Value("top start").Text("top left");
+                items.Add().Value("top center").Text("top center");
+                items.Add().Value("top end").Text("top right");
+                items.Add().Value("middle start").Text("middle left");
+                items.Add().Value("middle end").Text("middle right");
+                items.Add().Value("bottom start").Text("bottom left");
+                items.Add().Value("bottom center").Text("bottom center");
+                items.Add().Value("bottom end").Text("bottom right");
+            })
+            .Events(ev => ev.Change("onChange"))
+        )
+    </div>
+    <div class="box-col">
+        <h4>Position Settings</h4>
+        @(Html.Kendo().DropDownList()
+            .Name("position")
+            .Items(items =>
+            {
+                items.Add().Text("absolute").Value("absolute");
+                items.Add().Text("fixed").Value("fixed");
+            })
+            .Events(ev => ev.Change("onChange"))
+        )
+    </div>
+    <div class="box-col">
+        <h4>Alignment Offset Settings</h4>
+        <ul class="options">
+            <li>
+                <label for="offsetX">Offset X</label>
+                @(Html.Kendo().NumericTextBox()
+                    .Name("offsetX")
+                    .Value(50)
+                    .Min(-100)
+                    .Max(100)
+                    .Step(10)
+                    .Format("n0")
+                    .Decimals(0)
+                    .Events(ev => ev.Change("onChange"))
+                )
+            </li>
+
+            <li>
+                <label for="offsetY">Offset Y</label>
+                @(Html.Kendo().NumericTextBox()
+                    .Name("offsetY")
+                    .Value(50)
+                    .Min(-100)
+                    .Max(100)
+                    .Step(10)
+                    .Format("n0")
+                    .Decimals(0)
+                    .Events(ev => ev.Change("onChange"))
+                )
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="demo-section wide" style="height:300px;position:relative">
+    @(Html.Kendo().FloatingActionButton()
+        .Name("fab")
+        .ThemeColor(FloatingActionButtonThemeColor.Primary)
+        .Align(FloatingActionButtonAlign.TopStart)
+        .PositionMode(FloatingActionButtonPositionMode.Absolute)
+        .Icon("share")
+        .Items(items=>
+        {
+            items.Add().Label("Download").Icon("download").Click("onItemClick");
+            items.Add().Label("Print").Icon("print").Click("onItemClick");
+            items.Add().Label("Email").Icon("email").Click("onItemClick");
+        })
+        .AlignOffset(alignOffset =>
+        {
+            alignOffset.Horizontal(50);
+            alignOffset.Vertical(50);
+        })
+    )
+</div>
+
+@section scripts{
+    <script>
+        function onChange() {
+            var alignment = $("#alignment").getKendoDropDownList().value();
+            var position = $("#position").getKendoDropDownList().value();
+            var offsetX = $("#offsetX").getKendoNumericTextBox().value();
+            var offsetY = $("#offsetY").getKendoNumericTextBox().value();
+            var options = {
+                align: alignment,
+                positionMode: position,
+                alignOffset: {
+                    x: offsetX,
+                    y: offsetY
+                }
+            };
+
+            var fab = $("#fab").getKendoFloatingActionButton();
+            fab.setOptions(options);
+        }
+
+        function onItemClick(e) {
+            kendo.alert($(e.target).text() + " action");
+        }
+    </script>
+}
+
+<style>
+    .k-fab.k-pos-fixed {
+        z-index: 999999;
+    }
+</style>

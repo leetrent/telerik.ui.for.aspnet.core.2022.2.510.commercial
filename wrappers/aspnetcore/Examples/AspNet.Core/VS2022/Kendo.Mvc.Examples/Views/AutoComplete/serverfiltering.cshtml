@@ -1,0 +1,29 @@
+<div class="demo-section">
+    <h4>Find a product</h4>
+    @(Html.Kendo().AutoComplete()
+          .Name("products")
+          .DataTextField("ProductName")
+          .Filter("contains")
+          .MinLength(3)
+          .HtmlAttributes(new { style = "width:100%" })
+          .DataSource(source => {
+              source
+                  .Read(read =>
+                  {
+                      read.Action("ServerFiltering_GetProducts", "AutoComplete")
+                      .Data("onAdditionalData");
+                  })
+                  .ServerFiltering(true);
+          })
+    )
+    <div class="demo-hint">Hint: type "che"</div>
+    @section scripts {
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#products").val()
+        };
+    }
+    </script>
+}
+</div>

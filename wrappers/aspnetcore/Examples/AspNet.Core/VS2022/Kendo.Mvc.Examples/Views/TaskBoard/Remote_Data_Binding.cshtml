@@ -1,0 +1,68 @@
+<div class="demo-section wide">
+
+    <script id="card-template" type="text/x-kendo-template">
+        <div class="template-container">
+            <div>
+                <div class="k-card-header k-hbox">
+                    <a class="k-card-title k-link" href="" data-command="SelectCardCommand">#: Title #</a><span class="k-spacer"></span>
+                </div>
+                <div class="k-card-body">
+                    <p>#= (Description == null) ? ' ' : Description #</p>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    @(Html.Kendo().TaskBoard<Kendo.Mvc.Examples.Models.Scheduler.TaskViewModel, Kendo.Mvc.Examples.Models.TaskBoard.Column>()
+        .Name("taskBoard")
+        .ColumnSettings(columnSettings => columnSettings
+            .DataTextField("Text")
+            .DataStatusField("ID")
+        )
+        .Columns(dataSource => dataSource
+            .Ajax()
+            .Read("Remote_Data_Binding_Columns_Read", "TaskBoard")
+        )
+        .DataTitleField("Title")
+        .DataStatusField("OwnerID")
+        .DataDescriptionField("Description")
+        .DataCategoryField("ID")
+        .TemplateId("card-template")
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model => model.Id(p => p.TaskID))
+            .Read(read => read.Action("Remote_Data_Binding_Read", "TaskBoard"))
+            .Update(update => update.Action("Remote_Data_Binding_Update", "TaskBoard"))
+        )
+        .Editable(false)
+        .Height("500")
+        .Events(ev =>
+        {
+            ev.Execute("onExecute");
+        })
+    )
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function onExecute(ev) {
+            if (ev.command === "MoveCardCommand") {
+                ev.preventDefault();
+            }
+        }
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .k-card-header-actions {
+        display: none;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>

@@ -1,0 +1,140 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Select</h4>
+        <ul class="options">
+            <li>
+                <button id="selectedCard">Get Selected Card</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Enable / Disable</h4>
+        <ul class="options">
+            <li>
+                <button id="toggleCard">Enable/Disable Selected Card</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Add Column</h4>
+        <ul class="options">
+            <li>
+                <input type="text" value="New Column Text" id="newColumnText" />
+                <button id="addColumn">Add Column</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Add / Delete Card</h4>
+        <ul class="options">
+            <li>
+                <button id="deleteCard">Delete Selected Card</button>
+            </li>
+            <li>
+                <input type="text" value="New Card Title" id="newCardTitle" />
+                <input type="text" value="New Card Description" id="newCardDescription" />
+                <button id="addCard">Add a new "To-Do" Card</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@using Kendo.Mvc.Examples.Models.TaskBoard
+
+<div class="demo-section wide">
+    @(Html.Kendo().TaskBoard()
+        .Name("taskBoard")
+        .Columns(c =>
+        {
+            c.Add().Text("To-do").Status("todo");
+            c.Add().Text("In Progress").Status("inProgress");
+            c.Add().Text("Done").Status("done");
+        })
+        .DataCategoryField("Color")
+        .DataDescriptionField("Description")
+        .DataStatusField("Status")
+        .DataTitleField("Title")
+        .DataOrderField("Order")
+        .BindTo((IEnumerable<CardViewModel>)ViewBag.Cards)
+        .Resources(r => r
+            .Add().Field("Color")
+            .DataColorField("Color")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .BindTo(
+                new List<Resource>()
+                    {
+                        new Resource { Color = "#ffa500", Text = "orange", Value = "orange"},
+                        new Resource { Color = "#008000", Text = "green", Value = "green" },
+                        new Resource { Color = "#0000ff", Text = "blue", Value = "blue"}
+                    }
+            )
+        )
+        .Height("750")
+    )
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).on("kendoReady", function () {
+            var taskBoard = $("#taskBoard").data("kendoTaskBoard");
+
+            $("#selectedCard").click(function () {
+                var card = taskBoard.select();
+
+                if (card.length != 0) {
+                    var selectedCardUid = $(card[0]).attr("data-uid");
+                    var selectedCardTitle = taskBoard.dataSource.getByUid(selectedCardUid).Title;
+
+                    alert(selectedCardTitle);
+                }
+                else {
+                    alert("No card is selected. Select a card by clicking on its title.");
+                }
+            });
+
+            $("#toggleCard").click(function () {
+                var card = taskBoard.select();
+
+                if (card.length != 0) {
+                    taskBoard.enable(card, card.hasClass("k-state-disabled"));
+                }
+                else {
+                    alert("No card is selected. Select a card by clicking on its title.");
+                }
+            });
+
+            $("#addColumn").click(function () {
+                taskBoard.addColumn({ Text: $("#newColumnText").val(), Status: "noStatus" });
+            });
+
+            $("#deleteCard").click(function () {
+                var card = taskBoard.select();
+
+                if (card.length != 0) {
+                    taskBoard.deleteCard(card);
+                }
+                else {
+                    alert("No card is selected.");
+                }
+            });
+
+            $("#addCard").click(function () {
+                taskBoard.addCard({ Title: $("#newCardTitle").val(), Description: $("#newCardDescription").val(), Status: "todo" });
+            });
+        });
+
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>

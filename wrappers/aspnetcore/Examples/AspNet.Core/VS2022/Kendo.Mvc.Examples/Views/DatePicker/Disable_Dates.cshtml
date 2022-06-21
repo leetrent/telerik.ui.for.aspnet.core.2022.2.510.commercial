@@ -1,0 +1,50 @@
+<div id="example">
+    <div class="demo-section" style="text-align: center;">
+        <h4>Disable weekends</h4>
+        @(Html.Kendo().DatePicker()
+                .Name("weekend-date-picker")
+                .DisableDates(DayOfWeek.Saturday, DayOfWeek.Sunday)
+            )
+
+        <h4 style="margin-top: 1em">Disable Federal Holidays in USA in 2019</h4>
+        @(Html.Kendo().DatePicker()
+                .Name("national-date-picker")
+                .DisableDates("disableDates")
+                .Value("1/2/2019")
+            )
+    </div>
+    @section scripts {
+<script>
+        function disableDates(date) {
+            var dates = [
+                new Date("1/1/2019"),
+                new Date("1/21/2019"),
+                new Date("2/18/2019"),
+                new Date("5/27/2019"),
+                new Date("7/4/2019"),
+                new Date("9/2/2019"),
+                new Date("10/14/2019"),
+                new Date("11/11/2019"),
+                new Date("11/28/2019"),
+                new Date("12/25/2019")
+            ];
+
+            if (date && compareDates(date, dates)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function compareDates(date, dates) {
+            for (var i = 0; i < dates.length; i++) {
+                if (dates[i].getDate() == date.getDate() &&
+                  dates[i].getMonth() == date.getMonth() &&
+                    dates[i].getYear() == date.getYear()) {
+                    return true
+                }
+            }
+        }
+    </script>
+}
+</div>

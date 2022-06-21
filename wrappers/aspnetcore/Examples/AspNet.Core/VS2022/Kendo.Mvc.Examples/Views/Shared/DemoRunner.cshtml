@@ -1,0 +1,104 @@
+@{ var autoRunQuery = Context.Request.Query["autoRun"]; }
+
+
+<div class="kd-example-runner tabstrip-container">
+    @if ((autoRunQuery != "true" && ViewBag.CurrentExample.Deferred) || autoRunQuery == "false")
+    {
+@Html.Partial("DeferredDemoButton")}
+
+    <div class="kd-loader-wrap">
+        <span class="kd-loader">
+            <span class="icon">
+                @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\thunder.svg")))
+            </span>
+            Loading Demo...
+        </span>
+    </div>
+
+    <div class="tabstrip">
+        <ul class="tabstrip-items">
+            <li class="tabstrip-item tabstrip-tab active" data-container="demo-runner">
+				<span role="button" class="tabstrip-link" tabindex="0">EXAMPLE</span>
+            </li>
+            <li class="tabstrip-item tabstrip-tab" data-container="source-code-pane">
+                <span role="button" class="tabstrip-link" tabindex="0">VIEW SOURCE</span>
+            </li>
+            <li class="separator"></li>
+            <li class="tabstrip-item">
+                @Html.Partial("EditDropdown")
+            </li>
+            <li class="spacer"></li>
+            <li class="tabstrip-item theme-builder-dropdown dropdown">@Html.Partial("ThemeManager")</li>
+        </ul>
+    </div>
+    <div id="demo-runner" class="tabstrip-pane active k-body"></div>
+    <div id="source-code-pane" class="tabstrip-pane example-code-container">
+        @Html.Partial("SourceCodeTabs")
+    </div>
+</div>
+
+<!--
+ -->
+@if (ViewBag.CurrentExample.HasConsole != null && ViewBag.CurrentExample.HasConsole)
+{
+<div class="kd-example-console">
+    <div class="header">
+        <span class="title">CONSOLE LOG</span>
+        <span class="clear kd-text-secondary">Clear log</span>
+    </div>
+    <div class="console"></div>
+</div>}
+
+
+<!-- Links to other demos -->
+@{ NavigationExample currentExample = ViewBag.CurrentExample;
+                NavigationWidget currentWidget = ViewBag.CurrentWidget;
+                var htmlExample = currentExample.ShouldInclude("online");
+                var phpExample = currentExample.ShouldInclude("php");
+                var jspExample = currentExample.ShouldInclude("jsp");
+                var mvcExample = currentExample.ShouldInclude("aspnet-mvc");
+                var htmlWidget = currentWidget.ShouldInclude("online");
+                var phpWidget = currentWidget.ShouldInclude("php");
+                var jspWidget = currentWidget.ShouldInclude("jsp");
+                var mvcWidget = currentWidget.ShouldInclude("aspnet-mvc"); }
+
+@if (ViewBag.ShowCodeStrip == true)
+{
+@if ((htmlWidget || phpWidget || jspWidget || mvcWidget) && (htmlExample || phpExample || jspExample || mvcExample))
+{
+<section class="kd-example-flavors">
+    <p class="kd-text kd-text-secondary">Also available for:</p>
+    <ul class="kd-list">
+        @if (htmlWidget && htmlExample)
+        {
+<li><a class="kd-link" href="@Html.ExampleUrl(currentExample, "kendo-ui")">HTML5 / JavaScript</a></li>}
+        @if (mvcWidget && mvcExample)
+        {
+<li><a class="kd-link" href="@Html.ExampleUrl(currentExample, "aspnet-mvc")">ASP.NET MVC</a></li>}
+        @if (jspWidget && jspExample)
+        {
+<li><a class="kd-link" href="@Html.ExampleUrl(currentExample, "jsp-ui")">JSP</a></li>}
+        @if (phpWidget && phpExample)
+        {
+<li><a class="kd-link" href="@Html.ExampleUrl(currentExample, "php-ui")">PHP</a></li>}
+    </ul>
+    <div class="kd-spacer"></div>
+    @if (!string.IsNullOrEmpty(ViewBag.ClientApi))
+    {
+<a href="@ViewBag.ClientApi" target="_blank" class="kd-button-api kd-button kd-button-rounded kd-button-sm kd-button-tertiary" style="margin-right: 20px;">
+    CLIENT-SIDE API
+    <span class="kd-button-icon">
+        @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\hyperlink-open-sm.svg")))
+    </span>
+</a>}
+    @if (!string.IsNullOrEmpty(ViewBag.Api))
+    {
+<a href="@ViewBag.Api" target="_blank" class="kd-button-api kd-button kd-button-rounded kd-button-sm kd-button-tertiary">
+    SERVER-SIDE API
+    <span class="kd-button-icon">
+        @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\hyperlink-open-sm.svg")))
+    </span>
+</a>}
+</section>}}
+
+

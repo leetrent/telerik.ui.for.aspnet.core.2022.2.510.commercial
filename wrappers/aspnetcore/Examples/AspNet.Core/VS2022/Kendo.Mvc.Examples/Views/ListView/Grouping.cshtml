@@ -1,0 +1,107 @@
+<div class="demo-section">
+    @(Html.Kendo().ListView<Kendo.Mvc.Examples.Models.DestinationViewModel>()
+    .Name("listView")
+    .TagName("div")
+    .AutoBind(false)
+    .DataSource(dataSource => dataSource
+            .Ajax()
+            .ServerOperation(false)
+            .Read(read => read.Action("Grouping_Read", "ListView"))
+            .PageSize(20)
+        )
+    .ClientTemplateId("template")
+)
+</div>
+
+<script type="text/x-kendo-template" id="template">
+    <div class="k-listview-item">
+        <h4 class="k-group-title">#= data.value #</h4>
+        <div class="cards">
+            # for (var i = 0; i < data.items.length; i++) { #
+            <div class="k-card" style="width: 15em; margin:2%">
+                <img class="k-card-image" src="#=destinationURL(data.items[i].ImageUrl)#" />
+                <div class="k-card-body">
+                    <h4 class="k-card-title">#= data.items[i].Title #</h4>
+                    <h5 class="k-card-subtitle">#= data.items[i].Description #</h5>
+                </div>
+            </div>
+            # } #
+        </div>
+        <h5 class="k-group-footer"> #=data.items.length# Destinations in #= data.value #</h5>
+    </div>
+</script>
+
+<script>
+
+    function destinationURL(name) {
+        return '../images/demos/listview/destinations/' + name;
+    }
+
+    $(function () {
+        var groupDetails = {
+            field: 'Country',
+            dir: 'desc',
+            compare: function (a, b) {
+                if (a.items.length === b.items.length) {
+                    return 0;
+                } else if (a.items.length > b.items.length) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        }
+
+        var listView = $("#listView").data().kendoListView;
+        var dataSource = listView.dataSource;
+        dataSource.group(groupDetails);
+    });
+</script>
+
+<style>
+    #listView .k-listview-content {
+        height: 65em;
+    }
+
+        #listView .k-listview-content .k-listview-item {
+            padding: 2%;
+        }
+
+            #listView .k-listview-content .k-listview-item:after {
+                content: '';
+                width: 95%;
+                height: 2px;
+                background: #F4F4F4;
+                position: absolute;
+            }
+
+
+            #listView .k-listview-content .k-listview-item .cards {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+    #listView .k-group-title {
+        font-family: inherit;
+        font-size: 20px;
+        line-height: normal;
+        font-weight: 400;
+        margin: 0 0 14px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    #listView .k-group-footer {
+        font-family: inherit;
+        font-size: 17px;
+        line-height: normal;
+        font-weight: 400;
+        margin: 0 0 14px;
+        font-style: italic;
+    }
+    .demo-section{
+        width: 60em;
+        margin: auto;
+        max-width: unset !important;
+    }
+</style>

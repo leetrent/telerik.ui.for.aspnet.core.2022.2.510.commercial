@@ -1,0 +1,91 @@
+<style>
+    .k-virtual-scrollable-wrap td {
+        white-space: nowrap;
+    }
+</style>
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Select Number of rows: </h4>
+        @(Html.Kendo().DropDownList()
+            .Name("count")
+            .BindTo(new List<string>() {
+              "1000",
+              "10000",
+              "500000"
+            })
+            .Value("1000")
+            .Template("#= kendo.toString(data, 'n0')# rows")
+            .ValueTemplate("#= kendo.toString(data, 'n0')# rows")
+            .Events(e=>e.Change("updateRowsCount"))
+        )
+    </div>
+    <div class="box-col">
+        <h4>Grid data total:</h4>
+        <div id="message"></div>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.EmployeeViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.EmployeeID).Width(110).Title("#");
+        columns.Bound(o => o.FirstName);
+        columns.Bound(o => o.LastName);
+        columns.Bound(o => o.City).Title("Responsible For");
+        columns.Bound(o => o.Country).Title("Based In");
+        columns.Bound(o => o.Title);
+    })
+    .Sortable()
+    .Filterable(f=>f.Extra(false))
+    .Pageable(p =>
+        p.Info(true)
+         .Numeric(false)
+         .PreviousNext(false)
+         .Messages(m=>m.Display("Showing {2} data items"))
+    )
+    .Scrollable(scrollable => scrollable.Virtual(true))
+    .HtmlAttributes(new { style = "height:543px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(100)
+        .Read(read => read.Action("Virtualization_Read", "Grid").Data("getRowCount"))
+        .Events(e=>e.Change("resetTimer"))
+     )
+    .Events(e=>e.DataBound("renderTimeSpan"))
+)
+
+@section scripts {
+<script> 
+    var initStart;
+    var initEnd;
+    var rowCount;
+
+    function renderTimeSpan() {
+        initEnd = new Date();
+        $("#message")
+            .text(kendo.format("UI for ASP.NET Core Grid bound to {0} items in {1} milliseconds", rowCount, initEnd - initStart));
+    }
+
+    function resetTimer() {
+        initStart = new Date();
+    }
+
+    function getRowCount() {
+        var dropDown = $("#count").data("kendoDropDownList");
+        rowCount = dropDown.value();
+        return {
+            rows: rowCount
+        };
+    }
+
+    function updateRowsCount() {
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.read().then(function () {
+            $("#grid .k-scrollbar").scrollTop(0);
+            grid.refresh();
+        });        
+    }
+</script>
+}

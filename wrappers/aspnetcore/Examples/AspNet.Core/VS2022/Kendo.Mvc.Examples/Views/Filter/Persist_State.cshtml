@@ -1,0 +1,78 @@
+@using Kendo.Mvc
+
+<div id="example" role="application">
+    <div class="box wide">
+        <button href="#"  id="save">Save State</button>
+        <button href="#"  id="load">Load State</button>
+    </div>
+
+    @(Html.Kendo().DataSource<Kendo.Mvc.Examples.Models.CustomerViewModel>()
+        .Name("dataSource1")
+         .Ajax(t =>
+                 {
+             t.Read("Customers_Read", "PivotGrid");
+             t.Model(model => model.Id(p => p.CustomerID));
+             t.PageSize(20);
+         })
+    )
+
+    @(Html.Kendo().Filter<CustomerViewModel>()
+      .Name("filter")
+      .ApplyButton(true)
+      .ExpressionPreview(true)
+      .Fields(f =>
+      {
+          f.Add(p=>p.ContactName);
+          f.Add(p=>p.ContactTitle);
+          f.Add(p=>p.CompanyName);
+          f.Add(p=>p.Country);
+      })
+      .FilterExpression(f => {
+          f.Add(p => p.ContactTitle).IsEqualTo("Sales Representative");
+      })
+      .DataSource("dataSource1")
+    )
+
+    <br />
+    <br />
+    <br />
+
+    @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.CustomerViewModel>()
+        .Name("Grid")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ContactName);
+            columns.Bound(p => p.ContactTitle);
+            columns.Bound(p => p.CompanyName);
+            columns.Bound(p => p.Country);
+        })
+        .Pageable()
+        .DataSource("dataSource1")
+    )
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var filter = $("#filter").getKendoFilter();
+        filter.applyFilter();
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+            localStorage["kendo-filter-options"] = kendo.stringify(filter.getOptions());
+        });
+
+        $("#load").click(function (e) {
+            e.preventDefault();
+            var options = localStorage["kendo-filter-options"];
+            if (options) {
+                options = JSON.parse(options);
+                options.dataSource = dataSource1;
+                filter.setOptions(options);
+                filter.applyFilter();
+            }
+        });
+    });
+</script>
+}
+

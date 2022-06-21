@@ -1,0 +1,23 @@
+@model IEnumerable<string>
+
+<div class="demo-section">
+    <h4>Uploaded files</h4>
+    @if (Model.Count() > 0)
+    {
+        <div class="t-widget t-upload">
+            <ul class="t-upload-files t-reset">
+                @foreach (var attachment in Model)
+                {
+                    <li class="t-file"><span class="t-icon t-success"></span>@attachment</li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <text>-- None --</text>
+    }
+    <p style="margin-top: 1em;">
+        <a href='@Url.Action("Tag_Helper", "Upload")' class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Go back</a>
+    </p>
+</div>

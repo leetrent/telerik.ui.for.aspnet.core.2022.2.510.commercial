@@ -1,0 +1,27 @@
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.Grid.Customer>()
+    .Name("grid")
+    .Groupable()
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.CustomerID).Width(100);
+        columns.Bound(p => p.Country).Width(100);
+        columns.Bound(p => p.CompanyName).Width(100);
+        columns.Bound(p => p.City).Width(100);
+        columns.Bound(p => p.PostalCode).Width(100);
+    })
+      .Scrollable(s=> s.Virtual(true))
+    .HtmlAttributes(new { style = "height:430px;" })
+    .Filterable()
+    .Sortable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+           .GroupPaging(true)
+        .PageSize(50)
+        .Read(read => read.Action("AllCustomers", "Grid"))
+      .Group(x =>
+      {
+          x.Add(y => y.City);
+          x.Add(y => y.CompanyName);
+      })
+     )
+)

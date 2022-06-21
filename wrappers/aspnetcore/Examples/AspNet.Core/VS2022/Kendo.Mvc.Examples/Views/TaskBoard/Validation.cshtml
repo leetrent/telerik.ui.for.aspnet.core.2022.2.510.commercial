@@ -1,0 +1,122 @@
+@using Kendo.Mvc.Examples.Models.TaskBoard
+
+<div class="configurator">
+    <div class="box-col">
+        <h4>Information</h4>
+        <p>This demo shows how you can use the TaskBoard's API to validate different actions in the widget:</p>
+        <ol>
+            <li>Tasks with status "Done" are readonly and cannot be moved to other columns.</li>
+            <li>Only tasks "In Progress" can be moved to "Done".</li>
+            <li>The maximum number of tasks "In Progress" is 4.</li>
+        </ol>
+    </div>
+</div>
+
+<div class="demo-section wide">
+
+        @(Html.Kendo().TaskBoard()
+        .Name("taskBoard")
+        .ColumnSettings(s =>
+        {
+            s.Buttons(b =>
+            {
+                b.Add().Command("EditColumnCommand").Text("editColumn");
+                b.Add().Command("AddCardCommand").Text("addCard");
+            });
+        })
+        .Columns(c =>
+        {
+            c.Add().Text("To-do").Status("todo");
+            c.Add().Text("In Progress").Status("inProgress");
+            c.Add().Text("Done").Status("done");
+        })
+        .DataCategoryField("Color")
+        .DataDescriptionField("Description")
+        .DataStatusField("Status")
+        .DataTitleField("Title")
+        .DataOrderField("Order")
+        .BindTo((IEnumerable<CardViewModel>)ViewBag.Cards)
+        .Resources(r => r
+            .Add().Field("Color")
+            .DataColorField("Color")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .BindTo(
+                new List<Resource>()
+                    {
+                        new Resource { Color = "#ffa500", Text = "orange", Value = "orange"},
+                        new Resource { Color = "#008000", Text = "green", Value = "green" },
+                        new Resource { Color = "#0000ff", Text = "blue", Value = "blue"}
+                    }
+            )
+        )
+        .Height("750")
+        .Events(ev => {
+            ev.ColumnsDataBound("onColumnsDataBound");
+            ev.DataBound("onDataBound");
+            ev.MoveStart("onMoveStart");
+            ev.MoveEnd("onMoveEnd");
+        })
+    )
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        var sourceColumnStatus = "";
+
+        function onColumnsDataBound(e) {
+            setReadonlyColumn("done");
+        }
+
+        function onDataBound(e) {
+            setReadonlyColumn("done");
+        }
+
+        function onMoveStart(e) {
+            sourceColumnStatus = e.column.Status;
+        }
+
+        function onMoveEnd(e) {
+            var taskBoard = e.sender;
+
+            if (e.action == "receive") {
+                if (e.column.Status == "inProgress") {
+                    var totalInProgress = taskBoard.itemsByStatus("inProgress").length;
+
+                    if (totalInProgress > 4 & sourceColumnStatus != "inProgress") {
+                        e.preventDefault();
+                        alert('No more than 4 tasks can be "In Progress" at the same time.');
+                    }
+                }
+                else if (e.column.Status == "done") {
+                    if (sourceColumnStatus == "todo") {
+                        e.preventDefault();
+                        alert('Only tasks "In Progress" can be moved to "Done".')
+                    }
+                }
+
+                sourceColumnStatus = "";
+            }
+        }
+
+        function setReadonlyColumn(status) {
+            var taskBoard = $("#taskBoard").data("kendoTaskBoard");
+            var cardsDone = taskBoard.itemsByStatus(status);
+
+            $(cardsDone).each(function (index) {
+                taskBoard.readOnly($(this), true);
+            });
+        }
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>

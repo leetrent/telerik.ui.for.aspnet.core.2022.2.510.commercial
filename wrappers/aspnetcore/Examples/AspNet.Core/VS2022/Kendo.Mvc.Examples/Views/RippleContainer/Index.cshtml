@@ -1,0 +1,113 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Information</h4>
+        In order to preview the example, make sure that a "Sass Material" theme is selected from the "Change Theme" menu in the top-right corner of the demo page.
+    </div>
+</div>
+<div class="demo-section wide">
+    <div class="items">
+        <div class="row-box">
+            <h4>Ripple on Buttons</h4>
+            @(Html.Kendo().Button()
+                .Name("textButton")
+                .HtmlAttributes(new { type = "button" })
+                .Content("Button")
+            ) <br />
+
+            @(Html.Kendo().Button()
+                .Name("primaryTextButton")
+                .HtmlAttributes(new { type = "button" })
+                 .ThemeColor(ThemeColor.Primary)
+                .Content("Primary Button")
+            )
+        </div>
+        <div class="row-box">
+            <h4>Ripple on Checkboxes</h4>
+            <p style="line-height: 2.5em;">
+                @(Html.Kendo().CheckBox().Name("eq1").Checked(true).Label("Checkbox 1"))<br />
+                @(Html.Kendo().CheckBox().Name("eq2").Checked(false).Label("Checkbox 2"))<br />
+                @(Html.Kendo().CheckBox().Name("eq3").Checked(false).Label("Checkbox 3"))
+            </p>
+        </div>
+        <div class="row-box">
+            <h4>Ripple on Radio Buttons</h4>
+            <p style="line-height: 2.5em;">
+                @(Html.Kendo().RadioButton().Name("engine1").Checked(true).HtmlAttributes(new { @name = "engine" }).Label("Radio 1"))<br />
+                @(Html.Kendo().RadioButton().Name("engine2").Checked(true).HtmlAttributes(new { @name = "engine" }).Label("Radio 2"))<br />
+                @(Html.Kendo().RadioButton().Name("engine3").Checked(true).HtmlAttributes(new { @name = "engine" }).Label("Radio 3"))
+            </p>
+        </div>
+    </div>
+    <div class="items">
+        <div>
+            <h4>Ripple on List Items</h4>
+            @(Html.Kendo().ListBox()
+                .Name("optional")
+                .Toolbar(toolbar =>
+                {
+                    toolbar.Position(ListBoxToolbarPosition.Right);
+                    toolbar.Tools(tools => tools
+                        .MoveUp()
+                        .MoveDown()
+                        .TransferTo()
+                        .TransferFrom()
+                        .TransferAllTo()
+                        .TransferAllFrom()
+                        .Remove()
+                    );
+                })
+                .ConnectWith("selected")
+                .BindTo(ViewBag.Attendees)
+            )
+
+            @(Html.Kendo().ListBox()
+                .Name("selected")
+                .BindTo(new List<string>())
+                .Selectable(ListBoxSelectable.Multiple)
+            )
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        // Initialize ripple container
+        if (selectedTheme.indexOf("material-") === 0) {
+            $(".items").kendoRippleContainer();
+            $(".demo-section").show();
+        } else {
+            $(".demo-section").hide();
+        }
+    });
+</script>
+}
+
+<style>
+    .items {
+        width: 100%;
+        float: left;
+        margin-bottom: 30px;
+    }
+
+    .items button,
+    .items input {
+        margin: 1em 0;
+    }
+
+    .items > .row-box {
+        float: left;
+        width: 30%;
+    }
+
+    .items .k-listbox {
+        width: 236px;
+        height: 310px;
+    }
+
+    .items .k-listbox:first-of-type {
+        width: 270px;
+        margin-right: 1px;
+    }
+</style>

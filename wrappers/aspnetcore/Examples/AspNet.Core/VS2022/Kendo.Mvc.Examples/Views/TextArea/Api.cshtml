@@ -1,0 +1,76 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Get / Set Value</h4>
+        <ul class="options">
+            <li>
+                <button id="get">Get value</button> or <button id="focus">Focus</button>
+            </li>
+            <li>
+                @(Html.Kendo().TextBox()
+                .Name("value")
+                .Value("Lorem ipsum dolor sit amet")
+                .Events(e => e.Change("setValue"))
+            )
+                <button id="set">Set value</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Enable / Disable</h4>
+        <ul class="options">
+            <li>
+                <button id="enable">Enable</button>
+                <button id="disable">Disable</button>
+            </li>
+            <li>
+                <button id="readonly">Readonly</button>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="demo-section">
+    <h4>Set value</h4>
+    @(Html.Kendo().TextArea()
+        .Name("description")
+        .Label(l => l.Content("Description").Floating(true))
+        .Rows(5)
+    )
+</div>
+
+@section scripts {
+    <script>
+        var textarea;
+        var setValue = function () {
+            textarea.value($("#value").data("kendoTextBox").value());
+            textarea.floatingLabel.refresh();
+        };
+
+        $(document).on("kendoReady", function () {
+
+            textarea = $("#description").data("kendoTextArea");
+
+            $("#enable").click(function () {
+                textarea.enable();
+            });
+            $("#disable").click(function () {
+                textarea.enable(false);
+            });
+            $("#readonly").click(function () {
+                textarea.readonly();
+            });
+            $("#focus").click(function () {
+                textarea.focus();
+            });
+            $("#set").click(setValue);
+            $("#get").click(function () {
+                alert(textarea.value());
+            });
+        });
+    </script>
+}
+<style>
+    .k-floating-label-container {
+        width: 100%;
+    }
+</style>

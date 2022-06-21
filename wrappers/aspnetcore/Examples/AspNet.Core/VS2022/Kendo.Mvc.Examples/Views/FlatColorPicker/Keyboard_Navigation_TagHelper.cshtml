@@ -1,0 +1,22 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<script>
+    $(document).on("keydown.examples", function (e) {
+        if (e.altKey && e.keyCode === 87 /* w */) {
+            $("#colorFlatPicker").data("kendoFlatColorPicker").focus();
+        }
+    });
+</script>
+    <h4 style="text-align: center;">ColorGradient</h4>
+
+    <div style="text-align: center;">
+            <kendo-flatcolorpicker name="flatColorPicker" opacity="true" style="margin:auto;">
+            </kendo-flatcolorpicker>
+    </div>
+
+<style>
+    .k-colorgradient-input-label {
+        text-align: initial;
+    }
+</style>

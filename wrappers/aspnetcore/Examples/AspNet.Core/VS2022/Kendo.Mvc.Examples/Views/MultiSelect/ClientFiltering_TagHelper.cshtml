@@ -1,0 +1,14 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Select Products</h4>
+    <kendo-multiselect name="products"
+        datatextfield="ProductName"
+        datavaluefield="ProductID">
+        <datasource type="DataSourceTagHelperType.Custom" server-filtering="false">
+            <transport>
+                 <read url="@Url.Action("ClientFiltering_GetProducts", "MultiSelect")" />
+            </transport>
+        </datasource>
+    </kendo-multiselect>
+</div>

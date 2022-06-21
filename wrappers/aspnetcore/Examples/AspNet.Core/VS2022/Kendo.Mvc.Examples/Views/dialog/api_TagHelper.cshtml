@@ -1,0 +1,43 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>API Functions</h4>
+            <kendo-button name="openDialogBtn" on-click="openDialog">Open</kendo-button>
+            <kendo-button name="closeDialogBtn" on-click="closeDialog">Close</kendo-button>
+    </div>
+</div>
+
+<div id="example">
+    <kendo-dialog name="dialog" button-layout="normal" title="Software Update" width="400" modal="false" closable="true">
+        <actions>            
+            <action text="Cancel">
+            </action>
+            <action text="Ok" primary="true">
+            </action>
+        </actions>
+        <content>
+            <p>A new version of <strong>Kendo UI</strong> is available. Would you like to download and install it now?</p>
+        </content>
+    </kendo-dialog>
+
+    <div class="responsive-message"></div>
+</div>
+@section scripts {
+<script>
+    function openDialog(e) {
+        $("#dialog").data("kendoDialog").open();
+    }
+
+    function closeDialog(e) {
+        $("#dialog").data("kendoDialog").close();
+    }
+</script>
+}
+<style>
+    #example {
+        min-height: 200px;
+    }
+</style>
+

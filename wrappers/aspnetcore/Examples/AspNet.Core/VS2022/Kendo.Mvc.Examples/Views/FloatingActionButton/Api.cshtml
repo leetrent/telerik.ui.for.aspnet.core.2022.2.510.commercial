@@ -1,0 +1,155 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>API Functions</h4>
+        <ul class="options">
+            <li>
+                <button id="enable" >Enable</button> <button id="disable" >Disable</button>
+            </li>
+            <li>
+                <button id="show" >Show</button> <button id="hide" >Hide</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Appearance</h4>
+        <ul class="options">
+            <li>
+                <button id="getIcon" >Get Icon</button> <button id="setIcon" >Set Icon</button><input id="icon" value="gear" />
+            </li>
+            <li>
+                <button id="getText" >Get Text</button> <button id="setText" >Set Text</button><input id="text" value="Settings" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Theme Color</h4>
+        <ul class="options">
+            <li>
+                <input id="themeColor" name="themeColor" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Shape</h4>
+        <ul class="options">
+            <li>
+                <input id="shapes" name="shapes" />
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Size</h4>
+        <ul class="options">
+            <li>
+                <input id="size" name="size" />
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="demo-section" style="height:300px">
+    @(Html.Kendo().FloatingActionButton()
+        .Name("fab")
+        .Align(FloatingActionButtonAlign.BottomCenter)
+        .ThemeColor(FloatingActionButtonThemeColor.Primary)
+        .Icon("home")
+        .Text("Home")
+        .Size(FloatingActionButtonSize.Large)
+        .AlignOffset(ao => ao.Horizontal(0).Vertical(100))
+        .PositionMode(FloatingActionButtonPositionMode.Absolute)
+    )
+</div>
+@section scripts{
+<script>
+    $(document).on("kendoReady", function () {
+        $("#shapes").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Pill", value: "pill" },
+                { text: "Rectangle", value: "rectangle" },
+                { text: "Rounded", value: "rounded" },
+                { text: "Circle", value: "circle" }
+            ],
+            change: onShapeSelectionChange
+        });
+        $("#size").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Small", value: "small" },
+                { text: "Medium", value: "medium" },
+                { text: "Large", value: "large" }
+            ],
+            index: 2,
+            change: onSizeSelectionChange
+        });
+        $("#themeColor").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Default", value: "default" },
+                { text: "Primary", value: "primary" },
+                { text: "Secondary", value: "secondary" },
+                { text: "Tertiary", value: "tertiary" },
+                { text: "Info", value: "info" },
+                { text: "Success", value: "success" },
+                { text: "Warning", value: "warning" },
+                { text: "Error", value: "error" },
+                { text: "Dark", value: "dark" },
+                { text: "Light", value: "light" },
+            ],
+            change: onThemeColorSelectionChange
+        })
+        var fab = $("#fab").data("kendoFloatingActionButton");
+
+        $('#enable').click(function () {
+            fab.enable(true);
+        });
+        $('#disable').click(function () {
+            fab.enable(false);
+        });
+        $('#show').click(function () {
+            fab.show();
+        });
+        $('#hide').click(function () {
+            fab.hide();
+        });
+        $('#getIcon').click(function () {
+            kendo.alert(fab.icon());
+        });
+        $('#setIcon').click(function () {
+            fab.icon($("#icon").val());
+        });
+        $('#getText').click(function () {
+            kendo.alert(fab.text());
+        });
+        $('#setText').click(function () {
+            fab.text($("#text").val());
+        });
+        $('#getThemeColor').click(function () {
+            kendo.alert(fab.themeColor());
+        });
+        $('#setThemeColor').click(function () {
+            fab.themeColor($("#themeColor").val());
+        });
+        $('#getShape').click(function () {
+            kendo.alert(fab.shape());
+        });
+    });
+
+    function onShapeSelectionChange(e) {
+        var fab = $("#fab").getKendoFloatingActionButton()
+        fab.shape(e.sender.value())
+    };
+    function onThemeColorSelectionChange(e) {
+        var fab = $("#fab").getKendoFloatingActionButton()
+        fab.themeColor(e.sender.value())
+    };
+    function onSizeSelectionChange(e) {
+        var fab = $("#fab").getKendoFloatingActionButton()
+        var newSize = e.sender.value();
+        fab.setOptions({ size: newSize });
+    };
+</script>
+}

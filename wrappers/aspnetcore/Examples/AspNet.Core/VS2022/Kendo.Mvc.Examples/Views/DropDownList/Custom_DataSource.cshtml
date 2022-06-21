@@ -1,0 +1,19 @@
+<div class="demo-section">
+    <h2>Products</h2>
+    @(Html.Kendo().DropDownList()
+          .Name("products")
+          .HtmlAttributes(new { style = "width: 400px" })
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .DataSource(source => source
+              .Custom()
+              .Transport(transport => transport
+                    .Read(read =>
+                    {
+                        read.Url("https://demos.telerik.com/kendo-ui/service/Products")
+                            .DataType("jsonp");
+                    })
+              )
+          )
+    )
+</div>

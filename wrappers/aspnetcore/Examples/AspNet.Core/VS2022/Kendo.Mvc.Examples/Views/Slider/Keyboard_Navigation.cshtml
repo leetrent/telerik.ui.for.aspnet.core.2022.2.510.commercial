@@ -1,0 +1,41 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>Slider</h4>
+    @(Html.Kendo().Slider()
+        .Name("slider")
+        .Min(0)
+        .Max(30)
+        .SmallStep(1)
+        .LargeStep(10)
+        .Value(18)
+        .HtmlAttributes(new { @class = "temperature" }))
+</div>
+<div class="demo-section">
+    <h4>RangeSlider</h4>
+    @(Html.Kendo().RangeSlider()
+        .Name("rangeslider")
+        .Min(0)
+        .Max(30)
+        .SmallStep(1)
+        .LargeStep(10)
+        .HtmlAttributes(new { @class = "humidity" }))
+</div>
+
+@section scripts {
+<script>
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $(".temperature .k-draghandle")[0].focus();
+        } else if (e.altKey && e.keyCode == 81) {
+            $(".humidity .k-draghandle").first()[0].focus();
+        }
+    });
+</script>
+}
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>
+

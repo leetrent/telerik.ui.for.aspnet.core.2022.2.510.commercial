@@ -1,0 +1,31 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Find a Customer</h4>
+
+    <kendo-autocomplete name="customers" style="width:100%"
+            dataTextField="ContactName"
+            min-length="2"
+            placeholder="Type a customer name"
+            height="400">
+            <datasource type="DataSourceTagHelperType.Custom" server-filtering="true">
+                <groups>
+                    <group typeof="string" field="Country"></group>
+                </groups>
+                <transport>
+                    <read url="@Url.Action("Grouping_Customers_Read", "AutoComplete")" data="onAdditionalData" />
+                </transport>
+            </datasource>
+    </kendo-autocomplete>
+
+    <div class="demo-hint">Hint: type "an"</div>
+</div>
+@section scripts {
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#customers").val()
+        };
+    }
+</script>
+}

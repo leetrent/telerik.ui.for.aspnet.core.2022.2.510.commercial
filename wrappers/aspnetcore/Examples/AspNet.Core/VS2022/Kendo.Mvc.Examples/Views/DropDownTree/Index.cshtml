@@ -1,0 +1,46 @@
+<div class="demo-section">
+@(Html.Kendo().DropDownTree()
+    .Name("dropdowntree") //The name of the dropdowntree is mandatory. It specifies the "id" attribute of the widget.
+    .HtmlAttributes(new { style = "width: 100%" })
+    .Height("auto")
+    .Placeholder("Select Product")
+    .Items(dropdowntree =>
+    {
+        dropdowntree.Add().Text("Furniture")
+            .Items(root =>
+            {
+                root.Add().Text("Tables & Chairs");
+                root.Add().Text("Sofas");
+                root.Add().Text("Occasional Furniture");
+                root.Add().Text("Childerns Furniture");
+                root.Add().Text("Beds");
+            });
+
+        dropdowntree.Add().Text("Decor")
+            .Expanded(true)
+            .Items(root =>
+            {
+                root.Add().Text("Bed Linen");
+                root.Add().Text("Throws");
+                root.Add().Text("Curtains & Blinds");
+                root.Add().Text("Rugs");
+                root.Add().Text("Carpets");
+            });
+
+        dropdowntree.Add().Text("Storage")
+            .Items(root =>
+            {
+                root.Add().Text("Wall Shelving");
+                root.Add().Text("Kids Storage");
+                root.Add().Text("Baskets");
+                root.Add().Text("Multimedia Storage");
+                root.Add().Text("Floor Shelving");
+                root.Add().Text("Toilet Roll Holders");
+                root.Add().Text("Storage Jars");
+                root.Add().Text("Drawers");
+                root.Add().Text("Boxes");
+            });
+    })
+)
+</div>
+

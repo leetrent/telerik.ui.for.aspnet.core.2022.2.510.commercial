@@ -1,0 +1,32 @@
+<div class="demo-section">            
+    <h4 class="title">Select time</h4>
+    @(Html.Kendo().TimePicker()
+            .Name("timepicker")
+            .HtmlAttributes(new { style = "width: 100%" })
+            .Events(e =>
+            {
+                e.Change("change").Open("open").Close("close");
+            })
+    )
+</div>
+<div class="demo-section">
+    <h3 class="title">Console log
+    </h3>
+    <div class="console"></div>
+</div>
+
+@section scripts {
+<script>
+    function open() {
+        kendoConsole.log("Open");
+    }
+
+    function close() {
+        kendoConsole.log("Close");
+    }
+
+    function change() {
+        kendoConsole.log("Change :: " + kendo.toString(this.value(), 't'));
+    }
+</script>
+}

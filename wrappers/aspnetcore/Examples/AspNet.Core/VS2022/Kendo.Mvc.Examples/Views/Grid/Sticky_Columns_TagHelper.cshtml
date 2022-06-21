@@ -1,0 +1,46 @@
+@addTagHelper *, Kendo.Mvc
+
+@{ var browser = Context.Request.Headers["User-Agent"].ToString(); }
+
+@*Check if browser is not Internet Explorer*@
+@if (!browser.Contains("Trident"))
+{<kendo-grid name="Grid" height="540" resizable="true">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="30">
+        <schema>
+            <model id="OrderID">
+                <fields>
+                    <field name="OrderID" editable="false" type="number"></field>
+                    <field name="CustomerID" type="string"></field>
+                    <field name="ShipName" type="string"></field>
+                    <field name="ShipCountry" type="string"></field>
+                    <field name="ShipAddress" type="string"></field>
+                    <field name="ShipCity" type="string"></field>
+                    <field name="Freight" type="number"></field>
+                    <field name="OrderDate" type="date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="/grid/stickycolumns_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="OrderID" width="150" stickable="true"/>
+        <column field="CustomerID" width="250" stickable="true"/>
+        <column field="ShipName" width="350" stickable="true"/>
+        <column field="ShipCountry" width="300" stickable="true"/>
+        <column field="ShipAddress" width="300" sticky="true"/>
+        <column field="ShipCity" width="300" stickable="true"/>
+        <column field="Freight" width="300" stickable="true"/>
+        <column field="OrderDate" template="#= kendo.toString(OrderDate, 'dd/MM/yyyy') #" width="250" stickable="true"/>
+    </columns>
+    <scrollable enabled="true"/>
+    <reorderable enabled="true" columns="true"/>
+    <pageable enabled="true"/>
+    <filterable enabled="true"/>
+    <sortable enabled="true"/>
+    <groupable enabled="true"/>
+    <column-menu enabled="true"/>
+</kendo-grid>} @*Do not render in Internet Explorer*@
+@if (browser.Contains("Trident"))
+{<p>Sticky columns are not supported in IE!</p>}

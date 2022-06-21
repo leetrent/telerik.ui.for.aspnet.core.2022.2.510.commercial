@@ -1,0 +1,172 @@
+@addTagHelper *, Kendo.Mvc
+<div class="configurator">
+	<div class="header">Configurator</div>
+	<div class="box-col">
+		<h4>Get selected action</h4>
+		<ul class="options">
+			<li>
+				<button class="getSelected">Get selected action</button>
+			</li>
+			<li>
+				Selected: <span id="selectedFromGroup"></span>
+			</li>
+		</ul>
+	</div>
+	<div class="box-col">
+		<h4>Show / Hide</h4>
+		<ul class="options">
+			<li>
+				<button class="togglePlayerControlsVisibility">Hide player controls</button>
+			</li>
+			<li>
+				<button class="toggleRepeatVisibility">Hide Repeat</button>
+			</li>
+		</ul>
+	</div>
+	<div class="box-col">
+		<h4>Enable / Disable</h4>
+		<ul class="options">
+			<li>
+				<button class="toggleRepeat">Enable/Disable Repeat</button>
+			</li>
+		</ul>
+	</div>
+	<div class="box-col">
+		<h4>Add</h4>
+		<ul class="options">
+			<li>
+				<button class="addItem">Add new button</button>
+			</li>
+			<li>
+				<button class="addSplitButton">Add new SplitButton</button>
+			</li>
+			<li>
+				<button class="addButtonGroup">Add new ButtonGroup</button>
+			</li>
+		</ul>
+	</div>
+	<div class="box-col">
+		<h4>Remove</h4>
+		<ul class="options">
+			<li>
+				<button class="removeItem">Remove by ID</button>
+				<input type="text" value="#delete" id="forRemoval" style="width:130px" />
+			</li>
+		</ul>
+	</div>
+</div>
+
+<kendo-toolbar name="ToolBar">
+	<toolbar-items>
+		<item type="CommandType.ButtonGroup">
+			<buttons>
+				<toolbar-button group="player" togglable="true" text="play">
+				</toolbar-button>
+				<toolbar-button group="player" selected="true" togglable="true" text="pause">
+				</toolbar-button>
+				<toolbar-button group="player" togglable="true" text="stop">
+				</toolbar-button>
+			</buttons>
+		</item>
+		<item text="repeat" togglable="true" type="CommandType.Button">
+		</item>
+		<item text="Save" type="CommandType.SplitButton">
+			<menu-buttons>
+				<toolbar-button text="Add to favourites">
+				</toolbar-button>
+				<toolbar-button text="Listen later">
+				</toolbar-button>
+				<toolbar-button text="Download">
+				</toolbar-button>
+			</menu-buttons>
+		</item>
+		<item text="Delete" type="CommandType.Button">
+		</item>
+	</toolbar-items>
+</kendo-toolbar>
+<script>
+        $(document).ready( function () {
+
+            $(".getSelected").click(function () {
+                var toolbar = $("#ToolBar").data("kendoToolBar"),
+                    selected;
+
+                selected = toolbar.getSelectedFromGroup("player");
+                $("#selectedFromGroup").text(selected.text());
+            });
+
+            $(".togglePlayerControlsVisibility").click(function (e) {
+                var toolbar = $("#ToolBar").data("kendoToolBar"),
+                    buttonGroup = $("#playerControls"),
+                    isVisible = buttonGroup.is(":visible");
+
+                if (isVisible) {
+                    toolbar.hide(buttonGroup);
+                    $(e.target).text("Show player controls");
+                } else {
+                    toolbar.show(buttonGroup);
+                    $(e.target).text("Hide player controls");
+                }
+            });
+
+            $(".toggleRepeat").click(function () {
+                var toolbar = $("#ToolBar").data("kendoToolBar"),
+                    repeatButton = $("#repeat"),
+                    isDisabled = repeatButton.hasClass("k-state-disabled");
+
+                toolbar.enable(repeatButton, isDisabled);
+            });
+
+            $(".toggleRepeatVisibility").click(function (e) {
+                var toolbar = $("#ToolBar").data("kendoToolBar"),
+                    repeatButton = $("#repeat"),
+                    isVisible = repeatButton.is(":visible");
+
+                if (isVisible) {
+                    toolbar.hide(repeatButton);
+                    $(e.target).text("Show Repeat");
+                } else {
+                    toolbar.show(repeatButton);
+                    $(e.target).text("Hide Repeat");
+                }
+            });
+
+            $(".removeItem").click(function () {
+                var toolbar = $("#ToolBar").data("kendoToolBar"),
+                    id = $("#forRemoval").val();
+
+                toolbar.remove(id);
+            });
+
+            $(".addItem").click(function () {
+                var toolbar = $("#ToolBar").data("kendoToolBar");
+                toolbar.add({ type: "button", text: "New Button", id: "newButton", togglable: true });
+            });
+
+            $(".addSplitButton").click(function () {
+                var toolbar = $("#ToolBar").data("kendoToolBar");
+
+                toolbar.add({
+                    type: "splitButton",
+                    text: "New SplitButton",
+                    menuButtons: [
+                        { text: "Option 1" },
+                        { text: "Option 2" }
+                    ]
+                });
+            });
+
+            $(".addButtonGroup").click(function () {
+                var toolbar = $("#ToolBar").data("kendoToolBar");
+
+                toolbar.add({
+                    type: "buttonGroup",
+                    buttons: [
+                        { text: "Left" },
+                        { text: "Middle" },
+                        { text: "Right" }
+                    ]
+                });
+            });
+        });
+</script>

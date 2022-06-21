@@ -1,0 +1,27 @@
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.js"></script>
+    <script>
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.2/pdf.worker.js';
+    </script>
+}
+
+<div id="example">
+    @(Html.Kendo().PDFViewer().Name("pdfviewer")
+        .PdfjsProcessing(pdf => pdf.File(Url.Content("~/shared/web/pdfViewer/sample.pdf")))
+        .Height(700)
+    )
+</div>
+
+<script>
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#pdfviewer").data("kendoPDFViewer").wrapper.focus();
+        }
+    });
+</script>
+
+<style>
+    html body #pdfviewer {
+        width: 100% !important;
+    }
+</style>

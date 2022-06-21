@@ -1,0 +1,65 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<script>
+        function select(e) {
+            $(".bike").css("background-color", e.value);
+        }
+  </script>
+
+    <div class="demo-section hidden-on-narrow wide">
+        <div id="bike">
+            <div id="bike-tail" class="bike"></div><div id="bike-head" class="bike"></div>
+        </div>
+
+        <div class="picker-wrapper">
+            <h4>Bike color</h4>
+            <kendo-flatcolorpicker name="flatColorPicker" value="#ff0000" on-change="select" input="true" preview="true" buttons="false" opacity="true" class="picker">
+            </kendo-flatcolorpicker>
+        </div>
+    </div>
+
+    <div class="responsive-message"></div>
+
+    <style>
+        .k-colorgradient-input-label {
+            align-self: flex-start;
+        }
+
+        .demo-section {
+            text-align: center;
+            padding: 0 0 16px;
+        }
+
+        #bike {
+            margin: 0 0 10px;
+            background: transparent url(@Url.Content("~/shared/web/colorpicker/background.png"));
+        }
+
+        #bike-head, #bike-tail {
+            background: transparent url(@Url.Content("~/shared/web/colorpicker/motor.png"));
+            display: inline-block;
+            height: 299px;
+            width: 241px;
+            background-color: #000;
+        }
+
+        #bike-tail {
+            background-color: #000;
+        }
+
+        #bike-head {
+            background-color: #e15613;
+            background-position: -241px 0;
+        }
+
+        .picker-wrapper {
+            display: inline-block;
+            margin: 0 18px;
+        }
+
+            .picker-wrapper h3 {
+                padding: 13px 0 5px;
+                text-align: left;
+            }
+    </style>

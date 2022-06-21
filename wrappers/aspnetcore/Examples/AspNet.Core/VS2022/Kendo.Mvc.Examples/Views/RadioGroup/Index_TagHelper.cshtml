@@ -1,0 +1,53 @@
+@addTagHelper "*, Kendo.Mvc"
+@model Kendo.Mvc.Examples.Models.RadioGroupViewModel
+
+<div class="demo-section">
+    <div class="box-col">
+        <label class="label">How to get in touch?</label>
+        <kendo-radiogroup name="radiogroup"
+                          radio-name="radiogroup"    
+                          value="1">
+            <kendo-radiogroup-items>
+                <kendo-radiogroup-item label="Phone (SMS)" value="1"></kendo-radiogroup-item>
+                <kendo-radiogroup-item label="E-mail" value="2"></kendo-radiogroup-item>
+                <kendo-radiogroup-item label="None" value="3"></kendo-radiogroup-item>
+            </kendo-radiogroup-items>
+        </kendo-radiogroup>
+        <div class="k-form-hint">You will not be receiving advertising materials.</div>
+    </div>
+    <br /><br/>
+    <div class="box-col">
+        <label class="label">Select color:</label>
+        <kendo-radiogroup name="radiogroup-second"
+                          radio-name="radiogroup-second" 
+                          layout="RadioGroupLayout.Horizontal"
+                          bind-to="Model.Items">
+        </kendo-radiogroup>
+    </div>
+</div>
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .k-form-hint {
+        margin-top: 10px;
+    }
+
+    .green{
+        color: green;
+    }
+    .blue {
+        color: blue;
+    }
+    .red {
+        color: red;
+    }
+
+</style>
+

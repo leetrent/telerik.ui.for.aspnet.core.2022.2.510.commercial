@@ -1,0 +1,101 @@
+<script type="text/x-kendo-template" id="template">
+    <section class="contest-card-wrapper">
+        <h3 title="#= Title #">#= Title #</h3>
+        <img class="contest-image" src="@Url.Content("~/shared/web/pager")/images/#=Id#.jpg" alt="#= Title #" />
+        <span class="contest-rating"><span class="k-icon k-i-user"></span> #= Participants #/ 100</span>
+        <button class="join-button k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">
+            Join
+        </button>
+    </section>
+</script>
+
+@section scripts {
+<script>
+	function change() {
+		var template = kendo.template($("#template").html());
+		$(".contests-wrapper").html(kendo.render(template, this.view()));
+	}
+
+	$(document).on("kendoReady", function () {
+		dataSource1.read();
+	});
+</script>
+}
+
+<div id="example" role="application">
+    @(Html.Kendo().DataSource<Kendo.Mvc.Examples.Models.PhotoContestModel>()
+        .Name("dataSource1")
+        .Custom(c => c.Transport(transport =>
+        {
+            transport.Read(read =>
+               read.Url(@Url.Content("~/shared/web/pager/photo-contests.json"))
+                   .DataType("json")
+            );
+        })
+        .Events(ev=>ev.Change("change"))
+        .PageSize(4))
+    )
+
+    <div class="contests-wrapper">
+    </div>
+    @(Html.Kendo().Pager()
+        .Name("pager")
+        .DataSource("dataSource1")
+        .HtmlAttributes(new { style = "width:990px" })
+    )
+</div>
+
+<style>
+
+    .join-button, .contest-rating, .contest-image {
+        align-self: center;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .contest-rating {
+        font-size: 20px;
+    }
+
+    .contest-image {
+        width: 95%;
+        height: 200px;
+        background-size: cover;
+    }
+
+    .contests-wrapper {
+        display: flex;
+        width: 1000px;
+    }
+
+        .contests-wrapper .contest-card-wrapper:first-child {
+            margin-left: 0;
+        }
+
+        .contests-wrapper .contest-card-wrapper:last-child {
+            margin-right: 0;
+        }
+
+    .contest-card-wrapper {
+        width: 300px;
+        border-color: rgba(0,0,0,0.08);
+        border-radius: 4px;
+        border-width: 1px;
+        border-style: solid;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin: 10px
+    }
+
+        .contest-card-wrapper h3 {
+            margin-top: 5px;
+            align-self: center;
+            font-size: 18px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 90%;
+            text-align: center;
+        }
+</style>

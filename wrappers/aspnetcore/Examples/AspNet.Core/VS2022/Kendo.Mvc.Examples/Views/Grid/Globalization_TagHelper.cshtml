@@ -1,0 +1,98 @@
+@addTagHelper *, Kendo.Mvc
+
+
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture.ToString();
+    var ddl_data = new string[] { "en-US", "de-DE", "bg-BG", "fr-FR", "pl-PL", "ru-RU", "uk-UA", "pt-BR", "it-IT" };
+}
+
+<script src="@Url.Script("cultures/kendo.culture." + culture + ".min.js")"></script>
+<script type="text/javascript">
+    var href = window.location.href;
+    if (href.indexOf('culture') > -1) {
+        $('#culture').val(href.replace(/(.*)culture=([^&]*)/, '$2'));
+    }
+
+    function cultureChange(e) {
+        var value = this.value();
+        if (href.indexOf('culture') > -1) {
+            href = href.replace(/culture=([^&]*)/, 'culture=' + value);
+        } else {
+            href += href.indexOf('?') > -1 ? '&culture=' + value : '?culture=' + value;
+        }
+        window.location.href = href;
+    }
+
+    function error(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
+
+@using Kendo.Mvc.UI
+
+<script type="text/javascript">
+    //set the Kendo UI culture
+    kendo.culture("@culture");
+</script>
+
+<div class="configurator">
+    <div class="box-col">
+        <h4>Choose culture</h4>
+        <ul class="options">
+            <li>
+                <kendo-dropdownlist name="culture"
+                        on-change="cultureChange"
+                        bind-to="ddl_data">
+                </kendo-dropdownlist>
+            </li>
+        </ul>
+    </div>
+</div>
+<kendo-grid name="grid" navigatable="true">
+    <columns>
+        <column field="ProductName">
+        </column>
+        <column field="UnitPrice" width="140">
+        </column>
+        <column field="UnitsInStock" width="140">
+        </column>
+        <column field="Discontinued" width="100">
+        </column>
+        <column>
+            <commands>
+                <column-command text="Edit" name="edit"></column-command>
+                <column-command text="Delete" name="destroy"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <datasource on-error="error" page="0" type="DataSourceTagHelperType.Ajax" server-operation="false">
+        <schema data="Data" total="Total" errors="Errors">
+            <model id="ProductID"></model>
+        </schema>
+        <transport>
+            <read url="@Url.Action("Globalization_Read","Grid")" />
+            <create url="@Url.Action("Globalization_Create", "Grid")" />
+            <update url="@Url.Action("Globalization_Update", "Grid")" />
+            <destroy url="@Url.Action("Globalization_Destroy", "Grid")" />
+        </transport>
+    </datasource>
+    <toolbar>
+        <toolbar-button name="create"></toolbar-button>
+    </toolbar>
+    <pageable enabled="true" />
+    <filterable enabled="true" />
+    <editable mode="inline" />
+    <sortable enabled="true" />
+    <scrollable enabled="true" />
+    <groupable enabled="true" />
+</kendo-grid>

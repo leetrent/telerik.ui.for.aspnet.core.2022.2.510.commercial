@@ -1,0 +1,77 @@
+@addTagHelper *, Kendo.Mvc
+<h4>Grid with single column sorting enabled</h4>
+<kendo-grid name="single" style="height:430px;">
+    <columns>
+        <column field="ShipCountry" width="100">
+        </column>
+        <column field="Freight" width="100">
+        </column>
+        <column field="OrderDate" width="100" format="{0:dd/MM/yyyy}">
+        </column>
+    </columns>
+    <datasource page="0" batch="false" type="DataSourceTagHelperType.Ajax" page-size="5">
+        <schema data="Data" total="Total" errors="Errors">
+            <model id="OrderID">
+                <fields>
+                    <field name="OrderDate" type="Date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="@Url.Action(" Orders_Read", "Grid" )" />
+        </transport>
+    </datasource>
+    <pageable button-count="5">
+        <messages display="{0} - {1} of {2} items" empty="No items to display" page="Page" of="of {0}" items-per-page="items per page" first="Go to the first page" previous="Go to the previous page" next="Go to the next page" last="Go to the last page" refresh="Refresh" more-pages="More pages" />
+    </pageable>
+    <sortable enabled="true" allow-unsort="true" />
+</kendo-grid>
+
+<h4>Grid with mixed column sorting enabled</h4>
+<ul>
+    <li>
+        To multi-sort the columns, hold the "CTRL" key and click the columns header.
+    </li>
+    <li>
+        A single-click (without holding the "CTRL" key) on any column un-sorts the currently sorted columns and applies single-sorting to the clicked column.
+    </li>
+</ul>
+<kendo-grid name="mixedSort" style="height:430px;">
+    <columns>
+        <column field="ShipCountry" width="100">
+        </column>
+        <column field="Freight" width="100">
+        </column>
+        <column field="OrderDate" width="100" format="{0:dd/MM/yyyy}">
+        </column>
+    </columns>
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="5" server-operation="true">
+        <schema data="Data" total="Total" errors="Errors">
+            <model id="OrderID">
+                <fields>
+                    <field name="ShipCountry" type="string"></field>
+                    <field name="ProductName" type="string"></field>
+                    <field name="OrderDate" type="Date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="@Url.Action("Orders_Read","Grid")" />
+        </transport>
+    </datasource>
+    <pageable button-count="5">
+        <messages display="{0} - {1} of {2} items" empty="No items to display" page="Page" of="of {0}" items-per-page="items per page" first="Go to the first page" previous="Go to the previous page" next="Go to the next page" last="Go to the last page" refresh="Refresh" more-pages="More pages" />
+    </pageable>
+    <sortable enabled="true" allow-unsort="true" mode="mixed" show-indexes="true" />
+</kendo-grid>
+
+<style>
+    .demo-section {
+        width: 600px;
+    }
+
+        .demo-section h3 {
+            margin: 5px 0 15px 0;
+            text-align: center;
+        }
+</style>

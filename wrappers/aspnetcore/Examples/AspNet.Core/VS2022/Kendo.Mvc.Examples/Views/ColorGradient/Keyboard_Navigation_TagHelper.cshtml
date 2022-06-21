@@ -1,0 +1,20 @@
+@addTagHelper *, Kendo.Mvc
+
+<h4 style="text-align: center;">ColorGradient</h4>
+   
+<div>
+    <kendo-colorgradient name="colorgradient" style="margin: auto;"
+        opacity="true">
+    </kendo-colorgradient>
+</div>
+
+@section scripts {
+<script type="text/javascript">
+    $(document).on("keydown.examples", function (e) {
+        if (e.altKey && e.keyCode === 87 /* w */) {
+            $("#colorGradient").data("kendoColorGradient").focus();
+        }
+    });
+</script>
+}
+

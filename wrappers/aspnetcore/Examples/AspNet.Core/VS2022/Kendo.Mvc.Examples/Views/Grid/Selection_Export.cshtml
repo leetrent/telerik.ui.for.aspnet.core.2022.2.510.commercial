@@ -1,0 +1,234 @@
+<script src="https://kendo.cdn.telerik.com/2021.1.224/js/jszip.min.js"></script>
+<div class="configurator">
+    <div class="box-col">
+        <p>The grid supports selection of cells, range of cells, combination of cells and ranges, combination of ranges.</p>
+        <p>Scroll to the bottom of the page for more information.</p>
+    </div>
+</div>
+
+<div id="chart-container"></div>
+
+<span class='k-bg-primary k-icon k-i-menu contextMenuIcon'></span>
+
+@(Html.Kendo().ContextMenu()
+    .Name("contextmenu")
+    .Target(".contextMenuIcon")
+    .ShowOn("click")
+    .AlignToAnchor(true)
+    .Items(items =>
+    {
+        items.Add().Text("Copy").HtmlAttributes(new { id = "copy" });
+        items.Add().Text("Copy with Headers").HtmlAttributes(new { id = "copyWithHeaders" });
+        items.Add().Separator(true);
+        items.Add().Text("Export").HtmlAttributes(new { id = "export" });
+        items.Add().Text("Export with Headers").HtmlAttributes(new { id = "exportWithHeaders" });
+        items.Add().Text("Export to Chart").HtmlAttributes(new { id = "exportToChart" });
+    })
+    .Events(ev => ev.Select("onSelect"))
+)
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.OrderViewModel>()
+    .Name("grid")
+    .Columns(columns => {
+        columns.Bound(p => p.OrderID).Width(150);
+        columns.Bound(o => o.ShipCountry).Width(200);
+        columns.Bound(o => o.ShipCity).Width(200);
+        columns.Bound(p => p.Freight).Width(200);
+    })
+    .Pageable(pageable => pageable.ButtonCount(4).Info(false))
+    .Selectable(selectable => selectable
+        .Mode(GridSelectionMode.Multiple)
+        .Type(GridSelectionType.Cell))
+    .Navigatable()
+    .Mobile()
+    .Events(ev => ev.DataBound("dataBound").Change("onChange"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(15)
+        .Read(read => read.Action("Orders_Read", "Grid"))
+        )
+)
+
+@section Scripts {
+    <script>
+        let initialLoad = 0;
+
+        function dataBound() {
+            let grid = this;
+
+            $(".contextMenuIcon").addClass("hidden");
+
+            if (initialLoad == 0) {
+                /* Select some rows on page load for demo's purpose. */
+                for (let i = 4; i < 48; i++) {
+                    if (i > 23 && i < 36) {
+                        continue;
+                    }
+
+                    grid.select("td:eq(" + i + ")");
+                }
+
+                initialLoad++;
+            }
+        }
+
+        function onChange() {
+            let selectedRowLength = this.select().length;
+
+            let contextMenuIcon = $(".contextMenuIcon");
+
+            if (selectedRowLength > 0) {
+                contextMenuIcon.removeClass("hidden");
+            } else {
+                contextMenuIcon.addClass("hidden");
+            }
+        }
+
+        function onSelect(e) {
+            var item = e.item.id;
+
+            switch (item) {
+                case "copy":
+                    copySelected();
+                    break;
+                case "copyWithHeaders":
+                    copySelectedWithHeaders();
+                    break;
+                case "export":
+                    exportSelected();
+                    break;
+                case "exportWithHeaders":
+                    exportSelectedWithHeaders();
+                    break;
+                case "exportToChart":
+                    exportToChart();
+                    break;
+                default:
+                    break;
+            };
+        }
+
+        function copySelected() {
+            var grid = $("#grid").data("kendoGrid");
+            let selected = grid.select();
+
+            if (selected.length === 0) {
+                kendo.alert("Please select cells before copying.");
+                return;
+            }
+
+            grid.copySelectionToClipboard(false);
+        }
+
+        function copySelectedWithHeaders() {
+            var grid = $("#grid").data("kendoGrid");
+            let selected = grid.select();
+
+            if (selected.length === 0) {
+                kendo.alert("Please select cells before copying.");
+                return;
+            }
+
+            grid.copySelectionToClipboard(true);
+        }
+
+        function exportSelected() {
+            var grid = $("#grid").data("kendoGrid");
+            let selected = grid.select();
+
+            if (selected.length === 0) {
+                kendo.alert("Please select cells before exporting.");
+                return;
+            }
+            grid.exportSelectedToExcel(false);
+        }
+
+        function exportSelectedWithHeaders() {
+            var grid = $("#grid").data("kendoGrid");
+            let selected = grid.select();
+
+            if (selected.length === 0) {
+                kendo.alert("Please select cells before exporting.");
+                return;
+            }
+
+            grid.exportSelectedToExcel(true);
+        }
+
+        function exportToChart() {
+            var grid = $("#grid").data("kendoGrid");
+            var container = $('#chart-container');
+            var windowInstance = $('#chart-container').data('kendoWindow');
+            var currInstance = container.find('.k-chart').data('kendoChart');
+            var data = grid.getSelectedData();
+
+            if (!data.length) {
+                kendo.alert('Please select cells before exporting.');
+                return;
+            }
+
+            let unknownCountries = $.extend(true, [], data);
+
+            unknownCountries.forEach(function (item, index, array) {
+                if (!array[index].ShipCountry) {
+                    array[index].ShipCountry = "Unknown"
+                }
+            });
+
+            if (windowInstance) {
+                windowInstance.destroy();
+            }
+
+            if (currInstance) {
+                currInstance.destroy();
+            }
+
+            let windowWidth = data.length > 5 ? data.length * 75 : 500;
+            windowInstance = container.kendoWindow({ width: windowWidth }).data('kendoWindow');
+
+            container.empty();
+            var element = $('<div></div>').appendTo(container);
+            windowInstance.open().center();
+            element.kendoChart({
+                dataSource: {
+                    data: unknownCountries
+                },
+                series: [{
+                    type: "column",
+                    field: 'Freight'
+                }],
+                categoryAxis: { field: "ShipCountry" }
+            });
+        }
+    </script>
+}
+
+<style>
+    .contextMenuIcon {
+        margin-top: 65px;
+    }
+
+    .contextMenuIcon {
+        position: absolute;
+        right: 20px;
+        margin-top: 32px;
+        font-size: 16px;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 5%;
+        color: white;
+        z-index: 10000;
+    }
+
+    .k-grid tbody tr {
+        line-height: 30px;
+    }
+
+    #contextmenu .k-menu-item {
+        padding: 4px 8px;
+    }
+
+    #contextmenu .k-menu-link {
+        font: 400 14px Arial, Helvetica, sans-serif;
+    }
+</style>

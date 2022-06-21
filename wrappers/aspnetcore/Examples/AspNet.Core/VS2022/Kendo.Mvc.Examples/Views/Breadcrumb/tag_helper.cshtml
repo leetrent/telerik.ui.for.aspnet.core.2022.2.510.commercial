@@ -1,0 +1,26 @@
+@addTagHelper *, Kendo.Mvc
+
+    <div id="example">
+        <div class="configurator">
+            <div class="header">Configurator</div>
+            <div class="box-col">
+                <button  onClick="window.location.reload()">
+                    <span class="k-icon k-i-refresh"></span>Refresh Breadcrumb
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section wide">
+            <h4>Breadcrumb Tag Helper</h4>
+            <kendo-breadcrumb name="breadcrumb"
+                              delimiter-icon="line"
+                              navigational="false"
+                              editable="true">
+                <kendo-breadcrumb-items>
+                    <kendo-breadcrumb-item type="BreadcrumbItemType.RootItem" text="All Components" href="https://demos.telerik.com/aspnet-core/" show-text="true" icon="home" show-icon="true"></kendo-breadcrumb-item>
+                    <kendo-breadcrumb-item type="BreadcrumbItemType.Item" text="Breadcrumb" href="/breadcrumb"></kendo-breadcrumb-item>
+                    <kendo-breadcrumb-item type="BreadcrumbItemType.Item" text="Tag Helper" href="/tag-helper"></kendo-breadcrumb-item>
+                </kendo-breadcrumb-items>
+            </kendo-breadcrumb>
+        </div>
+    </div>

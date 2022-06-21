@@ -1,0 +1,45 @@
+@model Kendo.Mvc.Examples.Models.StepperViewModel
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        @using (Html.BeginForm())
+        {
+            <h4>Linear Mode Settings</h4>
+            <label for="mode">Linear Mode:</label>
+
+            @(Html.Kendo().DropDownList()
+                            .Name("mode")
+                            .Items(items =>
+                                {
+                                    items.Add().Text("True").Value("true");
+                                    items.Add().Text("False").Value("false");
+                                })
+                            .Events(events => events.Change("onChange"))
+            )
+        }
+    </div>
+</div>
+
+<div class="demo-section">
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Orientation(StepperOrientationType.Vertical)
+        .Linear(Model.Linear)
+        .Steps(s =>
+        {
+            s.Add().Label("Cart").Icon("cart").Selected(true);
+            s.Add().Label("Personal Details").Icon("user");
+            s.Add().Label("Shipping Address").Icon("home");
+            s.Add().Label("Place Order").Icon("preview");
+        })
+    )
+</div>
+
+@section scripts {
+<script>
+    function onChange() {
+        $("form").submit();
+    }
+</script>
+}

@@ -1,0 +1,62 @@
+<div class="demo-section">
+    @(Html.Kendo().Form<Kendo.Mvc.Examples.Models.Form.UserViewModel>()
+        .Name("formExample")
+        .HtmlAttributes(new { action = @Url.Action("Validation", "Form"), method = "POST" })
+        .Orientation("vertical")
+        .Validatable(v =>
+        {
+            v.ValidateOnBlur(true);
+            v.ValidationSummary(vs => vs.Enable(true));
+            v.ErrorTemplate("<span class='k-form-error'>#:message#</span>");
+        })
+        .Items(items =>
+        {
+            items.AddGroup()
+                .Label("Registration Form")
+                .Items(i =>
+                {
+                   i.Add()
+                        .Field(f => f.FirstName)
+                        .Label(l => l.Text("First Name:"));
+                    i.Add()
+                        .Field(f => f.LastName)
+                        .Label(l => l.Text("Last Name:"));
+                    i.Add()
+                        .Field(f => f.UserName)
+                        .Label(l => l.Text("Username:"));
+                    i.Add()
+                        .Field(f => f.Password)
+                        .Label(l => l.Text("Password:"))
+                        .Hint("Hint: enter alphanumeric characters only.")
+                        .EditorTemplateHandler("setPasswordEditor");
+                    i.Add()
+                        .Field(f => f.Email)
+                        .Label(l => l.Text("Email:"));
+                    i.Add()
+                        .Field(f => f.DateOfBirth)
+                        .Label(l => l.Text("Date of Birth:").Optional(true));
+                    i.Add()
+                        .Field(f => f.HireDate)
+                        .Editor(e => e.DatePicker())
+                        .Label(l => l.Text("Hire Date:"));
+                    i.Add()
+                        .Field(f => f.RetireDate)
+                        .Editor(e => e.DatePicker())
+                        .Label(l => l.Text("Retire Date:"));
+                    i.Add()
+                        .Field(f => f.Agree)
+                        .Label(l => l.Text("Agree to Terms:"));
+                });
+        })
+    )
+</div>
+
+@section scripts {
+<script>
+    function setPasswordEditor(container, options) {
+        $('<input type="password" id="Password" name="' + options.field + '" title="Password" required="required" autocomplete="off" aria-labelledby="Password-form-label" data-bind="value: Password" aria-describedby="Password-form-hint"/>')
+            .appendTo(container)
+            .kendoTextBox();
+    }
+</script>
+}

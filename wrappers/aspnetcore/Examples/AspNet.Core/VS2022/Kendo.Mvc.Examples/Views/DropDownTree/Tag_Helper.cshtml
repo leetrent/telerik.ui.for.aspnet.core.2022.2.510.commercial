@@ -1,0 +1,24 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="demo-section">
+    <h4>Using <code>hierarchical-datasource</code> tag helpers</h4>
+    <kendo-dropdowntree name="dropdowntree" datatextfield="FullName">
+        <hierarchical-datasource>
+            <transport>
+                <read url="https://demos.telerik.com/kendo-ui/service/Employees" datatype="jsonp" />
+            </transport>
+            <schema type="json">
+                <hierarchical-model id="EmployeeId" has-children="HasEmployees">
+                </hierarchical-model>
+            </schema>
+        </hierarchical-datasource>
+    </kendo-dropdowntree>
+</div>
+
+<style>   
+    .k-dropdowntree{
+        width: 100%;
+
+    }    
+</style>

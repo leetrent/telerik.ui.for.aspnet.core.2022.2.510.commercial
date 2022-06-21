@@ -1,0 +1,58 @@
+@using Kendo.Mvc.UI
+
+@section HeadContent
+{
+    <style>
+        #gauge-container {
+            width: 300px;
+            text-align: center;
+            margin: 20px auto 0 auto;
+        }
+
+        .k-arcgauge-label {
+            font-size: 30px;
+        }
+
+        #gauge {
+            margin-bottom: 10px;
+        }
+    </style>
+}
+
+<div id="example">
+    <div id="gauge-container">
+        @(Html.Kendo().CircularGauge()
+            .Name("gauge")
+            .Value(40)
+            .Scale(x =>
+               x.Min(0)
+                 .Max(100)
+            )
+            .CenterTemplate("<span style='color: #: color #;'>#: value #%</span>")
+            .Colors(colors =>
+            {
+                colors.Add().From(0).To(25).Color("#0058e9");
+                colors.Add().From(25).To(50).Color("#37b400");
+                colors.Add().From(50).To(75).Color("#ffc000");
+                colors.Add().From(75).To(100).Color("#f31700");
+            })
+         )
+        @(Html.Kendo().Slider()
+            .Name("gauge-value")
+            .Value(40)
+            .Min(0)
+            .Max(100)
+            .ShowButtons(false)
+            .Events(e => e.Change("updateValue"))
+            .HtmlAttributes(new { title = "slider" })
+        )
+    </div>
+
+    @section scripts {
+        <script>
+            function updateValue() {
+                $("#gauge").data("kendoCircularGauge").value($("#gauge-value").val());
+            }
+        </script>
+    }
+</div>

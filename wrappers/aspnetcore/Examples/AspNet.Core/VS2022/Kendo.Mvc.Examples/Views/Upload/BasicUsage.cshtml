@@ -1,0 +1,13 @@
+@using Kendo.Mvc.UI
+
+<form method="post" action='@Url.Action("Submit")'>
+    <div class="demo-section">
+        @(Html.Kendo().Upload()
+            .Name("files")
+            .HtmlAttributes(new { aria_label = "files" })
+        )
+        <p style="padding-top: 1em; text-align: right">
+            <button type="submit" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Submit</button>
+        </p>
+    </div>
+</form>

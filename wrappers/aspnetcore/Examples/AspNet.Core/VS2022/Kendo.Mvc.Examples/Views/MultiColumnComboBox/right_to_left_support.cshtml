@@ -1,0 +1,28 @@
+<div class="demo-section"> 
+    <div class="k-rtl">
+        <h4>RTL ComboBox</h4>
+        @(Html.Kendo().MultiColumnComboBox()
+                .Name("multicolumncombobox")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Columns(columns =>
+                {
+                    columns.Add().Field("Text").Title("Text");
+                    columns.Add().Field("Value").Title("Value");
+                })
+                .HtmlAttributes(new { style = "width:100%;" })
+                .BindTo(new List<SelectListItem>()
+                {
+                    new SelectListItem() {
+                        Text = "Item 1", Value = "1"
+                    },
+                    new SelectListItem() {
+                        Text = "Item 2", Value = "2"
+                    },
+                    new SelectListItem() {
+                        Text = "Item 3", Value = "3"
+                    }
+                })
+        )   
+    </div>
+</div>

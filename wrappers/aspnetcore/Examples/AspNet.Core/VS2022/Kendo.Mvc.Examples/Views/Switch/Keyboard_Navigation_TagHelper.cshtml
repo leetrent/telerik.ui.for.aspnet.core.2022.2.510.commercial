@@ -1,0 +1,21 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <kendo-switch name="switch"></kendo-switch>
+</div>
+
+<script>
+    $(document).ready( function () {
+        $(document.body).keydown(function (e) {
+            if (e.altKey && e.keyCode == 87) {
+                $("#switch").data("kendoSwitch").wrapper.focus();
+            }
+        });
+    });
+</script>
+
+<style>
+    .demo-section {
+        text-align: center;
+    }
+</style>

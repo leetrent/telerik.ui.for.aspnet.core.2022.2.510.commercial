@@ -1,0 +1,242 @@
+@using Kendo.Mvc.UI
+@{
+    var themeColorData = new List<SelectListItem>{ new SelectListItem{Text="primary",Value="1"} ,new SelectListItem { Text = "secondary", Value = "2" } , new SelectListItem { Text = "tertiary", Value = "3" }, new SelectListItem { Text = "inherit", Value = "4" }, new SelectListItem { Text = "info", Value = "5" }, new SelectListItem { Text = "success", Value ="6" }, new SelectListItem { Text = "warning", Value = "7" }, new SelectListItem { Text = "error", Value = "8" }, new SelectListItem { Text = "dark", Value = "9" }, new SelectListItem { Text = "light", Value = "10" }, new SelectListItem { Text = "inverse", Value = "11" } };
+}
+
+<script>
+
+    function changeRounded(e) {
+        var avatar = $("#avatar").data('kendoAvatar');
+        var avatarIcon = $("#avatar-icon").data('kendoAvatar');
+        var avatarText = $("#avatar-text").data('kendoAvatar');
+        avatar.setOptions({
+            rounded: this.text()
+        });
+
+        avatarIcon.setOptions({
+            rounded: this.text()
+        });
+
+        avatarText.setOptions({
+            rounded: this.text()
+        });
+    }
+    function changeSize(e) {
+        var avatar = $("#avatar").data('kendoAvatar');
+        var avatarIcon = $("#avatar-icon").data('kendoAvatar');
+        var avatarText = $("#avatar-text").data('kendoAvatar');
+        avatar.setOptions({
+            size: this.text()
+        });
+
+        avatarIcon.setOptions({
+            size: this.text()
+        });
+
+        avatarText.setOptions({
+            size: this.text()
+        });
+    }
+
+    function changeThemeColor(e) {
+        var avatar = $("#avatar").data('kendoAvatar');
+        var avatarIcon = $("#avatar-icon").data('kendoAvatar');
+        var avatarText = $("#avatar-text").data('kendoAvatar');
+        avatar.setOptions({
+            themeColor: this.text()
+        });
+
+        avatarIcon.setOptions({
+            themeColor: this.text()
+        });
+
+        avatarText.setOptions({
+            themeColor: this.text()
+        });
+    }
+    function changeFill(e) {
+        var avatar = $("#avatar").data('kendoAvatar');
+        var avatarIcon = $("#avatar-icon").data('kendoAvatar');
+        var avatarText = $("#avatar-text").data('kendoAvatar');
+        avatar.setOptions({
+            fillMode: this.text()
+        });
+
+        avatarIcon.setOptions({
+            fillMode: this.text()
+        });
+
+        avatarText.setOptions({
+            fillMode: this.text()
+        });
+    }
+
+
+    $('#border').click(function () {
+        var avatar = $("#avatar").data('kendoAvatar');
+        var avatarIcon = $("#avatar-icon").data('kendoAvatar');
+        var avatarText = $("#avatar-text").data('kendoAvatar');
+        var showBorder = $(this).is(":checked")
+        avatar.setOptions({
+            border: showBorder
+        });
+
+        avatarIcon.setOptions({
+            border: showBorder
+        });
+
+        avatarText.setOptions({
+            border: showBorder
+        })
+    })
+</script>
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <label for="rounded">Rounded:</label>
+                @(Html.Kendo().DropDownList()
+                      .Name("rounded")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Events(e => e.Change("changeRounded"))
+                      .BindTo(new List<SelectListItem>() {
+                           new SelectListItem() {
+                              Text = "full",
+                              Value = "1"
+                          },
+                          new SelectListItem() {
+                              Text = "small",
+                              Value = "2"
+                          },
+                          new SelectListItem() {
+                              Text = "medium",
+                              Value = "3"
+                          },
+                          new SelectListItem() {
+                              Text = "large",
+                              Value = "4"
+                          },
+                           new SelectListItem() {
+                              Text = "null",
+                              Value = "5"
+                          }
+                      })
+                      .Value("1")
+                )
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <label for="size">Size:</label>
+                @(Html.Kendo().DropDownList()
+                      .Name("size")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Events(e => e.Change("changeSize"))
+                      .BindTo(new List<SelectListItem>() {
+                          new SelectListItem() {
+                              Text = "small",
+                              Value = "1"
+                          },
+                          new SelectListItem() {
+                              Text = "medium",
+                              Value = "2"
+                          },
+                          new SelectListItem() {
+                              Text = "large",
+                              Value = "3"
+                          }
+                      })
+                      .Value("3")
+                )
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <label for="themeColor">Theme color:</label>
+                @(Html.Kendo().DropDownList()
+                      .Name("themeColor")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Events(e => e.Change("changeThemeColor"))
+                      .BindTo(themeColorData)
+                    .Value("1")
+                )
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <label for="fill">FillMode:</label>
+                @(Html.Kendo().DropDownList()
+                      .Name("fill")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Events(e => e.Change("changeFill"))
+                      .BindTo(new List<SelectListItem>() {
+                          new SelectListItem() {
+                              Text = "outline",
+                              Value = "1"
+                          },
+                          new SelectListItem() {
+                              Text = "solid",
+                              Value = "2"
+                          }
+                      })
+                      .Value("2")
+                )
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <ul class="options">
+            <li>
+                <input type="checkbox" id="border">
+                <label for="border" class="checkbox-label">Border</label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="container">
+
+    @(Html.Kendo().Avatar()
+            .Name("avatar")
+            .Type(AvatarType.Image)
+            .Size(ComponentSize.Large)
+            .Image("https://demos.telerik.com/aspnet-core/shared/web/Customers/RICSU.jpg")
+      )
+    @(Html.Kendo().Avatar()
+            .Name("avatar-text")
+            .Type(AvatarType.Text)
+            .Text("JS")
+            .Size(ComponentSize.Large)
+      )
+    @(Html.Kendo().Avatar()
+            .Name("avatar-icon")
+            .Type(AvatarType.Icon)
+            .Icon("user")
+            .Size(ComponentSize.Large)
+      )
+</div>
+
+
+
+<style>
+    #container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        #container div {
+            margin: 0 auto;
+        }
+</style>

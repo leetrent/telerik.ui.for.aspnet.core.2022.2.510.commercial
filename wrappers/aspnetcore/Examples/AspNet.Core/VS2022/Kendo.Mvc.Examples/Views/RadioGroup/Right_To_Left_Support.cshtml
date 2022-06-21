@@ -1,0 +1,24 @@
+<div class="demo-section k-rtl">
+    <label for="radiogroup" class="label">Select language:</label>
+    @(Html.Kendo().RadioGroup()
+        .Name("radiogroup")
+        .BindTo(new[] { "English", "German", "Italian", "Russian", "Spanish" })
+        .Layout(RadioGroupLayout.Vertical)
+        .LabelPosition(RadioGroupLabelPosition.Before)
+        .Value("Italian")
+    )
+</div>
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .k-form-hint {
+        margin-top: 10px;
+    }
+</style>

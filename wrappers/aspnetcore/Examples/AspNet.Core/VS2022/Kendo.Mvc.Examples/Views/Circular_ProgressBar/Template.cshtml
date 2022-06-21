@@ -1,0 +1,45 @@
+@using Kendo.Mvc.UI
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Configuration</h4>
+        <div>
+            <button id="set-to-max">Set progress to 100%</button>
+            <button id="set-to-min">Set progress to 0%</button>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().CircularProgressBar()
+    .Name("progressbar")
+    .Value(0)
+    .CenterTemplate("<span style='color: #: color #;'>#= value == 100 ? \"<span class='k-icon k-i-check'></span>\" : value + '%' #</span>")
+)
+
+@section scripts {
+    <script>
+        $(document).on("kendoReady", function() {
+            $("#set-to-max").kendoButton({
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+
+                    pb.value(100);
+                }
+            });
+
+            $("#set-to-min").kendoButton({
+                click: function () {
+                    let pb = $("#progressbar").data("kendoCircularProgressBar");
+
+                    pb.value(0);
+                }
+            });
+        })
+    </script>
+}
+<style>
+    #progressbar {
+        margin: 3em;
+    }
+</style>

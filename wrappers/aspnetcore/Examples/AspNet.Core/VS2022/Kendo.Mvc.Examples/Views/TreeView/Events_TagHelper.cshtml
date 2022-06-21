@@ -1,0 +1,65 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <kendo-treeview auto-bind="true" drag-and-drop="true" load-on-demand="false" datatextfield="Name" name="treeview" on-change="onChange" on-select="onSelect" on-check="onCheck" on-collapse="onCollapse" on-expand="onExpand" on-dragstart="onDragStart" on-drag="onDrag" on-drop="onDrop" on-dragend="onDragEnd" on-navigate="onNavigate" on-load-completed="onLoadCompleted">
+        <hierarchical-datasource>
+            <schema>
+                <hierarchical-model id="id"></hierarchical-model>
+            </schema>
+            <transport>
+                <read url="@Url.Action("Employees", "treeview")" cache="true" />
+            </transport>
+        </hierarchical-datasource>
+        <checkboxes enabled="true" />
+    </kendo-treeview>
+</div>
+
+<script>
+    function onSelect(e) {
+        kendoConsole.log("Selecting: " + this.text(e.node));
+    }
+
+    function onCheck(e) {
+        kendoConsole.log("Checkbox changed :: " + this.text(e.node));
+    }
+
+    function onChange(e) {
+        kendoConsole.log("Selection changed");
+    }
+
+    function onCollapse(e) {
+        kendoConsole.log("Collapsing " + e.sender.text(e.node));
+    }
+
+    function onExpand(e) {
+        kendoConsole.log("Expanding " + e.sender.text(e.node));
+    }
+
+    function onDragStart(e) {
+        kendoConsole.log("Started dragging " + e.sender.text(e.sourceNode));
+    }
+
+    function onDrag(e) {
+        kendoConsole.log("Dragging " + this.text(e.sourceNode));
+    }
+
+    function onDrop(e) {
+        kendoConsole.log(
+            "Dropped " + e.sender.text(e.sourceNode) +
+            " (" + (e.valid ? "valid" : "invalid") + ")"
+        );
+    }
+
+    function onDragEnd(e) {
+        kendoConsole.log("Finished dragging " + e.sender.text(e.sourceNode));
+    }
+
+    function onNavigate(e) {
+        if (e.node) {
+            kendoConsole.log("Navigate " + this.text(e.node));
+        }
+    }
+
+    function onLoadCompleted(e) {
+        kendoConsole.log("Load Completed: " + Array.prototype.map.call(e.nodes, function (item) { return item.Name; }).join(", "));
+    }
+</script>

@@ -1,0 +1,55 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="Grid" height="550">
+    <datasource type="DataSourceTagHelperType.Custom" custom-type="odata" page-size="20" batch="true"
+        server-paging="true"
+        server-sorting="true">
+        <schema data="data">
+             <model id="ProductID">
+                <fields>
+                    <field name="OrderDate" type="date"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport parameter-map="parameterMap">
+            <read url="https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products" dataType="jsonp"/>
+            <create url="https://demos.telerik.com/kendo-ui/service/Products/Create" dataType="jsonp"/>
+            <update url="https://demos.telerik.com/kendo-ui/service/Products/Update" dataType="jsonp"/>
+            <destroy url="https://demos.telerik.com/kendo-ui/service/Products/Destroy" dataType="jsonp"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="ProductName"/>
+        <column field="UnitPrice" width="140"/>
+        <column field="UnitsInStock" width="140"/>
+        <column field="Discontinued" width="140"/>
+        <column width="250">
+            <commands>
+                <column-command text="Edit" name="edit"></column-command>
+                <column-command text="Delete" name="destroy"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <sortable enabled="true"/>
+    <editable mode="inline"/>
+    <pageable enabled="true" numeric="false" previous-next="false"/>
+    <toolbar>
+        <toolbar-button name="create"></toolbar-button> 
+    </toolbar>
+    <scrollable enabled="true" endless="true"/>
+</kendo-grid>
+
+@section scripts {
+    <script type="text/javascript">
+    function parameterMap (options, operation) {
+        if (operation !== "read" && options.models) {
+            return { models: kendo.stringify(options.models) };
+        }
+        return kendo.data.transports["odata"].parameterMap(options, operation);
+    }
+
+    function data(response) {
+        return response.d ? response.d.results : response;
+    }
+</script>
+}

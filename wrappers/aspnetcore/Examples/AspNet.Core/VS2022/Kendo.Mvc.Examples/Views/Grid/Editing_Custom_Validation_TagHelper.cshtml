@@ -1,0 +1,67 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="Grid">
+    <datasource type="DataSourceTagHelperType.Ajax"
+        on-error="error_handler">
+        <schema data="Data" total="Total">
+            <model id="ProductID">
+                <fields>
+                    <field name="ProductID" type="number" editable="false"></field>
+                    <field name="ProductName" type="string"></field>
+                    <field name="UnitPrice" type="number"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+            <read url="/grid/editingcustomvalidation_read"/>
+            <update url="/grid/editingcustomvalidation_update"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="ProductName"/>
+        <column field="UnitPrice" width="140"/>
+        <column width="200">
+            <commands>
+                <column-command text="Edit" name="edit"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <editable mode="inline"/>
+    <pageable enabled="true"/>
+    <scrollable enabled="true"/>
+</kendo-grid>
+
+@section scripts {
+    <script type="text/javascript">
+    //register custom validation rules
+    $(document).on("kendoReady", function () {
+        $.extend(true, kendo.ui.validator, {
+            rules: { // custom rules
+                productnamevalidation: function (input) {
+                    //check if it is the ProductName field
+                    if (input.is("[name=ProductName]") && input.val()) {
+                        input.attr("data-productnamevalidation-msg", "Product Name should start with a capital letter");
+                        return /^[A-Z]/.test(input.val());
+                    }
+                    return true;
+                }
+            }
+        });
+    });
+
+    //show server errors if any
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
+}

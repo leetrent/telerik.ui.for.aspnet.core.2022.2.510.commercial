@@ -1,0 +1,48 @@
+<script id="dropdowntree-template" type="text/kendo-ui-template">
+    #: item.text #
+</script>
+<script id="dropdowntree-value-template" type="text/kendo-ui-template">
+    <span class="k-sprite #: spriteCssClass #"></span>
+    <span> #: data.text # </span>
+</script>
+<div class="demo-section">
+    @(Html.Kendo().DropDownTree()
+                .Name("dropdowntree")
+                .TemplateId("dropdowntree-template")
+                .Checkboxes(true)
+                .ValueTemplateId("dropdowntree-value-template")
+                .DataSpriteCssClassField("spriteCssClass")
+                .HtmlAttributes(new { style = "width: 100%" })
+                .DataSource(source =>
+                {
+                    source.Read(read => read.Action("Read_TemplateData", "DropDownTree"));
+                })
+                .AutoClose(false)
+    )
+</div>
+
+<style>
+    .k-dropdowntree .k-sprite, .k-popup .k-sprite {
+         background-image: url("@Url.Content("~/shared/web/treeview/coloricons-sprite.png")");
+    }
+
+    .rootfolder {
+        background-position: 0 0;
+    }
+
+    .folder {
+        background-position: 0 -16px;
+    }
+
+    .pdf {
+        background-position: 0 -32px;
+    }
+
+    .html {
+        background-position: 0 -48px;
+    }
+
+    .image {
+        background-position: 0 -64px;
+    }
+</style>

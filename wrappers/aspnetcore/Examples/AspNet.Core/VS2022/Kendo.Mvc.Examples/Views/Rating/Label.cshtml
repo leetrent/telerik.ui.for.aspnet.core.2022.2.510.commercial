@@ -1,0 +1,31 @@
+<div class="demo-section">
+    <h4>Rating Label</h4>
+    @(Html.Kendo().Rating()
+        .Name("rating")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+    )
+</div>
+
+<div class="demo-section">
+    <h4>Rating Label Template</h4>
+    @(Html.Kendo().Rating()
+        .Name("ratingLabelTemplate")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+        .Label(l => l.Template("<span>#=value# out of #=maxValue#</span>"))
+    )
+</div>
+
+<div class="demo-section">
+    <h4>Rating Without Label</h4>
+    @(Html.Kendo().Rating()
+        .Name("ratingLabelDisabled")
+        .Min(1)
+        .Max(6)
+        .Value(3)
+        .Label(false)
+    )
+</div>

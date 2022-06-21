@@ -1,0 +1,162 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Categories:</h4>
+    <kendo-dropdownlist name="categories" style="width:100%"
+        datatextfield="CategoryName"
+        datavaluefield="CategoryId"
+        option-label="Select category..."
+        footer-template="Total number of <strong>#: instance.dataSource.total() #</strong> categories found"
+        height="310"
+        template="<span class='k-state-default' style='background-image: url(/shared/web/dropdownlist/#:data.CategoryId#.jpg);'></span><span class='k-state-default' style='padding-left: 15px;'><h3>#: data.CategoryName #</h3></span>"
+        value-template="<span class='selected-value' style='background-image: url(/shared/web/dropdownlist/#:data.CategoryId#.jpg);'></span><span>#:data.CategoryName#</span>">
+        <datasource type="DataSourceTagHelperType.Custom">
+            <transport>
+                <read url="@Url.Action("Overview_Get_Categories", "DropDownList")" />
+            </transport>
+        </datasource>
+    </kendo-dropdownlist>
+
+    <h4 style="margin-top: 2em;">Products:</h4>
+    <kendo-dropdownlist name="products" style="width:100%"
+        auto-bind="false"
+        cascade-from="categories"
+        datatextfield="ProductName"
+        datavaluefield="ProductID"
+        option-label="Select product..."
+        enable="false"
+        on-change="onChange">
+        <datasource type="DataSourceTagHelperType.Custom" server-filtering="true">
+            <groups>
+                <group typeof="string" field="SupplierCountry"></group>
+            </groups>
+            <transport>
+                <read url="@Url.Action("Overview_Get_Products", "DropDownList")" data="filterProducts"/>
+            </transport>
+        </datasource>
+    </kendo-dropdownlist>
+
+    <h4 style="margin-top: 2em;">Ship to:</h4>
+    <kendo-dropdownlist name="shipTo" style="width:100%"
+        auto-bind="false"
+        datatextfield="ShipAddress"
+        datavaluefield="OrderID"
+        option-label="Select address..."
+        enable="false"
+        height="290">
+        <datasource type="DataSourceTagHelperType.Custom" custom-type="aspnetmvc-ajax" page-size="40" server-paging="true" server-filtering="true">
+            <schema data="Data" total="Total"></schema>
+            <transport>
+                <read url="@Url.Action("Virtualization_Read", "DropDownList")"/>
+            </transport>
+        </datasource>
+        <virtual item-height="26" value-mapper="valueMapper" />
+    </kendo-dropdownlist>
+</div>
+
+@section scripts {
+<script>
+    function filterProducts() {
+        return {
+            categories: $("#categories").val()
+        };
+    }
+
+    function onChange(e) {
+        var orders = $("#shipTo").data("kendoDropDownList");
+        orders.value("");
+
+        if (e.sender.value() == "") {
+            orders.enable(false);
+        }
+        else {
+            orders.enable(true);
+        }
+    }
+
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("Orders_ValueMapper", "DropDownList")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+
+    function convertValues(value) {
+        var data = {};
+        value = $.isArray(value) ? value : [value];
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+        return data;
+    }
+</script>
+}
+
+<style>
+    .k-readonly {
+        color: gray;
+    }
+
+    .selected-value {
+        display: inline-block;
+        vertical-align: middle;
+        width: 24px;
+        height: 24px;
+        background-size: 100%;
+        margin-right: 5px;
+        border-radius: 50%;
+    }
+
+    #categories-list .k-item {
+        line-height: 1em;
+        min-width: 300px;
+    }
+
+    /* Material Theme padding adjustment*/
+    .k-material #categories-list .k-item,
+    .k-material #categories-list .k-item.k-state-hover,
+    .k-materialblack #categories-list .k-item,
+    .k-materialblack #categories-list .k-item.k-state-hover {
+        padding-left: 5px;
+        border-left: 0;
+    }
+
+    #categories-list .k-item > span {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        vertical-align: middle;
+        display: table-cell;
+        vertical-align: central;
+        margin: 10px 10px 10px 5px;
+    }
+
+    #categories-list .k-item > span:first-child {
+        -moz-box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+        -webkit-box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+        box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+        margin: 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+
+    #categories-list h3 {
+        font-size: 1.2em;
+        font-weight: normal;
+        margin: 0 0 1px 0;
+        padding: 0;
+    }
+
+    #categories-list p {
+        margin: 0;
+        padding: 0;
+        font-size: .8em;
+    }
+</style>

@@ -1,0 +1,46 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var component_type = new List<string>() {
+        "modern",
+        "classic"
+    };
+}
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Set component  type</h4>
+        <kendo-dropdownlist name="ddl"
+                            value="modern"
+                            on-change="change"
+                            bind-to="component_type">
+        </kendo-dropdownlist>
+    </div>
+</div>
+
+<div class="demo-section">
+    <h4>Select Date/Time:</h4>
+    <div>
+        <kendo-datetimepicker component-type="modern" date-input="true" value="DateTime.Now" name="datetimepicker" style="width: 100%" title="datetimepicker">
+        </kendo-datetimepicker>
+    </div>
+</div>
+
+
+<script>
+    function onChange(e) {
+        var picker = $("#datetimepicker").data("kendoDateTimePicker");
+        var type = this.value();
+        var value = picker.value();
+        var parent = $("#datetimepicker").parent();
+
+        picker.destroy();
+        parent.empty();
+        parent.append('<input id="datetimepicker" title="datetimepicker" style="width: 100%;" />')
+
+        $("#datetimepicker").kendoDateTimePicker({
+            componentType: type,
+            value: value
+        });
+    }
+</script>

@@ -1,0 +1,129 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-notification name="notification"
+                    stacking="NotificationStackingSettings.Down"
+                    auto-hide-after="0">
+
+    <position pinned="true" top="30" right="30" />
+
+    <templates>
+        <notification-template type="info" template-id="emailTemplate" />
+        <notification-template type="error" template-id="errorTemplate" />
+        <notification-template type="success" template-id="successTemplate" />
+    </templates>
+
+    <popup-animation>
+        <open duration="500" />
+        <close duration="0" />
+    </popup-animation>
+</kendo-notification>
+
+<div class="demo-section">
+
+    <h3>Show notification:</h3>
+    <p>
+        <button id="showEmailNotification" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">Email Notification</button><br />
+        <button id="showErrorNotification" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">Error Notification</button><br />
+        <button id="showSuccessNotification" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">Upload Success Notification</button>
+    </p>
+    <h3>Hide notification:</h3>
+    <p>
+        <button id="hideAllNotifications" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">Hide All Notifications</button>
+    </p>
+
+</div>
+
+<script id="emailTemplate" type="text/x-kendo-template">
+    <div class="new-mail">
+        <img src="@Url.Content("~/shared/web/notification/envelope.png")" />
+        <h3>#= title #</h3>
+        <p>#= message #</p>
+    </div>
+</script>
+
+<script id="errorTemplate" type="text/x-kendo-template">
+    <div class="wrong-pass">
+        <img src="@Url.Content("~/shared/web/notification/error-icon.png")" />
+        <h3>#= title #</h3>
+        <p>#= message #</p>
+    </div>
+</script>
+
+<script id="successTemplate" type="text/x-kendo-template">
+    <div class="upload-success">
+        <img src="@Url.Content("~/shared/web/notification/success-icon.png")" />
+        <h3>#= message #</h3>
+    </div>
+</script>
+<script>
+    $(document).on("kendoReady", function () {
+
+        var notification = $("#notification").data("kendoNotification");
+
+        $("#showEmailNotification").click(function () {
+            notification.show({
+                title: "New E-mail",
+                message: "You have 1 new mail message!"
+            }, "info");
+        });
+
+        $("#showErrorNotification").click(function () {
+            notification.show({
+                title: "Wrong Password",
+                message: "Please enter your password again."
+            }, "error");
+        });
+
+        $("#showSuccessNotification").click(function () {
+            notification.show({
+                message: "Upload Successful"
+            }, "success");
+        });
+
+        $("#hideAllNotifications").click(function () {
+            notification.hide();
+        });
+
+    });
+</script>
+
+<style>
+    .demo-section p {
+        margin: 3px 0 20px;
+        line-height: 40px;
+    }
+    .demo-section .k-button {
+        width: 250px;
+    }
+
+
+    /* Notifications */
+    .k-notification h3 {
+        padding: 30px 10px 5px;
+        font-size: 1em;
+        line-height: normal;
+    }
+    .k-notification img {
+        margin: 20px;
+        float: left;
+    }
+
+
+    /* Info template */
+    .new-mail {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Error template */
+    .wrong-pass {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Success template */
+    .upload-success {
+        width: 300px;
+        height: 100px;
+    }
+</style>

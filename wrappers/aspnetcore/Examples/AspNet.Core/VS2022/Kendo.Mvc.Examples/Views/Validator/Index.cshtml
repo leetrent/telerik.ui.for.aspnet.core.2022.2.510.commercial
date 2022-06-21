@@ -1,0 +1,143 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var messages = new Dictionary<string, string>() { { "custom", "Please choose another Start Time." } };
+    var rules = new Dictionary<string, string>() { { "custom", "customFunction" } };
+}
+
+<div class="demo-section">
+
+    <div id="validation-summary">
+    </div>
+
+    <form id="ticketsForm" class="k-form k-form-vertical" kendo-validator="true" kendo-messages="messages" kendo-rules="rules">
+        <ul class="k-form-group">
+            <li class="k-form-field">
+                <label for="fullname" class="k-form-label">Your Name</label>
+                <span class="k-form-field-wrap">
+                    @(Html.Kendo()
+                        .TextBox()
+                        .Name("fullname")
+                        .HtmlAttributes(new { placeholder = "Full name", required = "required" })
+                    )
+                </span>
+            </li>
+            <li class="k-form-field">
+                <label for="search" class="k-form-label">Movie</label>
+                <span class="k-form-field-wrap">
+                    @(Html.Kendo()
+                        .TextBox()
+                        .Name("search")
+                        .HtmlAttributes(new { type = "search", required = "required", validationmessage = "Select movie" })
+                    )
+                    <span class="k-invalid-msg" data-for="search"></span>
+                </span>
+            </li>
+            <li class="k-form-field">
+                <label for="time" class="k-form-label">Start time</label>
+                <span class="k-form-field-wrap">
+                    @(Html.Kendo()
+                        .DropDownList()
+                        .Name("time")
+                        .BindTo(new[] {
+                            new SelectListItem { Text="14:00" },
+                            new SelectListItem { Text="15:30" },
+                            new SelectListItem { Text="17:00" },
+                            new SelectListItem { Text="20:15" }
+                        })
+                    )
+                    <span class="k-invalid-msg" data-for="time"></span>
+                </span>
+            </li>
+            <li class="k-form-field">
+                <label for="amount" class="k-form-label">Amount</label>
+                <span class="k-form-field-wrap">
+                    @(Html.Kendo()
+                        .NumericTextBox()
+                        .Name("amount")
+                        .HtmlAttributes(new { max = "10", min = "1", required = "required", data_max_msg = "Enter value between 1 and 10" })
+                    )
+                    <span class="k-invalid-msg" data-for="amount"></span>
+                </span>
+            </li>
+            <li class="k-form-field">
+                <label for="email" class="k-form-label">Email</label>
+                <span class="k-form-field-wrap">
+                    @(Html.Kendo()
+                        .TextBox()
+                        .Name("email")
+                        .HtmlAttributes(new { placeholder = "e.g. myname@example.net", required = "required", type = "email", data_email_msg = "Email format is not valid" })
+                    )
+                </span>
+            </li>
+            <li class="k-form-field">
+                <label for="tel" class="k-form-label">Phone</label>
+                <span class="k-form-field-wrap">
+                    @(Html.Kendo()
+                        .TextBox()
+                        .Name("tel")
+                        .HtmlAttributes(new { placeholder = "Enter a five digit number", pattern = "\\d{5}", required = "required", type = "tel", validationmessage = "Enter exactly five digits" })
+                    )
+                </span>
+            </li>
+            <li class="k-form-field">
+                <label for="rating" class="k-form-label">Rating</label>
+                <span class="k-form-field-wrap">
+                    @(Html.Kendo()
+                        .Rating()
+                        .Name("rating")
+                        .Min(1)
+                        .Max(5)
+                        .HtmlAttributes(new { @class = "test", required = "required", validationmessage = "Rating is required" })
+                    )
+                    <span class="k-invalid-msg" data-for="rating"></span>
+                </span>
+            </li>
+            <li class="k-form-field">
+                <label class="k-form-label">Terms of Service</label>
+                <span class="k-form-field-wrap">
+                    <label>
+                        <input type="checkbox" name="Accept" required validationMessage="Acceptance is required" />
+                        I accept the terms of service.
+                    </label>
+                </span>
+            </li>
+            <li class="k-form-buttons">
+                <button class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" type="submit">Submit</button>
+            </li>
+        </ul>
+    </form>
+</div>
+
+
+<style>
+</style>
+
+
+@section scripts {
+<script>
+    function customFunction(input) {
+
+        if (input.attr('name') === "time" && input.val() == "14:00") {
+            return false;
+        }
+
+        return true;
+    }
+
+    $(document).on("kendoReady", function () {
+        var validator = $("#ticketsForm").data("kendoValidator");
+        var validationSummary = $("#validation-summary");
+
+        $("form").submit(function(event) {
+            event.preventDefault();
+
+            if (validator.validate()) {
+                validationSummary.html("<div class='k-messagebox k-messagebox-success'>Hooray! Your tickets has been booked!</div>");
+            } else {
+                validationSummary.html("<div class='k-messagebox k-messagebox-error'>Oops! There is invalid data in the form.</div>");
+            }
+        });
+    });
+</script>
+}

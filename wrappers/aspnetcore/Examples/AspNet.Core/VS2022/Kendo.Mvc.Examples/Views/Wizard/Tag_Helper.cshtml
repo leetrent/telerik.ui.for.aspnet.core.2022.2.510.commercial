@@ -1,0 +1,50 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section wide" style="width: 700px">
+    <kendo-wizard name="wizard" on-done="onDone">
+        <wizard-steps>
+            <wizard-step title="Start">
+                <wizard-step-buttons>
+                    <wizard-step-button name="next" text="Next"></wizard-step-button>
+                </wizard-step-buttons>
+                <wizard-step-content>
+                    <div class="wizardContainer">
+                        <div style="text-align:center">
+                            <h2>Welcome to the Registration Form</h2>
+                            <h2>for the monthly Telerik seminar</h2>
+                        </div>
+                    </div>
+                </wizard-step-content>
+            </wizard-step>
+            <wizard-step title="User details">
+                <wizard-step-buttons>
+                    <wizard-step-button name="previous" text="Previous"></wizard-step-button>
+                    <wizard-step-button name="done" text="Register"></wizard-step-button>
+                </wizard-step-buttons>
+                <wizard-step-form name="registrationForm" orientation="vertical">
+                    <validatable validate-on-blur="true" />
+                    <form-items>
+                        <form-item field="FirstName" html-attributes='new Dictionary<string, object> { { "required", "required" } }'>
+                            <item-label text="First Name:" />
+                        </form-item>
+                        <form-item field="LastName" html-attributes='new Dictionary<string, object> { { "required", "required" } }'>
+                            <item-label text="Last Name:"  />
+                        </form-item>
+                        <form-item field="Email" html-attributes='new Dictionary<string, object> { { "required", "required" } }'>
+                            <item-label text="Email:" />
+                        </form-item>
+                    </form-items>
+                </wizard-step-form>
+            </wizard-step>
+        </wizard-steps>
+    </kendo-wizard>
+</div>
+
+@section scripts {
+<script>
+    function onDone(e) {
+        e.originalEvent.preventDefault();
+        kendo.alert("Thank you for registering! Details about the upcoming Telerik seminar will be sent to your email.");
+    }
+</script>
+}

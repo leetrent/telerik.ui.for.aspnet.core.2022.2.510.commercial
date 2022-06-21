@@ -1,0 +1,76 @@
+<div id="example">
+
+    <div class="configurator">
+        <div class="header">Configurator</div>
+
+        <div class="box-col">
+            <h4>Get / Set Items</h4>
+            <ul class="options">
+                <li>
+                    <button id="getItems">Get item</button>
+                    <button id="resetItems">Reset items</button>
+                    <button id="setItems">Set Items</button>
+                </li>
+            </ul>
+            <br/>
+            <button  onClick="window.location.reload()">
+                <span class="k-icon k-i-refresh"></span>Refresh Breadcrumb
+            </button>
+        </div>
+    </div>
+
+    <div class="demo-section wide">
+        <h4>Breadcrumb API</h4>
+        @(Html.Kendo().Breadcrumb()
+                .Name("breadcrumb")
+                .Items(items =>
+                {
+                    items.Add()
+                         .Type(BreadcrumbItemType.RootItem)
+                         .Href("https://demos.telerik.com/aspnet-core/")
+                         .Text("All Components")
+                         .ShowText(true)
+                         .Icon("home")
+                         .ShowIcon(true);
+                    items.Add()
+                         .Type(BreadcrumbItemType.Item)
+                         .Href("/breadcrumb")
+                         .Text("Breadcrumb")
+                         .ShowText(true);
+                    items.Add()
+                        .Type(BreadcrumbItemType.Item)
+                        .Href("/api")
+                        .Text("API")
+                        .ShowText(true);
+                })
+        )
+    </div>    
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var breadcrumb = $("#breadcrumb").data("kendoBreadcrumb");
+
+        var setItems = function () {
+            breadcrumb.items([
+                { type: "rootitem", href: "https://demos.telerik.com/aspnet-core/", text: "All Components", icon: "globe" },
+                { type: "item", href: "/breadcrumb", text: "Breadcrumb", showText: true },
+                { type: "item", href: "/api", text: "API", showText: true },
+            ])
+        };
+
+        $("#setItems").click(setItems);
+
+        $("#getItems").click(function () {
+            if (breadcrumb.items()[0]) {
+                alert(breadcrumb.items()[0].text);
+            }
+        });
+
+        $("#resetItems").click(function () {
+            breadcrumb.items([]);
+        });
+    });
+</script>
+}

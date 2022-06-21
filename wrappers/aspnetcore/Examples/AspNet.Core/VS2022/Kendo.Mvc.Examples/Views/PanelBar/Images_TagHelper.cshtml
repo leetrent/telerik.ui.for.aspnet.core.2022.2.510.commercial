@@ -1,0 +1,79 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+
+    <h4>PanelBar with images</h4>
+    <kendo-panelbar name="panelbar-images">
+        <items>
+            <panelbar-item text="Baseball" image-url="@Url.Content("~/shared/icons/sports/baseball.png")">
+                <items>
+                    <panelbar-item text="Top News" image-url="@Url.Content("~/shared/icons/16/star.png")"></panelbar-item>
+                    <panelbar-item text="Photo Galleries" image-url="@Url.Content("~/shared/icons/16/photo.png")"></panelbar-item>
+                    <panelbar-item text="Video Records" image-url="@Url.Content("~/shared/icons/16/video.png")"></panelbar-item>
+                    <panelbar-item text="Radio Records" image-url="@Url.Content("~/shared/icons/16/speaker.png")"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Golf" image-url="@Url.Content("~/shared/icons/sports/golf.png")">
+                <items>
+                    <panelbar-item text="Top News" image-url="@Url.Content("~/shared/icons/16/star.png")"></panelbar-item>
+                    <panelbar-item text="Photo Galleries" image-url="@Url.Content("~/shared/icons/16/photo.png")"></panelbar-item>
+                    <panelbar-item text="Video Records" image-url="@Url.Content("~/shared/icons/16/video.png")"></panelbar-item>
+                    <panelbar-item text="Radio Records" image-url="@Url.Content("~/shared/icons/16/speaker.png")"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Swimming" image-url="@Url.Content("~/shared/icons/sports/snowboarding.png")">
+                <items>
+                    <panelbar-item text="Top News" image-url="@Url.Content("~/shared/icons/16/star.png")"></panelbar-item>
+                    <panelbar-item text="Photo Galleries" image-url="@Url.Content("~/shared/icons/16/photo.png")"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Snowboarding" image-url="@Url.Content("~/shared/icons/sports/swimming.png")">
+                <items>
+                    <panelbar-item text="Top News" image-url="@Url.Content("~/shared/icons/16/star.png")"></panelbar-item>
+                    <panelbar-item text="Video Records" image-url="@Url.Content("~/shared/icons/16/video.png")"></panelbar-item>
+                </items>
+            </panelbar-item>
+        </items>
+    </kendo-panelbar>
+</div>
+
+<div class="demo-section">
+    <h4>PanelBar with sprites</h4>
+    <kendo-panelbar name="panelbar-sprites">
+        <items>
+            <panelbar-item text="Brazil" icon-class="k-sprite brazilFlag">
+                <items>
+                    <panelbar-item text="History" icon-class="k-sprite historyIcon"></panelbar-item>
+                    <panelbar-item text="Geography" icon-class="k-sprite geographyIcon"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="India" icon-class="k-sprite indiaFlag">
+                <items>
+                    <panelbar-item text="History" icon-class="k-sprite historyIcon"></panelbar-item>
+                    <panelbar-item text="Geography" icon-class="k-sprite geographyIcon"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Netherlands" icon-class="k-sprite netherlandsFlag">
+                <items>
+                    <panelbar-item text="History" icon-class="k-sprite historyIcon"></panelbar-item>
+                    <panelbar-item text="Geography" icon-class="k-sprite geographyIcon"></panelbar-item>
+                </items>
+            </panelbar-item>
+        </items>
+    </kendo-panelbar>
+</div>
+<style>
+    .k-panel {
+        -webkit-transform: translatez(0);
+    }
+
+    #panelbar-sprites .k-sprite {
+        background-image: url('@(Url.Content("~/shared/styles/flags.png"))');
+    }
+
+    .brazilFlag { background-position: 0 0; }
+    .indiaFlag { background-position: 0 -32px; }
+    .netherlandsFlag { background-position: 0 -64px; }
+    .historyIcon { background-position: 0 -96px; }
+    .geographyIcon { background-position: 0 -128px; }
+</style>

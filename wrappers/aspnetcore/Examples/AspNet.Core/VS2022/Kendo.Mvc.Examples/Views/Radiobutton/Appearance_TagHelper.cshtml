@@ -1,0 +1,57 @@
+@addTagHelper "*, Kendo.Mvc"
+
+<div id="example">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <ul class="options">
+                <li>
+                    <h4>Size:</h4>
+                    <input id="size" name="size" />
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="demo-section">
+        <kendo-radiobutton name="radioBtn1" size="medium" checked="true" label="Agree"></kendo-radiobutton>
+        <kendo-radiobutton name="radioBtn2" size="medium" label="Disagree"></kendo-radiobutton>
+        <kendo-radiobutton name="radioBtn3" size="medium" label="N/A"></kendo-radiobutton>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            var size = $("#size").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                value: "medium",
+                change: onChange,
+                dataSource: [
+                    { text: "Small", value: "small" },
+                    { text: "Medium", value: "medium" },
+                    { text: "Large", value: "large" }
+                ]
+            }).data("kendoDropDownList");
+
+            function onChange(e) {
+
+                var sizeValue = size.value();
+
+                $("#radioBtn1").data('kendoRadioButton').setOptions({
+                    size: sizeValue
+                })
+
+                $("#radioBtn2").data('kendoRadioButton').setOptions({
+                    size: sizeValue
+                })
+
+                $("#radioBtn3").data('kendoRadioButton').setOptions({
+                    size: sizeValue
+                })
+            }
+        });
+    </script>
+
+</div>

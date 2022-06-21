@@ -1,0 +1,37 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="gauge-container">
+    <kendo-lineargauge name="gauge">
+        <lineargauge-pointers>
+            <pointer value="10"></pointer>
+        </lineargauge-pointers>
+        <scale major-unit="20" minor-unit="2" min="-40" max="60">
+            <lineargauge-scale-ranges>
+                <range color="#2798df" from="-40" to="-20">
+                </range>
+                <range color="#ffc700" from="30" to="45">
+                </range>
+                <range color="#c20000" from="45" to="60">
+                </range>
+            </lineargauge-scale-ranges>
+        </scale>
+    </kendo-lineargauge>
+</div>
+
+<style>
+    #gauge-container {
+        text-align: center;
+        margin: 0 auto;
+        background: transparent url("@Url.Content("~/shared/dataviz/gauge/linear-gauge-container.png")") no-repeat 50% 50%;
+        background-size: contain;
+        padding: 18px;
+        width: 300px;
+        height: 300px;
+    }
+
+    #gauge {
+        height: 100%;
+        display: inline-block;
+        zoom: 1;
+    }
+</style>

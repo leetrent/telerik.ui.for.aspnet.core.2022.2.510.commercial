@@ -1,0 +1,21 @@
+<div id="example">
+    <div class="demo-section wide">
+        @(Html.Kendo().Timeline<Kendo.Mvc.Examples.Models.TimelineEventModel>()
+            .Name("Timeline")
+            .DataDateField("EventDate")
+            .DataDescriptionField("Description")
+            .DataSubtitleField("Subtitle")
+            .DataTitleField("Title")
+            .DataImagesField("Images")
+            .DataActionsField("Actions")
+            .Orientation(TimelineOrientation.Horizontal)
+            .DataSource(dt => dt.Read("GetHorizontalEvents", "Timeline"))
+        )
+    </div>
+</div>
+
+<style>
+    .demo-section {
+        max-width: 1200px;
+    }
+</style>

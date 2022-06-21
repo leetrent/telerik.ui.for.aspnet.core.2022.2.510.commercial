@@ -1,0 +1,93 @@
+@addTagHelper "*, Kendo.Mvc"
+
+<div class="demo-section">
+    <form id="employeeForm" data-role="validator" novalidate="novalidate">
+        <h3>Employee</h3>
+        <ul>
+            <li>
+                <label for="FirstName">First Name:</label>
+                <span class="k-textbox k-input k-input-md k-rounded-md k-input-solid">
+                    <input type="text" class="k-input-inner" name="FirstName" id="FirstName" required="required" />
+                </span>
+            </li>
+            <li>
+                <label for="LastName">Last Name:</label>
+                <span class="k-textbox k-input k-input-md k-rounded-md k-input-solid">
+                    <input type="text" class="k-input-inner" name="LastName" id="LastName" required="required" />
+                </span>
+            </li>
+            <li>
+                <label for="PhoneNumber">Phone Number:</label>
+                   <kendo-maskedtextbox mask="(999) 000-0000" name="PhoneNumber"
+                            required="required"
+                            style="width:100%"
+                            data-validmask-msg="Phone number is incomplete">
+                   </kendo-maskedtextbox>
+                <span data-for='PhoneNumber' class='k-invalid-msg'></span>
+            </li>
+            <li class="actions">
+                <button type="button" data-role="button" data-icon="check" data-click='save'>Save</button>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<script type="text/javascript">
+        $(document).ready( function () {
+            var container = $("#employeeForm");
+            kendo.init(container);
+            container.kendoValidator({
+                rules: {
+                    validmask: function (input) {
+                        if (input.is("[data-validmask-msg]") && input.val() != "") {
+                            var maskedtextbox = input.data("kendoMaskedTextBox");
+                            return maskedtextbox.value().indexOf(maskedtextbox.options.promptChar) === -1;
+                        }
+
+                        return true;
+                    }
+                }
+            });
+        });
+
+        function save(e) {
+            var validator = $("#employeeForm").data("kendoValidator");
+            if (validator.validate()) {
+                alert("Employee Saved");
+            }
+        }
+
+    </script>
+
+<style>
+    #employeeForm ul {
+        margin: 0 0 -2em;
+        padding: 0;
+    }
+
+    #employeeForm li {
+        padding-bottom: 2em;
+        list-style: none;
+    }
+
+    #employeeForm input {
+        width: 100%;
+    }
+
+    label {
+        display: block;
+        padding-bottom: 1em;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    span.k-tooltip {
+        margin-left: 6px;
+    }
+
+    .demo-section {
+        padding: 30px;
+        width: 500px;
+    }
+</style>

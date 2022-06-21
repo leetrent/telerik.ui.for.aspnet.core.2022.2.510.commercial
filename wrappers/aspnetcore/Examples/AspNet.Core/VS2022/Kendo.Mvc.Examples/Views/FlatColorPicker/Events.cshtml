@@ -1,0 +1,15 @@
+<script>
+        function change(e) {
+             kendoConsole.log("Change in picker #" + this.element.attr("id") + " :: " + e.value);
+        }
+</script>
+
+<div class="k-d-flex k-justify-content-center">
+     @(Html.Kendo().FlatColorPicker()
+           .Name("flatColorPicker")
+           .Value("#00f")
+           .Events(ev => ev.Change("change"))
+     )
+</div>
+
+

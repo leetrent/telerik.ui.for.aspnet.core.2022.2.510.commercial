@@ -1,0 +1,41 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>Buttons</h4>
+    <kendo-button name="textButton" on-click="onClick">
+        Text button
+    </kendo-button>
+
+    <kendo-button name="iconTextButton" icon="ungroup" tag="span" on-click="onClick">
+        Icon and text
+    </kendo-button>
+
+    <kendo-button name="iconButton" icon="refresh" tag="em" on-click="onClick">
+        <span class='k-icon' title='Refresh'></span>
+    </kendo-button>
+
+    <kendo-button name="disabledButton" enable="false" tag="a" on-click="onClick">
+        Disabled button
+    </kendo-button>
+</div>
+
+@section scripts {
+<script>
+    function onClick(e) {
+        kendoConsole.log("event :: click (" + $(e.event.target).closest(".k-button").attr("id") + ")");
+    }
+
+    $(document.body).keydown(function (e) {
+        if (e.altKey && e.keyCode == 87) {
+            $("#textButton")[0].focus();
+        }
+    });
+</script>
+}
+
+<style>
+    .demo-section {
+        line-height: 4em;
+    }
+</style>

@@ -1,0 +1,58 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="add-product" class="demo-section">
+    <p class="title">Add new product</p>
+    <ul id="fieldlist">
+        <li>
+            <label for="currency">Price:</label>
+            <kendo-numerictextbox format="c" max="100" min="0" value="30" name="currency" style="width: 100%" title="currency">
+            </kendo-numerictextbox>
+        </li>
+        <li>
+            <label for="percentage">Price Discount:</label>
+            <kendo-numerictextbox format="p0" max="0.9" min="0" step="0.01" value="0.05" name="percentage" style="width: 100%" title="percentage">
+            </kendo-numerictextbox>
+        </li>
+        <li>
+            <label for="custom">Weight:</label>
+            <kendo-numerictextbox format="#.00 kg" min="0" value="2" name="custom" style="width: 100%" title="custom">
+            </kendo-numerictextbox>
+        </li>
+        <li>
+            <label for="numeric">Currently in stock:</label>
+            <kendo-numerictextbox placeholder="Enter numeric value" value="17" name="numeric" style="width: 100%" title="numeric">
+            </kendo-numerictextbox>
+        </li>
+    </ul>
+</div>
+<style>
+    .demo-section {
+        padding: 0;
+    }
+
+    #add-product .title {
+        font-size: 16px;
+        color: #fff;
+        background-color: #1e88e5;
+        padding: 20px 30px;
+        margin: 0;
+    }
+
+    #fieldlist {
+        margin: 0 0 -1.5em;
+        padding: 30px;
+    }
+
+        #fieldlist li {
+            list-style: none;
+            padding-bottom: 1.5em;
+        }
+
+        #fieldlist label {
+            display: block;
+            padding-bottom: .6em;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+</style>

@@ -1,0 +1,164 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Enable/Disable</h4>
+        <ul class="options">
+            <li>
+                @(Html.Kendo().NumericTextBox()
+                        .Name("enableStep")
+                        .Value(0)
+                        .Min(0)
+                        .Format("n0")
+                        .Decimals(0)
+                )
+                <button class="enableStep">Enable Step</button>
+            </li>
+            <li>
+                @(Html.Kendo().NumericTextBox()
+                        .Name("disableStep")
+                        .Value(0)
+                        .Min(0)
+                        .Format("n0")
+                        .Decimals(0)
+                )
+                <button class="disableStep">Disable Step</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Insert/Remove Step</h4>
+        <ul class="options">
+            <li>
+                <input type="text" value="1" id="insertAt"  /> <button class="insertStep">Insert At</button>
+            </li>
+            <li>
+                <input type="text" value="1" id="removeAt"  /> <button class="removeStep">Remove At</button>
+            </li>
+
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Navigate</h4>
+        <ul class="options">
+            <li>
+                <button class="previousStep">Previous Step</button>
+            </li>
+            <li>
+                <button class="nextStep">Next Step</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Select Step at Index</h4>
+        <ul class="options">
+            <li>
+                <input type="text" value="0" id="stepIndex"  /> <button class="selectStep">Select</button>
+            </li>
+
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Error state</h4>
+        <ul class="options">
+            <li>
+                <button class="toggleError">Toggle Error state of selected Step</button>
+            </li>
+
+        </ul>
+    </div>
+    <div class="box-col">
+        <h4>Reset</h4>
+        <ul class="options">
+            <li>
+                <button class="resetStepper">Reset Stepper</button>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<div class="demo-section wide">
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Linear(false)
+        .Steps(s =>
+        {
+            s.Add().Label("First step");
+            s.Add().Label("Second step");
+            s.Add().Label("Third step").Selected(true);
+            s.Add().Label("Fourth step").Enabled(false);
+            s.Add().Label("Fifth step");
+        })
+    )
+</div>
+
+@section scripts {
+<script>
+$(document).on("kendoReady", function () {
+    var select = function(e) {
+        if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode){
+            stepper.select($("#stepIndex").val());
+        }
+    },
+    insert = function (e) {
+        if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+            var index = $("#insertAt").val();
+            var step = { label: "Inserted Step", icon: "file" };
+            stepper.insertAt(index, step);
+    },
+    remove = function (e) {
+        if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+            var index = $("#removeAt").val();
+            stepper.removeAt(index);
+        },
+    enable = function (e) {
+        if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+            var index = $("#enableStep").val();
+            if (index < stepper.steps().length) {
+                stepper.steps()[index].enable(true);
+            }
+        },
+    disable = function (e) {
+        if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+            var index = $("#disableStep").val();
+            if (index < stepper.steps().length) {
+                stepper.steps()[index].enable(false);
+            }
+        };
+
+    $(".nextStep").click(function(e){
+        stepper.next();
+    });
+
+    $(".previousStep").click(function(e){
+        stepper.previous();
+    });
+
+    $(".toggleError").click(function(e){
+        var step = stepper.select();
+        step.setValid(step.element.hasClass("k-step-error"))
+    });
+
+    $(".resetStepper").click(function(){
+        window.location.reload();
+    })
+
+    $(".selectStep").click(select);
+    $("#stepIndex").keypress(select);
+
+    $(".insertStep").click(insert);
+    $("#insertStep").keypress(insert);
+
+    $(".removeStep").click(remove);
+    $("#removeStep").keypress(remove);
+
+    $(".enableStep").click(enable);
+    $("#enableStep").keypress(enable);
+
+    $(".disableStep").click(disable);
+    $("#disableStep").keypress(disable);
+
+    var stepper = $("#stepper").data("kendoStepper");
+});
+</script>
+}

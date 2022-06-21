@@ -1,0 +1,113 @@
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h3>API methods</h3>
+        <ul class="options">
+            <li>
+                <button id="path" >Get path</button>
+            </li>
+            <li>
+                <button id="getView" >Get view</button>
+            </li>
+            <li>
+                <button id="refresh" >Refresh</button>
+            </li>
+        </ul>
+    </div>
+    <div class="box-col">
+        <h3>Select view</h3>
+        <ul class="options">
+            <li>
+                <select id="setView">
+                    <option value="list">list</option>
+                    <option value="grid">grid</option>
+                </select>
+            </li>
+            <li>
+                <button id="files" >Get selected files/folders</button>
+            </li>
+            <li>
+                <button id="size" >Get size</button>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+@(Html.Kendo().FileManager().Name("filemanager")
+    .DataSource(ds =>
+        {
+            ds.Read(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Read", "FileManagerData")
+        );
+        ds.Destroy(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Destroy", "FileManagerData")
+        );
+        ds.Create(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Create", "FileManagerData")
+        );
+        ds.Update(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Update", "FileManagerData")
+        );
+    })
+    .UploadUrl("Upload", "FileManagerData")
+    .Toolbar(tb => tb.Items(items =>
+    {
+        items.Add("createFolder");
+        items.Add("upload");
+        items.Add("sortField");
+        items.Add("changeView");
+        items.Add("spacer");
+        items.Add("details");
+        items.Add("search");
+    }))
+    .ContextMenu(context => context.Items(items => items.Add("rename")))
+)
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var filemanager = $("#filemanager").getKendoFileManager();
+
+        $("#setView").kendoDropDownList({
+            optionLabel: "Select view...",
+            change: viewOnChange,
+        });
+
+        $("#path").click(function () {
+            alert(filemanager.path());
+        });
+
+        $("#getView").click(function () {
+            alert(filemanager.view().widgetComponent.options.name);
+        });
+
+        $("#refresh").click(function () {
+            filemanager.refresh();
+        });
+
+        $("#files").click(function () {
+            var selectedString = $.map(filemanager.getSelected(), function(obj){
+                return obj.name
+            }).join(',');
+
+            alert(selectedString);
+        });
+
+        $("#size").click(function () {
+            var size = filemanager.size();
+            alert("width: " + size.width + ", height: " + size.height);
+        });
+
+        function viewOnChange() {
+            filemanager.view($("#setView").val());
+        }
+    });
+</script>
+}
+
+

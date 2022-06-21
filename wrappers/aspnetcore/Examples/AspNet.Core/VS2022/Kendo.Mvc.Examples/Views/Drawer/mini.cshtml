@@ -1,0 +1,143 @@
+<div id="example">
+    <div class="demo-section wide">
+        @(Html.Kendo().ToolBar()
+            .Name("ToolBar")
+            .Items(items =>
+            {
+                items.Add().Type(CommandType.Button).Icon("menu").Click("toggleDrawer").HtmlAttributes(new { @class = "k-flat" });
+                items.Add().Template("<h3 style='margin-left: 20px;'>Weather Forecast in Europe</h3>");
+            })
+        )
+
+        @(Html.Kendo().Drawer()
+            .Name("drawer")
+            .Template(@"
+                <ul>
+                    <li data-role='drawer-item' class='k-state-selected'><span class='k-icon flag france-flag'></span><span class='k-item-text'>Paris</span></li>
+                    <li data-role='drawer-item'><span class='k-icon flag spain-flag'></span><span class='k-item-text'>Madrid</span></li>
+                    <li data-role='drawer-item'><span class='k-icon flag italy-flag'></span><span class='k-item-text'>Rome</span></li>
+                    <li data-role='drawer-item'><span class='k-icon flag germany-flag'></span><span class='k-item-text'>Berlin</span></li>
+                </ul>
+            ")
+            .Mode("push")
+            .Mini(true)
+            .Position("left")
+            .MinHeight(330)
+            .SwipeToOpen(true)
+            .Mode("push")
+            .Content(@"
+                <div id='drawer-content'>
+                    <div id='Paris'>
+                        <span class='rainy '>&nbsp;</span>
+                        <div class='weather'>
+                            <h2>17<span>&ordm;C</span></h2>
+                            <p>Rainy weather in Paris.</p>
+                        </div>
+                    </div>
+                    <div class='hide'>
+                        <span class='sunny'>&nbsp;</span>
+                        <div class='weather'>
+                            <h2>29<span>&ordm;C</span></h2>
+                            <p>Sunny weather in Madrid.</p>
+                        </div>
+                    </div>
+                    <div class='hide'>
+                        <span class='sunny'>&nbsp;</span>
+                        <div class='weather'>
+                            <h2>21<span>&ordm;C</span></h2>
+                            <p>Sunny weather in Rome.</p>
+                        </div>
+                    </div>
+                    <div class='hide'>
+                        <span class='cloudy'>&nbsp;</span>
+                        <div class='weather'>
+                            <h2>16<span>&ordm;C</span></h2>
+                            <p>Cloudy weather in Berlin.</p>
+                        </div>
+                    </div>
+                </div>
+            ")
+            .Events(x => x.ItemClick("onItemClick")))
+    </div>
+
+    @section scripts {
+<script>
+        function onItemClick(e) {
+            $("#drawer-content > div").addClass("hide");
+            $("#drawer-content > div").eq(e.item.index()).removeClass("hide");
+        }
+
+        function toggleDrawer() {
+            var drawerInstance = $("#drawer").data().kendoDrawer;
+            var drawerContainer = drawerInstance.drawerContainer;
+            if(drawerContainer.hasClass("k-drawer-expanded")) {
+                drawerInstance.hide();
+            } else {
+                drawerInstance.show();
+            }
+        }
+    </script>
+}
+
+    <style>
+        .sunny, .cloudy, .rainy {
+            display: block;
+            margin: 30px auto 10px;
+            width: 128px;
+            height: 128px;
+            background: url('@Url.Content("~/shared/web/tabstrip/weather.png")') transparent no-repeat 0 0;
+        }
+
+        .cloudy {
+            background-position: -128px 0;
+        }
+
+        .rainy {
+            background-position: -256px 0;
+        }
+
+        .weather {
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+
+        .flag {
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: transparent;
+        }
+
+        .france-flag {
+            background-image: url("@Url.Content("~/shared/web/drawer/france-flag.png")");
+        }
+
+        .spain-flag {
+            background-image: url("@Url.Content("~/shared/web/drawer/spain-flag.png")");
+        }
+
+        .italy-flag {
+            background-image: url("@Url.Content("~/shared/web/drawer/italy-flag.png")");
+        }
+
+        .germany-flag {
+            background-image: url("@Url.Content("~/shared/web/drawer/germany-flag.png")");
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .k-drawer-content {
+            padding: 1em;
+        }
+
+        #example .demo-section {
+            max-width: 640px;
+        }
+
+        .k-toolbar .k-icon {
+            font-size: 18px;
+        }
+    </style>
+</div>

@@ -1,0 +1,81 @@
+@model CheckBoxGroupLayout
+
+@{ var custom = (string)ViewBag.LabelPosition; }
+
+@using (Html.BeginForm())
+{
+<text>
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Orientation Settings</h4>
+            <ul class="options">
+                <li>
+                    <label for="layout">Layout:</label>
+                    @(Html.Kendo().DropDownList()
+                            .Name("layout")
+                            .Events(e => e.Change("onChange"))
+                            .Items(items =>
+                                  {
+                                      items.Add().Text("Horizontal").Value("Horizontal");
+                                      items.Add().Text("Vertical").Value("Vertical");
+                                  })
+                            .Value(Model.ToString())
+
+                         )
+                </li>
+                <li>
+                    <label for="labelPosition">Label position:</label>
+                    @(Html.Kendo().DropDownList()
+                            .Name("labelPosition")
+                            .Events(e => e.Change("onChange"))
+                            .Items(items =>
+                                  {
+                                      items.Add().Text("Before").Value("before");
+                                      items.Add().Text("After").Value("after");
+                                  })
+                            .Value(custom)
+                         )
+                </li>
+            </ul>
+        </div>
+    </div>
+</text>}
+
+
+<div class="demo-section">
+    <label for="radiogroup" class="label">Select language:</label>
+    @(Html.Kendo().CheckBoxGroup()
+        .Name("checkboxgroup")
+        .BindTo(new[] { "English", "German", "Italian", "Russian", "Spanish" })
+        .Layout(Model)
+        .LabelPosition(custom)
+        .Value(new string[] { "Spanish" })
+    )
+</div>
+
+@section scripts {
+    <script>
+        function onChange() {
+            $("form").submit();
+        }
+    </script>
+}
+
+<style>
+    .label {
+        font: normal 14px/16px Metric, Arial, Helvetica, sans-serif;
+        color: #656565;
+        display: inline-block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    #radiogroup {
+        margin-top: 10px;
+    }
+
+    .k-checkbox-label {
+        width: 50px;
+    }
+</style>

@@ -1,0 +1,161 @@
+<div class="demo-section wide">
+
+    <script id="column-template" type="text/x-kendo-template">
+        <span class="column-template-container">
+            <span class="column-status">
+                # if (Status == "todo" || Status == "inProgress" || Status == "done") { #
+                <span class="column-badge" id="badge-#= Status #">0</span>
+                # } else { #
+                 <span class="column-badge">0</span>
+                # } #
+                <span class="column-text">#: Text #</span>
+            </span>
+            <span class="column-buttons">#= buttons #</span>
+        </span>
+    </script>
+
+    <script id="card-template" type="text/x-kendo-template">
+        <div class="template-container">
+            <span class="template-header">
+                <span class="template-title">#: Description #</span>
+                <span class="template-menu">#=cardMenuButton#</span>
+            </span>
+            # if (Image != "") { #
+            <img src="@Url.Content("~/shared/web/taskboard/" + "#= Image #")" style="height:135px; width: 270px;">
+            # } #
+        </div>
+    </script>
+
+    @(Html.Kendo().TaskBoard()
+        .Name("taskBoard")
+        .ColumnSettings(s =>
+        {
+            s.TemplateId("column-template");
+            s.Width("320");
+        })
+        .Columns(c =>
+        {
+            c.Add().Text("To-do").Status("todo");
+            c.Add().Text("In Progress").Status("inProgress");
+            c.Add().Text("Done").Status("done");
+        })
+        .DataDescriptionField("Description")
+        .DataStatusField("Status")
+        .DataTitleField("Title")
+        .DataOrderField("Order")
+        .TemplateId("card-template")
+        .BindTo((IEnumerable<Kendo.Mvc.Examples.Models.TaskBoard.CardViewModel>)ViewBag.Cards)
+        .Height("980")
+        .Events(ev => ev.DataBound("onDataBound").ColumnsDataBound("onColumnsDataBound"))
+    )
+</div>
+
+@section scripts {
+    <script>
+        function onDataBound(e) {
+            setBadgeText()
+        }
+
+        function onColumnsDataBound(e) {
+            setBadgeText()
+        }
+
+        function setBadgeText() {
+            var taskBoard = $("#taskBoard").data("kendoTaskBoard");
+
+            for (var i = 0; i < taskBoard.columns().length; i++) {
+                var status = taskBoard.columnDataItem(taskBoard.columns()[i]).Status;
+
+                if (status == "todo") {
+                    var totalToDo = taskBoard.itemsByStatus("todo").length;
+
+                    initBadge("todo", "warning", totalToDo);
+                }
+                else if (status == "inProgress") {
+                    var totalInProgress = taskBoard.itemsByStatus("inProgress").length;
+
+                    initBadge("inProgress", "info", totalInProgress);
+                }
+                else if (status == "done") {
+                    var totalDone = taskBoard.itemsByStatus("done").length;
+
+                    initBadge("done", "success", totalDone);
+                }
+                else {
+                    var column = $(taskBoard.columns()[i]);
+                    var totalNoStatus = taskBoard.itemsByColumn(column).length;
+
+                    initNoStatusBadge(column, "light", totalNoStatus);
+                }
+            }
+        }
+
+        function initBadge(id, color, totalItems) {
+            $('#badge-' + id).kendoBadge({
+                themeColor: color,
+                shape: 'circle',
+                text: totalItems
+            });
+        }
+
+        function initNoStatusBadge(column, color, totalItems) {
+            var badgeElement = column.find(".column-badge");
+
+            $(badgeElement).kendoBadge({
+                themeColor: color,
+                shape: 'circle',
+                text: totalItems
+            });
+        }
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .template-container {
+        padding: 10px 10px 0px 10px;
+    }
+
+    .template-container img {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: -10px;
+    }
+
+    .column-status {
+        padding-top: 5px;
+    }
+
+    .column-text {
+        padding-left: 10px;
+    }
+
+    .column-template-container,
+    .template-header {
+        width: 100%;
+        display: flex;
+    }
+
+    .column-buttons {
+        margin-left: auto;
+        margin-right: 0;
+        padding-right: 5px;
+    }
+
+    .template-menu {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .template-title {
+        color: red;
+        word-wrap: break-word;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>

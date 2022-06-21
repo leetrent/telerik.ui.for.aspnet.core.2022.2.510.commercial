@@ -1,0 +1,110 @@
+@addTagHelper *, Kendo.Mvc
+
+<div id="example">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>SIZE</h4>
+            <ul class="options">
+                <li>
+                    <input id="size" />
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>BORDER RADIUS</h4>
+            <ul class="options">
+                <li>
+                    <input id="rounded" />
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>FILL MODE</h4>
+            <ul class="options">
+                <li>
+                    <input id="fillMode" />
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>OVERFLOW</h4>
+            <ul class="options">
+                <li>
+                    <input id="overflow" />
+                </li>
+            </ul>
+        </div>
+        <div class="box-col">
+            <h4>RESIZE ORIENTATION</h4>
+            <ul class="options">
+                <li>
+                    <input id="resize" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="demo-section">
+        <h4>Set value</h4>
+        <kendo-textarea name="description"
+            size="ComponentSize.Medium"
+            rounded="Rounded.Medium"
+            fill-mode="FillMode.Solid"
+            overflow="TextAreaOverflow.Auto"
+            resize="TextAreaResize.None"
+            rows="3"
+            value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.">
+        </kendo-textarea>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var textarea = $("#description").data('kendoTextArea');
+
+            $("#size").kendoDropDownList({
+                dataSource: ["small", "medium", "large"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    textarea.setOptions({ size: value });
+                }
+            });
+
+            $("#rounded").kendoDropDownList({
+                dataSource: ["small", "medium", "large", "full"],
+                value: "medium",
+                change: function () {
+                    let value = this.value();
+                    textarea.setOptions({ rounded: value });
+                }
+            });
+
+            $("#fillMode").kendoDropDownList({
+                dataSource: ["solid", "flat", "outline"],
+                value: "solid",
+                change: function () {
+                    let value = this.value();
+                    textarea.setOptions({ fillMode: value });
+                }
+            });
+
+            $("#overflow").kendoDropDownList({
+                dataSource: ["auto", "hidden", "visible", "scroll", "clip"],
+                value: "auto",
+                change: function () {
+                    let value = this.value();
+                    textarea.setOptions({ overflow: value });
+                }
+            });
+
+            $("#resize").kendoDropDownList({
+                dataSource: ["both", "horizontal", "vertical", "none"],
+                value: "none",
+                change: function () {
+                    let value = this.value();
+                    textarea.setOptions({ resize: value });
+                }
+            });
+        });
+    </script>
+</div>

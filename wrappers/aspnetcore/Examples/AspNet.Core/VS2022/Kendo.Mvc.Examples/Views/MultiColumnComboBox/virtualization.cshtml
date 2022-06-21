@@ -1,0 +1,48 @@
+<div class="demo-section">
+    <h4>Orders</h4>
+
+    @(Html.Kendo().MultiColumnComboBox()
+          .Name("orders")
+          .DataTextField("ShipName")
+          .DataValueField("OrderID")
+          .Columns(columns =>
+          {
+              columns.Add().Field("OrderID").Title("ID").Width("100px");
+              columns.Add().Field("ShipName").Title("Name").Width("300px");
+              columns.Add().Field("ShipCountry").Title("Country").Width("200px");
+          })
+          .HtmlAttributes(new { style = "width:100%" })
+          .Height(560)
+          .DataSource(source => {
+              source.Ajax()
+                  .PageSize(80)
+                  .Read("Virtualization_Read", "MultiColumnComboBox");
+          })
+          .Virtual(v => v.ItemHeight(33).ValueMapper("valueMapper"))
+    )
+</div>
+@section scripts {
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("Orders_ValueMapper", "MultiColumnComboBox")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+
+        return data;
+    }
+</script>
+}

@@ -1,0 +1,24 @@
+@using Kendo.Mvc.UI
+@using System.Globalization
+
+@section HeadContent {
+    <script src=@Url.Script("cultures/kendo.culture.de-DE.min.js")></script>
+}
+
+<script type="text/javascript">
+    //set culture of the Kendo UI
+    kendo.culture("de-DE");
+</script>
+
+@{
+	CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("de-DE");
+}
+
+<div class="demo-section">
+    @(Html.Kendo().CurrencyTextBox()
+      .Name("CurrencyTextBox")
+      .Value(25)
+      .HtmlAttributes(new { style = "width: 100%" })
+    )
+</div>
+

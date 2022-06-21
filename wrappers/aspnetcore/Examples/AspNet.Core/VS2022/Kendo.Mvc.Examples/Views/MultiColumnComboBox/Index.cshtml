@@ -1,0 +1,51 @@
+<div class="demo-section">
+    <h4>Customers</h4>
+    @(Html.Kendo().MultiColumnComboBox()
+                .Name("customers")
+                .DataTextField("ContactName")
+                .DataValueField("CustomerID")
+                .Filter("contains")
+                .FilterFields(new string[] { "ContactName", "ContactTitle", "CompanyName", "Country" })
+                .Columns(columns =>
+                {
+                    columns.Add().Field("ContactName").Title("Contact Name").Template("<div class=\"customer-photo\" style=\"background-image: url(" + Url.Content("~/shared/web/Customers/") + "#:data.CustomerID#.jpg" + ");\"\"></div><span class=\"customer-name\">#: ContactName #</span>").Width("200px");
+                    columns.Add().Field("ContactTitle").Title("Contact Title").Width("200px");
+                    columns.Add().Field("CompanyName").Title("Company Name").Width("200px");
+                    columns.Add().Field("Country").Title("Country").Width("200px");
+                })
+                .FooterTemplate("Total #: instance.dataSource.total() # items found")
+                .HtmlAttributes(new { style = "width:100%;" })
+                .Height(400)
+                .DataSource(source => source
+                    .Custom()
+                    .Transport(transport => transport
+                    .Read(read =>
+                    {
+                        read.Action("BasicUsage_Customers_Read", "MultiColumnComboBox")
+                            .Data("onAdditionalData");
+                    }))
+                )
+    )
+</div>
+@section scripts {
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#customers").val()
+        };
+    }
+</script>
+}
+<style type="text/css">
+    .customer-photo {
+        display: inline-block;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin: 0 10px 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        vertical-align: middle;
+    }
+</style>

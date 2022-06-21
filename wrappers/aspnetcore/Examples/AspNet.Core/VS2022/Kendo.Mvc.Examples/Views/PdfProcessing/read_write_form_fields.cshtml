@@ -1,0 +1,143 @@
+@using (Html.BeginForm("Download_Modified_Document", "PdfProcessing"))
+{
+    <div id="example">
+        <div class="demo-section">
+            <h4>Modify fields below and generate PDF with interactive form</h4>
+
+            <ul class="text-choice-field">
+                <li>
+                    @Html.Label("Text field:")
+                    @Html.Kendo().TextBox().Name("textbox").Value("Sample text").HtmlAttributes(new { style = "width: 100%;"})
+                </li>
+                <li>
+                    @Html.Label("Choice field:")
+                    @Html.TextArea("textarea", new { style = "width: 100%; height:80px", id = "textArea", value = "test" })
+                </li>
+            </ul>
+            <div class="container">
+                <div id="radioButton">
+                    <div class="field">Radio button field:</div>
+                    <ul class="fieldlist">
+                        <li>
+                            @(Html.Kendo().RadioButton().Name("rb1").Value("1").HtmlAttributes(new { @name = "rb" }).Label("Option 1"))
+                        </li>
+                        <li>
+                            @(Html.Kendo().RadioButton().Name("rb2").Value("2").Checked(true).HtmlAttributes(new { @name = "rb" }).Label("Option 2"))
+                        </li>
+                        <li>
+                            @(Html.Kendo().RadioButton().Name("rb3").Value("3").HtmlAttributes(new { @name = "rb" }).Label("Option 3"))
+                        </li>
+                    </ul>
+                </div>
+                <div id="checkBox">
+                    <div class="field">Checkbox field:</div>
+                    <ul class="fieldlist">
+                        <li>
+                            @(Html.Kendo().CheckBox().Name("cb1").Checked(true).Label("CheckBox 1"))
+                        </li>
+                        <li>
+                            @(Html.Kendo().CheckBox().Name("cb2").Checked(true).Label("CheckBox 2"))
+                        </li>
+                        <li>
+                            @(Html.Kendo().CheckBox().Name("cb3").Checked(false).Label("CheckBox 3"))
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        <hr class="k-hr">
+        <input type="submit" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" value="Generate and Download" />
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).on("kendoReady", function () {
+            $("#textArea").html("Choice 1" + "\n" + "Choice 2" + "\n" + "Choice 3");
+        });
+    </script>
+}
+
+<style>
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .k-button-solid-primary {
+        display: block;
+        margin: 0 auto;
+    }
+
+    #radioButton {
+        width: 45%;
+        float: left;
+    }
+
+    #checkBox {
+        width: 45%;
+        float: right;
+    }
+
+    .documentImage {
+        width: 100%;
+    }
+
+    .fieldlist {
+
+    }
+
+        .fieldlist li {
+            list-style: none;
+            padding-bottom: 1.5em;
+        }
+
+        .fieldlist label {
+            display: block;
+            font-size: 1em;
+        }
+
+        .field {
+            margin-bottom: 1em;
+        }
+
+    .k-button {
+        margin-top: 1em;
+    }
+
+
+    .form {
+        width: 50%;
+        padding: 30px;
+        margin: 0 auto;
+        border: 1px solid black;
+    }
+
+    h4 {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+    .generate-btn {
+        float: right;
+        width: 240px;
+    }
+
+    .text-choice-field {
+        margin-top: 1em;
+    }
+
+    .text-choice-field li {
+        margin-bottom: 2em;
+    }
+
+    .text-choice-field label {
+        display: block;
+        margin-bottom: .3em;
+    }
+    .text-choice-field textarea {
+        line-height: 1.5em;
+    }
+</style>

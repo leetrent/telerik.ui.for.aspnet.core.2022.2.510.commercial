@@ -1,0 +1,58 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var url =@Url.Action("HierarchyBinding_Orders","Grid");
+}
+
+<script id="template" type="text/html">
+    <kendo-grid name="grid_#=EmployeeID#" is-in-client-template="true">
+        <columns>
+            <column field="OrderID" width="110">
+            </column>
+            <column field="ShipCountry" width="110">
+            </column>
+            <column field="ShipAddress">
+            </column>
+            <column field="ShipName" width="200">
+            </column>
+        </columns>
+        <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="10">
+            <schema data="Data" total="Total" errors="Errors">
+            </schema>
+            <transport>
+                <read url="@Html.Raw(url+"?employeeID=#=EmployeeID#")" />
+            </transport>
+        </datasource>
+        <pageable enabled="true" />
+        <sortable enabled="true" />
+    </kendo-grid>
+</script>
+<script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>
+<kendo-grid on-data-bound="dataBound" name="Grid" navigatable="true" style="height:430px;" detail-template-id="template">
+    <columns>
+        <column field="FirstName" width="110">
+        </column>
+        <column field="LastName" width="110">
+        </column>
+        <column field="Country" width="110">
+        </column>
+        <column field="City" width="110">
+        </column>
+        <column field="Title">
+        </column>
+    </columns>
+    <datasource page="0" type="DataSourceTagHelperType.Ajax" page-size="6">
+        <schema data="Data" total="Total" errors="Errors">
+        </schema>
+        <transport>
+            <read url="@Url.Action("HierarchyBinding_Employees","Grid")" />
+        </transport>
+    </datasource>
+    <pageable enabled="true" />
+    <sortable enabled="true" />
+    <scrollable enabled="true" />
+</kendo-grid>

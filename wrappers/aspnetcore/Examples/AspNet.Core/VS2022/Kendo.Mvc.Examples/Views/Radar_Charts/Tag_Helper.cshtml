@@ -1,0 +1,31 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section wide">
+    <kendo-chart name="chart">
+        <chart-title text="Market Value of Major Banks"></chart-title>
+        <chart-legend position="ChartLegendPosition.Bottom"></chart-legend>
+        <value-axis>
+            <value-axis-item>
+                <labels format="${0}"></labels>
+            </value-axis-item>
+        </value-axis>
+        <series>
+            <series-item type="ChartSeriesType.RadarLine" style="ChartSeriesStyle.Smooth" name="Market value as of 2007" data="new double[] {
+                    116, 165, 215, 75, 100, 49, 80,
+                    116, 108, 90, 67, 76, 91, 255, 120
+                }"></series-item>
+            <series-item type="ChartSeriesType.RadarLine" style="ChartSeriesStyle.Smooth" name="Market value as of 2009" data="new double[] {
+                    64, 85, 97, 27, 16, 26, 35,
+                    32, 26, 17, 10, 7, 19, 5
+                }"></series-item>
+        </series>
+        <category-axis>
+            <category-axis-item categories='new string[] { "Santander", "JP Morgan", "HSBC", "Credit Suisse",
+                        "Goldman Sachs", "Morgan Stanley", "Societe Generale", "UBS",
+                        "BNP Paribas", "Unicredit", "Credit Agricole", "Deutsche Bank",
+                        "Barclays", "Citigroup", "RBS"}'>
+            </category-axis-item>
+        </category-axis>
+        <tooltip visible="true"></tooltip>
+    </kendo-chart>
+</div>

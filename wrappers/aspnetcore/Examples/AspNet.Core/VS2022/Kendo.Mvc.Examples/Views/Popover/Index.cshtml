@@ -1,0 +1,108 @@
+<div class="demo-section" style="text-align: center;">
+    <h3>Click on a highlighted date in the Calendar</h3>
+    <div>
+        @(Html.Kendo().Calendar()
+            .Name("calendar")
+            .ComponentType("modern")
+            .Min(new DateTime(2021, 8, 1))
+            .Max(new DateTime(2021, 8, 30))
+            .Selectable("multiple")
+            .MonthTemplate(month => month.Content("<div class='" +
+                    "# if (data.value == 12 || data.value == 18 || data.value == 24) { #" +
+                        "highlighted" +
+                    "# } #" +
+                "'>#= data.value #</div>")
+            )
+        )
+    </div>
+
+    @(Html.Kendo().Popover()
+        .For("#calendar")
+        .Filter("td a")
+        .Animation(an => an.Open(op => op.Duration(0)).Close(cl => cl.Duration(0)))
+        .Position(PopoverPosition.Right)
+        .ShowOn(PopoverShowOn.Click)
+        .Body("#if(target.data().value == \"2021/7/12\") {# <div class=\"k-popover-header\">AUG #=target.text()#</div><div class=\"k-popover-body\"><p>Starbucks Breakfast<span>08:00</span></p><p>Software Updates<span>09:00</span></p><p>Performance Review<span>14:00</span></p><p>HR Lecture<span>19:00</span></p></div> #}#" +
+        "#if(target.data().value == \"2021/7/18\") {# <div class=\"k-popover-header\">AUG 18</div><div class=\"k-popover-body\"><p>Send Newsletter<span>09:00</span></p><p>Interview<span>11:00</span></p><p>Online Training<span>15:00</span></p></div> #}#" +
+        "#if(target.data().value == \"2021/7/24\") {# <div class=\"k-popover-header\">AUG 24</div><div class=\"k-popover-body\"><p>Review SEO Results<span>08:00</span></p><p>Designers Meeting<span>09:00</span></p><p>Publish New Blogpost<span>13:00</span></p><p>Planning<span>16:00</span></p></div> #}#"
+        )
+        .Width(300)
+        .Events(events => events.Show("onShow"))
+    )
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+        function onShow(e) {
+            var day = e.sender.target().text();
+            
+            if (day != "12" && day != "18" && day != "24") {
+                e.sender.hide();
+            }
+            else {
+                // for the purposes of this demo, we clear the "title" attribute to prevent the standard tooltip from overlapping the Popover
+                e.sender.target().attr("title", "");
+            }
+        }
+    </script>
+}
+
+<style>
+    .demo-section,
+    html.k-material .demo-section {
+        overflow: hidden;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .k-popover-header {
+        text-align: center;
+    }
+
+    .k-popover-body p {
+        line-height: 20px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        padding-left: 4px;
+        padding-right: 4px;
+        box-sizing: border-box;
+        border-radius: 2px;
+    }
+
+    .k-popover-body p:nth-child(1) {
+        background-color: #FF6358;
+        color: #FFFFFF;
+        border: 1px solid #FF6358;
+    }
+
+    .k-popover-body p:nth-child(2),
+    .k-popover-body p:nth-child(4) {
+        background-color: #FFD246;
+        border: 1px solid #FFD246;
+    }
+
+    .k-popover-body p:nth-child(3) {
+        background-color: #2D73F5;
+        color: #FFFFFF;
+        border: 1px solid #2D73F5;
+    }
+
+    .k-popover-body span {
+        float: right;
+    }
+
+    .k-popover > .k-popover-body {
+        padding: 0px;
+    }
+
+    .highlighted {
+        color: #ff6358;
+    }
+
+    .k-state-selected .highlighted {
+        color: #FFFFFF;
+    }
+</style>

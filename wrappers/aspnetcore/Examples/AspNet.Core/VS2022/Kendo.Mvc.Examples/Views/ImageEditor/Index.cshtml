@@ -1,0 +1,19 @@
+<div class="demo-section wide">
+    @(Html.Kendo().ImageEditor()
+        .Name("imageEditor")
+        .Height(900)
+        .SaveAs(s => s.FileName("image_edited.png"))
+        .ImageUrl(@Url.Content("~/shared/images/photos/2.jpg"))
+    )
+</div>
+
+@section scripts{
+    <script>
+        $(document).on("kendoReady", function(){
+            var imageEditor = $("#imageEditor").getKendoImageEditor();
+            imageEditor.one("imageRendered",function(){
+                imageEditor.executeCommand({ command: "ZoomImageEditorCommand", options: imageEditor.getZoomLevel() - 0.2 });
+            });
+        });
+    </script>
+}

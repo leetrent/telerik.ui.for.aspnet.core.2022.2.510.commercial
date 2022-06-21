@@ -1,0 +1,36 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section wide">
+    <kendo-chart name="chart">        
+        <datasource type="DataSourceTagHelperType.Custom">
+            <transport>
+                <read url='@(Url.Action("_SpainElectricityProduction","Area_Charts"))' type="POST" />
+            </transport>
+        </datasource>
+        <chart-title text="Gross domestic product growth /GDP annual %/"></chart-title>
+        <chart-legend position="ChartLegendPosition.Bottom"></chart-legend>
+        <chart-area background="transparent"></chart-area>
+        <series-defaults type="ChartSeriesType.Area"></series-defaults>
+        <series>
+            <series-item name="Nuclear" field="Nuclear" category-field="Year">
+            </series-item>
+            <series-item name="Hydro" field="Hydro" category-field="Year">
+            </series-item>
+            <series-item name="Wind" field="Wind" category-field="Year">
+            </series-item>
+        </series>
+        <value-axis>            
+            <value-axis-item type="numeric" major-unit="10000"> 
+                <labels format="{0:N0}"></labels>                
+            </value-axis-item>
+        </value-axis>
+
+        <category-axis>
+            <category-axis-item justify="true" field="Year" >
+                <crosshair visible="true"></crosshair>                
+            </category-axis-item>
+        </category-axis>
+
+        <tooltip visible="true" format="{0:N0}" shared="true"></tooltip>
+    </kendo-chart>
+</div>

@@ -1,0 +1,57 @@
+<div id="example" role="application">
+    <div class="demo-section wide">
+        <label for="optional" id="employees">Employees</label>
+        <label for="selected">Developers</label>
+        <br />
+        @(Html.Kendo().ListBox()
+            .Name("optional")
+            .Toolbar(toolbar =>
+            {
+                toolbar.Position(ListBoxToolbarPosition.Right);
+                toolbar.Tools(tools => tools
+                    .MoveUp()
+                    .MoveDown()
+                    .TransferTo()
+                    .TransferFrom()
+                    .TransferAllTo()
+                    .TransferAllFrom()
+                    .Remove()
+                );
+            })
+            .ConnectWith("selected")
+            .BindTo(ViewBag.Attendees)
+        )
+
+        @(Html.Kendo().ListBox()
+            .Name("selected")
+            .BindTo(new List<SelectListItem>())
+            .Selectable(ListBoxSelectable.Multiple)
+        )
+    </div>
+</div>
+
+<style>
+    #employees {
+        width: 270px;
+    }
+
+    .demo-section label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        display: inline-block;
+    }
+    #example .demo-section {
+        max-width: none;
+        width: 600px;
+    }
+
+    #example .k-listbox {
+        width: 236px;
+        height: 350px;
+    }
+
+    #example .k-listbox:first-of-type {
+        width: 270px;
+        margin-right: 1px;
+    }
+</style>

@@ -1,0 +1,248 @@
+<div id="example">
+    <div class="demo-section">
+        @using (Html.BeginForm("Download_Document", "SpreadProcessing"))
+        {
+
+            <div class="document-options-wrapper">
+                @(Html.Kendo().RadioButton()
+                    .Name("selectTemplate")
+                    .Label("Load Template Document")
+                    .Value("template")
+                    .Checked(true)
+                    .HtmlAttributes(new { @name = "selectMode", @class = "selectMode" })
+                )
+
+                @(Html.Kendo().RadioButton()
+                    .Name("selectCustom")
+                    .Label("Load Custom Document")
+                    .Value("custom")
+                    .HtmlAttributes(new { @name = "selectMode", @class = "selectMode" })
+                )
+                <hr />
+                <div class="column doc-wrapper">
+                    <div class="template">
+                        <span class="preview-label">Preview:</span>
+                        <div class="imageContainer">
+                            <img src='@Url.Content("~/shared/web/spreadprocessing/SampleDocumentImage.png")' />
+                        </div>
+                    </div>
+                </div>
+                <div class="column doc-wrapper">
+                    <div class="custom hidden">
+                        @(Html.Kendo().Upload()
+                        .Name("customDocument")
+                        .Multiple(false)
+                        .ShowFileList(false)
+                        .Events(events => events.Select("onSelect"))
+                        )
+
+                        @(Html.Kendo().Button()
+                        .Name("uploadFileBtn")
+                        .Content("Load Custom Document")
+                        .HtmlAttributes(new { type = "button" })
+                        .Events(events => events.Click("uploadFile"))
+                        )
+                        <span class="preview-label">Preview:</span>
+                        <div class="imageContainer  custom-doc">
+                            <img src="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="file-options-wrapper">
+                <span class="file-name-label">File name: </span>
+                <div id="fileName"></div>
+                <div>
+                    @Html.Label("fileExtension", "Download as: ")
+                    @(Html.Kendo().DropDownList()
+                        .Name("convertTo")
+                        .Filter("contains")
+                        .SelectedIndex(0)
+                        .Items(items =>
+                            {
+                                items.Add().Text("XLSX").Value("xlsx");
+                                items.Add().Text("CSV").Value("csv");
+                                items.Add().Text("TXT").Value("txt");
+                                items.Add().Text("PDF").Value("pdf");
+                                items.Add().Text("XLSM").Value("xlsm");
+                            }
+                        )
+                    )
+
+                </div>
+            </div>
+
+            <hr class="clear" />
+            <input type="submit" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md wide-btn" value="Convert and Download" />
+        }
+
+    </div>
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        loadTemplate();
+
+        $(".selectMode").on("click", function (e) {
+            var checkBox = this;
+
+            if (checkBox.value == "custom") {
+                $(".doc-wrapper .custom").removeClass("hidden");
+                $(".doc-wrapper .template").addClass("hidden");
+                clearHighlights();
+            } else if (checkBox.value == "template") {
+                $(".doc-wrapper .custom").addClass("hidden");
+                $(".doc-wrapper .template").removeClass("hidden");
+                loadTemplate();
+            }
+        });
+    })
+
+
+
+    function loadTemplate() {
+        clearHighlights();
+        $("#fileName").text("SampleDocument.xlsx");
+    }
+
+    function uploadFile(ev) {
+        $("#customDocument").click();
+    }
+
+    function onSelect(ev) {
+        var file = ev.files[0];
+        clearHighlights();
+
+        if (!/.xlsx|.csv|.txt/.test(file.extension)) {
+            alert("Only documents with *.xlsx, *.csv or *.txt extensions are accepted!");
+            ev.preventDefault();
+        } else {
+            var fileExt = file.extension.substr(1);
+            var imgPath = '@Url.Content("~/shared/web/spreadprocessing/")' + fileExt + '_file.png';
+
+            $(".imageContainer.custom-doc img").attr("src", imgPath);
+            $(".imageContainer.custom-doc").addClass("highlighted");
+            $("#fileName").text(file.name);
+        }
+    }
+
+    function clearHighlights() {
+        $("#fileName").text("");
+        $(".imageContainer").removeClass("highlighted");
+        var imgPath = '';
+
+        $(".imageContainer.custom-doc img").attr("src", imgPath);
+
+        // clear uploaded files
+        var upload = $("#customDocument").data("kendoUpload");
+        var fileInput = upload.wrapper.find("input").first();
+        if (!fileInput.is("#customDocument")) {
+            fileInput.remove();
+        }
+    }
+</script>
+}
+
+<style>
+    .document-options-wrapper .k-radio{
+        margin-left: 15px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .preview-label {
+        float: left;
+    }
+
+    .column {
+        vertical-align: middle;
+    }
+
+    .document-options-wrapper button {
+        margin-bottom: 10px;
+    }
+
+    .document-options-wrapper .column.or-elm {
+        margin-top: 35px;
+    }
+
+    .file-options-wrapper {
+        margin: 1.5em 0;
+    }
+
+        .file-options-wrapper label,
+        .file-options-wrapper .file-name-label {
+            display: inline-block;
+            width: 85px;
+            margin-right: 10px;
+        }
+
+        .file-options-wrapper .file-name-label {
+            margin-bottom: 1em;
+        }
+
+    .imageContainer {
+        border: 1px solid #c9c9c9;
+        height: 171px;
+        width: 200px;
+        position: relative;
+        margin: 0 auto;
+    }
+
+        .imageContainer.highlighted {
+            border-color: #36B4CB;
+        }
+
+        .imageContainer img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+        }
+
+    input.wide-btn {
+        width: 240px;
+        float: right;
+    }
+
+    .k-upload {
+        display: none;
+    }
+
+    .float-right {
+        float: right;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    hr {
+        margin: 15px 0;
+    }
+
+    .column {
+        margin-top: 2em;
+    }
+
+    #fileName {
+        display: inline-block;
+    }
+
+    #uploadFileBtn {
+        display: block;
+    }
+
+    .custom .imageContainer {
+        border-width: 0;
+    }
+</style>

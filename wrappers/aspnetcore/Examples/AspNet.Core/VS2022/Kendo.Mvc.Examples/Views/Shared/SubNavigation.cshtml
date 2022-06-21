@@ -1,0 +1,28 @@
+@{
+    var isLocalHost = Context.Request.Host.Value.StartsWith("localhost");
+    var localNavStyle = isLocalHost ? "top: 0" : "";
+}
+
+@if (ViewBag.SuppressSearch == null || !ViewBag.SuppressSearch)
+{
+    <div class="kd-sub-nav" style="@localNavStyle">
+        <div class="kd-side-nav-toggle">
+            <a class="kd-link" href="#">
+                @Html.Raw(System.IO.File.ReadAllText(System.IO.Path.Combine(ViewBag.ContentRootPath, "wwwroot\\shared\\images\\site\\menu.svg")))
+            </a>
+        </div>
+
+        @if (!isLocalHost)
+        {
+            <div role="search" aria-label="Search demos" class="kd-search">
+                <div class="kd-search-container">
+                    @Html.Partial("SearchForm")
+                </div>
+            </div>
+        }
+
+		<button aria-label="Enable dark theme" class="kd-switch-button">
+            <span class="kd-switch-icon"></span>
+        </button>
+    </div>
+}

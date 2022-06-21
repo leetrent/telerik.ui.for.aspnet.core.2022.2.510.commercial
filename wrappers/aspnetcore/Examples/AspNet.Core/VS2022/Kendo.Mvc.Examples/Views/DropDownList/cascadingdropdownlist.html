@@ -1,0 +1,16 @@
+<h2 class="kd-title">Description</h2>
+<p>
+    This example demonstrates the cascading DropDownList functionality for ASP.NET Core. It displays three DropDownLists, where each one is enabled and filtered based on the value chosen in the previous DropDownList.
+</p>
+<p>
+    The cascading functionality is enabled after defining the <b>CascadeFrom</b> property, pointing to the <b>Name</b> of the parent DropDownList.
+</p>
+<p>
+    During initialization of the cascading functionality, the child DropDownList will:
+    <ul style="list-style-type: disc;">
+        <li>Check if the CascadeFrom is defined, if not – cascading will not be enabled </li>
+        <li>Try to find the parent object </li>
+        <li>Listen for changes in the parent value </li>
+        <li>Be disabled if the parent has no value </li>
+    </ul>
+</p>

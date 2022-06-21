@@ -1,0 +1,39 @@
+@using Kendo.Mvc.Examples.Models
+@using Kendo.Mvc.UI.Fluent
+<div class="demo-section">
+    <div>
+        <h4>Inline data (default settings)</h4>
+        @(
+            Html.Kendo().TreeView()
+                .Name("treeview-left")
+                .BindTo((IEnumerable<TreeViewItemModel>)ViewBag.inlineDefault)
+        )
+    </div>
+    <div>
+        <h4>Inline data</h4>
+        @(
+            Html.Kendo().TreeView()
+                .Name("treeview-right")
+                .BindTo((IEnumerable<CategoryItem>)ViewBag.inline, (NavigationBindingFactory<TreeViewItem> mappings) =>
+                {
+                    mappings.For<CategoryItem>(binding => binding.ItemDataBound((item, category) =>
+                        {
+                            item.Text = category.CategoryName;
+                        })
+                        .Children(category => category.SubCategories));
+                
+                    mappings.For<SubCategoryItem>(binding => binding.ItemDataBound((item, subCategory) =>
+                    {
+                        item.Text = subCategory.SubCategoryName;
+                    }));
+                })
+        )
+    </div>
+</div>
+
+ <style>
+    .demo-section{
+        display:flex;
+        justify-content:space-evenly;
+    }
+</style>

@@ -1,0 +1,10 @@
+@addTagHelper *, Kendo.Mvc
+<div class="k-rtl">
+    <div class="demo-section">
+
+        <kendo-upload name="files">
+            <async auto-upload="true" save-url="@Url.Action("Right_To_Left_Save", "Upload")" remove-url="@Url.Action("Right_To_Left_Remove", "Upload")" />
+        </kendo-upload>
+
+    </div>
+</div>

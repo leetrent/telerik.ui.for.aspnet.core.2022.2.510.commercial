@@ -1,0 +1,24 @@
+@addTagHelper *, Kendo.Mvc
+<div class="demo-section">
+    <h4>Customers</h4>
+    <kendo-combobox datatextfield="ContactName" datavaluefield="CustomerID" height="400" name="customers" style="width:100%;">
+        <datasource group-paging="false" batch="false" type="DataSourceTagHelperType.Custom" server-paging="false" server-sorting="false" server-filtering="true" server-grouping="false" server-aggregates="false" auto-sync="false">
+            <schema>
+                <model id="CustomerID"></model>
+            </schema>
+            <transport>
+                <read data="onAdditionalData" url="@Url.Action("Grouping_Customers_Read","ComboBox")" cache="true" />
+            </transport>
+            <groups>
+                <group typeof="string" field="Country"></group>
+            </groups>
+        </datasource>
+    </kendo-combobox>
+</div>
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#customers").val()
+        };
+    }
+</script>

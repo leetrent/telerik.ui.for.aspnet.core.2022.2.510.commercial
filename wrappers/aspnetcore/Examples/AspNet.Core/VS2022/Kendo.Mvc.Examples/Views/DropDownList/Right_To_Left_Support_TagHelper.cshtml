@@ -1,0 +1,30 @@
+@addTagHelper *, Kendo.Mvc
+
+@{
+    var ddl_data = new List<SelectListItem>()
+    {
+        new SelectListItem() {
+            Text = "Item1",
+            Value = "1"
+        },
+        new SelectListItem() {
+            Text = "Item2",
+            Value = "2"
+        },
+        new SelectListItem() {
+            Text = "Item3",
+            Value = "3"
+        }
+    };
+}
+
+<div class="demo-section">
+    <div class="k-rtl">
+        <h4>RTL DropDownList</h4>
+        <kendo-dropdownlist name="dropdownlist" style="width: 100%"
+            datatextfield="Text"
+            datavaluefield="Value"
+            bind-to="ddl_data">
+        </kendo-dropdownlist>
+    </div>
+</div>

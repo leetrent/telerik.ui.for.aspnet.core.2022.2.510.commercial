@@ -1,0 +1,9 @@
+<div class="demo-section" style="text-align: center;">
+    <h4>Multiple Date Selection</h4>
+    @(Html.Kendo().Calendar()
+            .Name("calendar")
+            .WeekNumber(true)
+            .Selectable("multiple")
+            .DisableDates(DayOfWeek.Saturday, DayOfWeek.Sunday)
+    )
+</div>

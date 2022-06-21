@@ -1,0 +1,51 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Search for shipping name</h4>
+    <kendo-multiselect name="orders" style="width:100%"
+                       placeholder="Select addresses..."
+                       datatextfield="ShipName"
+                       datavaluefield="OrderID"
+                       min-length="3"
+                       value="new int[] { 10265, 10289 }"
+                       item-template='<span class=\"order-id\">#= OrderID #</span> #= ShipName #, #= ShipCountry #'
+                       height="520">
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="80" server-filtering="true">
+            <transport>
+                 <read url="@Url.Action("Tag_Helper_Virtualization_Read", "MultiSelect")" />
+            </transport>
+        </datasource>
+        <virtual item-height="26" value-mapper="valueMapper" />
+        <popup-animation>
+            <open duration="500" />
+            <close duration="500" />
+        </popup-animation>
+    </kendo-multiselect>
+    <div class="demo-hint">Hint: type at least three characters. For example "vin"</div>
+</div>
+
+@section scripts {
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("Tag_Helper_Orders_ValueMapper", "MultiSelect")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+        
+        return data;
+    }
+</script>
+}

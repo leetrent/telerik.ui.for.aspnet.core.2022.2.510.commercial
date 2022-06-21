@@ -1,0 +1,19 @@
+<div class="demo-section" style="text-align: center;">
+    <h4>Pick a date</h4>
+    @(Html.Kendo().Calendar()
+            .Name("calendar")
+            .Events(e => e.Change("change").Navigate("navigate"))
+    )
+</div>
+
+@section scripts {
+<script>
+    function change() {
+        kendoConsole.log("Change :: " + kendo.toString(this.value(), 'd'));
+    }
+
+    function navigate() {
+        kendoConsole.log("Navigate");
+    }
+</script>
+}

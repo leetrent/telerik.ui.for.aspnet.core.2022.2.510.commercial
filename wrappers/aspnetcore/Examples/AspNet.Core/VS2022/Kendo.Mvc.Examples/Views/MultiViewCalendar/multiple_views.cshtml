@@ -1,0 +1,35 @@
+<div id="example" style="text-align: center;">
+    <div class="demo-section wide" style="display: inline-block;">
+        <div style="margin-bottom: 20px;">
+            @(Html.Kendo().NumericTextBox()
+                        .Name("numberOfViews")
+                        .RestrictDecimals(true)
+                        .Decimals(0)
+                        .Min(2)
+                        .Max(10)
+                        .Value(2)
+                        .Format("{0:n0}")
+            )
+            @(Html.Kendo().Button()
+                        .Name("numberOfViewsBtn")
+                        .Content("Apply Changes")
+                        .Events(ev => ev.Click("click"))
+            )
+        </div>
+        @(Html.Kendo().MultiViewCalendar()
+                        .Name("multiViewCalendar")
+                        .Selectable("range")
+                        .ShowViewHeader()
+        )
+    </div>
+    @section scripts {
+<script>
+        function click() {
+            var numberOfViews = $("#numberOfViews").data().kendoNumericTextBox.value();
+            if (numberOfViews > 0) {
+                $("#multiViewCalendar").data().kendoMultiViewCalendar.setOptions({ views: numberOfViews });
+            }
+        }
+    </script>
+}
+</div>

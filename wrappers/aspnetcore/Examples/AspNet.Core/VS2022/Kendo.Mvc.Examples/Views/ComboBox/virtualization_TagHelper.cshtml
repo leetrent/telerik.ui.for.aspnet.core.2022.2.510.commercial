@@ -1,0 +1,36 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Orders</h4>
+    <kendo-combobox datatextfield="ShipName" datavaluefield="OrderID" height="520" template="#= OrderID # | For: #= ShipName #, #= ShipCountry #" name="orders" style="width:100%">
+        <datasource type="DataSourceTagHelperType.Ajax" page-size="80" server-operation="true">
+            <transport>
+                <read url="@Url.Action("ComboBox","Virtualization_Read")" />
+            </transport>
+        </datasource>
+        <virtual value-mapper="valueMapper" item-height="26" />
+    </kendo-combobox>
+</div>
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "@Url.Action("Orders_ValueMapper", "ComboBox")",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+
+        return data;
+    }
+</script>

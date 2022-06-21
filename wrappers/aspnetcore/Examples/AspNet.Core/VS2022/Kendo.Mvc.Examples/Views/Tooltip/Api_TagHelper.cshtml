@@ -1,0 +1,68 @@
+@addTagHelper "*, Kendo.Mvc"
+
+@{
+    var ddl_data = new List<SelectListItem>()
+    {
+        new SelectListItem() {
+            Text = "Target 1",
+            Value = "1"
+        },
+        new SelectListItem() {
+            Text = "Target 2",
+            Value = "2"
+        }
+    };
+}
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        <h4>Show at</h4>
+        <ul class="options">
+            <li>
+              <kendo-dropdownlist name="selector"
+                 datatextfield="Text"
+                 datavaluefield="Value"
+                 on-change="change"
+                 bind-to="ddl_data">
+             </kendo-dropdownlist>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="tooltip">
+    <div id="target1" class="k-group">
+        Target 1
+    </div>
+    <div id="target2" class="k-group">
+        Target 2
+    </div>
+</div>
+
+<kendo-tooltip name="tooltip"
+    auto-hide="false"
+    filter="div"
+    width="200"
+    position="bottom"
+    show-on="click"
+    content="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+</kendo-tooltip>
+@section scripts {
+    <script type="text/javascript">
+        function change() {
+            $("#tooltip").data("kendoTooltip").show($("#target" + this.value()));
+        }
+    </script>
+}
+<style>
+    #target1, #target2 {
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        width: 200px;
+        white-space: nowrap;
+        border-width: 1px;
+        border-style: solid;
+        padding: 2em;
+    }
+</style>

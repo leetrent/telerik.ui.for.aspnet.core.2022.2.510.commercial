@@ -1,0 +1,25 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model OrderViewModel
+
+<form asp-controller="datetimepicker" asp-action="tag-helper" method="post" role="form">
+    <div class="demo-section">
+        <h4>Show e-mails from:</h4>
+        <kendo-datetimepicker name='datepicker'
+                              for="OrderDate"
+                              style='width: 100%;' />
+        <br />
+        <br />
+        <span asp-validation-for="OrderDate" style="color:red"></span>
+        <h4 style="margin-top: 2em;">Add to archive mail from:</h4>
+        <kendo-datepicker name="monthpicker"
+                              start="CalendarView.Year"
+                              depth="CalendarView.Year"
+                              format="MMMM yyyy"
+                              value='DateTime.Parse("November 2011")'
+                              style="width: 100%;" />
+        <br />
+        <br />
+        <button id="btnSubmit" type="submit" >Submit</button>
+    </div>
+</form>

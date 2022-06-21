@@ -1,0 +1,103 @@
+@addTagHelper *, Kendo.Mvc
+
+@using Kendo.Mvc.Examples.Models.TaskBoard
+
+<div class="demo-section wide">
+
+    <script id="card-template" type="text/x-kendo-template">
+        <div class="template-container">
+            <div class="template-header">
+                <span class="template-title">#: title #</span>
+                <span class="template-menu">#=cardMenuButton#</span>
+            </div>
+            <p>#= (Description == null) ? ' ' : Description #</p>
+        </div>
+    </script>
+
+    <kendo-taskboard name="taskBoard" datatitlefield="title" datastatusfield="OwnerID" datadescriptionfield="Description" datacategoryfield="ID" on-execute-command="onExecute" template-id="card-template" height="750">
+        <datasource>
+            <transport>
+                <read url="@Url.Action("Tag_Helper_Tasks_Read", "TaskBoard")" />
+                <create url="@Url.Action("Tag_Helper_Tasks_Create", "TaskBoard")" />
+                <update url="@Url.Action("Tag_Helper_Tasks_Update", "TaskBoard")" />
+                <destroy url="@Url.Action("Tag_Helper_Tasks_Destroy", "TaskBoard")" />
+            </transport>
+            <schema data="Data" total="Total" errors="Errors">
+                <model id="TaskID">
+                    <fields>
+                        <field name="TaskID" type="number"></field>
+                        <field name="title" from="Title" type="string"></field>
+                        <field name="Description" from="Description" type="string"></field>
+                        <field name="OwnerID" type="number" default-value="0"></field>
+                    </fields>
+                </model>
+            </schema>
+        </datasource>
+        <column-settings datatextfield="Text" datastatusfield="ID">
+        </column-settings>
+        <taskboard-columns>
+            <datasource>
+                <transport>
+                    <read url="@Url.Action("Tag_Helper_Columns_Read", "TaskBoard")" />
+                    <create url="@Url.Action("Tag_Helper_Columns_Create", "TaskBoard")" />
+                    <update url="@Url.Action("Tag_Helper_Columns_Update", "TaskBoard")" />
+                    <destroy url="@Url.Action("Tag_Helper_Columns_Destroy", "TaskBoard")" />
+                </transport>
+                <schema data="Data" total="Total" errors="Errors">
+                    <model id="ID">
+                        <fields>
+                            <field name="ID" type="number"></field>
+                            <field name="Text" from="Text" type="string"></field>
+                        </fields>
+                    </model>
+                </schema>
+            </datasource>
+        </taskboard-columns>
+    </kendo-taskboard>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function onExecute(e) {
+            if (e.command === "MoveCardCommand") {
+                e.preventDefault();
+            }
+        }
+    </script>
+}
+
+<style>
+    .demo-section.wide {
+        max-width: 1025px;
+    }
+
+    .template-container {
+        padding-top: 10px;
+        padding-left: 12px;
+    }
+
+    .column-status {
+        padding-top: 5px;
+    }
+
+    .column-text {
+        padding-left: 10px;
+    }
+
+    .template-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .template-title {
+        color: red;
+        word-wrap: break-word;
+    }
+
+    .k-taskboard-drag-hint {
+        font: 400 14px Arial,Helvetica,sans-serif;
+    }
+</style>
+
+

@@ -1,0 +1,18 @@
+<div id="example" class="demo-section center">
+    <h3>Image</h3>
+    @(
+    Html.Kendo().QRCode()
+         .Name("qrImage")
+         .Value("https://docs.telerik.com/aspnet-core/html-helpers/barcodes/qrcode/types")
+         .Overlay(o => o.ImageUrl("https://demos.telerik.com/kendo-ui/content/shared/images/site/kendoka-cta.svg").Height(40).Width(40))
+         .Size(173)
+    )
+</div>
+
+    <style>
+        .k-qrcode {
+            display: inline-block;
+            margin: 10px 0 0;
+            border: none;
+        }
+    </style>

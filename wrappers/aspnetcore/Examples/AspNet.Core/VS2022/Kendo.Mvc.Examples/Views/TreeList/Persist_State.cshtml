@@ -1,0 +1,58 @@
+<div class="configurator">
+    <div class="box-col">
+        <a href="#"  id="save">Save State</a>
+        <a href="#"  id="load">Load State</a>
+    </div>
+</div>
+
+@(Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModel>()
+    .Name("treelist")
+    .Columns(columns =>
+    {
+        columns.Add().Field(e => e.FirstName).Title("First Name");
+        columns.Add().Field(e => e.LastName).Title("Last Name");
+        columns.Add().Field(e => e.Position);
+        columns.Add().Field(e => e.Extension).Title("Ext").Format("{0:#}").Filterable(false);
+
+    })
+    .Filterable(true)
+    .Sortable()
+    .Reorderable(true)
+    .Resizable(true)
+    .ColumnMenu()
+    .DataSource(dataSource => dataSource
+        .ServerOperation(false)
+        .Read(read => read.Action("All", "EmployeeDirectory"))
+        .Model(m =>
+            {
+                m.Id(f => f.EmployeeId);
+                m.ParentId(f => f.ReportsTo);
+                m.Expanded(true);
+                m.Field(f => f.FirstName);
+                m.Field(f => f.LastName);
+                m.Field(f => f.ReportsTo);
+            })
+    )
+    .Height(540)
+)
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var treelist = $("#treelist").data("kendoTreeList");
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+            localStorage["kendo-treelist-options"] = kendo.stringify(treelist.getOptions());
+        });
+
+        $("#load").click(function (e) {
+            e.preventDefault();
+            var options = localStorage["kendo-treelist-options"];
+            if (options) {
+                treelist.setOptions(JSON.parse(options));
+            }
+        });
+    });
+</script>
+}

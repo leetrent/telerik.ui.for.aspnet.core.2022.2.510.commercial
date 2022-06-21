@@ -1,0 +1,68 @@
+@(Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModel>()
+    .Name("treelist")
+    .Toolbar(toolbar =>
+    {
+        toolbar.Create();
+        toolbar.Save();
+        toolbar.Cancel();
+    })
+    .Columns(columns =>
+    {
+        columns.Add().Field(e => e.FirstName).Title("First Name").Width(220);
+        columns.Add().Field(e => e.LastName).Title("Last Name").Width(100);
+        columns.Add().Field(e => e.Position);
+        columns.Add().Field(e => e.HireDate).Format("{0:MMMM d, yyyy}");
+        columns.Add().Field(e => e.Phone);
+        columns.Add().Field(e => e.Extension).Title("Ext").Format("{0:#}");
+        columns.Add().Command(c =>
+            {
+                c.CreateChild().Text("Add child");
+                c.Destroy();
+            }
+        ).Width(240);
+    })
+    .Events(ev => ev.DataBound("onDataBound"))
+    .Editable(e => e.Mode(TreeListEditMode.InCell).Move(false))
+    .DataSource(dataSource => dataSource
+        .Batch(true)
+        .Read(read => read.Action("All_InCell", "TreeList"))
+        .Create(create => create.Action("Create_InCell", "TreeList").Type(HttpVerbs.Post))
+        .Update(update => update.Action("Update_InCell", "TreeList").Type(HttpVerbs.Post))
+        .Destroy(delete => delete.Action("Destroy_InCell", "TreeList").Type(HttpVerbs.Post))
+        .Model(m =>
+        {
+            m.Id(f => f.EmployeeId);
+            m.ParentId(f => f.ReportsTo);
+            m.Expanded(true);
+            m.Field(f => f.FirstName);
+            m.Field(f => f.LastName);
+            m.Field(f => f.ReportsTo);
+            m.Field(f => f.HireDate);
+            m.Field(f => f.BirthDate);
+            m.Field(f => f.Extension).DefaultValue(0);
+            m.Field(f => f.Position);
+        })
+    )
+    .Height(540)
+)
+
+@section scripts {
+<script>
+    //The following code removes the 'Add child' button from the new records,
+    //because they will receive an ID after saving the changes, which means that
+    //no child records  could be added until that
+    function onDataBound(e) {
+        var items = e.sender.items();
+        for (var i = 0; i < items.length; i++) {
+            var row = $(items[i]);
+            var dataItem = e.sender.dataItem(row);
+            if (dataItem.isNew()) {
+                row.find("[data-command='createchild']").hide();
+            }
+            else {
+                row.find("[data-command='createchild']").show();
+            }
+        }
+    }
+</script>
+}

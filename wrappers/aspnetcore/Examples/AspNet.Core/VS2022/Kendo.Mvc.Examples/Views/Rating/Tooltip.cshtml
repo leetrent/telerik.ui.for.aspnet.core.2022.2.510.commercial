@@ -1,0 +1,21 @@
+<div class="demo-section">
+    <h4>Rating</h4>
+    @(Html.Kendo().Rating()
+        .Name("rating")
+    )
+</div>
+
+@section scripts {
+<script>
+    $(document).on("kendoReady", function () {
+        var rating = $("#rating").getKendoRating();
+
+        rating.wrapper.kendoTooltip({
+            filter: ".k-rating-item",
+            content: function (e) {
+                return e.target.data("title");
+            }
+        });
+    });
+</script>
+}

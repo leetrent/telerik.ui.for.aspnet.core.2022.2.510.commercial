@@ -1,0 +1,396 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+	<link href="@String.Format("{0}/styles/kendo-ui-demos/hubpage.min.css{1}", ViewBag.AssetsCDN, Html.Version())" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/shared/hubpage.min.js" + Html.Version())"></script>
+	<script type="text/javascript" src="@String.Format("{0}/scripts/kendo-ui-demos/app-theme.min.js{1}",ViewBag.AssetsCDN, Html.Version())"></script>
+}
+
+<main role="main" class="kd-core">
+    <section class="kd-components-most-popular">
+        <div class="container">
+            <h1 class="kd-title heading">Most Popular ASP.NET Core Components</h1>
+
+            <div class="row">
+                <ul class="kd-list">
+                    <li class="col-2">
+                        <a class="kd-link" href="@Url.Widget("grid")">
+                            <div class="kd-component-icon">
+                                @Html.Raw(System.IO.File.ReadAllText(ViewBag.ComponentIcons["grid"]))
+                            </div>
+                            <div class="kd-component-title">
+                                <h2 class="kd-title">Grid</h2>
+                            </div>
+                            <div class="kd-component-description">
+                                <p class="text-small kd-link pb-0">
+                                    The Grid allows users to browser, edit, filter, group, sort, select, and export tabular data.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="col-2">
+                        <a class="kd-link" href="@Url.Widget("bar-charts")">
+                            <div class="kd-component-icon">
+                                @Html.Raw(System.IO.File.ReadAllText(ViewBag.ComponentIcons["barcharts"]))
+                            </div>
+                            <div class="kd-component-title">
+                                <h2 class="kd-title">Chart</h2>
+                            </div>
+                            <div class="kd-component-description">
+                                <p class="text-small kd-link pb-0">
+                                    The Charts allow users to visualise and output graphical representations of data.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="col-2">
+                        <a class="kd-link" href="@Url.Widget("scheduler")">
+                            <div class="kd-component-icon">
+                                @Html.Raw(System.IO.File.ReadAllText(ViewBag.ComponentIcons["scheduler"]))
+                            </div>
+                            <div class="kd-component-title">
+                                <h2 class="kd-title">Scheduler</h2>
+                            </div>
+                            <div class="kd-component-description">
+                                <p class="text-small kd-link pb-0">
+                                    The Scheduler allows users to view and edit their event calendar.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="col-2">
+                        <a class="kd-link" href="@Url.Widget("dropdownlist")">
+                            <div class="kd-component-icon">
+                                @Html.Raw(System.IO.File.ReadAllText(ViewBag.ComponentIcons["dropdownlist"]))
+                            </div>
+                            <div class="kd-component-title">
+                                <h2 class="kd-title">DropDownList</h2>
+                            </div>
+                            <div class="kd-component-description">
+                                <p class="text-small kd-link pb-0">
+                                    The DropDownList allows users to single select a single value from a predefined list.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="col-2">
+                        <a class="kd-link" href="@Url.Widget("daterangepicker")">
+                            <div class="kd-component-icon">
+                                @Html.Raw(System.IO.File.ReadAllText(ViewBag.ComponentIcons["daterangepicker"]))
+                            </div>
+                            <div class="kd-component-title">
+                                <h2 class="kd-title">DateRangePicker</h2>
+                            </div>
+                            <div class="kd-component-description">
+                                <p class="text-small kd-link pb-0">
+                                    The DateRangePicker allows the user to select a date range from a calendar or through a direct input.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="col-2">
+                        <a class="kd-link" href="@Url.Widget("editor")">
+                            <div class="kd-component-icon">
+                                @Html.Raw(System.IO.File.ReadAllText(ViewBag.ComponentIcons["editor"]))
+                            </div>
+                            <div class="kd-component-title">
+                                <h2 class="kd-title">Editor</h2>
+                            </div>
+                            <div class="kd-component-description">
+                                <p class="text-small kd-link pb-0">
+                                    The Editor allows to create rich textual content through a WYSIWYG interface.
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="kd-sample-applications">
+        <div class="container">
+            <h1 class="kd-title heading">Sample ASP.NET Core Applications</h1>
+        </div>
+        <div class="kd-carousel-wrapper">
+            <div class="container">
+                <div class="kd-carousel-controls">
+                    <span class="kd-carousel-control-prev disabled"
+                          role="button"
+                          data-slide="prev"
+                          tabindex="0"
+                          aria-disabled="true"
+                          aria-label="Scroll to previous sample applications">
+                        <span class="hide-text">Previous</span>
+                        <span class="carousel-arrow-prev"></span>
+                    </span>
+                </div>
+
+                <div class="kd-carousel">
+                    <div class="kd-carousel-slides">
+                        <div data-slide="0" class="kd-carousel-slide active" tabindex="0">
+                            <div class="kd-application-image">
+                                <picture>
+                                    <source srcset="@Url.Content("~/shared/images/applications/admin-dashboard.webp")" type="image/webp" />
+                                    <img loading="lazy" src="@Url.Content("~/shared/images/applications/admin-dashboard.png")" alt="Admin Dashboard" class="kd-img application-image" />
+                                </picture>
+                            </div>
+                            <div class="kd-application-content">
+                                <div class="kd-application-title">
+                                    <h2 class="kd-title">Admin Dashboard</h2>
+                                </div>
+                                <div class="kd-application-button">
+                                    <a href="https://demos.telerik.com/aspnet-core/admin-dashboard" class="kd-button kd-button-rounded kd-button-sm kd-button-tertiary">
+                                        RUN SAMPLE
+                                        <span class="kd-button-icon">
+                                            <object type="image/svg+xml" data="~/shared/images/site/arrow.svg"></object>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-slide="1" class="kd-carousel-slide active" tabindex="0">
+                            <div class="kd-application-image">
+                                <picture>
+                                    <source srcset="@Url.Content("~/shared/images/applications/finance-portfolio.webp")" type="image/webp" />
+                                    <img loading="lazy" src="@Url.Content("~/shared/images/applications/finance-portfolio.png")" alt="Finance Portfolio" class="kd-img application-image" />
+                                </picture>
+                            </div>
+                            <div class="kd-application-content">
+                                <div class="kd-application-title">
+                                    <h2 class="kd-title">Finance Portfolio</h2>
+                                </div>
+                                <div class="kd-application-button">
+                                    <a href="https://demos.telerik.com/aspnet-core/finance-portfolio" class="kd-button kd-button-rounded kd-button-sm kd-button-tertiary">
+                                        RUN SAMPLE
+                                        <span class="kd-button-icon">
+                                            <object type="image/svg+xml" data="~/shared/images/site/arrow.svg"></object>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-slide="2" class="kd-carousel-slide" tabindex="0">
+                            <div class="kd-application-image">
+                                <picture>
+                                    <source srcset="@Url.Content("~/shared/images/applications/bootstrap.webp")" type="image/webp" />
+                                    <img loading="lazy" src="@Url.Content("~/shared/images/applications/bootstrap.png")" alt="Kendo UI Bootstrap" class="kd-img application-image" />
+                                </picture>
+                            </div>
+                            <div class="kd-application-content">
+                                <div class="kd-application-title">
+                                    <h2 class="kd-title">Kendo UI Bootstrap</h2>
+                                </div>
+                                <div class="kd-application-buton">
+                                    <a href="https://demos.telerik.com/aspnet-core/bootstrap" class="kd-button kd-button-rounded kd-button-sm kd-button-tertiary">
+                                        RUN SAMPLE
+                                        <span class="kd-button-icon">
+                                            <object type="image/svg+xml" data="~/shared/images/site/arrow.svg"></object>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-slide="3" class="kd-carousel-slide" tabindex="0">
+                            <div class="kd-application-image">
+                                <picture>
+                                    <source srcset="@Url.Content("~/shared/images/applications/stock-history.webp")" type="image/webp" />
+                                    <img loading="lazy" src="@Url.Content("~/shared/images/applications/stock-history.png")" alt="Stock History Dashboard" class="kd-img application-image" />
+                                </picture>
+                            </div>
+                            <div class="kd-application-content">
+                                <div class="kd-application-title">
+                                    <h2 class="kd-title">Stock History Dashboard</h2>
+                                </div>
+                                <div class="kd-application-button">
+                                    <a href="https://demos.telerik.com/aspnet-core/financial/stock-history" class="kd-button kd-button-rounded kd-button-sm kd-button-tertiary">
+                                        RUN SAMPLE
+                                        <span class="kd-button-icon icon-arrow">
+                                            <object type="image/svg+xml" data="~/shared/images/site/arrow.svg"></object>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kd-carousel-indicators"></div>
+                </div>
+
+                <div class="kd-carousel-controls">
+                    <span class="kd-carousel-control-next" role="button" data-slide="next" tabindex="0" aria-label="Scroll to next sample applications">
+                        <span class="hide-text">Next</span>
+                        <span class="carousel-arrow-next"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Panel  -->
+    <section class="kd-cta-panel">
+        <div class="container flex-center">
+            <div class="kd-cta kd-cta-lg">
+                <div class="kd-cta-content-wrapper">
+                    <div class="kd-cta-image">
+                        <img loading="lazy" src="@Url.Content("~/shared/images/site/devcraft-ninja-small.svg")" alt="devcraft ninja image" />
+                    </div>
+                    <div class="kd-cta-title-desc">
+                        <h2 class="kd-title kd-cta-title mt-0">New to Telerik UI for ASP.NET Core?</h2>
+                        <div class="kd-cta-desc">
+                            <p class="text-small m-0">
+                                <a href="https://www.telerik.com/aspnet-core-ui" class="kd-link text-bold">Telerik UI for ASP.NET Core</a> is professional grade UI library with 110+ components for building modern and feature-rich ASP.NET Core applications. To try it out sign up for a free 30-day trial.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="kd-cta-button-wrapper">
+                    <a href="https://www.telerik.com/download-trial-file/v2/aspnet-core-ui" class="kd-button kd-button-primary kd-button-md">Download Free Trial</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="kd-components-list">
+        <div class="container">
+            <div class="row">
+                <div class="col col-8">
+                    <h1 class="kd-title heading">ASP.NET Core Components</h1>
+
+                    <div class="row">
+                        @{
+                            var categories = (IEnumerable<IGrouping<string, NavigationWidget>>)ViewBag.WidgetCategories;
+                            var columns = new[] {
+                                new [] {
+                                    "Data Management",
+                                    "Navigation",
+                                    "Media",
+                                    "Barcodes"
+                                },
+                                new [] {
+                                    "Editors",
+                                    "Conversational UI",
+                                },
+                                new [] {
+                                    "Charts",
+                                    "Gauges",
+                                    "PDF",
+                                },
+                                new [] {
+                                    "Scheduling",
+                                    "Layout",
+                                    "Interactivity & UX",
+                                    "Diagrams & Maps"
+                                },
+                            };
+                        }
+
+                        @foreach (var column in columns)
+                        {
+                            <div class="col-3">
+                                <ul class="kd-list">
+                                    @foreach (var columnCategory in column)
+                                    {
+                                        var category = categories.FirstOrDefault(c => c.Key == columnCategory);
+                                        if (category.Any(c => c.ShouldInclude()))
+                                        {
+                                            <li>
+                                                <h2 class="kd-title">@category.Key</h2>
+                                                <ul class="kd-list">
+                                                    @foreach (var widget in category)
+                                                    {
+                                                        if (widget.ShouldInclude())
+                                                        {
+                                                            <li>@Html.WidgetLink(widget, (string)ViewBag.NavProduct)</li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col col-2">
+                    <h1 class="kd-title heading">Common Features</h1>
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="kd-list">
+                                @{
+                                    var common = new[] {
+                                        "Framework",
+                                        "Document Processing",
+                                        "Reporting"
+                                    };
+
+                                    foreach (var commonCategory in common)
+                                    {
+                                        var categoryC = categories.FirstOrDefault(c => c.Key == commonCategory);
+                                        if (categoryC.Any(c => c.ShouldInclude()))
+                                        {
+                                            <li>
+                                                <h2 class="kd-title">@categoryC.Key</h2>
+                                                <ul class="kd-list">
+                                                    @foreach (var widget in categoryC)
+                                                    {
+                                                        if (widget.ShouldInclude())
+                                                        {
+                                                            <li>@Html.WidgetLink(widget, (string)ViewBag.NavProduct)</li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-2">
+                    <h1 class="kd-title heading">Tools</h1>
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="kd-list">
+                                <li>
+                                    <ul class="kd-list">
+                                        <li class="kd-link-group">
+                                            <a class="kd-link" href="https://themebuilder.telerik.com/"><span class="link-text">SASS ThemeBuilder</span></a>
+                                            <p class="kd-text">Create and modify SASS based themes for Kendo UI widgets.</p>
+                                        </li>
+                                        <li class="kd-link-group">
+                                            <a class="kd-link" href="https://www.telerik.com/download/custom-download"><span class="link-text">Download Builder</span></a>
+                                            <p class="kd-text">Create a single JavaScript file which contains only the required widgets and features.</p>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="kd-contact-support">
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <h1 class="kd-title">Not finding the help you need?</h1>
+                </div>
+                <div class="col-4 text-right">
+                    <a href="https://www.telerik.com/contact" class="kd-button kd-button-secondary kd-button-md">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@Html.Partial("Footer")

@@ -1,0 +1,24 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section wide">
+    <kendo-chart name="chart">
+        <chart-title text="Average Weather Conditions"></chart-title>
+
+        <series>
+            <series-item type="ChartSeriesType.RangeColumn" data="new double[][] {
+                new double[] {5, 11}, new double[] {5, 13}, new double[] {7, 15}, new double[] {10, 19}, new double[] {13, 23}, new double[] {17, 28},
+                new double[] {20, 30}, new double[] {20, 30}, new double[] {17, 26}, new double[] {13, 22}, new double[] {9, 16}, new double[] {6, 13}
+            }"> <labels visible="true">
+                 <chart-series-labels-from template="#=value.from# °C"></chart-series-labels-from>
+                 <chart-series-labels-to template="#=value.to# °C"></chart-series-labels-to>
+                </labels>
+            </series-item>
+        </series>
+        <category-axis>
+            <category-axis-item categories='new string[] { "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"}'>
+            </category-axis-item>
+        </category-axis>
+        <tooltip visible="true" template="Avg Min Temp : #= value.from # °C <br /> Avg Max Temp : #= value.to # °C"></tooltip>
+    </kendo-chart>
+</div>

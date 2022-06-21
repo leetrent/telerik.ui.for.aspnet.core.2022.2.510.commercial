@@ -1,0 +1,17 @@
+<div class="demo-section wide">
+    <h4>Stepper Basic Usage</h4>
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Linear(false)
+        .Orientation(StepperOrientationType.Horizontal)
+        .Steps(s =>
+        {
+            s.Add().Label("Personal Info").Icon("user");
+            s.Add().Label("Education").Icon("dictionary-add");
+            s.Add().Label("Experience").Icon("flip-vertical").Selected(true);
+            s.Add().Label("Attachments").Icon("attachment");
+            s.Add().Label("Review").Icon("preview").Enabled(false);
+            s.Add().Label("Submit").Icon("file-add");
+        })
+    )
+</div>

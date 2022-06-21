@@ -1,0 +1,8 @@
+<div class="demo-section wide">
+    @(Html.Kendo().ImageEditor()
+        .Name("imageEditor")
+        .Height(900)
+        .SaveAs(s => s.FileName("image_edited.png"))
+        .ImageUrl(@Url.Content("~/shared/images/photos/12.jpg"))
+    )
+</div>

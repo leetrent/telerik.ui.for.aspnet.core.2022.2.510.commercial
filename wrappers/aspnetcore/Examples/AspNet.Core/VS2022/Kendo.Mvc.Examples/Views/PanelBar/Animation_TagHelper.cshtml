@@ -1,0 +1,91 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <form class="box-col">
+        <h4>Animation Settings</h4>
+        <ul class="options">
+            <li>
+                <input name="animation" type="radio" @(ViewBag.animation == "toggle" ? "checked=\"checked\"" : "") value="toggle" /> <label for="toggle">Toggle animation</label>
+            </li>
+            <li>
+                <input name="animation" type="radio" @(ViewBag.animation != "toggle" ? "checked=\"checked\"" : "") value="expand" /> <label for="expand">Expand animation</label>
+            </li>
+            <li>
+                @Html.CheckBox("opacity", (bool)ViewBag.opacity) <label for="opacity">Animate opacity</label>
+            </li>
+            <li>
+                <button >Apply</button>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<div class="demo-section">
+    <h4>Conversation history</h4>
+
+    <kendo-panelbar name="panelbar" expand-mode="@PanelBarExpandMode.Single">
+        @{
+            if(ViewBag.animation == "expand" || ViewBag.opacity)
+            {
+                <animation enabled="true">
+                @{
+                    if (ViewBag.animation == "expand" || ViewBag.opacity)
+                    {
+                        if (ViewBag.animation != "toggle")
+                        {
+                            <expand effects="expand:vertical" duration="200"/>
+                        }
+                        if (ViewBag.opacity == true)
+                        {
+                            <expand effects="expand:vertical fade:in" duration="200"/>
+                        }
+                    }
+                }
+                </animation>
+            }
+         }
+        <items>
+            <panelbar-item text="Today" expanded="true">
+                <items>
+                    <panelbar-item text="Jane King"></panelbar-item>
+                    <panelbar-item text="Bob Fuller"></panelbar-item>
+                    <panelbar-item text="Lynda Kallahan"></panelbar-item>
+                    <panelbar-item text="Matt Sutnar"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Yesterday">
+                <items>
+                    <panelbar-item text="Stewart"></panelbar-item>
+                    <panelbar-item text="Jane King"></panelbar-item>
+                    <panelbar-item text="Steven"></panelbar-item>
+                    <panelbar-item text="Ken Stone"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Wednesday, February 01, 2012">
+                <items>
+                    <panelbar-item text="Jane King"></panelbar-item>
+                    <panelbar-item text="Lynda Kallahan"></panelbar-item>
+                    <panelbar-item text="Todd"></panelbar-item>
+                    <panelbar-item text="Bob Fuller"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Tuesday, January 31, 2012">
+                <items>
+                    <panelbar-item text="Emily Davolio"></panelbar-item>
+                    <panelbar-item text="Matt Sutnar"></panelbar-item>
+                    <panelbar-item text="Bob Fuller"></panelbar-item>
+                    <panelbar-item text="Jenn Heinlein"></panelbar-item>
+                </items>
+            </panelbar-item>
+            <panelbar-item text="Monday, January 30, 2012">
+                <items>
+                    <panelbar-item text="Matt Sutnar"></panelbar-item>
+                    <panelbar-item text="Joshua"></panelbar-item>
+                    <panelbar-item text="Michael"></panelbar-item>
+                    <panelbar-item text="Jenn Heinlein"></panelbar-item>
+                </items>
+            </panelbar-item>
+        </items>
+    </kendo-panelbar>
+</div>

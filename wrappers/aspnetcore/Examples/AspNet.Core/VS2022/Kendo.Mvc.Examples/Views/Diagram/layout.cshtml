@@ -1,0 +1,46 @@
+<div class="box wide">
+    <div class="box-col">
+        <h4>Layout: </h4>
+        @(Html.Kendo().DropDownList()
+               .Name("dropDownList")
+               .BindTo(new List<SelectListItem> {
+                   new SelectListItem {Text = "Tree Down", Value = "down" },
+                   new SelectListItem {Text = "Tree Up", Value = "up" },
+                   new SelectListItem {Text = "Tipover Tree", Value = "tipover" }
+               })
+               .DataTextField("Text")
+               .DataValueField("Value")
+               .Events(ev => ev.Change("onChange"))
+         )
+    </div>
+</div>
+
+@(Html.Kendo().Diagram()
+        .Name("diagram")
+        .DataSource(dataSource => dataSource
+            .Read(read => read.Action("_DiagramTree", "Diagram")).Model(m => m.Children("Items"))
+        )
+        .Layout(l => l
+            .Type(DiagramLayoutType.Tree)
+            .Subtype(DiagramLayoutSubtype.Down)
+            .HorizontalSeparation(30)
+            .VerticalSeparation(20)
+        )
+        .ShapeDefaults(sd => sd
+            .Width(40)
+            .Height(40)
+        )
+)
+
+@section scripts {
+<script>
+    function onChange() {
+        $("#diagram").getKendoDiagram().layout({
+            subtype: this.value(),
+            type: "tree",
+            horizontalSeparation: 30,
+            verticalSeparation: 20
+        });
+    }
+</script>
+}

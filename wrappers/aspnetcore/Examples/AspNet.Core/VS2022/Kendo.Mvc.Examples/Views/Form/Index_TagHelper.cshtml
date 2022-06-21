@@ -1,0 +1,59 @@
+@addTagHelper *, Kendo.Mvc
+
+@model Kendo.Mvc.Examples.Models.Form.UserViewModel
+
+<div class="demo-section">
+    <div id="validation-success"></div>
+    <kendo-form name="formExample" form-data="@Model" on-validate-field="onFormValidateField" on-submit="onFormSubmit" on-clear="onFormClear" action="Index" method="POST">
+        <form-items>
+            <form-item type="group">
+                <item-label text="Registration Form">
+                    <form-items>
+                        <form-item field="FirstName">
+                            <item-label text="FirstName" />
+                        </form-item>
+                        <form-item field="LastName">
+                            <item-label text="Last Name:">
+                        </form-item>
+                        <form-item field="UserName">
+                            <item-label text="Username:">
+                        </form-item>
+                        <form-item field="Password" hint="Hint: enter alphanumeric characters only." editor-handler="setPasswordEditor">
+                            <item-label text="Password:">
+                        </form-item>
+                        <form-item field="Email">
+                            <item-label text="Email:">
+                        </form-item>
+                        <form-item field="DateOfBirth">
+                            <item-label text="Date of Birth:" optional="true">
+                        </form-item>
+                        <form-item field="Agree">
+                            <item-label text="Agree to Terms:">
+                        </form-item>
+                    </form-items>
+            </form-item>
+        </form-items>
+        <validatable validate-on-blur="true" />
+    </kendo-form>
+</div>
+
+<script>
+    function setPasswordEditor(container, options) {
+        $('<input type="password" id="Password" name="' + options.field + '" title="Password" required="required" autocomplete="off" aria-labelledby="Password-form-label" data-bind="value: Password" aria-describedby="Password-form-hint"/>')
+            .appendTo(container)
+            .kendoTextBox();
+    }
+
+    function onFormValidateField(e) {
+        $("#validation-success").html("");
+    }
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        $("#validation-success").html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+    }
+
+    function onFormClear(e) {
+        $("#validation-success").html("");
+    }
+</script>

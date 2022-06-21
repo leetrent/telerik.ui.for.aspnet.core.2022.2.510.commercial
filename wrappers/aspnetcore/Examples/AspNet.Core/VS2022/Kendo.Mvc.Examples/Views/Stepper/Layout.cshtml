@@ -1,0 +1,46 @@
+@model Kendo.Mvc.Examples.Models.StepperViewModel
+
+<div class="configurator">
+    <div class="header">Configurator</div>
+    <div class="box-col">
+        @using (Html.BeginForm())
+        {
+            <h4>Layout Settings</h4>
+
+            @(Html.Kendo().DropDownList()
+                .Name("layout")
+                .Items(items =>
+                    {
+                        items.Add().Text("Label and Indicator").Value("both");
+                        items.Add().Text("Label only").Value("label");
+                        items.Add().Text("Indicator only").Value("indicator");
+                    })
+                .Events(events => events.Change("onChange"))
+            )
+        }
+    </div>
+</div>
+<div class="demo-section wide">
+    @(Html.Kendo().Stepper()
+        .Name("stepper")
+        .Orientation(StepperOrientationType.Horizontal)
+        .Label(Model.Label)
+        .Indicator(Model.Indicator)
+        .Steps(s =>
+        {
+            s.Add().Label("First");
+            s.Add().Label("Second").Selected(true);
+            s.Add().Label("Third");
+            s.Add().Label("Fourth");
+            s.Add().Label("Fifth");
+        })
+    )
+</div>
+
+@section scripts {
+<script>
+    function onChange() {
+        $("form").submit();
+    }
+</script>
+}

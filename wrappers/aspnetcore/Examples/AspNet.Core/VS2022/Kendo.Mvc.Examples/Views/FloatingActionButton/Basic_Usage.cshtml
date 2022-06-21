@@ -1,0 +1,97 @@
+<div class="k-d-flex k-justify-content-around">
+    <div class="k-card k-card-vertical">
+        <img src="https://demos.telerik.com/kendo-ui/content/shared/images/photos/4.jpg" class="k-card-media" />
+        <div class="k-card-body">
+            @(Html.Kendo().FloatingActionButton()
+                .Name("fab-text")
+                .PositionMode(FloatingActionButtonPositionMode.Absolute)
+                .Text("Add To Queue")
+                .Align(FloatingActionButtonAlign.TopEnd)
+                .AlignOffset(ao => ao.Vertical(237))
+                .Events(ev => ev.Click("onClick"))
+            )
+            <h2 class="k-card-title">Summer Mix 2020</h2>
+            <p class="k-card-subtitle">DJ Peril</p>
+        </div>
+    </div>
+
+    <div class="notes-wrap">
+        <h2>Notes: </h2>
+        @(Html.Kendo().TextArea()
+            .Name("notes")
+            .Rows(6)
+            .Value("DevReach 2019 Day 2 Morning Keynote: 'Technical Leadership: Lessons Learned at NASA'")
+            .HtmlAttributes(new { style = "width: 100%"})
+        )
+        <div id="notes-overlay" class="k-overlay"></div>
+        @(Html.Kendo().FloatingActionButton()
+            .Name("fab-speed-dial")
+            .PositionMode(FloatingActionButtonPositionMode.Absolute)
+            .Icon("cog")
+            .Items(items =>
+            {
+                items.Add().Icon("save").Label("Save").Click("onItemClick");
+                items.Add().Icon("share").Label("Share").Click("onItemClick");
+            })
+            .Events(ev => ev.Expand("onExpand").Collapse("onCollapse"))
+        )
+    </div>
+</div>
+@section scripts{
+    <script>
+        function onClick(e) {
+            kendo.alert("Added to Queue")
+        }
+        function onItemClick(e) {
+            kendo.alert(e.item.label + " clicked")
+        }
+        function onExpand(e) {
+            toggleNotesOverlay(true);
+            e.sender.icon("close");
+        }
+
+        function onCollapse(e) {
+            toggleNotesOverlay(false);
+            e.sender.icon("cog");
+        }
+
+        function toggleNotesOverlay(visible) {
+            var overlay = $("#notes-overlay");
+
+            overlay.toggle(visible);
+        }
+    </script>
+}
+
+<style>
+    .k-fab {
+        z-index: 10002;
+    }
+
+    .k-card {
+        width: 350px;
+        height: auto;
+        position: relative;
+    }
+
+    .k-card-image, .k-card-media {
+        flex-shrink: 0;
+    }
+
+    #notes-overlay {
+        display: none;
+        position: absolute;
+    }
+
+    .notes-wrap {
+        width: 350px;
+        padding: 50px 20px 50px 20px;
+        border: 1px solid #dedede;
+        position: relative;
+    }
+
+    .notes-wrap > h2 {
+        font-size: 18px;
+        color: #656565;
+    }
+</style>

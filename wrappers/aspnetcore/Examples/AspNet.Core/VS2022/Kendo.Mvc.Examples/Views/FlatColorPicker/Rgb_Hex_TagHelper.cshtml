@@ -1,0 +1,51 @@
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    string[] formats = new string[] { "rgb", "hex" };
+}
+
+<div class="demo-section hidden-on-narrow wide">
+
+    <div class="column">
+        <h3 class="title"><label for="picker">Choose Your Color | RGB</label></h3>
+        <div id="rgb"></div>
+           <kendo-flatcolorpicker name="rgb" value="#ff0000" buttons="true" 
+             format="ColorPickerFormat.Rgb" formats="formats">
+            </kendo-flatcolorpicker>
+    </div>
+    <div class="column" style="margin-top:0px;">
+        <h3 class="title"><label for="picker">Choose Your Color | HEX</label></h3>
+        <div id="hex"></div>
+           <kendo-flatcolorpicker name="rgbhex" value="#fff700" buttons="true" 
+             format="ColorPickerFormat.Hex" formats="formats">
+            </kendo-flatcolorpicker>
+    </div>
+</div>
+
+<style>
+
+    .demo-section {
+        display: inline-flex;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .column {
+        margin: auto;
+        text-align: center;
+    }
+
+        .column .title {
+            color: #a3a3a3;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: normal;
+            padding: 41px 0 20px;
+        }
+
+    .k-colorpicker {
+        vertical-align: top;
+        margin: 20px 0;
+    }
+</style>

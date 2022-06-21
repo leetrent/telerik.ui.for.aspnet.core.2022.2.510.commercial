@@ -1,0 +1,114 @@
+@addTagHelper *, Kendo.Mvc
+
+<div class="demo-section">
+    <h4>Menu</h4>
+    <kendo-menu name="menu"
+        on-open="open"
+        on-close="close"
+        on-select="select"
+        on-activate="activate"
+        on-deactivate="deactivate">
+        <items>
+            <menu-item text="First Item">
+                <sub-items>
+                    <menu-item text="Sub Item 1"></menu-item>
+                    <menu-item text="Sub Item 2"></menu-item>
+                    <menu-item text="Sub Item 3"></menu-item>
+                    <menu-item text="Sub Item 4"></menu-item>
+                    <menu-item text="Sub Item 5"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Second Item">
+                <sub-items>
+                    <menu-item text="Sub Item 1"></menu-item>
+                    <menu-item text="Sub Item 2"></menu-item>
+                    <menu-item text="Sub Item 3"></menu-item>
+                    <menu-item text="Sub Item 4"></menu-item>
+                    <menu-item text="Sub Item 5"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="Third Item">
+                <sub-items>
+                    <menu-item text="Sub Item 1"></menu-item>
+                    <menu-item text="Sub Item 2"></menu-item>
+                    <menu-item text="Sub Item 3"></menu-item>
+                    <menu-item text="Sub Item 4"></menu-item>
+                    <menu-item text="Sub Item 5"></menu-item>
+                </sub-items>
+            </menu-item>
+        </items>
+    </kendo-menu>
+
+    <h4 style="padding-top: 2em;">Context Menu</h4>
+    <kendo-contextmenu name="context-menu-events"
+        show-on="click"
+        target="#context-target"
+        align-to-anchor="true"
+        on-open="open"
+        on-close="close"
+        on-select="select"
+        on-activate="activate"
+        on-deactivate="deactivate">
+        <items>
+            <menu-item text="animation">
+                <sub-items>
+                    <menu-item text="slideIn"></menu-item>
+                    <menu-item text="fadeIn"></menu-item>
+                    <menu-item text="expand"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="animation.close">
+                <sub-items>
+                    <menu-item text="animation.close.effects"></menu-item>
+                    <menu-item text="animation.close.duration"></menu-item>
+                </sub-items>
+            </menu-item>
+            <menu-item text="animation.open">
+                <sub-items>
+                    <menu-item text="animation.open.effects"></menu-item>
+                    <menu-item text="animation.open.duration"></menu-item>
+                </sub-items>
+            </menu-item>
+        </items>
+    </kendo-contextmenu>
+    <p>A collection of <span id="context-target">Animation (?)</span> objects, used to change default animations. A value of false will disable all animations in the widget.</p>
+</div>
+
+@section scripts {
+<script>
+    function open(e) {
+        kendoConsole.log("Opened: " + ($(e.item).children(".k-link").text() || "ContextMenu"));
+    }
+
+    function close(e) {
+        kendoConsole.log("Closed: " + ($(e.item).children(".k-link").text() || "ContextMenu"));
+    }
+
+    function select(e) {
+        kendoConsole.log("Selected: " + $(e.item).children(".k-link").text());
+    }
+
+    function activate(e) {
+        kendoConsole.log("Activated: " + ($(e.item).children(".k-link").text() || "ContextMenu"));
+    }
+
+    function deactivate(e) {
+        kendoConsole.log("Deactivated: " + ($(e.item).children(".k-link").text() || "ContextMenu"));
+    }
+</script>
+}
+
+<style>
+    .demo-section .box-col li {
+        margin-bottom: 0;
+    }
+
+    #context-target {
+        cursor: pointer;
+        color: red;
+    }
+
+        #context-target:hover {
+            text-decoration: underline;
+        }
+</style>

@@ -1,0 +1,141 @@
+<div class="demo-section">
+    <div id="validation-success"></div>
+
+    @(Html.Kendo().Form<Kendo.Mvc.Examples.Models.Form.FormItemsViewModels>()
+        .Name("exampleForm")
+        .HtmlAttributes(new { action = "Items", method = "POST" })
+        .Validatable(v =>
+        {
+            v.ValidateOnBlur(true);
+            v.ValidationSummary(vs => vs.Enable(true));
+        })
+        .Items(items =>
+        {
+            items.AddGroup()
+                .Label("Registration Form")
+                .Items(i =>
+                {
+                    i.Add()
+                         .Field(f => f.TextBox)
+                         .Label(l => l.Text("TextBox:"))
+                         .Editor(e =>
+                         {
+                             e.TextBox().Placeholder("TextBox");
+                         });
+                    i.Add()
+                         .Field(f => f.TextArea)
+                         .Label(l => l.Text("TextArea:"))
+                         .Editor(e =>
+                         {
+                             e.TextArea().Placeholder("TextArea").Rows(2);
+                         });
+                    i.Add()
+                        .Field(f => f.NumericTextBox)
+                        .Label(l => l.Text("NumericTextBox:"))
+                        .Editor(e =>
+                        {
+                            e.NumericTextBox();
+                        });
+                    i.Add()
+                        .Field(f => f.MaskedTextBox)
+                        .Label(l => l.Text("MaskedTextBox:").Optional(true))
+                        .Editor(e =>
+                        {
+                            e.MaskedTextBox();
+                        });
+                    i.Add()
+                        .Field(f => f.DatePicker)
+                        .Label(l => l.Text("DatePicker:").Optional(true));
+                    i.Add()
+                        .Field(f => f.DateTimePicker)
+                        .Label(l => l.Text("DateTimePicker:").Optional(true))
+                        .Editor(e => e.DateTimePicker()
+                            .HtmlAttributes(new { style = "width: 100%", title = "datetimepicker" })
+                            .DateInput()
+                        );
+                    i.Add()
+                        .Field(f => f.ComboBox)
+                        .Label(l => l.Text("ComboBox:").Optional(true))
+                        .Editor(e =>
+                        {
+                            e.ComboBox()
+                                .HtmlAttributes(new { })
+                                .Placeholder("Select...")
+                                .DataTextField("ProductName")
+                                .DataValueField("ProductID")
+                                .HtmlAttributes(new { style = "width:100%" })
+                                .Height(520)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("Items_GetProducts", "Form");
+                                    })
+                                    .ServerFiltering(true);
+                                });
+                        });
+                    i.Add()
+                      .Field(f => f.RadioGroup)
+                      .Label(l => l.Text("RadioGroup:"))
+                      .Editor(e =>
+                      {
+                          e.RadioGroup()
+                          .LabelPosition(RadioGroupLabelPosition.Before)
+                          .Layout(RadioGroupLayout.Horizontal)
+                          .Items(i =>
+                          {
+                              i.Add().Label("Admin").Value("1");
+                              i.Add().Label("Manager").Value("2");
+                              i.Add().Label("Employee").Value("3");
+                          });
+                      });
+
+                    i.Add()
+                      .Field(f => f.CheckBoxGroup)
+                      .Label(l => l.Text("CheckBoxGroup:"))
+                      .Editor(e =>
+                      {
+                          e.CheckBoxGroup()
+                          .LabelPosition(CheckBoxGroupLabelPosition.Before)
+                          .Layout(CheckBoxGroupLayout.Horizontal)
+                          .Items(item =>
+                          {
+                              item.Add().Label("English").Value("1");
+                              item.Add().Label("Russian").Value("2");
+                              item.Add().Label("Spanish").Value("3");
+                          });
+                      });
+
+                    i.Add()
+                        .Field(f => f.Switch)
+                        .Label(l => l.Text("Switch:"))
+
+                        .Editor(e =>
+                        {
+                            e.Switch()
+                                .Messages(c => c.Checked("YES").Unchecked("NO"));
+                        });
+
+                });
+        })
+        .Events(ev => ev.ValidateField("onFormValidateField").Submit("onFormSubmit").Clear("onFormClear"))
+    )
+</div>
+
+@section scripts {
+<script>
+    function onFormValidateField(e) {
+        $("#validation-success").html("");
+    }
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        $("#validation-success").html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+    }
+
+    function onFormClear(e) {
+        $("#validation-success").html("");
+    }
+</script>
+}
+

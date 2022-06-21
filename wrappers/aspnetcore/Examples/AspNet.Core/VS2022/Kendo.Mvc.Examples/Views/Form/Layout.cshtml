@@ -1,0 +1,99 @@
+<div class="demo-section">
+    <h4>Grid Layout</h4>
+    <div id="validation-success"></div>
+    @(Html.Kendo().Form<Kendo.Mvc.Examples.Models.Form.FormOrderViewModel>()
+        .Name("exampleForm")
+        .HtmlAttributes(new { action = "Layout", method = "POST" })
+        .Layout("grid")
+        .Grid(g => g.Cols(2).Gutter(20))
+        .Validatable(v =>
+        {
+            v.ValidateOnBlur(true);
+            v.ValidationSummary(vs => vs.Enable(false));
+        })
+        .Items(items =>
+        {
+            items.AddGroup()
+                .Label("Personal Information")
+                .Layout("grid")
+                .Grid(g => g.Cols(1).Gutter(10))
+                .Items(i =>
+                {
+                   i.Add()
+                        .Field(f => f.FirstName)
+                        .Label(l => l.Text("First Name:"));
+                    i.Add()
+                        .Field(f => f.LastName)
+                        .Label(l => l.Text("Last Name:"));
+                    i.Add()
+                        .Field(f => f.Email)
+                        .Label(l => l.Text("Email:"));
+                });
+
+            items.AddGroup()
+                .Label("Shipping Address")
+                .Layout("grid")
+                .Grid(g => g.Cols(2).Gutter(10))
+                .Items(i =>
+                {
+                   i.Add()
+                        .Field(f => f.ShipCountry)
+                        .Label(l => l.Text("Country:"))
+                        .ColSpan(1)
+                        .Editor(e =>
+                        {
+                            e.ComboBox()
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .BindTo(new List<SelectListItem>() {
+                                    new SelectListItem() {
+                                        Text = "France", Value = "1"
+                                    },
+                                    new SelectListItem() {
+                                        Text = "Germany", Value = "2"
+                                    },
+                                    new SelectListItem() {
+                                        Text = "Italy", Value = "3"
+                                    },
+                                    new SelectListItem() {
+                                        Text = "Spain", Value = "4"
+                                    }
+                                });
+                        });
+                    i.Add()
+                        .Field(f => f.City)
+                        .Label(l => l.Text("City:"))
+                        .ColSpan(1);
+                    i.Add()
+                        .Field(f => f.Address)
+                        .Label(l => l.Text("Address Line:"))
+                        .ColSpan(2);
+                });
+        })
+        .Events(ev => ev.ValidateField("onFormValidateField").Submit("onFormSubmit").Clear("onFormClear"))
+    )
+</div>
+
+@section scripts {
+<script>
+    function onFormValidateField(e) {
+        $("#validation-success").html("");
+    }
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        $("#validation-success").html("<div class='k-messagebox k-messagebox-success'>Form data is valid!</div>");
+    }
+
+    function onFormClear(e) {
+        $("#validation-success").html("");
+    }
+</script>
+}
+
+<style>
+    #example .demo-section {
+        max-width: 600px;
+        width: 600px;
+    }
+</style>

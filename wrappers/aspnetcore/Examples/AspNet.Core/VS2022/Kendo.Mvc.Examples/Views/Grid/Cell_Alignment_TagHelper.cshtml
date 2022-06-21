@@ -1,0 +1,50 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" resizable="true" height="430">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="15">
+        <schema>
+            <model id="OrderID">
+                <fields>
+                    <field name="OrderID" editable="false" type="number"></field>
+                    <field name="OrderDate" type="date"></field>
+                    <field name="Freight" type="number"></field>
+                    <field name="ShipCity" type="string"></field>
+                    <field name="ShipName" type="string"></field>
+                    <field name="ShippedDate" type="date"></field>
+                </fields>
+            </model>
+        </schema>
+        <aggregates>
+            <aggregate field="Freight" aggregate="sum" />
+        </aggregates>
+        <transport>
+            <read url="/grid/cellalignment_read"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="OrderDate" width="120" format="{0:MM/dd/yyyy}"
+            header-html-attributes='new Dictionary<string,object> { ["class"] = "k-text-center" }'
+            html-attributes='new Dictionary<string,object> { ["class"] = "k-text-right" }'/>
+        <column field="Freight"
+            footer-template="Total: #=sum#"
+            footer-html-attributes='new Dictionary<string,object> { ["style"] = "text-align: right" }'
+            header-html-attributes='new Dictionary<string,object> { ["style"] = "text-align: center" }'
+            html-attributes='new Dictionary<string,object> { ["style"] = "text-align: right" }'/>
+        <column field="ShipCity"
+            header-html-attributes='new Dictionary<string,object> { ["style"] = "text-align: center" }'
+            html-attributes='new Dictionary<string,object> { ["style"] = "text-align: right" }'/>
+        <column field="ShipName"
+            header-html-attributes='new Dictionary<string,object> { ["style"] = "text-align: center" }'
+            html-attributes='new Dictionary<string,object> { ["style"] = "text-align: right" }'/>
+        <column field="ShippedDate" format="{0:MM/dd/yyyy}"
+            header-html-attributes='new Dictionary<string,object> { ["style"] = "text-align: center" }'
+            html-attributes='new Dictionary<string,object> { ["style"] = "text-align: right" }'/>
+        <column field="OrderID" width="110"
+            header-html-attributes='new Dictionary<string,object> { ["style"] = "text-align: center" }'
+            html-attributes='new Dictionary<string,object> { ["style"] = "text-align: right" }'/>
+    </columns>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <scrollable enabled="true"/>
+    <reorderable enabled="true" columns="true"/>
+</kendo-grid>

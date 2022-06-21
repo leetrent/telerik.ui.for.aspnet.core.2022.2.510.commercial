@@ -1,0 +1,34 @@
+<div class="demo-section">
+    <h4>Customers</h4>
+    @(Html.Kendo().MultiColumnComboBox()
+          .Name("customers")
+          .DataTextField("ContactName")
+          .DataValueField("CustomerID")
+          .Columns(columns =>
+          {
+              columns.Add().Field("ContactName").Title("Name");
+              columns.Add().Field("CustomerID").Title("ID");
+          })
+          .HtmlAttributes(new { style = "width:100%;" })
+          .Height(400)
+          .DataSource(source => source
+              .Custom()
+              .Group(g => g.Add("Country", typeof(string)))
+              .Transport(transport => transport
+                .Read(read =>
+                {
+                    read.Action("Customers_Read", "MultiColumnComboBox")
+                        .Data("onAdditionalData");
+                }))
+              .ServerFiltering(true))
+    )
+</div>
+@section scripts {
+<script>
+    function onAdditionalData() {
+        return {
+            text: $("#customers").val()
+        };
+    }
+</script>
+}

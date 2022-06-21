@@ -1,0 +1,223 @@
+<div class="demo-section wide">
+    <div class="configurator">
+        <div class="header">Configurator</div>
+        <div class="box-col">
+            <h4>Choose Text Orientation</h4>
+            @(Html.Kendo().DropDownList()
+            .Name("textOrientation")
+            .BindTo(new [] {
+            "vertical",
+            "horizontal"
+            })
+            .Events(e=>e.Change("onChangeOrientation"))
+            )
+        </div>
+        <div class="box-col">
+            <h4>Choose theme color</h4>
+            @(Html.Kendo().DropDownList()
+            .Name("themeColor")
+            .BindTo(new [] {
+            "primary",
+            "secondary",
+            "tertiary",
+            "info",
+            "success",
+            "warning",
+            "error",
+            "dark",
+            "light",
+            "inverse"
+            })
+            .Events(e => e.Change("onChangeTheme"))
+            )
+        </div>
+        <div class="box-col">
+            <h4>Set Border</h4>
+            @(Html.Kendo().DropDownList()
+            .Name("setBorder")
+            .BindTo(new [] {
+            "true",
+            "false"
+            })
+            .Events(e => e.Change("onChangeBorder"))
+            )
+        </div>
+        <div class="box-col">
+            <h4>Set Fill Option</h4>
+            @(Html.Kendo().DropDownList()
+            .Name("setFill")
+            .BindTo(new [] {
+            "flat",
+            "solid"
+            })
+            .Events(e => e.Change("onChangeFill"))
+            )
+        </div>
+        <div class="box-col">
+            <h4>Set Shadow</h4>
+            @(Html.Kendo().DropDownList()
+            .Name("setShadow")
+            .BindTo(new [] {
+            "false",
+            "true"
+            })
+            .Events(e => e.Change("onChangeShadow"))
+            )
+        </div>
+    </div>
+    <div class="demo-app" style="position:relative">
+        <div id="home" class="demo-view">
+            <div class="view-content">
+                <div class="title">
+                    <h3>Home</h3>
+                </div>
+                <div>
+                    <span class="sunny">&nbsp;</span>
+                    <div class="weather">
+                        <h2>29<span>&ordm;C</span></h2>
+                        <p>Sunny weather in New York.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="calendar" style="display: none;" class="demo-view">
+            <div class="view-content">
+                <div class="title">
+                    <h3>Calendar</h3>
+                </div>
+                @(Html.Kendo().Calendar().Name("calendar-widget"))
+            </div>
+        </div>
+        <div id="profile" class="demo-view" style="display: none;position:absolute">
+            <div class="title">
+                <h3>My Profile</h3>
+            </div>
+            <div class="view-content">
+                <div id="avatar">
+                    <img src=@Url.Content("~/shared/web/avatar.png") width="128" height="128" />
+                </div>
+            </div>
+        </div>
+        @(Html.Kendo().BottomNavigation()
+        .Name("bottomNavigation")
+        .PositionMode(BottomNavigationPositionMode.Absolute)
+        .HtmlAttributes(new { style = "bottom:0;" })
+        .Items(i =>
+        {
+        i.Add().Text("Home").Data(new { view = "home" }).Icon("home").Selected(true);
+        i.Add().Text("Calendar").Data(new { view = "calendar" }).Icon("calendar-date");
+        i.Add().Text("Profile").Data(new { view = "profile" }).Icon("user");
+        })
+        .Events(e => e.Select("onSelect"))
+        )
+    </div>
+</div>
+
+@section scripts{
+<script>
+    function onSelect(e) {
+        var id = e.data.view
+        $(".demo-view").hide();
+        $("#" + id).show();
+    }
+
+    function onChangeShadow(e) {
+        $("#bottomNavigation").data("kendoBottomNavigation").setOptions({
+            shadow: e.sender.value() === "false" ? false : true
+        })
+    }
+
+    function onChangeFill(e) {
+        $("#bottomNavigation").data("kendoBottomNavigation").setOptions({
+            fill: e.sender.value()
+        })
+    }
+
+    function onChangeBorder(e) {
+        $("#bottomNavigation").data("kendoBottomNavigation").setOptions({
+            border: e.sender.value() === "true" ? true : false
+        })
+    }
+
+    function onChangeTheme(e) {
+        $("#bottomNavigation").data("kendoBottomNavigation").setOptions({
+            themeColor: e.sender.value()
+        })
+    }
+
+    function onChangeOrientation(e) {
+        $("#bottomNavigation").data("kendoBottomNavigation").setOptions({
+            itemFlow: e.sender.value()
+        })
+    }
+</script>
+}
+
+<style>
+    .weather {
+        margin: 0 auto 30px;
+        text-align: center;
+    }
+
+    .sunny {
+        display: block;
+        margin: 30px auto 10px;
+        width: 128px;
+        height: 128px;
+        background: url('@Url.Content("~/shared/web/tabstrip/weather.png")') transparent no-repeat 0 0;
+    }
+
+    #avatar {
+        text-align: center;
+    }
+
+    .view-content {
+        letter-spacing: 0.20px;
+    }
+
+    #calendar .view-content {
+        text-align: center;
+    }
+
+    .demo-app {
+        margin: auto;
+        width: 382px;
+        height: 600px;
+        background: #FFFFFF;
+        box-shadow: 0px 10px 20px #00000016;
+        border-radius: 30px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+    }
+
+        .demo-app h3 {
+            padding-top: 24px;
+            text-align: center;
+            font-size: 28px;
+            letter-spacing: 0.28px;
+            color: #3D57D8;
+            font-weight: 400;
+        }
+
+    #home, #calendar, #profile {
+        background: #F9F9F9;
+        height: inherit;
+        width: inherit;
+        border-radius: 30px;
+        border: 10px solid white;
+        box-sizing: border-box;
+    }
+
+    .demo-app .k-bottom-nav-flat {
+        margin-left: 10px;
+        margin-bottom: 10px;
+        height: 70px;
+        max-width: 362px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    html[class*="dark"] .demo-view {
+        background-color: #000000 !important;
+    }
+</style>

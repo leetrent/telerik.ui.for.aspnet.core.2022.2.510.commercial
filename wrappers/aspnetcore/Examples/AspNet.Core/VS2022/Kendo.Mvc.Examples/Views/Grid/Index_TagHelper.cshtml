@@ -1,0 +1,298 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" height="700" navigatable="true" on-data-bound="onDataBound">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="20"
+        server-operation="false"
+        auto-sync="true"
+        batch="true"
+        on-error="error_handler">
+        <schema>
+            <model id="ProductID">
+                <fields>
+                    <field name="ProductID" editable="false" type="number"></field>
+                    <field name="ProductName" type="string"></field>
+                    <field name="UnitPrice" type="number"></field>
+                    <field name="Discontinued" editable="false" type="boolean"></field>
+                    <field name="Category" default-value='new Kendo.Mvc.Examples.Models.CategoryViewModel() { CategoryID = 8, CategoryName = "Seafood" }'></field>
+                    <field name="CustomerRating" type="number"></field>
+                    <field name="Country" default-value='new Kendo.Mvc.Examples.Models.CountryViewModel() { CountryNameLong= "Bulgaria", CountryNameShort="bg" }'></field>
+                    <field name="UnitsInStock" type="number"></field>
+                    <field name="TotalSales" type="number" editable="false"></field>
+                    <field name="TargetSales" type="number" editable="false"></field>
+                </fields>
+            </model>
+        </schema>
+        <groups>
+            <group field="Category.CategoryName" typeof="string" direction="desc">
+                <aggregates>
+                    <aggregate field="TotalSales" aggregate="sum" />
+                </aggregates>
+            </group>
+        </groups>
+        <aggregates>
+            <aggregate field="TotalSales" aggregate="sum" />
+        </aggregates>
+        <transport>
+            <read url="/grid/detailproducts_read"/>
+            <update url="/grid/detailproducts_update"/>
+            <create url="/grid/detailproducts_create"/>
+            <destroy url="/grid/detailproducts_destroy"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column width="75" selectable="true"
+            header-html-attributes='new Dictionary<string,object> { ["class"] = "checkbox-align" }'
+            html-attributes='new Dictionary<string,object> { ["class"] = "checkbox-align" }'/>
+        <column field="ProductName" width="300" template="#=productNameTemplate(data)#"/>
+        <column field="UnitPrice" title="Price" width="105" format="{0:c}"/>
+        <column field="Discontinued" title="In Stock" width=" 130" template="<span id='badge_#=ProductID#' class='badgeTemplate'></span>"/>
+        <column field="Category.CategoryName" title="Category" width="125" editor="categoryDropDownEditor"
+            group-header-template="Category: #=data.value#, Total Sales: #=kendo.format('{0:c}', data.aggregates.TotalSales.sum)#"/>
+        <column field="CustomerRating" title="Rating" width="140" editable="returnFalse"
+        template="#=kendo.template($('\\#CustomerRating-template').html())(data)#" />
+        <column field="Country.CountryNameLong" title="Country" width="120"
+            template="<div class='k-text-center'><img src='/shared/web/country-flags/#:data.Country.CountryNameShort#.png' alt='#: data.Country.CountryNameLong#' title='#: data.Country.CountryNameLong#' width='30' /></div>"
+            editor="clientCountryEditor"/>
+        <column field="UnitsInStock" title="Units" width="105"/>
+        <column field="TotalSales" title="Total Sales" width="140" format="{0:c}"/>
+        <column field="TargetSales" title="Target Sales" editable="returnFalse" width="140"
+        template="<span id='chart_#= ProductID#' class='sparkline-chart'></span>"/>
+        <column width="120">
+            <commands>
+                <column-command text="Delete" name="destroy"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <toolbar>
+        <toolbar-button name="excel"></toolbar-button> 
+        <toolbar-button name="pdf"></toolbar-button>
+        <toolbar-button name="search"></toolbar-button>
+    </toolbar>
+    <pdf proxy-url="/Grid/Excel_Export_Save"/>
+    <excel proxy-url="/Grid/Excel_Export_Save"/>
+    <column-menu filterable="false" enabled="true"> </column-menu>
+    <editable mode="incell"/>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <reorderable enabled="true"/>
+    <groupable enabled="true"/>
+    <filterable enabled="true"/>
+    <scrollable enabled="true"/>
+</kendo-grid>
+
+@section scripts{
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
+
+    <script id="CustomerRating-template" type="text/html">
+        <kendo-rating name="rating_#=ProductID#" is-in-client-template="true"
+            min="1"
+            max="5"
+            data-bind="value: CustomerRating"
+            selection="continuous">
+            <label enabled="false" />
+        </kendo-rating>
+    </script>
+
+
+    <script type="text/javascript">
+        function productNameTemplate(data) {
+            return `<div class='product-photo'
+                    style= 'background-image: url(/shared/web/foods/${data.ProductID}.jpg);'></div>
+                    <div class='product-name'>${data.ProductName}</div>`
+        }
+
+        function categoryDropDownEditor(container, options) {
+            $('<input required name="Category">')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: false,
+                    dataTextField: "CategoryName",
+                    dataValueField: "CategoryID",
+                    dataSource: {
+                        data: categories
+                    }
+                });
+        }
+
+        function clientCountryEditor(container, options) {
+            $('<input required name="Country">')
+                .appendTo(container)
+                .kendoDropDownList({
+                    dataTextField: "CountryNameLong",
+                    dataValueField: "CountryNameShort",
+                    template: "<div class='dropdown-country-wrap'><img src='/shared/web/country-flags/#:data.CountryNameShort#.png' alt='#: data.CountryNameLong#' title='#: data.CountryNameLong#' width='20' /><span>#: data.CountryNameLong #</span></div>",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: " https://demos.telerik.com/kendo-ui/service/countries",
+                                dataType: "jsonp"
+                            }
+                        }
+                    },
+                    autoWidth: true
+                });
+        }
+
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+
+        function onDataBound(e) {
+            var grid = this;
+            grid.table.find("tr").each(function () {
+                var dataItem = grid.dataItem(this);
+                var themeColor = dataItem.Discontinued ? 'success' : 'error';
+                var text = dataItem.Discontinued ? 'available' : 'not available';
+
+                $(this).find('script').each(function () {
+                    eval($(this).html());
+                });
+
+                $(this).find(".badgeTemplate").kendoBadge({
+                    themeColor: themeColor,
+                    text: text,
+                });
+
+                $(this).find(".sparkline-chart").kendoSparkline({
+                    legend: {
+                        visible: false
+                    },
+                    data: [dataItem.TargetSales],
+                    type: "bar",
+                    chartArea: {
+                        margin: 0,
+                        width: 180,
+                        background: "transparent"
+                    },
+                    seriesDefaults: {
+                        labels: {
+                            visible: true,
+                            format: '{0}%',
+                            background: 'none'
+                        }
+                    },
+                    categoryAxis: {
+                        majorGridLines: {
+                            visible: false
+                        },
+                        majorTicks: {
+                            visible: false
+                        }
+                    },
+                    valueAxis: {
+                        type: "numeric",
+                        min: 0,
+                        max: 130,
+                        visible: false,
+                        labels: {
+                            visible: false
+                        },
+                        minorTicks: { visible: false },
+                        majorGridLines: { visible: false }
+                    },
+                    tooltip: {
+                        visible: false
+                    }
+                });
+
+                kendo.bind($(this), dataItem);
+            });
+        }
+
+        function returnFalse() {
+            return false;
+        }
+
+        var categories = [{
+            "CategoryID": 1,
+            "CategoryName": "Beverages"
+        }, {
+            "CategoryID": 2,
+            "CategoryName": "Condiments"
+        }, {
+            "CategoryID": 3,
+            "CategoryName": "Confections"
+        }, {
+            "CategoryID": 4,
+            "CategoryName": "Dairy Products"
+        }, {
+            "CategoryID": 5,
+            "CategoryName": "Grains/Cereals"
+        }, {
+            "CategoryID": 6,
+            "CategoryName": "Meat/Poultry"
+        }, {
+            "CategoryID": 7,
+            "CategoryName": "Produce"
+        }, {
+            "CategoryID": 8,
+            "CategoryName": "Seafood"
+        }];
+    </script>
+}
+
+<style>
+    .k-grid tr .checkbox-align {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .product-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-right: 5px;
+    }
+
+    .product-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+
+    .k-rating-container .k-rating-item {
+        padding: 4px 0;
+    }
+
+        .k-rating-container .k-rating-item .k-icon {
+            font-size: 16px;
+        }
+
+    .dropdown-country-wrap {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+        .dropdown-country-wrap img {
+            margin-right: 10px;
+        }
+
+    #grid .k-grid-edit-row > td > .k-rating {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .k-grid .k-grid-search {
+        margin-left: auto;
+        margin-right: 0;
+    }
+</style>

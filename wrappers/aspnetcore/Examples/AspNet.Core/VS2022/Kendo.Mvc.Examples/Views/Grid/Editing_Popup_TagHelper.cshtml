@@ -1,0 +1,61 @@
+@addTagHelper *, Kendo.Mvc
+
+<kendo-grid name="grid" height="430">
+    <datasource type="DataSourceTagHelperType.Ajax" page-size="20"
+        on-error="error_handler">
+        <schema data="Data" total="Total">
+            <model id="ProductID">
+                <fields>
+                    <field name="ProductID" type="number" editable="false"></field>
+                    <field name="ProductName" type="string"></field>
+                    <field name="UnitPrice" type="number"></field>
+                    <field name="UnitsInStock" type="number"></field>
+                    <field name="Discontinued" type="boolean"></field>
+                </fields>
+            </model>
+        </schema>
+        <transport>
+	        <read url="/grid/editingpopup_read"/>
+	        <update url="/grid/editingpopup_update"/>
+	        <create url="/grid/editingpopup_create"/>
+	        <destroy url="/grid/editingpopup_destroy"/>
+        </transport>
+    </datasource>
+    <columns>
+        <column field="ProductName"/>
+        <column field="UnitPrice" width="100"/>
+        <column field="UnitsInStock" width="100"/>
+        <column field="Discontinued" width="100"/>
+        <column width="160">
+            <commands>
+                <column-command text="Edit" name="edit"></column-command>
+                <column-command text="Delete" name="destroy"></column-command>
+            </commands>
+        </column>
+    </columns>
+    <toolbar>
+        <toolbar-button name="create"></toolbar-button> 
+    </toolbar>
+    <editable mode="popup"/>
+    <pageable enabled="true"/>
+    <sortable enabled="true"/>
+    <scrollable enabled="true"/>
+</kendo-grid>
+
+@section scripts {
+    <script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
+}

@@ -1,0 +1,14 @@
+@using Kendo.Mvc.UI
+
+<div >
+    <div class="demo-section">
+        @(Html.Kendo().Upload()
+            .Name("files")
+            .Async(a => a
+                .Save("Async_Save", "Upload")
+                .Remove("Async_Remove", "Upload")
+                .AutoUpload(true)
+            )
+        )
+    </div>
+</div>

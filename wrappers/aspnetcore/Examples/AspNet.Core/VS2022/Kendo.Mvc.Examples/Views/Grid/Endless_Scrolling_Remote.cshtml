@@ -1,0 +1,65 @@
+
+@(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.ProductName);
+        columns.Bound(p => p.UnitPrice).Width(140);
+        columns.Bound(p => p.UnitsInStock).Width(140);
+        columns.Bound(p => p.Discontinued).Width(140);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(250);
+    })
+    .Sortable()
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable(p=>p.Numeric(false).PreviousNext(false))
+    .HtmlAttributes(new { style = "height:550px;" })
+    .ToolBar(toolbar => toolbar.Create())
+    .Scrollable(sc => sc.Endless(true))
+    .DataSource(dataSource => dataSource
+        .Custom()
+        .Batch(true)
+        .PageSize(20)
+        .Schema(schema =>
+        {
+            schema.Model(m => m.Id(p => p.ProductID));
+            schema.Data(@<text>function data(response) {
+                return response.d ? response.d.results : response;
+            }</text>);
+        })
+        .ServerSorting(true)
+        .ServerPaging(true)
+        .Type("odata")
+        .Transport(transport =>
+        {
+            transport.Read(read =>
+               read.Url("https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products")
+                   .DataType("jsonp")
+            );
+            transport.Create(create =>
+               create.Url("https://demos.telerik.com/kendo-ui/service/Products/Create")
+                     .DataType("jsonp")
+            );
+            transport.Update(update =>
+               update.Url("https://demos.telerik.com/kendo-ui/service/Products/Update")
+                     .DataType("jsonp")
+            );
+            transport.Destroy(destroy =>
+               destroy.Url("https://demos.telerik.com/kendo-ui/service/Products/Destroy")
+                      .DataType("jsonp")
+            );
+            transport.ParameterMap("parameterMap");
+        })
+    )
+)
+
+
+@section scripts {
+    <script type="text/javascript">
+        function parameterMap (options, operation) {
+            if (operation !== "read" && options.models) {
+                return { models: kendo.stringify(options.models) };
+            }
+            return kendo.data.transports["odata"].parameterMap(options, operation);
+        }
+    </script>
+}

@@ -1,0 +1,9 @@
+@using Kendo.Mvc.UI
+
+<div class="demo-section">
+    <h4>Select date & time:</h4>
+    @(Html.Kendo().DateTimePicker()
+          .Name("datetimepicker")
+          .HtmlAttributes(new { style = "width: 100%;", accesskey = "w" })
+    )
+</div>

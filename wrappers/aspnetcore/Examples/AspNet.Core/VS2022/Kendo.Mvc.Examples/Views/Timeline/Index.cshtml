@@ -1,0 +1,19 @@
+<div id="example">
+    <div class="demo-section wide">
+    @(Html.Kendo().Timeline<Kendo.Mvc.Examples.Models.TimelineEventModel>()
+               .Name("Timeline")
+               .DataDateField("EventDate")
+               .DataDescriptionField("Description")
+               .DataSubtitleField("Subtitle")
+               .DataTitleField("Title")
+               .DataImagesAltField("AltField")
+               .DataImagesField("Images")
+               .DataActionsField("Actions")
+               .Orientation(TimelineOrientation.Vertical)
+               .AlternatingMode()
+               .CollapsibleEvents()
+               .DataSource(dt => dt.Read("GetEvents", "Timeline"))
+    )
+    </div>
+</div>
+
